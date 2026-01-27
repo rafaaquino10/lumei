@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import { Space_Mono } from "next/font/google";
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { ClerkProvider } from '@clerk/nextjs';
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { Toaster } from "@/components/ui/sonner";
@@ -88,19 +89,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={`${manrope.variable} ${spaceMono.variable}`}>
-      <body className="antialiased">
-        <OrganizationSchema />
-        <Header />
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <Footer />
-        <Toaster />
-        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
-          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
-        )}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="pt-BR" className={`${manrope.variable} ${spaceMono.variable}`}>
+        <body className="antialiased">
+          <OrganizationSchema />
+          <Header />
+          <main className="min-h-screen">
+            {children}
+          </main>
+          <Footer />
+          <Toaster />
+          {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+            <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+          )}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

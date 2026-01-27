@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Menu, X } from 'lucide-react'
+import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import { Button } from '@/components/ui/button'
 import {
   Sheet,
@@ -53,15 +54,31 @@ export default function Header() {
 
         {/* Desktop Auth Buttons */}
         <div className="hidden items-center gap-4 md:flex">
-          <Button variant="ghost" asChild>
-            <Link href="/entrar">Entrar</Link>
-          </Button>
-          <Button 
-            className="bg-lumei-500 text-white hover:bg-lumei-600" 
-            asChild
-          >
-            <Link href="/cadastrar">Começar Grátis</Link>
-          </Button>
+          <SignedOut>
+            <Button variant="ghost" asChild>
+              <Link href="/sign-in">Entrar</Link>
+            </Button>
+            <Button 
+              className="bg-lumei-500 text-white hover:bg-lumei-600" 
+              asChild
+            >
+              <Link href="/sign-up">Começar Grátis</Link>
+            </Button>
+          </SignedOut>
+          
+          <SignedIn>
+            <Button variant="ghost" asChild>
+              <Link href="/dashboard">Dashboard</Link>
+            </Button>
+            <UserButton 
+              afterSignOutUrl="/"
+              appearance={{
+                elements: {
+                  avatarBox: 'w-10 h-10 border-2 border-lumei-500',
+                },
+              }}
+            />
+          </SignedIn>
         </div>
 
         {/* Mobile Menu */}
@@ -93,23 +110,47 @@ export default function Header() {
 
               {/* Mobile Auth Buttons */}
               <div className="mt-4 flex flex-col gap-3">
-                <Button 
-                  variant="ghost" 
-                  className="w-full" 
-                  asChild
-                >
-                  <Link href="/entrar" onClick={() => setIsOpen(false)}>
-                    Entrar
-                  </Link>
-                </Button>
-                <Button 
-                  className="w-full bg-lumei-500 text-white hover:bg-lumei-600" 
-                  asChild
-                >
-                  <Link href="/cadastrar" onClick={() => setIsOpen(false)}>
-                    Começar Grátis
-                  </Link>
-                </Button>
+                <SignedOut>
+                  <Button 
+                    variant="ghost" 
+                    className="w-full" 
+                    asChild
+                  >
+                    <Link href="/sign-in" onClick={() => setIsOpen(false)}>
+                      Entrar
+                    </Link>
+                  </Button>
+                  <Button 
+                    className="w-full bg-lumei-500 text-white hover:bg-lumei-600" 
+                    asChild
+                  >
+                    <Link href="/sign-up" onClick={() => setIsOpen(false)}>
+                      Começar Grátis
+                    </Link>
+                  </Button>
+                </SignedOut>
+                
+                <SignedIn>
+                  <Button 
+                    variant="ghost" 
+                    className="w-full" 
+                    asChild
+                  >
+                    <Link href="/dashboard" onClick={() => setIsOpen(false)}>
+                      Dashboard
+                    </Link>
+                  </Button>
+                  <div className="flex items-center justify-center py-4">
+                    <UserButton 
+                      afterSignOutUrl="/"
+                      appearance={{
+                        elements: {
+                          avatarBox: 'w-12 h-12 border-2 border-lumei-500',
+                        },
+                      }}
+                    />
+                  </div>
+                </SignedIn>
               </div>
             </div>
           </SheetContent>
