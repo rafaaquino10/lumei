@@ -53,7 +53,6 @@ export default function MargemLucroPage() {
     const result = calcularMargemLucro({
       precoVenda: data.precoVenda,
       custoTotal: data.custoTotal,
-      despesasOperacionais: 0, // For simplified version
     })
     setResultado(result)
     trackCalculatorCompleted('margem_lucro')
