@@ -29,6 +29,43 @@ const steps = [
   },
 ]
 
+const pricingPlans = [
+  {
+    name: 'Grátis',
+    price: 'R$ 0',
+    period: '/mês',
+    features: [
+      'Todas as 6 calculadoras',
+      '50 cálculos salvos',
+      'Histórico 6 meses',
+      '1 alerta DAS (email)',
+      '1 PDF/mês',
+    ],
+    cta: 'Começar Grátis',
+    ctaLink: '/cadastrar',
+    highlighted: false,
+  },
+  {
+    name: 'Premium',
+    price: 'R$ 19',
+    period: '/mês',
+    badge: '⭐ Mais Popular',
+    features: [
+      'Tudo do Free +',
+      'Cálculos ilimitados',
+      'Histórico 5 anos',
+      '3 alertas DAS',
+      'Alertas WhatsApp',
+      'PDF/Excel ilimitados',
+      'Sem anúncios',
+      'Relatórios automáticos',
+    ],
+    cta: 'Assinar Premium',
+    ctaLink: '/premium',
+    highlighted: true,
+  },
+]
+
 export default function Home() {
   return (
     <>
@@ -174,6 +211,102 @@ export default function Home() {
                 Começar Agora
               </Link>
             </Button>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section className="w-full">
+        <div className="mx-auto max-w-6xl px-4 py-20 md:px-6 lg:px-8">
+          {/* Section Heading */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-16 text-center"
+          >
+            <h2 className="text-4xl font-bold text-gray-900">
+              Planos Transparentes
+            </h2>
+          </motion.div>
+
+          {/* Pricing Cards */}
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+            {pricingPlans.map((plan, index) => (
+              <motion.div
+                key={plan.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+                className={`relative rounded-xl p-8 shadow-lg ${
+                  plan.highlighted
+                    ? 'border-2 border-lumei-500 shadow-xl'
+                    : 'border border-gray-200'
+                }`}
+              >
+                {/* Badge for Premium */}
+                {plan.badge && (
+                  <div className="absolute -top-4 right-4 rounded-full bg-lumei-500 px-4 py-1 text-sm font-semibold text-white shadow-md">
+                    {plan.badge}
+                  </div>
+                )}
+
+                {/* Plan Name */}
+                <h3 className="mb-4 text-2xl font-bold text-gray-900">
+                  {plan.name}
+                </h3>
+
+                {/* Price */}
+                <div className="mb-6">
+                  <span
+                    className={`text-4xl font-bold ${
+                      plan.highlighted ? 'text-lumei-600' : 'text-gray-900'
+                    }`}
+                  >
+                    {plan.price}
+                  </span>
+                  <span className="text-gray-600">{plan.period}</span>
+                </div>
+
+                {/* Features List */}
+                <ul className="mb-8 space-y-4">
+                  {plan.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-start gap-3">
+                      <Check className="h-5 w-5 flex-shrink-0 text-lumei-600" />
+                      <span className="text-gray-700">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* CTA Button */}
+                <Button
+                  size="lg"
+                  className={`w-full ${
+                    plan.highlighted
+                      ? 'bg-lumei-500 text-white hover:bg-lumei-600'
+                      : 'border-2 border-lumei-500 bg-transparent text-lumei-600 hover:bg-lumei-50'
+                  }`}
+                  asChild
+                >
+                  <Link href={plan.ctaLink}>{plan.cta}</Link>
+                </Button>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Disclaimer */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="mt-8 text-center"
+          >
+            <p className="text-sm text-gray-500">
+              💡 Cancele quando quiser. Sem compromisso.
+            </p>
           </motion.div>
         </div>
       </section>
