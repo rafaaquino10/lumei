@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { calcularMargemLucro, type MargemLucroResultado } from '@/lib/calculos'
 import { MargemLucroPDF } from '@/components/pdf/margem-lucro-pdf'
+import { OutrasCalculadoras } from '@/components/outras-calculadoras'
 
 const schema = z.object({
   precoVenda: z.number().positive('Preço deve ser maior que zero'),
@@ -346,6 +347,8 @@ export default function MargemLucroPage() {
           </p>
         </div>
       </div>
+
+      <OutrasCalculadoras currentPath="/calcular/margem-lucro" />
     </div>
   )
 }

@@ -18,6 +18,7 @@ import {
   type PrecificacaoProdutoResultado,
   type PrecificacaoServicoResultado,
 } from '@/lib/calculos'
+import { OutrasCalculadoras } from '@/components/outras-calculadoras'
 
 // Schema para Produtos
 const schemaProdutos = z.object({
@@ -626,6 +627,8 @@ export default function PrecificacaoPage() {
           </p>
         </div>
       </div>
+
+      <OutrasCalculadoras currentPath="/calcular/precificacao" />
     </div>
   )
 }

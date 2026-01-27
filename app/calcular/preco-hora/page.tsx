@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { calcularPrecoHora, type PrecoHoraResultado } from '@/lib/calculos'
 import { PrecoHoraPDF } from '@/components/pdf/preco-hora-pdf'
+import { OutrasCalculadoras } from '@/components/outras-calculadoras'
 
 const schema = z.object({
   salarioDesejado: z.number().positive('Salário deve ser maior que zero'),
@@ -426,6 +427,8 @@ export default function PrecoHoraPage() {
           </p>
         </div>
       </div>
+
+      <OutrasCalculadoras currentPath="/calcular/preco-hora" />
     </div>
   )
 }
