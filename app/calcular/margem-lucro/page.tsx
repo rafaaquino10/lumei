@@ -15,6 +15,7 @@ import { calcularMargemLucro, type MargemLucroResultado } from '@/lib/calculos'
 import { MargemLucroPDF } from '@/components/pdf/margem-lucro-pdf'
 import { OutrasCalculadoras } from '@/components/outras-calculadoras'
 import { CalculatorSchema } from '@/components/calculator-schema'
+import { BreadcrumbSchema } from '@/components/breadcrumb-schema'
 import { trackCalculatorUsed, trackCalculatorCompleted, trackPDFExport, trackShare } from '@/lib/analytics'
 import { useSaveCalculation } from '@/lib/save-calculation'
 
@@ -145,6 +146,12 @@ export default function MargemLucroPage() {
         name="Calculadora de Margem de Lucro MEI"
         description="Calcule sua margem de lucro real e descubra quanto você está realmente ganhando em cada venda"
         url="https://lumei.vercel.app/calcular/margem-lucro"
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: 'https://lumei.vercel.app' },
+          { name: 'Margem de Lucro', url: 'https://lumei.vercel.app/calcular/margem-lucro' },
+        ]}
       />
       {/* Breadcrumb */}
       <nav className="mb-8 text-sm text-gray-600">
