@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { motion, AnimatePresence } from 'framer-motion'
-import { HelpCircle, Save, Share, Download, ExternalLink } from 'lucide-react'
+import { HelpCircle, Save, Share, ExternalLink } from 'lucide-react'
 import { toast } from 'sonner'
 import { MoneyInput } from '@/components/ui/money-input'
 import { NumberInput } from '@/components/ui/number-input'
@@ -131,7 +131,7 @@ export default function PrecificacaoPage() {
         await navigator.share(shareData)
         trackShare('precificacao')
         toast.success('✅ Compartilhado com sucesso!')
-      } catch (error) {
+      } catch {
         // User cancelled
       }
     } else {
@@ -141,7 +141,7 @@ export default function PrecificacaoPage() {
         toast.success('📋 Link copiado!', {
           description: 'Cole onde quiser compartilhar.',
         })
-      } catch (error) {
+      } catch {
         toast.error('❌ Erro ao copiar link')
       }
     }
@@ -158,7 +158,7 @@ export default function PrecificacaoPage() {
       />
       {/* Breadcrumb */}
       <nav className="mb-8 text-sm text-gray-600">
-        <a href="/" className="hover:text-lumei-600">Home</a>
+        <Link href="/" className="hover:text-lumei-600">Home</Link>
         {' / '}
         <span className="text-gray-900">Precificação</span>
       </nav>
@@ -558,7 +558,7 @@ export default function PrecificacaoPage() {
                 <div className="bg-white rounded-lg p-4 text-sm text-gray-600">
                   <p className="font-medium text-gray-900 mb-1">💡 Dica:</p>
                   <p>
-                    O "Preço/Hora Efetivo" mostra quanto você está ganhando por hora
+                    O &quot;Preço/Hora Efetivo&quot; mostra quanto você está ganhando por hora
                     neste serviço específico (incluindo materiais e despesas).
                   </p>
                 </div>
