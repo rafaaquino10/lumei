@@ -37,9 +37,22 @@ export async function POST(request: Request) {
     const data = schema.parse(body)
 
     // Find user in database
-    const user = await prisma.user.findUnique({
-      where: { clerkId: userId },
-    })
+    let user
+    try {
+      user = await prisma.user.findUnique({
+        where: { clerkId: userId },
+      })
+    } catch (error) {
+      console.error('Database connection error:', error)
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'database_error',
+          message: 'Erro de conexão com o banco de dados. Tente novamente.',
+        },
+        { status: 503 }
+      )
+    }
 
     if (!user) {
       return NextResponse.json(

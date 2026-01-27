@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { HelpCircle, Save, Share, Download } from 'lucide-react'
 import { toast } from 'sonner'
 import { pdf } from '@react-pdf/renderer'
+import Link from 'next/link'
 import { MoneyInput } from '@/components/ui/money-input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
@@ -152,7 +153,7 @@ export default function MargemLucroPage() {
       />
       {/* Breadcrumb */}
       <nav className="mb-8 text-sm text-gray-600">
-        <link href="/" className="hover:text-lumei-600">Home</link>
+        <Link href="/" className="hover:text-lumei-600">Home</Link>
         {' / '}
         <span className="text-gray-900">Margem de Lucro</span>
       </nav>

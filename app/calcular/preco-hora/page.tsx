@@ -72,7 +72,7 @@ export default function PrecoHoraPage() {
       await saveCalculation(
         'PRECO_HORA',
         formValues,
-        resultado,
+        resultado as unknown as Record<string, unknown>,
         `Preço por Hora - ${new Date().toLocaleDateString('pt-BR')}`
       )
     } finally {

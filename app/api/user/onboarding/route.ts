@@ -23,9 +23,18 @@ export async function POST(request: Request) {
     const data = schema.parse(body)
 
     // Find user by Clerk ID
-    const user = await prisma.user.findUnique({
-      where: { clerkId: userId },
-    })
+    let user
+    try {
+      user = await prisma.user.findUnique({
+        where: { clerkId: userId },
+      })
+    } catch (error) {
+      console.error('Database connection error:', error)
+      return NextResponse.json(
+        { error: 'Database connection error' },
+        { status: 503 }
+      )
+    }
 
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 })

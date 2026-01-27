@@ -58,7 +58,7 @@ export default function FaturamentoPage() {
     await saveCalculation(
       'FATURAMENTO',
       { faturamentoMensal },
-      resultado
+      resultado as unknown as Record<string, unknown>
     )
   }
 

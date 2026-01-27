@@ -62,15 +62,23 @@ export default async function HistoricoPage() {
     redirect('/sign-in')
   }
 
-  const user = await prisma.user.findUnique({
-    where: { clerkId: userId },
-    include: {
-      calculos: {
-        orderBy: { createdAt: 'desc' },
-        take: 100, // Limit to last 100
+  // Fetch user from database
+  let user
+  try {
+    user = await prisma.user.findUnique({
+      where: { clerkId: userId },
+      include: {
+        calculos: {
+          orderBy: { createdAt: 'desc' },
+          take: 100, // Limit to last 100
+        },
       },
-    },
-  })
+    })
+  } catch (error) {
+    console.error('Database connection error:', error)
+    // If database is unavailable, redirect to onboarding
+    redirect('/onboarding')
+  }
 
   if (!user) {
     redirect('/onboarding')
@@ -189,18 +197,18 @@ export default async function HistoricoPage() {
                               Resultado Principal:
                             </p>
                             <p className="font-mono font-bold text-lg">
-                              {tipo === 'MARGEM_LUCRO' &&
-                                `${calculo.resultado.margemBruta}% de margem`}
-                              {tipo === 'PRECO_HORA' &&
-                                `R$ ${calculo.resultado.precoHoraFinal}/hora`}
-                              {tipo === 'PRECIFICACAO' &&
-                                `R$ ${calculo.resultado.precoVenda}`}
-                              {tipo === 'FATURAMENTO' &&
-                                `${calculo.resultado.percentualUsado}% do teto`}
-                              {tipo === 'FLUXO_CAIXA' &&
-                                `Saldo: R$ ${calculo.resultado.saldo}`}
-                              {tipo === 'CALENDARIO_DAS' &&
-                                `DAS de ${calculo.resultado.tipo}: R$ ${calculo.resultado.meses[0]?.valor}`}
+                              {tipo === 'MARGEM_LUCRO' && calculo.resultado &&
+                                `${(calculo.resultado as any).margemBruta}% de margem`}
+                              {tipo === 'PRECO_HORA' && calculo.resultado &&
+                                `R$ ${(calculo.resultado as any).precoHoraFinal}/hora`}
+                              {tipo === 'PRECIFICACAO' && calculo.resultado &&
+                                `R$ ${(calculo.resultado as any).precoVenda}`}
+                              {tipo === 'FATURAMENTO' && calculo.resultado &&
+                                `${(calculo.resultado as any).percentualUsado}% do teto`}
+                              {tipo === 'FLUXO_CAIXA' && calculo.resultado &&
+                                `Saldo: R$ ${(calculo.resultado as any).saldo}`}
+                              {tipo === 'CALENDARIO_DAS' && calculo.resultado &&
+                                `DAS de ${(calculo.resultado as any).tipo}: R$ ${(calculo.resultado as any).meses[0]?.valor}`}
                             </p>
                           </div>
                         </div>

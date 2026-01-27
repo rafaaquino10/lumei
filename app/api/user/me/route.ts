@@ -27,6 +27,15 @@ export async function GET() {
     return NextResponse.json(user)
   } catch (error) {
     console.error('Error fetching user:', error)
+    
+    // Check if it's a database connection error
+    if (error instanceof Error && error.message.includes('connect')) {
+      return NextResponse.json(
+        { error: 'Database connection error' },
+        { status: 503 }
+      )
+    }
+
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

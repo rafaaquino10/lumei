@@ -78,7 +78,7 @@ export default function FluxoCaixaPage() {
 
   const handleSave = async () => {
     if (!resultado) return
-    await saveCalculation('FLUXO_CAIXA', { transacoes }, resultado)
+    await saveCalculation('FLUXO_CAIXA', { transacoes }, resultado as unknown as Record<string, unknown>)
   }
 
   const adicionarTransacao = () => {

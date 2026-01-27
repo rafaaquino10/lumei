@@ -22,15 +22,22 @@ export default async function DashboardPage() {
   }
 
   // Fetch user from database
-  const user = await prisma.user.findUnique({
-    where: { clerkId: userId },
-    include: {
-      calculos: {
-        orderBy: { createdAt: 'desc' },
-        take: 5,
+  let user
+  try {
+    user = await prisma.user.findUnique({
+      where: { clerkId: userId },
+      include: {
+        calculos: {
+          orderBy: { createdAt: 'desc' },
+          take: 5,
+        },
       },
-    },
-  })
+    })
+  } catch (error) {
+    console.error('Database connection error:', error)
+    // If database is unavailable, redirect to onboarding or show error
+    redirect('/onboarding')
+  }
 
   if (!user) {
     redirect('/onboarding')
