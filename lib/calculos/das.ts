@@ -59,10 +59,14 @@ export function calcularDAS(inputs: DASInputs): DASResultado {
   const valorMensal = valores.total
   const valorAnual = valorMensal * 12
   
-  const composicao = {
+  const composicao: {
+    inss: number
+    icms?: number
+    iss?: number
+  } = {
     inss: valores.inss,
-    icms: valores.icms,
-    iss: valores.iss,
+    ...(typeof valores.icms === 'number' ? { icms: valores.icms } : {}),
+    ...(typeof valores.iss === 'number' ? { iss: valores.iss } : {}),
   }
   
   // Próximo vencimento (sempre dia 20 do mês seguinte)
