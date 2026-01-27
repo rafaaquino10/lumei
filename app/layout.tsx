@@ -92,6 +92,10 @@ export default function RootLayout({
   return (
     <ClerkProvider localization={ptBR}>
       <html lang="pt-BR" className={`${manrope.variable} ${spaceMono.variable}`}>
+        <head>
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        </head>
         <body className="antialiased">
           <OrganizationSchema />
           <Header />

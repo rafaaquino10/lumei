@@ -1,4 +1,13 @@
 import { SignIn } from '@clerk/nextjs'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Entrar | Lumei',
+  robots: {
+    index: false,
+    follow: false,
+  },
+}
 
 export default function SignInPage() {
   return (
