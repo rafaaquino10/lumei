@@ -5,7 +5,8 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { motion, AnimatePresence } from 'framer-motion'
-import { HelpCircle } from 'lucide-react'
+import { HelpCircle, Save } from 'lucide-react'
+import { toast } from 'sonner'
 import { MoneyInput } from '@/components/ui/money-input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
@@ -23,6 +24,7 @@ type FormData = z.infer<typeof schema>
 
 export default function MargemLucroPage() {
   const [resultado, setResultado] = useState<MargemLucroResultado | null>(null)
+  const [isSaving, setIsSaving] = useState(false)
 
   const {
     register,
@@ -30,6 +32,7 @@ export default function MargemLucroPage() {
     formState: { errors },
     setValue,
     watch,
+    getValues,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -45,6 +48,47 @@ export default function MargemLucroPage() {
       despesasOperacionais: 0, // For simplified version
     })
     setResultado(result)
+  }
+
+  const handleSave = async () => {
+    if (!resultado) return
+    
+    setIsSaving(true)
+    try {
+      const formValues = getValues()
+      const response = await fetch('/api/calculos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          tipo: 'MARGEM_LUCRO',
+          inputs: formValues,
+          resultado: resultado,
+          titulo: `Margem de Lucro - ${new Date().toLocaleDateString('pt-BR')}`,
+        }),
+      })
+      
+      const data = await response.json()
+      
+      if (data.success) {
+        toast.success('✅ Cálculo salvo!', {
+          description: 'Acesse seus cálculos no histórico.',
+        })
+      } else {
+        toast.info('🔐 Faça login para salvar', {
+          description: data.message,
+          action: {
+            label: 'Entrar',
+            onClick: () => window.location.href = '/sign-in',
+          },
+        })
+      }
+    } catch (error) {
+      toast.error('❌ Erro ao salvar', {
+        description: 'Tente novamente.',
+      })
+    } finally {
+      setIsSaving(false)
+    }
   }
 
   return (
@@ -189,6 +233,17 @@ export default function MargemLucroPage() {
                     Margem líquida = bruta (sem impostos sobre receita, apenas DAS fixo)
                   </p>
                 </div>
+
+                {/* Save Button */}
+                <Button 
+                  onClick={handleSave}
+                  disabled={isSaving}
+                  className="w-full"
+                  variant="outline"
+                >
+                  <Save className="h-4 w-4 mr-2" />
+                  {isSaving ? 'Salvando...' : 'Salvar Cálculo'}
+                </Button>
               </motion.div>
             )}
           </AnimatePresence>

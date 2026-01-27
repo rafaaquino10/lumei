@@ -3,6 +3,7 @@ import { Manrope } from "next/font/google";
 import { Space_Mono } from "next/font/google";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -48,6 +49,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <Toaster />
       </body>
     </html>
   );
