@@ -5,6 +5,7 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { Toaster } from "@/components/ui/sonner";
+import { OrganizationSchema } from "./structured-data";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -21,20 +22,64 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Lumei - Lucre mais. Sempre.',
+  metadataBase: new URL('https://lumei.vercel.app'),
+  title: {
+    default: 'Lumei - Calculadoras Financeiras para MEI',
+    template: '%s | Lumei',
+  },
   description: 'Calculadoras financeiras feitas para MEI crescer. Calcule margem de lucro, preço por hora, DAS e muito mais. 100% grátis.',
-  keywords: ['MEI', 'calculadora', 'margem de lucro', 'preço por hora', 'DAS', 'microempreendedor'],
+  keywords: [
+    'MEI',
+    'calculadora MEI',
+    'margem de lucro',
+    'preço por hora',
+    'precificação',
+    'DAS',
+    'microempreendedor individual',
+    'gestão financeira MEI',
+    'calculadora DAS',
+    'fluxo de caixa MEI',
+  ],
+  authors: [{ name: 'Lumei' }],
+  creator: 'Lumei',
+  publisher: 'Lumei',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   appleWebApp: {
-    title: 'luMEI',
+    title: 'Lumei',
   },
   openGraph: {
-    title: 'Lumei - Calculadoras para MEI',
-    description: 'Lucre mais. Sempre.',
-    url: 'https://lumei.com.br',
-    siteName: 'Lumei',
-    locale: 'pt_BR',
     type: 'website',
+    locale: 'pt_BR',
+    url: 'https://lumei.vercel.app',
+    title: 'Lumei - Lucre mais. Sempre.',
+    description: 'Calculadoras financeiras feitas para MEI crescer. 100% grátis.',
+    siteName: 'Lumei',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Lumei - Calculadoras para MEI',
+      },
+    ],
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Lumei - Lucre mais. Sempre.',
+    description: 'Calculadoras financeiras para MEI. 100% grátis.',
+    images: ['/og-image.png'],
+    creator: '@lumei',
+  },
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon-16x16.png',
+    apple: '/apple-touch-icon.png',
+  },
+  manifest: '/site.webmanifest',
 };
 
 export default function RootLayout({
@@ -45,6 +90,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${manrope.variable} ${spaceMono.variable}`}>
       <body className="antialiased">
+        <OrganizationSchema />
         <Header />
         <main className="min-h-screen">
           {children}

@@ -15,6 +15,7 @@ import { Label } from '@/components/ui/label'
 import { calcularPrecoHora, type PrecoHoraResultado } from '@/lib/calculos'
 import { PrecoHoraPDF } from '@/components/pdf/preco-hora-pdf'
 import { OutrasCalculadoras } from '@/components/outras-calculadoras'
+import { CalculatorSchema } from '@/components/calculator-schema'
 import { trackCalculatorUsed, trackCalculatorCompleted, trackCalculatorSaved, trackPDFExport, trackShare } from '@/lib/analytics'
 
 const schema = z.object({
@@ -162,6 +163,11 @@ export default function PrecoHoraPage() {
 
   return (
     <div className="container mx-auto px-4 py-12">
+      <CalculatorSchema
+        name="Calculadora de Preço por Hora MEI"
+        description="Descubra quanto cobrar por hora considerando férias, custos fixos e margem de lucro"
+        url="https://lumei.vercel.app/calcular/preco-hora"
+      />
       {/* Breadcrumb */}
       <nav className="mb-8 text-sm text-gray-600">
         <a href="/" className="hover:text-lumei-600">Home</a>

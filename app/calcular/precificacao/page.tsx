@@ -19,6 +19,7 @@ import {
   type PrecificacaoServicoResultado,
 } from '@/lib/calculos'
 import { OutrasCalculadoras } from '@/components/outras-calculadoras'
+import { CalculatorSchema } from '@/components/calculator-schema'
 import {
   trackCalculatorUsed,
   trackCalculatorCompleted,
@@ -174,6 +175,11 @@ export default function PrecificacaoPage() {
 
   return (
     <div className="container mx-auto px-4 py-12">
+      <CalculatorSchema
+        name="Calculadora de Precificação MEI"
+        description="Calcule o preço ideal para seus produtos e serviços incluindo todos os custos e margem desejada"
+        url="https://lumei.vercel.app/calcular/precificacao"
+      />
       {/* Breadcrumb */}
       <nav className="mb-8 text-sm text-gray-600">
         <a href="/" className="hover:text-lumei-600">Home</a>
