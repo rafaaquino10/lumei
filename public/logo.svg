@@ -1,0 +1,10 @@
+<svg width="120" height="32" viewBox="0 0 120 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Icon with L + Arrow -->
+  <path d="M8 4H12V24H20V28H8V4Z" fill="#00D084"/>
+  <path d="M18 8L24 14L18 20L20.5 20L26.5 14L20.5 8L18 8Z" fill="#00D084"/>
+  
+  <!-- Text: umei -->
+  <text x="36" y="22" font-family="Manrope, sans-serif" font-size="20" font-weight="700" fill="#1a1a1a">
+    umei
+  </text>
+</svg>
