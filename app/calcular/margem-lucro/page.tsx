@@ -69,8 +69,8 @@ export default function MargemLucroPage() {
       const formValues = getValues()
       await saveCalculation(
         'MARGEM_LUCRO',
-        formValues as Record<string, unknown>,
-        resultado as Record<string, unknown>,
+        formValues as unknown as Record<string, unknown>,
+        resultado as unknown as Record<string, unknown>,
         `Margem de Lucro - ${new Date().toLocaleDateString('pt-BR')}`
       )
     } finally {
