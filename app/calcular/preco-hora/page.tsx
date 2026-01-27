@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -15,6 +15,7 @@ import { Label } from '@/components/ui/label'
 import { calcularPrecoHora, type PrecoHoraResultado } from '@/lib/calculos'
 import { PrecoHoraPDF } from '@/components/pdf/preco-hora-pdf'
 import { OutrasCalculadoras } from '@/components/outras-calculadoras'
+import { trackCalculatorUsed, trackCalculatorCompleted, trackCalculatorSaved, trackPDFExport, trackShare } from '@/lib/analytics'
 
 const schema = z.object({
   salarioDesejado: z.number().positive('Salário deve ser maior que zero'),
@@ -29,6 +30,10 @@ type FormData = z.infer<typeof schema>
 export default function PrecoHoraPage() {
   const [resultado, setResultado] = useState<PrecoHoraResultado | null>(null)
   const [isSaving, setIsSaving] = useState(false)
+
+  useEffect(() => {
+    trackCalculatorUsed('preco_hora')
+  }, [])
 
   const {
     register,
@@ -51,6 +56,7 @@ export default function PrecoHoraPage() {
   const onSubmit = (data: FormData) => {
     const result = calcularPrecoHora(data)
     setResultado(result)
+    trackCalculatorCompleted('preco_hora')
   }
 
   const handleSave = async () => {
@@ -73,6 +79,7 @@ export default function PrecoHoraPage() {
       const data = await response.json()
       
       if (data.success) {
+        trackCalculatorSaved('preco_hora')
         toast.success('✅ Cálculo salvo!', {
           description: 'Acesse seus cálculos no histórico.',
         })
@@ -106,6 +113,7 @@ export default function PrecoHoraPage() {
     if (navigator.share) {
       try {
         await navigator.share(shareData)
+        trackShare('preco_hora')
         toast.success('✅ Compartilhado com sucesso!')
       } catch (error) {
         // User cancelled or error - do nothing
@@ -114,6 +122,7 @@ export default function PrecoHoraPage() {
       // Fallback: Copy to clipboard
       try {
         await navigator.clipboard.writeText(shareData.url)
+        trackShare('preco_hora')
         toast.success('📋 Link copiado!', {
           description: 'Cole onde quiser compartilhar.',
         })
@@ -140,6 +149,7 @@ export default function PrecoHoraPage() {
       
       URL.revokeObjectURL(url)
       
+      trackPDFExport('preco_hora')
       toast.success('✅ PDF exportado!', {
         description: 'Arquivo baixado com sucesso.',
       })

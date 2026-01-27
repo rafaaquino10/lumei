@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -19,6 +19,12 @@ import {
   type PrecificacaoServicoResultado,
 } from '@/lib/calculos'
 import { OutrasCalculadoras } from '@/components/outras-calculadoras'
+import {
+  trackCalculatorUsed,
+  trackCalculatorCompleted,
+  trackCalculatorSaved,
+  trackShare,
+} from '@/lib/analytics'
 
 // Schema para Produtos
 const schemaProdutos = z.object({
@@ -45,6 +51,11 @@ export default function PrecificacaoPage() {
   const [resultadoProduto, setResultadoProduto] = useState<PrecificacaoProdutoResultado | null>(null)
   const [resultadoServico, setResultadoServico] = useState<PrecificacaoServicoResultado | null>(null)
   const [isSaving, setIsSaving] = useState(false)
+
+  // Track page view
+  useEffect(() => {
+    trackCalculatorUsed('precificacao')
+  }, [])
 
   // Form para Produtos
   const formProdutos = useForm<FormDataProdutos>({
@@ -73,12 +84,14 @@ export default function PrecificacaoPage() {
     const result = calcularPrecificacaoProduto(data)
     setResultadoProduto(result)
     setResultadoServico(null) // Clear other result
+    trackCalculatorCompleted('precificacao')
   }
 
   const onSubmitServicos = (data: FormDataServicos) => {
     const result = calcularPrecificacaoServico(data)
     setResultadoServico(result)
     setResultadoProduto(null) // Clear other result
+    trackCalculatorCompleted('precificacao')
   }
 
   const handleSave = async () => {
@@ -102,6 +115,7 @@ export default function PrecificacaoPage() {
       const data = await response.json()
       
       if (data.success) {
+        trackCalculatorSaved('precificacao')
         toast.success('✅ Cálculo salvo!', {
           description: 'Acesse seus cálculos no histórico.',
         })
@@ -138,6 +152,7 @@ export default function PrecificacaoPage() {
     if (navigator.share) {
       try {
         await navigator.share(shareData)
+        trackShare('precificacao')
         toast.success('✅ Compartilhado com sucesso!')
       } catch (error) {
         // User cancelled
@@ -145,6 +160,7 @@ export default function PrecificacaoPage() {
     } else {
       try {
         await navigator.clipboard.writeText(shareData.url)
+        trackShare('precificacao')
         toast.success('📋 Link copiado!', {
           description: 'Cole onde quiser compartilhar.',
         })
