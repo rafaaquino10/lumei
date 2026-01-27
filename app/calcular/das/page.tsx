@@ -1,14 +1,16 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Label } from '@/components/ui/label'
 import { calcularDAS, DASResultado } from '@/lib/calculos'
-import { Calendar, ExternalLink, AlertCircle, CheckCircle } from 'lucide-react'
+import { Calendar, ExternalLink, AlertCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useUser } from '@clerk/nextjs'
+import { trackCalculatorUsed, trackCalculatorCompleted } from '@/lib/analytics'
+import Link from 'next/link'
 
 type TipoMEI = 'COMERCIO' | 'SERVICOS' | 'MISTO' | 'CAMINHONEIRO'
 
@@ -30,7 +32,11 @@ const MESES_COMPLETO = [
 export default function DASPage() {
   const { user } = useUser()
   const [tipoMEI, setTipoMEI] = useState<TipoMEI>('COMERCIO')
-  const [resultado, setResultado] = useState<DASResultado | null>(null)
+  const anoAtual = new Date().getFullYear()
+
+  useEffect(() => {
+    trackCalculatorUsed('calendario_das')
+  }, [])
 
   // Try to get tipo from user's profile
   useEffect(() => {
@@ -50,31 +56,52 @@ export default function DASPage() {
     fetchUserTipo()
   }, [user])
 
-  useEffect(() => {
-    const calc = calcularDAS({ tipoMEI })
-    setResultado(calc)
-  }, [tipoMEI])
+  const resultado: DASResultado = useMemo(() => calcularDAS({ tipoMEI }), [tipoMEI])
 
-  if (!resultado) return null
+  useEffect(() => {
+    trackCalculatorCompleted('calendario_das')
+  }, [tipoMEI])
 
   return (
     <div className="container mx-auto px-4 py-12">
       {/* Breadcrumb */}
       <nav className="mb-8 text-sm text-gray-600">
-        <a href="/" className="hover:text-lumei-600">
+        <Link href="/" className="hover:text-lumei-600">
           Home
-        </a>
+        </Link>
         {' / '}
         <span className="text-gray-900">Calendário DAS</span>
       </nav>
 
       {/* Header */}
       <div className="mb-12">
-        <h1 className="text-4xl font-bold mb-4">Calendário DAS 2025</h1>
+        <h1 className="text-4xl font-bold mb-4">
+          Calendario DAS {resultado.anoReferencia}
+        </h1>
         <p className="text-xl text-gray-600">
           Nunca mais atrase o pagamento do DAS. Veja todos os vencimentos do ano.
         </p>
       </div>
+
+      {(resultado.anoReferencia !== anoAtual || resultado.fonteValores !== 'default') && (
+        <Card className="p-6 mb-8 bg-yellow-50 border-l-4 border-yellow-500">
+          <div className="flex items-start gap-3">
+            <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="font-semibold text-yellow-900 mb-1">
+                Valores de referencia
+              </p>
+              <p className="text-sm text-yellow-800">
+                Ano solicitado: {resultado.anoSolicitado}. Ano aplicado:{' '}
+                {resultado.anoReferencia}. Fonte: {resultado.fonteValores}.
+              </p>
+              <p className="text-sm text-yellow-800">
+                Salario minimo considerado: R$ {resultado.salarioMinimo.toFixed(2)}.
+              </p>
+            </div>
+          </div>
+        </Card>
+      )}
 
       {/* Tipo MEI Selector */}
       <Card className="p-8 mb-8">
@@ -192,7 +219,9 @@ export default function DASPage() {
 
       {/* Calendar */}
       <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-6">Calendário Anual 2025</h2>
+        <h2 className="text-2xl font-bold mb-6">
+          Calendario Anual {resultado.anoReferencia}
+        </h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {resultado.calendarioAnual.map((item, index) => {
             const isProximo = item.status === 'PROXIMO'
@@ -280,11 +309,11 @@ export default function DASPage() {
               vencimento por email e WhatsApp. Nunca mais atrase!
             </p>
           </div>
-          <a href="/premium">
+          <Link href="/premium">
             <Button size="lg" className="whitespace-nowrap">
               Ver Premium →
             </Button>
-          </a>
+          </Link>
         </div>
       </Card>
 
@@ -317,8 +346,8 @@ export default function DASPage() {
             o DAS é obrigatório. Atrasar gera multa e juros.
           </p>
           <p className="text-sm mt-4">
-            ⚠️ <strong>Atenção:</strong> Valores são referência de 2025. Sempre
-            confirme no{' '}
+            ⚠️ <strong>Atenção:</strong> Valores são referência de{' '}
+            {resultado.anoReferencia}. Sempre confirme no{' '}
             <a
               href="https://www.gov.br/empresas-e-negocios/pt-br/empreendedor"
               target="_blank"

@@ -2,7 +2,7 @@
 
 Calculadoras financeiras feitas para MEI crescer. 100% grátis.
 
-🚀 **Status:** 3 calculadoras funcionais (de 6 planejadas) | **Live:** [lumei.vercel.app](https://lumei.vercel.app)
+🚀 **Status:** 6 calculadoras funcionais | **Live:** [lumei.vercel.app](https://lumei.vercel.app)
 
 ---
 
@@ -12,8 +12,6 @@ Calculadoras financeiras feitas para MEI crescer. 100% grátis.
 - **Margem de Lucro** - Calcule sua margem real e descubra quanto você ganha em cada venda
 - **Preço por Hora** - Descubra quanto cobrar considerando férias, custos e margem
 - **Precificação** - Calcule o preço ideal para produtos e serviços
-
-### 🔜 Em Breve
 - **Simulador de Faturamento** - Acompanhe seu faturamento vs limite MEI
 - **Fluxo de Caixa** - Gerencie entradas e saídas
 - **Calendário DAS** - Nunca esqueça de pagar seus impostos

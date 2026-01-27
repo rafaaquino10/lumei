@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { motion, AnimatePresence } from 'framer-motion'
-import { HelpCircle, Save, Share, ExternalLink } from 'lucide-react'
+import { HelpCircle, Save, Share, ExternalLink, Download } from 'lucide-react'
 import { toast } from 'sonner'
 import Link from 'next/link'
 import { MoneyInput } from '@/components/ui/money-input'
@@ -21,19 +21,22 @@ import {
 } from '@/lib/calculos'
 import { OutrasCalculadoras } from '@/components/outras-calculadoras'
 import { CalculatorSchema } from '@/components/calculator-schema'
+import { PrecificacaoPDF } from '@/components/pdf/precificacao-pdf'
 import {
   trackCalculatorUsed,
   trackCalculatorCompleted,
   trackShare,
+  trackPDFExport,
 } from '@/lib/analytics'
 import { useSaveCalculation } from '@/lib/save-calculation'
+import { useSearchParams } from 'next/navigation'
 
 // Schema para Produtos
 const schemaProdutos = z.object({
   custoProduto: z.number().min(0, 'Custo não pode ser negativo'),
   custosFixosRateados: z.number().min(0, 'Custo não pode ser negativo'),
   despesasVariaveis: z.number().min(0, 'Despesas não podem ser negativas'),
-  margemDesejada: z.number().min(0, 'Mínimo 0%').max(100, 'Máximo 100%'),
+  margemDesejada: z.number().min(0, 'Mínimo 0%').max(99, 'Máximo 99%'),
 })
 
 // Schema para Serviços
@@ -42,7 +45,7 @@ const schemaServicos = z.object({
   valorHora: z.number().positive('Valor deve ser maior que zero'),
   materiaisCusto: z.number().min(0, 'Custo não pode ser negativo'),
   despesasAdicionais: z.number().min(0, 'Despesas não podem ser negativas'),
-  margemDesejada: z.number().min(0, 'Mínimo 0%').max(100, 'Máximo 100%'),
+  margemDesejada: z.number().min(0, 'Mínimo 0%').max(99, 'Máximo 99%'),
 })
 
 type FormDataProdutos = z.infer<typeof schemaProdutos>
@@ -59,6 +62,9 @@ export default function PrecificacaoPage() {
   useEffect(() => {
     trackCalculatorUsed('precificacao')
   }, [])
+
+  const searchParams = useSearchParams()
+  const loadId = searchParams.get('load')
 
   // Form para Produtos
   const formProdutos = useForm<FormDataProdutos>({
@@ -82,6 +88,76 @@ export default function PrecificacaoPage() {
       margemDesejada: 40,
     },
   })
+
+  useEffect(() => {
+    if (!loadId) return
+
+    let active = true
+
+    const loadCalculation = async () => {
+      try {
+        const response = await fetch(`/api/calculos/${loadId}`)
+        if (!response.ok) return
+        const data = await response.json()
+        const calculo = data?.calculo
+        if (!calculo || !active) return
+
+        const inputs = calculo.inputs as Partial<FormDataProdutos & FormDataServicos>
+
+        if ('custoProduto' in inputs) {
+          setModo('produtos')
+          if (typeof inputs.custoProduto === 'number') {
+            formProdutos.setValue('custoProduto', inputs.custoProduto)
+          }
+          if (typeof inputs.custosFixosRateados === 'number') {
+            formProdutos.setValue('custosFixosRateados', inputs.custosFixosRateados)
+          }
+          if (typeof inputs.despesasVariaveis === 'number') {
+            formProdutos.setValue('despesasVariaveis', inputs.despesasVariaveis)
+          }
+          if (typeof inputs.margemDesejada === 'number') {
+            formProdutos.setValue('margemDesejada', inputs.margemDesejada)
+          }
+          if (calculo.resultado) {
+            setResultadoProduto(calculo.resultado as PrecificacaoProdutoResultado)
+            setResultadoServico(null)
+          }
+          return
+        }
+
+        if ('horasServico' in inputs) {
+          setModo('servicos')
+          if (typeof inputs.horasServico === 'number') {
+            formServicos.setValue('horasServico', inputs.horasServico)
+          }
+          if (typeof inputs.valorHora === 'number') {
+            formServicos.setValue('valorHora', inputs.valorHora)
+          }
+          if (typeof inputs.materiaisCusto === 'number') {
+            formServicos.setValue('materiaisCusto', inputs.materiaisCusto)
+          }
+          if (typeof inputs.despesasAdicionais === 'number') {
+            formServicos.setValue('despesasAdicionais', inputs.despesasAdicionais)
+          }
+          if (typeof inputs.margemDesejada === 'number') {
+            formServicos.setValue('margemDesejada', inputs.margemDesejada)
+          }
+          if (calculo.resultado) {
+            setResultadoServico(calculo.resultado as PrecificacaoServicoResultado)
+            setResultadoProduto(null)
+          }
+        }
+      } catch {
+        // Ignore load errors
+      }
+    }
+
+    loadCalculation()
+
+    return () => {
+      active = false
+    }
+  }, [loadId, formProdutos, formServicos])
 
   const onSubmitProdutos = (data: FormDataProdutos) => {
     const result = calcularPrecificacaoProduto(data)
@@ -148,6 +224,41 @@ export default function PrecificacaoPage() {
     }
   }
 
+  const handleExportPDF = async () => {
+    const resultadoAtual = modo === 'produtos' ? resultadoProduto : resultadoServico
+    if (!resultadoAtual) return
+
+    try {
+      const formValues =
+        modo === 'produtos' ? formProdutos.getValues() : formServicos.getValues()
+      const { pdf } = await import('@react-pdf/renderer')
+      const blob = await pdf(
+        <PrecificacaoPDF
+          modo={modo}
+          inputs={formValues}
+          resultado={resultadoAtual}
+        />
+      ).toBlob()
+
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `precificacao-${modo}-${Date.now()}.pdf`
+      link.click()
+
+      URL.revokeObjectURL(url)
+
+      trackPDFExport('precificacao')
+      toast.success('✅ PDF exportado!', {
+        description: 'Arquivo baixado com sucesso.',
+      })
+    } catch {
+      toast.error('❌ Erro ao exportar', {
+        description: 'Tente novamente.',
+      })
+    }
+  }
+
   const resultado = modo === 'produtos' ? resultadoProduto : resultadoServico
 
   return (
@@ -178,7 +289,7 @@ export default function PrecificacaoPage() {
         <div className="bg-white border rounded-lumei-lg p-8">
           <h2 className="text-2xl font-bold mb-6">Dados do Cálculo</h2>
           
-          <Tabs defaultValue="produtos" onValueChange={(value) => setModo(value as 'produtos' | 'servicos')}>
+          <Tabs value={modo} onValueChange={(value) => setModo(value as 'produtos' | 'servicos')}>
             <TabsList className="grid w-full grid-cols-2 mb-6">
               <TabsTrigger value="produtos">🏷️ Produtos</TabsTrigger>
               <TabsTrigger value="servicos">🛠️ Serviços</TabsTrigger>
@@ -484,7 +595,7 @@ export default function PrecificacaoPage() {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <Button 
                     onClick={handleSave}
                     disabled={isSaving}
@@ -501,6 +612,15 @@ export default function PrecificacaoPage() {
                   >
                     <Share className="h-4 w-4 mr-2" />
                     Compartilhar
+                  </Button>
+
+                  <Button 
+                    onClick={handleExportPDF}
+                    variant="outline"
+                    className="w-full"
+                  >
+                    <Download className="h-4 w-4 mr-2" />
+                    PDF
                   </Button>
                 </div>
               </motion.div>
@@ -565,7 +685,7 @@ export default function PrecificacaoPage() {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <Button 
                     onClick={handleSave}
                     disabled={isSaving}
@@ -582,6 +702,15 @@ export default function PrecificacaoPage() {
                   >
                     <Share className="h-4 w-4 mr-2" />
                     Compartilhar
+                  </Button>
+
+                  <Button 
+                    onClick={handleExportPDF}
+                    variant="outline"
+                    className="w-full"
+                  >
+                    <Download className="h-4 w-4 mr-2" />
+                    PDF
                   </Button>
                 </div>
               </motion.div>

@@ -1,6 +1,7 @@
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import { SignedIn, SignedOut } from '@clerk/nextjs'
 import { Check, X, Zap, Shield, Clock, TrendingUp } from 'lucide-react'
 
 export default function PremiumPage() {
@@ -20,11 +21,18 @@ export default function PremiumPage() {
           ilimitados e muito mais. Cancele quando quiser.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link href="/sign-up">
-            <Button size="lg" className="text-lg px-8">
-              Assinar Premium →
+          <SignedOut>
+            <Link href="/sign-up">
+              <Button size="lg" className="text-lg px-8">
+                Assinar Premium →
+              </Button>
+            </Link>
+          </SignedOut>
+          <SignedIn>
+            <Button size="lg" className="text-lg px-8" disabled>
+              Assinar Premium (em breve)
             </Button>
-          </Link>
+          </SignedIn>
           <Button size="lg" variant="outline" className="text-lg px-8">
             Ver Plano Grátis
           </Button>
@@ -83,11 +91,20 @@ export default function PremiumPage() {
               </li>
             </ul>
 
-            <Link href="/sign-up">
-              <Button variant="outline" className="w-full">
-                Começar Grátis
-              </Button>
-            </Link>
+            <SignedOut>
+              <Link href="/sign-up">
+                <Button variant="outline" className="w-full">
+                  Começar Grátis
+                </Button>
+              </Link>
+            </SignedOut>
+            <SignedIn>
+              <Link href="/dashboard">
+                <Button variant="outline" className="w-full">
+                  Ir para o Dashboard
+                </Button>
+              </Link>
+            </SignedIn>
           </Card>
 
           {/* PREMIUM */}
@@ -141,11 +158,18 @@ export default function PremiumPage() {
               </li>
             </ul>
 
-            <Link href="/sign-up">
-              <Button className="w-full" size="lg">
-                Assinar Premium →
+            <SignedOut>
+              <Link href="/sign-up">
+                <Button className="w-full" size="lg">
+                  Assinar Premium →
+                </Button>
+              </Link>
+            </SignedOut>
+            <SignedIn>
+              <Button className="w-full" size="lg" disabled>
+                Assinar Premium (em breve)
               </Button>
-            </Link>
+            </SignedIn>
           </Card>
         </div>
       </div>
@@ -211,7 +235,7 @@ export default function PremiumPage() {
               <div className="flex text-yellow-500">⭐⭐⭐⭐⭐</div>
             </div>
             <p className="text-gray-700 mb-4">
-              "Os alertas de WhatsApp salvaram minha vida. Nunca mais atrasei o DAS!"
+              &quot;Os alertas de WhatsApp salvaram minha vida. Nunca mais atrasei o DAS!&quot;
             </p>
             <p className="text-sm text-gray-600">
               - Maria S., Designer MEI
@@ -223,7 +247,7 @@ export default function PremiumPage() {
               <div className="flex text-yellow-500">⭐⭐⭐⭐⭐</div>
             </div>
             <p className="text-gray-700 mb-4">
-              "R$ 19/mês é menos que um almoço. Vale muito a pena pela tranquilidade."
+              &quot;R$ 19/mês é menos que um almoço. Vale muito a pena pela tranquilidade.&quot;
             </p>
             <p className="text-sm text-gray-600">
               - João P., Desenvolvedor MEI
@@ -235,7 +259,7 @@ export default function PremiumPage() {
               <div className="flex text-yellow-500">⭐⭐⭐⭐⭐</div>
             </div>
             <p className="text-gray-700 mb-4">
-              "Relatórios mensais me ajudam a ver como meu negócio está crescendo."
+              &quot;Relatórios mensais me ajudam a ver como meu negócio está crescendo.&quot;
             </p>
             <p className="text-sm text-gray-600">
               - Ana L., Confeiteira MEI
@@ -297,11 +321,18 @@ export default function PremiumPage() {
           <p className="text-xl mb-8 text-lumei-50">
             Junte-se a centenas de MEI que já usam o Lumei Premium
           </p>
-          <Link href="/sign-up">
-            <Button size="lg" variant="secondary" className="text-lg px-10">
-              Assinar Premium por R$ 19/mês →
+          <SignedOut>
+            <Link href="/sign-up">
+              <Button size="lg" variant="secondary" className="text-lg px-10">
+                Assinar Premium por R$ 19/mês →
+              </Button>
+            </Link>
+          </SignedOut>
+          <SignedIn>
+            <Button size="lg" variant="secondary" className="text-lg px-10" disabled>
+              Assinar Premium (em breve)
             </Button>
-          </Link>
+          </SignedIn>
           <p className="text-sm mt-4 text-lumei-100">
             7 dias de garantia • Cancele quando quiser
           </p>

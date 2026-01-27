@@ -1,6 +1,7 @@
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { trackCalculatorSaved, type CalculatorType } from '@/lib/analytics'
+import { CALCULO_FORMULA_VERSION } from '@/lib/calculos/version'
 
 type TipoCalculo = 'MARGEM_LUCRO' | 'PRECO_HORA' | 'PRECIFICACAO' | 'FATURAMENTO' | 'FLUXO_CAIXA' | 'CALENDARIO_DAS'
 
@@ -23,6 +24,7 @@ export function useSaveCalculation() {
           resultado,
           titulo:
             titulo || `${tipo} - ${new Date().toLocaleDateString('pt-BR')}`,
+          formulaVersion: CALCULO_FORMULA_VERSION,
         }),
       })
 

@@ -7,7 +7,6 @@ import { z } from 'zod'
 import { motion, AnimatePresence } from 'framer-motion'
 import { HelpCircle, Save, Share, Download } from 'lucide-react'
 import { toast } from 'sonner'
-import { pdf } from '@react-pdf/renderer'
 import { MoneyInput } from '@/components/ui/money-input'
 import { NumberInput } from '@/components/ui/number-input'
 import { Button } from '@/components/ui/button'
@@ -18,6 +17,8 @@ import { OutrasCalculadoras } from '@/components/outras-calculadoras'
 import { CalculatorSchema } from '@/components/calculator-schema'
 import { trackCalculatorUsed, trackCalculatorCompleted, trackPDFExport, trackShare } from '@/lib/analytics'
 import { useSaveCalculation } from '@/lib/save-calculation'
+import { useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 
 const schema = z.object({
   salarioDesejado: z.number().positive('Salário deve ser maior que zero'),
@@ -37,8 +38,10 @@ export default function PrecoHoraPage() {
     trackCalculatorUsed('preco_hora')
   }, [])
 
+  const searchParams = useSearchParams()
+  const loadId = searchParams.get('load')
+
   const {
-    register,
     handleSubmit,
     formState: { errors },
     setValue,
@@ -54,6 +57,51 @@ export default function PrecoHoraPage() {
       margemLucro: 30,
     },
   })
+
+  useEffect(() => {
+    if (!loadId) return
+
+    let active = true
+
+    const loadCalculation = async () => {
+      try {
+        const response = await fetch(`/api/calculos/${loadId}`)
+        if (!response.ok) return
+        const data = await response.json()
+        const calculo = data?.calculo
+        if (!calculo || !active) return
+
+        const inputs = calculo.inputs as Partial<FormData>
+        if (typeof inputs.salarioDesejado === 'number') {
+          setValue('salarioDesejado', inputs.salarioDesejado)
+        }
+        if (typeof inputs.custosFixos === 'number') {
+          setValue('custosFixos', inputs.custosFixos)
+        }
+        if (typeof inputs.horasTrabalhadasMes === 'number') {
+          setValue('horasTrabalhadasMes', inputs.horasTrabalhadasMes)
+        }
+        if (typeof inputs.diasFeriasPorAno === 'number') {
+          setValue('diasFeriasPorAno', inputs.diasFeriasPorAno)
+        }
+        if (typeof inputs.margemLucro === 'number') {
+          setValue('margemLucro', inputs.margemLucro)
+        }
+
+        if (calculo.resultado) {
+          setResultado(calculo.resultado as PrecoHoraResultado)
+        }
+      } catch {
+        // Ignore load errors
+      }
+    }
+
+    loadCalculation()
+
+    return () => {
+      active = false
+    }
+  }, [loadId, setValue])
 
   const onSubmit = (data: FormData) => {
     const result = calcularPrecoHora(data)
@@ -94,7 +142,7 @@ export default function PrecoHoraPage() {
         await navigator.share(shareData)
         trackShare('preco_hora')
         toast.success('✅ Compartilhado com sucesso!')
-      } catch (error) {
+      } catch {
         // User cancelled or error - do nothing
       }
     } else {
@@ -105,7 +153,7 @@ export default function PrecoHoraPage() {
         toast.success('📋 Link copiado!', {
           description: 'Cole onde quiser compartilhar.',
         })
-      } catch (error) {
+      } catch {
         toast.error('❌ Erro ao copiar link')
       }
     }
@@ -116,6 +164,7 @@ export default function PrecoHoraPage() {
     
     try {
       const formValues = getValues()
+      const { pdf } = await import('@react-pdf/renderer')
       const blob = await pdf(
         <PrecoHoraPDF inputs={formValues} resultado={resultado} />
       ).toBlob()
@@ -132,7 +181,7 @@ export default function PrecoHoraPage() {
       toast.success('✅ PDF exportado!', {
         description: 'Arquivo baixado com sucesso.',
       })
-    } catch (error) {
+    } catch {
       toast.error('❌ Erro ao exportar', {
         description: 'Tente novamente.',
       })
@@ -148,7 +197,7 @@ export default function PrecoHoraPage() {
       />
       {/* Breadcrumb */}
       <nav className="mb-8 text-sm text-gray-600">
-        <a href="/" className="hover:text-lumei-600">Home</a>
+        <Link href="/" className="hover:text-lumei-600">Home</Link>
         {' / '}
         <span className="text-gray-900">Preço por Hora</span>
       </nav>
@@ -362,7 +411,7 @@ export default function PrecoHoraPage() {
                     <li>Férias (ganhar em 11 meses o que sustenta 12)</li>
                   </ul>
                   <p className="mt-2 text-xs">
-                    Por isso o preço/hora parece "alto". Você não está cobrando só pelo tempo, 
+                    Por isso o preço/hora parece &quot;alto&quot;. Você não está cobrando só pelo tempo, 
                     mas por todos os custos invisíveis de ser MEI.
                   </p>
                 </div>

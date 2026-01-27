@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ArrowRight, Check, TrendingUp, Clock, Tag, BarChart3, ArrowLeftRight, Calendar } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -176,13 +177,13 @@ export default function Home() {
             {/* Right column */}
             <div className="relative flex items-center justify-center">
               <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-200">
-                <img
+                <Image
                   src="/hero-screenshot.png"
                   alt="Calculadora Lumei em ação"
                   width={600}
                   height={400}
                   className="w-full"
-                  loading="eager"
+                  priority
                   style={{ display: 'block' }}
                 />
               </div>

@@ -7,8 +7,8 @@ import { z } from 'zod'
 import { motion, AnimatePresence } from 'framer-motion'
 import { HelpCircle, Save, Share, Download } from 'lucide-react'
 import { toast } from 'sonner'
-import { pdf } from '@react-pdf/renderer'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { MoneyInput } from '@/components/ui/money-input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
@@ -22,7 +22,7 @@ import { useSaveCalculation } from '@/lib/save-calculation'
 
 const schema = z.object({
   precoVenda: z.number().positive('Preço deve ser maior que zero'),
-  custoTotal: z.number().min(0, 'Custo não pode ser negativo'),
+  custoTotal: z.number().positive('Custo deve ser maior que zero'),
 }).refine(data => data.custoTotal < data.precoVenda, {
   message: 'Custo total não pode ser maior que o preço de venda',
   path: ['custoTotal'],
@@ -39,6 +39,9 @@ export default function MargemLucroPage() {
     trackCalculatorUsed('margem_lucro')
   }, [])
 
+  const searchParams = useSearchParams()
+  const loadId = searchParams.get('load')
+
   const {
     handleSubmit,
     formState: { errors },
@@ -52,6 +55,42 @@ export default function MargemLucroPage() {
       custoTotal: 0,
     },
   })
+
+  useEffect(() => {
+    if (!loadId) return
+
+    let active = true
+
+    const loadCalculation = async () => {
+      try {
+        const response = await fetch(`/api/calculos/${loadId}`)
+        if (!response.ok) return
+        const data = await response.json()
+        const calculo = data?.calculo
+        if (!calculo || !active) return
+
+        const inputs = calculo.inputs as Partial<FormData>
+        if (typeof inputs.precoVenda === 'number') {
+          setValue('precoVenda', inputs.precoVenda)
+        }
+        if (typeof inputs.custoTotal === 'number') {
+          setValue('custoTotal', inputs.custoTotal)
+        }
+
+        if (calculo.resultado) {
+          setResultado(calculo.resultado as MargemLucroResultado)
+        }
+      } catch {
+        // Ignore load errors
+      }
+    }
+
+    loadCalculation()
+
+    return () => {
+      active = false
+    }
+  }, [loadId, setValue])
 
   const onSubmit = (data: FormData) => {
     const result = calcularMargemLucro({
@@ -115,6 +154,7 @@ export default function MargemLucroPage() {
     
     try {
       const formValues = getValues()
+      const { pdf } = await import('@react-pdf/renderer')
       const blob = await pdf(
         <MargemLucroPDF inputs={formValues} resultado={resultado} />
       ).toBlob()

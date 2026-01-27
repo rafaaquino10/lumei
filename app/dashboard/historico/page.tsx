@@ -55,6 +55,14 @@ const CALCULATOR_CONFIG: Record<
   },
 }
 
+type ResultadoJson = Record<string, unknown> | null
+
+const getNumber = (value: unknown): number | null =>
+  typeof value === 'number' && !Number.isNaN(value) ? value : null
+
+const formatCurrency = (value: number) =>
+  `R$ ${value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
+
 export default async function HistoricoPage() {
   const { userId } = await auth()
 
@@ -197,18 +205,53 @@ export default async function HistoricoPage() {
                               Resultado Principal:
                             </p>
                             <p className="font-mono font-bold text-lg">
-                              {tipo === 'MARGEM_LUCRO' && calculo.resultado &&
-                                `${(calculo.resultado as any).margemBruta}% de margem`}
-                              {tipo === 'PRECO_HORA' && calculo.resultado &&
-                                `R$ ${(calculo.resultado as any).precoHoraFinal}/hora`}
-                              {tipo === 'PRECIFICACAO' && calculo.resultado &&
-                                `R$ ${(calculo.resultado as any).precoVenda}`}
-                              {tipo === 'FATURAMENTO' && calculo.resultado &&
-                                `${(calculo.resultado as any).percentualUsado}% do teto`}
-                              {tipo === 'FLUXO_CAIXA' && calculo.resultado &&
-                                `Saldo: R$ ${(calculo.resultado as any).saldo}`}
-                              {tipo === 'CALENDARIO_DAS' && calculo.resultado &&
-                                `DAS de ${(calculo.resultado as any).tipo}: R$ ${(calculo.resultado as any).meses[0]?.valor}`}
+                              {(() => {
+                                const resultado = calculo.resultado as ResultadoJson
+
+                                if (tipo === 'MARGEM_LUCRO') {
+                                  const margemBruta = getNumber(resultado?.margemBruta)
+                                  return margemBruta !== null
+                                    ? `${margemBruta}% de margem`
+                                    : '-'
+                                }
+
+                                if (tipo === 'PRECO_HORA') {
+                                  const precoHoraFinal = getNumber(resultado?.precoHoraFinal)
+                                  return precoHoraFinal !== null
+                                    ? `${formatCurrency(precoHoraFinal)}/hora`
+                                    : '-'
+                                }
+
+                                if (tipo === 'PRECIFICACAO') {
+                                  const precoVenda = getNumber(resultado?.precoVenda)
+                                  return precoVenda !== null
+                                    ? formatCurrency(precoVenda)
+                                    : '-'
+                                }
+
+                                if (tipo === 'FATURAMENTO') {
+                                  const percentualUsado = getNumber(resultado?.percentualUsado)
+                                  return percentualUsado !== null
+                                    ? `${percentualUsado}% do teto`
+                                    : '-'
+                                }
+
+                                if (tipo === 'FLUXO_CAIXA') {
+                                  const saldo = getNumber(resultado?.saldo)
+                                  return saldo !== null
+                                    ? `Saldo: ${formatCurrency(saldo)}`
+                                    : '-'
+                                }
+
+                                if (tipo === 'CALENDARIO_DAS') {
+                                  const valorMensal = getNumber(resultado?.valorMensal)
+                                  return valorMensal !== null
+                                    ? `DAS: ${formatCurrency(valorMensal)}`
+                                    : '-'
+                                }
+
+                                return '-'
+                              })()}
                             </p>
                           </div>
                         </div>

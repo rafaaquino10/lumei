@@ -1,5 +1,6 @@
 import { Card } from '@/components/ui/card'
 import { Clock } from 'lucide-react'
+import Link from 'next/link'
 
 export default function BlogPage() {
   return (
@@ -17,9 +18,9 @@ export default function BlogPage() {
         </p>
         <p className="text-sm text-gray-400">
           Enquanto isso, aproveite nossas calculadoras gratuitas →{' '}
-          <a href="/" className="text-lumei-600 hover:underline">
+          <Link href="/" className="text-lumei-600 hover:underline">
             Acessar
-          </a>
+          </Link>
         </p>
       </Card>
     </div>

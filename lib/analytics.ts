@@ -52,6 +52,6 @@ export const trackShare = (tipo: CalculatorType) => {
 // Extend Window interface for gtag
 declare global {
   interface Window {
-    gtag: (...args: any[]) => void
+    gtag: (...args: unknown[]) => void
   }
 }

@@ -39,7 +39,7 @@ export default function OnboardingPage() {
       } else {
         throw new Error('Failed to save')
       }
-    } catch (error) {
+    } catch {
       toast.error('❌ Erro ao salvar. Tente novamente.')
     } finally {
       setIsSubmitting(false)

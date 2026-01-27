@@ -30,7 +30,7 @@ export function DeleteCalculationButton({ id }: { id: string }) {
       } else {
         throw new Error('Failed to delete')
       }
-    } catch (error) {
+    } catch {
       toast.error('❌ Erro ao excluir', {
         description: 'Tente novamente.',
       })

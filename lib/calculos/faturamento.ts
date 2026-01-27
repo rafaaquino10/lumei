@@ -14,7 +14,6 @@ export interface FaturamentoResultado {
 }
 
 const TETO_MEI_ANUAL = 81000
-const TETO_MEI_MENSAL = TETO_MEI_ANUAL / 12 // R$ 6.750
 
 export function calcularFaturamento(
   inputs: FaturamentoInputs

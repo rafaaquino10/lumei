@@ -40,7 +40,30 @@ export default async function DashboardPage() {
   }
 
   if (!user) {
-    redirect('/onboarding')
+    if (clerkUser?.emailAddresses?.length) {
+      user = await prisma.user.upsert({
+        where: { clerkId: userId },
+        update: {
+          email: clerkUser.emailAddresses[0].emailAddress,
+          name: `${clerkUser.firstName || ''} ${clerkUser.lastName || ''}`.trim() || null,
+          avatarUrl: clerkUser.imageUrl || null,
+        },
+        create: {
+          clerkId: userId,
+          email: clerkUser.emailAddresses[0].emailAddress,
+          name: `${clerkUser.firstName || ''} ${clerkUser.lastName || ''}`.trim() || null,
+          avatarUrl: clerkUser.imageUrl || null,
+        },
+        include: {
+          calculos: {
+            orderBy: { createdAt: 'desc' },
+            take: 5,
+          },
+        },
+      })
+    } else {
+      redirect('/onboarding')
+    }
   }
 
   // Calculate stats

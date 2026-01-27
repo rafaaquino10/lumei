@@ -1,6 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+/* eslint-disable react-hooks/incompatible-library */
+
+import { useState, useEffect } from 'react'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -17,9 +19,17 @@ import {
   CATEGORIAS_SAIDA 
 } from '@/lib/calculos'
 import { useSaveCalculation } from '@/lib/save-calculation'
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts'
+import dynamic from 'next/dynamic'
+const PieChart = dynamic(() => import('recharts').then((m) => m.PieChart), { ssr: false })
+const Pie = dynamic(() => import('recharts').then((m) => m.Pie), { ssr: false })
+const Cell = dynamic(() => import('recharts').then((m) => m.Cell), { ssr: false })
+const ResponsiveContainer = dynamic(() => import('recharts').then((m) => m.ResponsiveContainer), { ssr: false })
+const Tooltip = dynamic(() => import('recharts').then((m) => m.Tooltip), { ssr: false })
 import { motion } from 'framer-motion'
 import { Plus, Trash2, TrendingUp, TrendingDown } from 'lucide-react'
+import { useSearchParams } from 'next/navigation'
+import { trackCalculatorUsed, trackCalculatorCompleted } from '@/lib/analytics'
+import Link from 'next/link'
 
 const transacaoSchema = z.object({
   descricao: z.string().min(1, 'Descrição obrigatória'),
@@ -41,6 +51,12 @@ const COLORS_SAIDA = ['#EF4444', '#F87171', '#FCA5A5', '#FECACA', '#FEE2E2']
 export default function FluxoCaixaPage() {
   const [resultado, setResultado] = useState<FluxoCaixaResultado | null>(null)
   const { saveCalculation } = useSaveCalculation()
+  const searchParams = useSearchParams()
+  const loadId = searchParams.get('load')
+
+  useEffect(() => {
+    trackCalculatorUsed('fluxo_caixa')
+  }, [])
 
   const {
     register,
@@ -64,7 +80,7 @@ export default function FluxoCaixaPage() {
     },
   })
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, replace } = useFieldArray({
     control,
     name: 'transacoes',
   })
@@ -74,12 +90,54 @@ export default function FluxoCaixaPage() {
   const onSubmit = (data: FormData) => {
     const calc = calcularFluxoCaixa({ transacoes: data.transacoes })
     setResultado(calc)
+    trackCalculatorCompleted('fluxo_caixa')
   }
 
   const handleSave = async () => {
     if (!resultado) return
     await saveCalculation('FLUXO_CAIXA', { transacoes }, resultado as unknown as Record<string, unknown>)
   }
+
+  useEffect(() => {
+    if (!loadId) return
+
+    let active = true
+
+    const loadCalculation = async () => {
+      try {
+        const response = await fetch(`/api/calculos/${loadId}`)
+        if (!response.ok) return
+        const data = await response.json()
+        const calculo = data?.calculo
+        if (!calculo || !active) return
+
+        const inputs = calculo.inputs as Partial<FormData>
+        if (Array.isArray(inputs.transacoes)) {
+          replace(
+            inputs.transacoes.map((t) => ({
+              descricao: t.descricao || '',
+              valor: typeof t.valor === 'number' ? t.valor : 0,
+              categoria: t.categoria || '',
+              tipo: t.tipo === 'SAIDA' ? 'SAIDA' : 'ENTRADA',
+              data: t.data || new Date().toISOString().split('T')[0],
+            }))
+          )
+        }
+
+        if (calculo.resultado) {
+          setResultado(calculo.resultado as FluxoCaixaResultado)
+        }
+      } catch {
+        // Ignore load errors
+      }
+    }
+
+    loadCalculation()
+
+    return () => {
+      active = false
+    }
+  }, [loadId, replace])
 
   const adicionarTransacao = () => {
     append({
@@ -110,9 +168,9 @@ export default function FluxoCaixaPage() {
     <div className="container mx-auto px-4 py-12">
       {/* Breadcrumb */}
       <nav className="mb-8 text-sm text-gray-600">
-        <a href="/" className="hover:text-lumei-600">
+        <Link href="/" className="hover:text-lumei-600">
           Home
-        </a>
+        </Link>
         {' / '}
         <span className="text-gray-900">Fluxo de Caixa</span>
       </nav>

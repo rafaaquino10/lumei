@@ -11,6 +11,10 @@ export interface DASResultado {
     icms?: number
     iss?: number
   }
+  anoSolicitado: number
+  anoReferencia: number
+  fonteValores: 'env' | 'default' | 'fallback'
+  salarioMinimo: number
   proximoVencimento: Date
   diasAteVencimento: number
   calendarioAnual: {
@@ -22,38 +26,74 @@ export interface DASResultado {
   }[]
 }
 
-// Valores DAS 2025 (baseados em salário mínimo R$ 1.412)
-type ValoresDAS = {
-  inss: number;
-  icms?: number;
-  iss?: number;
-  total: number;
+type DasYearConfig = {
+  salarioMinimo: number
+  icms: number
+  iss: number
+  aliquotaMEI: number
+  aliquotaCaminhoneiro: number
 }
-const VALORES_DAS_2025: Record<
-  'COMERCIO' | 'SERVICOS' | 'MISTO' | 'CAMINHONEIRO',
-  ValoresDAS
-> = {
-  COMERCIO: {
-    inss: 70.60, // 5% do salário mínimo
-    icms: 1.00,
-    total: 71.60,
+
+const DEFAULT_DAS_CONFIG_BY_YEAR: Record<number, DasYearConfig> = {
+  2025: {
+    salarioMinimo: 1412,
+    icms: 1.0,
+    iss: 5.0,
+    aliquotaMEI: 0.05,
+    aliquotaCaminhoneiro: 0.12,
   },
-  SERVICOS: {
-    inss: 70.60,
-    iss: 5.00,
-    total: 75.60,
-  },
-  MISTO: {
-    inss: 70.60,
-    icms: 1.00,
-    iss: 5.00,
-    total: 76.60,
-  },
-  CAMINHONEIRO: {
-    inss: 169.44, // 12% do salário mínimo
-    icms: 1.00,
-    total: 170.44,
-  },
+}
+
+const loadEnvConfig = (): Record<number, DasYearConfig> => {
+  const raw = process.env.NEXT_PUBLIC_DAS_CONFIG
+  if (!raw) return {}
+
+  try {
+    const parsed = JSON.parse(raw) as Record<number, DasYearConfig>
+    return parsed || {}
+  } catch {
+    return {}
+  }
+}
+
+const resolveDasConfig = (ano: number) => {
+  const envConfig = loadEnvConfig()
+  const merged = { ...DEFAULT_DAS_CONFIG_BY_YEAR, ...envConfig }
+
+  if (merged[ano]) {
+    return {
+      anoReferencia: ano,
+      fonteValores: (envConfig[ano] ? 'env' : 'default') as DASResultado['fonteValores'],
+      config: merged[ano],
+    }
+  }
+
+  const fallbackYear = Object.keys(merged)
+    .map(Number)
+    .filter((y) => y < ano)
+    .sort((a, b) => b - a)[0]
+
+  if (fallbackYear && merged[fallbackYear]) {
+    return {
+      anoReferencia: fallbackYear,
+      fonteValores: 'fallback' as DASResultado['fonteValores'],
+      config: merged[fallbackYear],
+    }
+  }
+
+  const latestYear = Object.keys(merged)
+    .map(Number)
+    .sort((a, b) => b - a)[0]
+
+  if (!latestYear || !merged[latestYear]) {
+    throw new Error('DAS config not available')
+  }
+
+  return {
+    anoReferencia: latestYear,
+    fonteValores: 'fallback' as DASResultado['fonteValores'],
+    config: merged[latestYear],
+  }
 }
 
 const MESES = [
@@ -63,9 +103,36 @@ const MESES = [
 
 export function calcularDAS(inputs: DASInputs): DASResultado {
   const { tipoMEI, ano = new Date().getFullYear() } = inputs
-  
-  const valores = VALORES_DAS_2025[tipoMEI]
-  const valorMensal = valores.total
+
+  const { config, anoReferencia, fonteValores } = resolveDasConfig(ano)
+  const inssBase = config.salarioMinimo * config.aliquotaMEI
+  const inssCaminhoneiro = config.salarioMinimo * config.aliquotaCaminhoneiro
+
+  const valores = {
+    COMERCIO: {
+      inss: inssBase,
+      icms: config.icms,
+      total: inssBase + config.icms,
+    },
+    SERVICOS: {
+      inss: inssBase,
+      iss: config.iss,
+      total: inssBase + config.iss,
+    },
+    MISTO: {
+      inss: inssBase,
+      icms: config.icms,
+      iss: config.iss,
+      total: inssBase + config.icms + config.iss,
+    },
+    CAMINHONEIRO: {
+      inss: inssCaminhoneiro,
+      icms: config.icms,
+      total: inssCaminhoneiro + config.icms,
+    },
+  } as const
+
+  const valorMensal = valores[tipoMEI].total
   const valorAnual = valorMensal * 12
   
   const composicao: {
@@ -73,9 +140,9 @@ export function calcularDAS(inputs: DASInputs): DASResultado {
     icms?: number
     iss?: number
   } = {
-    inss: valores.inss,
-    ...(typeof valores.icms === 'number' ? { icms: valores.icms } : {}),
-    ...(typeof valores.iss === 'number' ? { iss: valores.iss } : {}),
+    inss: valores[tipoMEI].inss,
+    ...(typeof valores[tipoMEI].icms === 'number' ? { icms: valores[tipoMEI].icms } : {}),
+    ...(typeof valores[tipoMEI].iss === 'number' ? { iss: valores[tipoMEI].iss } : {}),
   }
   
   // Próximo vencimento (sempre dia 20 do mês seguinte)
@@ -96,7 +163,7 @@ export function calcularDAS(inputs: DASInputs): DASResultado {
   
   // Gerar calendário anual
   const calendarioAnual = MESES.map((mesNome, index) => {
-    const vencimento = new Date(ano, index + 1, 20)
+    const vencimento = new Date(anoReferencia, index + 1, 20)
 
     // Ajustar se cair em fim de semana
     if (vencimento.getDay() === 0) {
@@ -118,13 +185,6 @@ export function calcularDAS(inputs: DASInputs): DASResultado {
 
     // Only access icms/iss if they exist
     const valor = valorMensal
-    if ('icms' in valores && typeof valores.icms === 'number') {
-      // icms exists, do nothing (valorMensal already includes it)
-    }
-    if ('iss' in valores && typeof valores.iss === 'number') {
-      // iss exists, do nothing (valorMensal already includes it)
-    }
-
     return {
       mes: index + 1,
       mesNome,
@@ -138,6 +198,10 @@ export function calcularDAS(inputs: DASInputs): DASResultado {
     valorMensal: Number(valorMensal.toFixed(2)),
     valorAnual: Number(valorAnual.toFixed(2)),
     composicao,
+    anoSolicitado: ano,
+    anoReferencia,
+    fonteValores,
+    salarioMinimo: config.salarioMinimo,
     proximoVencimento,
     diasAteVencimento,
     calendarioAnual,

@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
-import { Space_Mono } from "next/font/google";
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { ClerkProvider } from '@clerk/nextjs';
 import { ptBR } from '@clerk/localizations';
@@ -16,18 +15,15 @@ const manrope = Manrope({
   display: "swap",
 });
 
-const spaceMono = Space_Mono({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-space-mono",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://lumei.vercel.app'),
   title: {
     default: 'Lumei - Calculadoras Financeiras para MEI',
     template: '%s | Lumei',
+  },
+  verification: {
+    google: '1ef182a217917cfd',
   },
   description: 'Calculadoras financeiras feitas para MEI crescer. Calcule margem de lucro, preço por hora, DAS e muito mais. 100% grátis.',
   keywords: [
@@ -97,7 +93,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider localization={ptBR}>
-      <html lang="pt-BR" className={`${manrope.variable} ${spaceMono.variable}`}>
+      <html lang="pt-BR" className={manrope.variable}>
         <head>
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="dns-prefetch" href="https://www.googletagmanager.com" />

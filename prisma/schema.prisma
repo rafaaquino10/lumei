@@ -58,6 +58,7 @@ model Calculo {
   
   titulo    String?
   descricao String?
+  formulaVersion String? @default("2026-01-27")
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -1,0 +1,1 @@
+export const CALCULO_FORMULA_VERSION = '2026-01-27'

@@ -1,6 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+/* eslint-disable react-hooks/incompatible-library */
+
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -10,18 +12,20 @@ import { Label } from '@/components/ui/label'
 import { MoneyInput } from '@/components/ui/money-input'
 import { calcularFaturamento, FaturamentoResultado } from '@/lib/calculos'
 import { useSaveCalculation } from '@/lib/save-calculation'
-import { 
-  LineChart, 
-  Line, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer,
-  ReferenceLine 
-} from 'recharts'
+import dynamic from 'next/dynamic'
+const LineChart = dynamic(() => import('recharts').then((m) => m.LineChart), { ssr: false })
+const Line = dynamic(() => import('recharts').then((m) => m.Line), { ssr: false })
+const XAxis = dynamic(() => import('recharts').then((m) => m.XAxis), { ssr: false })
+const YAxis = dynamic(() => import('recharts').then((m) => m.YAxis), { ssr: false })
+const CartesianGrid = dynamic(() => import('recharts').then((m) => m.CartesianGrid), { ssr: false })
+const Tooltip = dynamic(() => import('recharts').then((m) => m.Tooltip), { ssr: false })
+const ResponsiveContainer = dynamic(() => import('recharts').then((m) => m.ResponsiveContainer), { ssr: false })
+const ReferenceLine = dynamic(() => import('recharts').then((m) => m.ReferenceLine), { ssr: false })
 import { motion } from 'framer-motion'
 import { AlertCircle, CheckCircle, TrendingUp } from 'lucide-react'
+import { useSearchParams } from 'next/navigation'
+import { trackCalculatorUsed, trackCalculatorCompleted } from '@/lib/analytics'
+import Link from 'next/link'
 
 const MESES = [
   'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
@@ -37,8 +41,14 @@ type FormData = z.infer<typeof schema>
 export default function FaturamentoPage() {
   const [resultado, setResultado] = useState<FaturamentoResultado | null>(null)
   const { saveCalculation } = useSaveCalculation()
+  const searchParams = useSearchParams()
+  const loadId = searchParams.get('load')
+
+  useEffect(() => {
+    trackCalculatorUsed('faturamento')
+  }, [])
   
-  const { register, handleSubmit, setValue, watch, formState: { errors } } =
+  const { handleSubmit, setValue, watch } =
     useForm<FormData>({
       resolver: zodResolver(schema),
       defaultValues: {
@@ -51,6 +61,7 @@ export default function FaturamentoPage() {
   const onSubmit = (data: FormData) => {
     const calc = calcularFaturamento(data)
     setResultado(calc)
+    trackCalculatorCompleted('faturamento')
   }
   
   const handleSave = async () => {
@@ -61,6 +72,44 @@ export default function FaturamentoPage() {
       resultado as unknown as Record<string, unknown>
     )
   }
+
+  useEffect(() => {
+    if (!loadId) return
+
+    let active = true
+
+    const loadCalculation = async () => {
+      try {
+        const response = await fetch(`/api/calculos/${loadId}`)
+        if (!response.ok) return
+        const data = await response.json()
+        const calculo = data?.calculo
+        if (!calculo || !active) return
+
+        const inputs = calculo.inputs as Partial<FormData>
+        if (Array.isArray(inputs.faturamentoMensal)) {
+          setValue(
+            'faturamentoMensal',
+            inputs.faturamentoMensal.length === 12
+              ? inputs.faturamentoMensal
+              : Array(12).fill(0)
+          )
+        }
+
+        if (calculo.resultado) {
+          setResultado(calculo.resultado as FaturamentoResultado)
+        }
+      } catch {
+        // Ignore load errors
+      }
+    }
+
+    loadCalculation()
+
+    return () => {
+      active = false
+    }
+  }, [loadId, setValue])
 
   // Preencher todos os meses com mesmo valor
   const preencherTodos = () => {
@@ -82,7 +131,7 @@ export default function FaturamentoPage() {
     <div className="container mx-auto px-4 py-12">
       {/* Breadcrumb */}
       <nav className="mb-8 text-sm text-gray-600">
-        <a href="/" className="hover:text-lumei-600">Home</a>
+        <Link href="/" className="hover:text-lumei-600">Home</Link>
         {' / '}
         <span className="text-gray-900">Simulador Faturamento</span>
       </nav>
