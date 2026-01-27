@@ -77,8 +77,8 @@ export default async function HistoricoPage() {
   }
 
   // Group by type
-  const calculosPorTipo = user.calculos.reduce<Record<TipoCalculo, typeof user.calculos>>(
-    (acc, calculo) => {
+  const calculosPorTipo = user.calculos.reduce(
+    (acc: Record<TipoCalculo, typeof user.calculos>, calculo: (typeof user.calculos)[number]) => {
       if (!acc[calculo.tipo as TipoCalculo]) {
         acc[calculo.tipo as TipoCalculo] = []
       }
@@ -143,7 +143,7 @@ export default async function HistoricoPage() {
         </Card>
       ) : (
         <div className="space-y-12">
-          {Object.entries(calculosPorTipo).map(([tipo, calculos]) => {
+          {Object.entries(calculosPorTipo).map(([tipo, calculos]: [string, typeof user.calculos]) => {
             const config = CALCULATOR_CONFIG[tipo as TipoCalculo]
             const Icon = config.icon
             const typedCalculos = calculos as typeof user.calculos
@@ -157,7 +157,7 @@ export default async function HistoricoPage() {
                 </div>
 
                 <div className="grid gap-4">
-                  {typedCalculos.map((calculo) => (
+                  {typedCalculos.map((calculo: (typeof user.calculos)[number]) => (
                     <Card
                       key={calculo.id}
                       className="p-6 hover:shadow-lg transition-shadow"
