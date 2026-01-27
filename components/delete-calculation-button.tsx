@@ -2,13 +2,12 @@
 
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { useToast } from '@/hooks/use-toast'
+import { toast } from 'sonner'
 import { Trash2 } from 'lucide-react'
 import { useState } from 'react'
 
 export function DeleteCalculationButton({ id }: { id: string }) {
   const router = useRouter()
-  const { toast } = useToast()
   const [isDeleting, setIsDeleting] = useState(false)
 
   const handleDelete = async () => {
@@ -24,8 +23,7 @@ export function DeleteCalculationButton({ id }: { id: string }) {
       })
 
       if (response.ok) {
-        toast({
-          title: '✅ Cálculo excluído',
+        toast.success('✅ Cálculo excluído', {
           description: 'O cálculo foi removido com sucesso.',
         })
         router.refresh()
@@ -33,10 +31,8 @@ export function DeleteCalculationButton({ id }: { id: string }) {
         throw new Error('Failed to delete')
       }
     } catch (error) {
-      toast({
-        title: '❌ Erro ao excluir',
+      toast.error('❌ Erro ao excluir', {
         description: 'Tente novamente.',
-        variant: 'destructive',
       })
     } finally {
       setIsDeleting(false)

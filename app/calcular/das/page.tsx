@@ -333,9 +333,3 @@ export default function DASPage() {
     </div>
   )
 }
-
-export const metadata = {
-  title: 'Calendário DAS 2025 | Lumei',
-  description:
-    'Veja todos os vencimentos do DAS MEI em 2025. Nunca mais atrase seu pagamento. Alertas gratuitos.',
-}

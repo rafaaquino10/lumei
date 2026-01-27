@@ -13,9 +13,6 @@ const nextConfig: NextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
   
-  // Optimize production bundle
-  swcMinify: true,
-  
   // Experimental features for better performance
   experimental: {
     optimizePackageImports: ['recharts', 'lucide-react', '@clerk/nextjs'],

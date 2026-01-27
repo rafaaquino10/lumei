@@ -456,9 +456,3 @@ export default function FluxoCaixaPage() {
     </div>
   )
 }
-
-export const metadata = {
-  title: 'Fluxo de Caixa MEI | Lumei',
-  description:
-    'Controle entradas e saídas do seu MEI. Saiba para onde vai cada centavo. Grátis.',
-}

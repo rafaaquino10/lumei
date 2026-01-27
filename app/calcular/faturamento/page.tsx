@@ -335,8 +335,3 @@ export default function FaturamentoPage() {
     </div>
   )
 }
-
-export const metadata = {
-  title: 'Simulador de Faturamento MEI | Lumei',
-  description: 'Monitore seu faturamento anual e evite ultrapassar o teto de R$ 81.000. Simulação gratuita para MEI.',
-}

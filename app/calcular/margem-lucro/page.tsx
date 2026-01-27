@@ -78,8 +78,6 @@ export default function MargemLucroPage() {
       setIsSaving(false)
     }
   }
-    }
-  }
 
   const handleShare = async () => {
     if (!resultado) return
