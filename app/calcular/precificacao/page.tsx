@@ -105,8 +105,8 @@ export default function PrecificacaoPage() {
       const formValues = modo === 'produtos' ? formProdutos.getValues() : formServicos.getValues()
       await saveCalculation(
         'PRECIFICACAO',
-        formValues,
-        resultado,
+        formValues as unknown as Record<string, unknown>,
+        resultado as unknown as Record<string, unknown>,
         `Precificação ${modo === 'produtos' ? 'Produto' : 'Serviço'} - ${new Date().toLocaleDateString('pt-BR')}`
       )
     } finally {
