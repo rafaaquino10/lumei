@@ -69,8 +69,8 @@ export default function MargemLucroPage() {
       const formValues = getValues()
       await saveCalculation(
         'MARGEM_LUCRO',
-        formValues,
-        resultado,
+        formValues as Record<string, unknown>,
+        resultado as Record<string, unknown>,
         `Margem de Lucro - ${new Date().toLocaleDateString('pt-BR')}`
       )
     } finally {
@@ -152,7 +152,7 @@ export default function MargemLucroPage() {
       />
       {/* Breadcrumb */}
       <nav className="mb-8 text-sm text-gray-600">
-        <Link href="/" className="hover:text-lumei-600">Home</Link>
+        <link href="/" className="hover:text-lumei-600">Home</link>
         {' / '}
         <span className="text-gray-900">Margem de Lucro</span>
       </nav>
