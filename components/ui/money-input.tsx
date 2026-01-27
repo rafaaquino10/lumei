@@ -37,7 +37,6 @@ export const MoneyInput = React.forwardRef<HTMLInputElement, MoneyInputProps>(
         ref={ref}
         type="text"
         inputMode="decimal"
-        pattern="[0-9]*"
         value={displayValue}
         onChange={handleChange}
         className={cn('text-right font-mono text-lg', className)}

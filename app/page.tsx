@@ -173,25 +173,28 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Right Column - Placeholder for Screenshot */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="flex items-center justify-center"
-            >
-              <div className="relative h-[400px] w-full overflow-hidden rounded-2xl bg-gradient-to-br from-lumei-50 to-lumei-100 shadow-2xl lg:h-[500px]">
-                <div className="flex h-full items-center justify-center">
-                  <p className="text-center text-lg font-medium text-gray-400">
-                    Screenshot do produto
-                  </p>
-                </div>
-                
-                {/* Decorative Elements */}
-                <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-lumei-200/50 blur-3xl" />
-                <div className="absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-lumei-300/50 blur-3xl" />
+            {/* Right column */}
+            <div className="relative flex items-center justify-center">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-200">
+                <img
+                  src="/hero-screenshot.png"
+                  alt="Calculadora Lumei em ação"
+                  width={600}
+                  height={400}
+                  className="w-full"
+                  loading="eager"
+                  style={{ display: 'block' }}
+                />
               </div>
-            </motion.div>
+              {/* Floating badges (opcional, pra dar vida) */}
+              <motion.div
+                className="absolute -top-4 -right-4 bg-white rounded-lg shadow-lg p-4"
+                animate={{ y: [0, -10, 0] }}
+                transition={{ repeat: Infinity, duration: 3 }}
+              >
+                <p className="text-sm font-bold text-lumei-600">✅ Gratuito</p>
+              </motion.div>
+            </div>
           </div>
         </div>
       </section>
