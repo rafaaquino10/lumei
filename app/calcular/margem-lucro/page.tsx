@@ -15,7 +15,8 @@ import { calcularMargemLucro, type MargemLucroResultado } from '@/lib/calculos'
 import { MargemLucroPDF } from '@/components/pdf/margem-lucro-pdf'
 import { OutrasCalculadoras } from '@/components/outras-calculadoras'
 import { CalculatorSchema } from '@/components/calculator-schema'
-import { trackCalculatorUsed, trackCalculatorCompleted, trackCalculatorSaved, trackPDFExport, trackShare } from '@/lib/analytics'
+import { trackCalculatorUsed, trackCalculatorCompleted, trackPDFExport, trackShare } from '@/lib/analytics'
+import { useSaveCalculation } from '@/lib/save-calculation'
 
 const schema = z.object({
   precoVenda: z.number().positive('Preço deve ser maior que zero'),
@@ -30,6 +31,7 @@ type FormData = z.infer<typeof schema>
 export default function MargemLucroPage() {
   const [resultado, setResultado] = useState<MargemLucroResultado | null>(null)
   const [isSaving, setIsSaving] = useState(false)
+  const { saveCalculation } = useSaveCalculation()
 
   useEffect(() => {
     trackCalculatorUsed('margem_lucro')
@@ -65,39 +67,16 @@ export default function MargemLucroPage() {
     setIsSaving(true)
     try {
       const formValues = getValues()
-      const response = await fetch('/api/calculos', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          tipo: 'MARGEM_LUCRO',
-          inputs: formValues,
-          resultado: resultado,
-          titulo: `Margem de Lucro - ${new Date().toLocaleDateString('pt-BR')}`,
-        }),
-      })
-      
-      const data = await response.json()
-      
-      if (data.success) {
-        trackCalculatorSaved('margem_lucro')
-        toast.success('✅ Cálculo salvo!', {
-          description: 'Acesse seus cálculos no histórico.',
-        })
-      } else {
-        toast.info('🔐 Faça login para salvar', {
-          description: data.message,
-          action: {
-            label: 'Entrar',
-            onClick: () => window.location.href = '/sign-in',
-          },
-        })
-      }
-    } catch (error) {
-      toast.error('❌ Erro ao salvar', {
-        description: 'Tente novamente.',
-      })
+      await saveCalculation(
+        'MARGEM_LUCRO',
+        formValues,
+        resultado,
+        `Margem de Lucro - ${new Date().toLocaleDateString('pt-BR')}`
+      )
     } finally {
       setIsSaving(false)
+    }
+  }
     }
   }
 

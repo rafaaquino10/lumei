@@ -16,7 +16,8 @@ import { calcularPrecoHora, type PrecoHoraResultado } from '@/lib/calculos'
 import { PrecoHoraPDF } from '@/components/pdf/preco-hora-pdf'
 import { OutrasCalculadoras } from '@/components/outras-calculadoras'
 import { CalculatorSchema } from '@/components/calculator-schema'
-import { trackCalculatorUsed, trackCalculatorCompleted, trackCalculatorSaved, trackPDFExport, trackShare } from '@/lib/analytics'
+import { trackCalculatorUsed, trackCalculatorCompleted, trackPDFExport, trackShare } from '@/lib/analytics'
+import { useSaveCalculation } from '@/lib/save-calculation'
 
 const schema = z.object({
   salarioDesejado: z.number().positive('Salário deve ser maior que zero'),
@@ -60,43 +61,20 @@ export default function PrecoHoraPage() {
     trackCalculatorCompleted('preco_hora')
   }
 
+  const { saveCalculation } = useSaveCalculation()
+
   const handleSave = async () => {
     if (!resultado) return
     
     setIsSaving(true)
     try {
       const formValues = getValues()
-      const response = await fetch('/api/calculos', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          tipo: 'PRECO_HORA',
-          inputs: formValues,
-          resultado: resultado,
-          titulo: `Preço por Hora - ${new Date().toLocaleDateString('pt-BR')}`,
-        }),
-      })
-      
-      const data = await response.json()
-      
-      if (data.success) {
-        trackCalculatorSaved('preco_hora')
-        toast.success('✅ Cálculo salvo!', {
-          description: 'Acesse seus cálculos no histórico.',
-        })
-      } else {
-        toast.info('🔐 Faça login para salvar', {
-          description: data.message,
-          action: {
-            label: 'Entrar',
-            onClick: () => window.location.href = '/sign-in',
-          },
-        })
-      }
-    } catch (error) {
-      toast.error('❌ Erro ao salvar', {
-        description: 'Tente novamente.',
-      })
+      await saveCalculation(
+        'PRECO_HORA',
+        formValues,
+        resultado,
+        `Preço por Hora - ${new Date().toLocaleDateString('pt-BR')}`
+      )
     } finally {
       setIsSaving(false)
     }

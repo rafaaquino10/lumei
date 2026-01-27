@@ -1,48 +1,104 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { auth } from '@clerk/nextjs/server'
+import { z } from 'zod'
+
+const schema = z.object({
+  tipo: z.enum([
+    'MARGEM_LUCRO',
+    'PRECO_HORA',
+    'PRECIFICACAO',
+    'FATURAMENTO',
+    'FLUXO_CAIXA',
+    'CALENDARIO_DAS',
+  ]),
+  inputs: z.any(),
+  resultado: z.any(),
+  titulo: z.string().optional(),
+  descricao: z.string().optional(),
+})
 
 export async function POST(request: Request) {
   try {
     const { userId } = await auth()
-    
-    // For now, allow anonymous saves (will add auth later)
+
+    if (!userId) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'not_authenticated',
+          message: 'Faça login para salvar seus cálculos',
+        },
+        { status: 401 }
+      )
+    }
+
     const body = await request.json()
-    const { tipo, inputs, resultado, titulo, descricao } = body
-    
-    // If user is logged in, save to their account
-    if (userId) {
-      const user = await prisma.user.findUnique({
-        where: { clerkId: userId },
+    const data = schema.parse(body)
+
+    // Find user in database
+    const user = await prisma.user.findUnique({
+      where: { clerkId: userId },
+    })
+
+    if (!user) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'user_not_found',
+          message: 'Complete seu cadastro primeiro',
+        },
+        { status: 404 }
+      )
+    }
+
+    // Check plan limits
+    if (user.plano === 'FREE') {
+      const calculosCount = await prisma.calculo.count({
+        where: { userId: user.id },
       })
-      
-      if (user) {
-        const calculo = await prisma.calculo.create({
-          data: {
-            userId: user.id,
-            tipo,
-            inputs,
-            resultado,
-            titulo,
-            descricao,
+
+      if (calculosCount >= 50) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: 'limit_reached',
+            message: 'Você atingiu o limite de 50 cálculos do plano gratuito. Faça upgrade para Premium!',
           },
-        })
-        
-        return NextResponse.json({ success: true, calculo })
+          { status: 403 }
+        )
       }
     }
-    
-    // If not logged in, return success but don't save
-    // (Will prompt user to sign up)
-    return NextResponse.json({ 
-      success: false, 
-      message: 'Faça login para salvar seus cálculos',
+
+    // Save calculation
+    const calculo = await prisma.calculo.create({
+      data: {
+        userId: user.id,
+        tipo: data.tipo,
+        inputs: data.inputs,
+        resultado: data.resultado,
+        titulo: data.titulo,
+        descricao: data.descricao,
+      },
     })
-    
+
+    return NextResponse.json({
+      success: true,
+      calculo,
+      message: 'Cálculo salvo com sucesso!',
+    })
   } catch (error) {
     console.error('Error saving calculation:', error)
+
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { success: false, error: 'validation_error', message: 'Dados inválidos' },
+        { status: 400 }
+      )
+    }
+
     return NextResponse.json(
-      { error: 'Erro ao salvar cálculo' },
+      { success: false, error: 'server_error', message: 'Erro ao salvar cálculo' },
       { status: 500 }
     )
   }

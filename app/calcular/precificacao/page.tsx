@@ -23,9 +23,9 @@ import { CalculatorSchema } from '@/components/calculator-schema'
 import {
   trackCalculatorUsed,
   trackCalculatorCompleted,
-  trackCalculatorSaved,
   trackShare,
 } from '@/lib/analytics'
+import { useSaveCalculation } from '@/lib/save-calculation'
 
 // Schema para Produtos
 const schemaProdutos = z.object({
@@ -52,6 +52,7 @@ export default function PrecificacaoPage() {
   const [resultadoProduto, setResultadoProduto] = useState<PrecificacaoProdutoResultado | null>(null)
   const [resultadoServico, setResultadoServico] = useState<PrecificacaoServicoResultado | null>(null)
   const [isSaving, setIsSaving] = useState(false)
+  const { saveCalculation } = useSaveCalculation()
 
   // Track page view
   useEffect(() => {
@@ -102,37 +103,12 @@ export default function PrecificacaoPage() {
     setIsSaving(true)
     try {
       const formValues = modo === 'produtos' ? formProdutos.getValues() : formServicos.getValues()
-      const response = await fetch('/api/calculos', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          tipo: modo === 'produtos' ? 'PRECIFICACAO_PRODUTO' : 'PRECIFICACAO_SERVICO',
-          inputs: formValues,
-          resultado: resultado,
-          titulo: `Precificação ${modo === 'produtos' ? 'Produto' : 'Serviço'} - ${new Date().toLocaleDateString('pt-BR')}`,
-        }),
-      })
-      
-      const data = await response.json()
-      
-      if (data.success) {
-        trackCalculatorSaved('precificacao')
-        toast.success('✅ Cálculo salvo!', {
-          description: 'Acesse seus cálculos no histórico.',
-        })
-      } else {
-        toast.info('🔐 Faça login para salvar', {
-          description: data.message,
-          action: {
-            label: 'Entrar',
-            onClick: () => window.location.href = '/sign-in',
-          },
-        })
-      }
-    } catch (error) {
-      toast.error('❌ Erro ao salvar', {
-        description: 'Tente novamente.',
-      })
+      await saveCalculation(
+        'PRECIFICACAO',
+        formValues,
+        resultado,
+        `Precificação ${modo === 'produtos' ? 'Produto' : 'Serviço'} - ${new Date().toLocaleDateString('pt-BR')}`
+      )
     } finally {
       setIsSaving(false)
     }
