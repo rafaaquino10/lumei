@@ -41,11 +41,11 @@ export default async function DashboardPage() {
     where: { userId: user.id },
   })
 
-  const calculosPorTipo = await prisma.calculo.groupBy({
-    by: ['tipo'],
-    where: { userId: user.id },
-    _count: true,
-  })
+  // const calculosPorTipo = await prisma.calculo.groupBy({
+  //   by: ['tipo'],
+  //   where: { userId: user.id },
+  //   _count: true,
+  // })
 
   // Calculate days until next DAS (simplified)
   const today = new Date()
@@ -159,15 +159,21 @@ export default async function DashboardPage() {
           </Card>
         ) : (
           <div className="space-y-4">
-            {user.calculos.map((calculo) => {
-              const tipoLabel = {
+            {user.calculos.map((calculo: {
+              id: string
+              tipo: 'MARGEM_LUCRO' | 'PRECO_HORA' | 'PRECIFICACAO' | 'FATURAMENTO' | 'FLUXO_CAIXA' | 'CALENDARIO_DAS'
+              createdAt: string | Date
+              [key: string]: any
+            }) => {
+              const tipoLabelMap = {
                 MARGEM_LUCRO: 'Margem de Lucro',
                 PRECO_HORA: 'Preço por Hora',
                 PRECIFICACAO: 'Precificação',
                 FATURAMENTO: 'Faturamento',
                 FLUXO_CAIXA: 'Fluxo de Caixa',
                 CALENDARIO_DAS: 'Calendário DAS',
-              }[calculo.tipo]
+              } as const
+              const tipoLabel = tipoLabelMap[calculo.tipo]
 
               return (
                 <Card key={calculo.id} className="p-6">
@@ -201,7 +207,7 @@ export default async function DashboardPage() {
 
       {/* CTA to Premium (if free user) */}
       {user.plano === 'FREE' && (
-        <Card className="mt-12 p-8 bg-gradient-to-r from-lumei-50 to-lumei-100 border-lumei-500">
+        <Card className="mt-12 p-8 bg-linear-to-r from-lumei-50 to-lumei-100 border-lumei-500">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
               <h3 className="text-2xl font-bold mb-2">
