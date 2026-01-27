@@ -5,6 +5,9 @@ export type CalculatorType =
   | 'margem_lucro'
   | 'preco_hora'
   | 'precificacao'
+  | 'faturamento'
+  | 'fluxo_caixa'
+  | 'calendario_das'
 
 export const trackCalculatorUsed = (tipo: CalculatorType) => {
   if (typeof window !== 'undefined' && window.gtag) {
