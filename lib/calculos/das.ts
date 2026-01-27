@@ -117,7 +117,7 @@ export function calcularDAS(inputs: DASInputs): DASResultado {
     }
 
     // Only access icms/iss if they exist
-    let valor = valorMensal
+    const valor = valorMensal
     if ('icms' in valores && typeof valores.icms === 'number') {
       // icms exists, do nothing (valorMensal already includes it)
     }
