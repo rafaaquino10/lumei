@@ -5,12 +5,14 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { motion, AnimatePresence } from 'framer-motion'
-import { HelpCircle, Save } from 'lucide-react'
+import { HelpCircle, Save, Share, Download } from 'lucide-react'
 import { toast } from 'sonner'
+import { pdf } from '@react-pdf/renderer'
 import { MoneyInput } from '@/components/ui/money-input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { calcularMargemLucro, type MargemLucroResultado } from '@/lib/calculos'
+import { MargemLucroPDF } from '@/components/pdf/margem-lucro-pdf'
 
 const schema = z.object({
   precoVenda: z.number().positive('Preço deve ser maior que zero'),
@@ -88,6 +90,62 @@ export default function MargemLucroPage() {
       })
     } finally {
       setIsSaving(false)
+    }
+  }
+
+  const handleShare = async () => {
+    if (!resultado) return
+    
+    const shareData = {
+      title: 'Meu Cálculo de Margem de Lucro - Lumei',
+      text: `Margem de Lucro: ${resultado.margemBruta.toFixed(1)}%\nLucro: R$ ${resultado.lucroBruto.toFixed(2).replace('.', ',')}`,
+      url: window.location.href,
+    }
+    
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData)
+        toast.success('✅ Compartilhado com sucesso!')
+      } catch (error) {
+        // User cancelled or error - do nothing
+      }
+    } else {
+      // Fallback: Copy to clipboard
+      try {
+        await navigator.clipboard.writeText(shareData.url)
+        toast.success('📋 Link copiado!', {
+          description: 'Cole onde quiser compartilhar.',
+        })
+      } catch (error) {
+        toast.error('❌ Erro ao copiar link')
+      }
+    }
+  }
+
+  const handleExportPDF = async () => {
+    if (!resultado) return
+    
+    try {
+      const formValues = getValues()
+      const blob = await pdf(
+        <MargemLucroPDF inputs={formValues} resultado={resultado} />
+      ).toBlob()
+      
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `margem-lucro-${Date.now()}.pdf`
+      link.click()
+      
+      URL.revokeObjectURL(url)
+      
+      toast.success('✅ PDF exportado!', {
+        description: 'Arquivo baixado com sucesso.',
+      })
+    } catch (error) {
+      toast.error('❌ Erro ao exportar', {
+        description: 'Tente novamente.',
+      })
     }
   }
 
@@ -234,16 +292,35 @@ export default function MargemLucroPage() {
                   </p>
                 </div>
 
-                {/* Save Button */}
-                <Button 
-                  onClick={handleSave}
-                  disabled={isSaving}
-                  className="w-full"
-                  variant="outline"
-                >
-                  <Save className="h-4 w-4 mr-2" />
-                  {isSaving ? 'Salvando...' : 'Salvar Cálculo'}
-                </Button>
+                {/* Action Buttons */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <Button 
+                    onClick={handleSave}
+                    disabled={isSaving}
+                    className="w-full"
+                  >
+                    <Save className="h-4 w-4 mr-2" />
+                    {isSaving ? 'Salvando...' : 'Salvar'}
+                  </Button>
+                  
+                  <Button 
+                    onClick={handleShare}
+                    variant="outline"
+                    className="w-full"
+                  >
+                    <Share className="h-4 w-4 mr-2" />
+                    Compartilhar
+                  </Button>
+                  
+                  <Button 
+                    onClick={handleExportPDF}
+                    variant="outline"
+                    className="w-full"
+                  >
+                    <Download className="h-4 w-4 mr-2" />
+                    PDF
+                  </Button>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
