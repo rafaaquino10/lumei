@@ -15,12 +15,13 @@ import {
   ArrowRight,
 } from 'lucide-react'
 import { DeleteCalculationButton } from '@/components/delete-calculation-button'
+import type { LucideIcon } from 'lucide-react'
 
 type TipoCalculo = 'MARGEM_LUCRO' | 'PRECO_HORA' | 'PRECIFICACAO' | 'FATURAMENTO' | 'FLUXO_CAIXA' | 'CALENDARIO_DAS'
 
 const CALCULATOR_CONFIG: Record<
   TipoCalculo,
-  { icon: any; label: string; href: string }
+  { icon: LucideIcon; label: string; href: string }
 > = {
   MARGEM_LUCRO: {
     icon: TrendingUp,
@@ -76,12 +77,12 @@ export default async function HistoricoPage() {
   }
 
   // Group by type
-  const calculosPorTipo = user.calculos.reduce(
+  const calculosPorTipo = user.calculos.reduce<Record<TipoCalculo, typeof user.calculos>>(
     (acc, calculo) => {
-      if (!acc[calculo.tipo]) {
-        acc[calculo.tipo] = []
+      if (!acc[calculo.tipo as TipoCalculo]) {
+        acc[calculo.tipo as TipoCalculo] = []
       }
-      acc[calculo.tipo].push(calculo)
+      acc[calculo.tipo as TipoCalculo].push(calculo)
       return acc
     },
     {} as Record<TipoCalculo, typeof user.calculos>
@@ -117,11 +118,11 @@ export default async function HistoricoPage() {
           <p className="text-xl font-bold">
             {
               Object.entries(calculosPorTipo).sort(
-                ([, a], [, b]) => b.length - a.length
+                ([, a], [, b]) => (b as unknown[]).length - (a as unknown[]).length
               )[0]?.[0]
                 ? CALCULATOR_CONFIG[
                     Object.entries(calculosPorTipo).sort(
-                      ([, a], [, b]) => b.length - a.length
+                      ([, a], [, b]) => (b as unknown[]).length - (a as unknown[]).length
                     )[0][0] as TipoCalculo
                   ].label
                 : '-'
@@ -145,17 +146,18 @@ export default async function HistoricoPage() {
           {Object.entries(calculosPorTipo).map(([tipo, calculos]) => {
             const config = CALCULATOR_CONFIG[tipo as TipoCalculo]
             const Icon = config.icon
+            const typedCalculos = calculos as typeof user.calculos
 
             return (
               <div key={tipo}>
                 <div className="flex items-center gap-3 mb-6">
                   <Icon className="w-6 h-6 text-lumei-500" />
                   <h2 className="text-2xl font-bold">{config.label}</h2>
-                  <span className="text-gray-500">({calculos.length})</span>
+                  <span className="text-gray-500">({typedCalculos.length})</span>
                 </div>
 
                 <div className="grid gap-4">
-                  {calculos.map((calculo) => (
+                  {typedCalculos.map((calculo) => (
                     <Card
                       key={calculo.id}
                       className="p-6 hover:shadow-lg transition-shadow"
