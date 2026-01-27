@@ -1,6 +1,6 @@
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { trackCalculatorSaved } from '@/lib/analytics'
+import { trackCalculatorSaved, type CalculatorType } from '@/lib/analytics'
 
 type TipoCalculo = 'MARGEM_LUCRO' | 'PRECO_HORA' | 'PRECIFICACAO' | 'FATURAMENTO' | 'FLUXO_CAIXA' | 'CALENDARIO_DAS'
 
@@ -30,7 +30,7 @@ export function useSaveCalculation() {
 
       if (data.success) {
         // Track successful save
-        const tipoMap: Record<TipoCalculo, string> = {
+        const tipoMap: Record<TipoCalculo, CalculatorType> = {
           MARGEM_LUCRO: 'margem_lucro',
           PRECO_HORA: 'preco_hora',
           PRECIFICACAO: 'precificacao',
