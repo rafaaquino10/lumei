@@ -23,7 +23,16 @@ export interface DASResultado {
 }
 
 // Valores DAS 2025 (baseados em salário mínimo R$ 1.412)
-const VALORES_DAS_2025 = {
+type ValoresDAS = {
+  inss: number;
+  icms?: number;
+  iss?: number;
+  total: number;
+}
+const VALORES_DAS_2025: Record<
+  'COMERCIO' | 'SERVICOS' | 'MISTO' | 'CAMINHONEIRO',
+  ValoresDAS
+> = {
   COMERCIO: {
     inss: 70.60, // 5% do salário mínimo
     icms: 1.00,
