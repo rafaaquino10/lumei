@@ -17,8 +17,20 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Lumei",
-  description: "Sistema de gestão financeira inteligente",
+  title: 'Lumei - Lucre mais. Sempre.',
+  description: 'Calculadoras financeiras feitas para MEI crescer. Calcule margem de lucro, preço por hora, DAS e muito mais. 100% grátis.',
+  keywords: ['MEI', 'calculadora', 'margem de lucro', 'preço por hora', 'DAS', 'microempreendedor'],
+  appleWebApp: {
+    title: 'luMEI',
+  },
+  openGraph: {
+    title: 'Lumei - Calculadoras para MEI',
+    description: 'Lucre mais. Sempre.',
+    url: 'https://lumei.com.br',
+    siteName: 'Lumei',
+    locale: 'pt_BR',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({
