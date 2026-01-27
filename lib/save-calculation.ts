@@ -1,15 +1,16 @@
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { TipoCalculo } from '@prisma/client'
 import { trackCalculatorSaved } from '@/lib/analytics'
+
+type TipoCalculo = 'MARGEM_LUCRO' | 'PRECO_HORA' | 'PRECIFICACAO' | 'FATURAMENTO' | 'FLUXO_CAIXA' | 'CALENDARIO_DAS'
 
 export function useSaveCalculation() {
   const router = useRouter()
 
   const saveCalculation = async (
     tipo: TipoCalculo,
-    inputs: any,
-    resultado: any,
+    inputs: Record<string, unknown>,
+    resultado: Record<string, unknown>,
     titulo?: string
   ) => {
     try {
@@ -87,7 +88,7 @@ export function useSaveCalculation() {
         }
         return false
       }
-    } catch (error) {
+    } catch {
       toast.error('❌ Erro ao salvar', {
         description: 'Tente novamente.',
       })

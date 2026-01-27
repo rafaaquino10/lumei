@@ -14,8 +14,9 @@ import {
   Download,
   ArrowRight,
 } from 'lucide-react'
-import { TipoCalculo } from '@prisma/client'
 import { DeleteCalculationButton } from '@/components/delete-calculation-button'
+
+type TipoCalculo = 'MARGEM_LUCRO' | 'PRECO_HORA' | 'PRECIFICACAO' | 'FATURAMENTO' | 'FLUXO_CAIXA' | 'CALENDARIO_DAS'
 
 const CALCULATOR_CONFIG: Record<
   TipoCalculo,

@@ -39,7 +39,6 @@ export default function MargemLucroPage() {
   }, [])
 
   const {
-    register,
     handleSubmit,
     formState: { errors },
     setValue,
@@ -93,7 +92,7 @@ export default function MargemLucroPage() {
         await navigator.share(shareData)
         trackShare('margem_lucro')
         toast.success('✅ Compartilhado com sucesso!')
-      } catch (error) {
+      } catch {
         // User cancelled or error - do nothing
       }
     } else {
@@ -104,7 +103,7 @@ export default function MargemLucroPage() {
         toast.success('📋 Link copiado!', {
           description: 'Cole onde quiser compartilhar.',
         })
-      } catch (error) {
+      } catch {
         toast.error('❌ Erro ao copiar link')
       }
     }
@@ -131,7 +130,7 @@ export default function MargemLucroPage() {
       toast.success('✅ PDF exportado!', {
         description: 'Arquivo baixado com sucesso.',
       })
-    } catch (error) {
+    } catch {
       toast.error('❌ Erro ao exportar', {
         description: 'Tente novamente.',
       })
@@ -153,7 +152,7 @@ export default function MargemLucroPage() {
       />
       {/* Breadcrumb */}
       <nav className="mb-8 text-sm text-gray-600">
-        <a href="/" className="hover:text-lumei-600">Home</a>
+        <Link href="/" className="hover:text-lumei-600">Home</Link>
         {' / '}
         <span className="text-gray-900">Margem de Lucro</span>
       </nav>

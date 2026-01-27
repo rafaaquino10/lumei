@@ -9,7 +9,8 @@ import { calcularDAS, DASResultado } from '@/lib/calculos'
 import { Calendar, ExternalLink, AlertCircle, CheckCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useUser } from '@clerk/nextjs'
-import { TipoMEI } from '@prisma/client'
+
+type TipoMEI = 'COMERCIO' | 'SERVICOS' | 'MISTO' | 'CAMINHONEIRO'
 
 const MESES_COMPLETO = [
   'Janeiro',
