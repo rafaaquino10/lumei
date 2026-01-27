@@ -163,8 +163,7 @@ export default async function DashboardPage() {
               id: string
               tipo: 'MARGEM_LUCRO' | 'PRECO_HORA' | 'PRECIFICACAO' | 'FATURAMENTO' | 'FLUXO_CAIXA' | 'CALENDARIO_DAS'
               createdAt: string | Date
-              [key: string]: any
-            }) => {
+            } & Record<string, unknown>) => {
               const tipoLabelMap = {
                 MARGEM_LUCRO: 'Margem de Lucro',
                 PRECO_HORA: 'Preço por Hora',
