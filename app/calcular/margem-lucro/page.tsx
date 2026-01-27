@@ -1,11 +1,52 @@
-import type { Metadata } from 'next'
+'use client'
 
-export const metadata: Metadata = {
-  title: 'Calculadora de Margem de Lucro MEI | Lumei',
-  description: 'Calcule sua margem de lucro real. Descubra quanto você lucra em cada venda. Ferramenta gratuita para MEI.',
-}
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import { motion, AnimatePresence } from 'framer-motion'
+import { HelpCircle } from 'lucide-react'
+import { MoneyInput } from '@/components/ui/money-input'
+import { Button } from '@/components/ui/button'
+import { Label } from '@/components/ui/label'
+import { calcularMargemLucro, type MargemLucroResultado } from '@/lib/calculos'
+
+const schema = z.object({
+  precoVenda: z.number().positive('Preço deve ser maior que zero'),
+  custoTotal: z.number().min(0, 'Custo não pode ser negativo'),
+}).refine(data => data.custoTotal < data.precoVenda, {
+  message: 'Custo total não pode ser maior que o preço de venda',
+  path: ['custoTotal'],
+})
+
+type FormData = z.infer<typeof schema>
 
 export default function MargemLucroPage() {
+  const [resultado, setResultado] = useState<MargemLucroResultado | null>(null)
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    watch,
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      precoVenda: 0,
+      custoTotal: 0,
+    },
+  })
+
+  const onSubmit = (data: FormData) => {
+    const result = calcularMargemLucro({
+      precoVenda: data.precoVenda,
+      custoTotal: data.custoTotal,
+      despesasOperacionais: 0, // For simplified version
+    })
+    setResultado(result)
+  }
+
   return (
     <div className="container mx-auto px-4 py-12">
       {/* Breadcrumb */}
@@ -28,21 +69,129 @@ export default function MargemLucroPage() {
         {/* Left: Form */}
         <div className="bg-white border rounded-lumei-lg p-8">
           <h2 className="text-2xl font-bold mb-6">Dados do Cálculo</h2>
-          {/* Form will go here in next prompt */}
-          <div className="space-y-6">
-            <p className="text-gray-500">Formulário será adicionado...</p>
-          </div>
+          
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {/* Preço de Venda */}
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <Label htmlFor="precoVenda">Preço de Venda</Label>
+                <div className="group relative">
+                  <HelpCircle className="h-4 w-4 text-gray-400 cursor-help" />
+                  <div className="absolute left-0 bottom-6 hidden group-hover:block bg-gray-900 text-white text-xs rounded px-2 py-1 whitespace-nowrap z-10">
+                    Quanto você cobra do cliente
+                  </div>
+                </div>
+              </div>
+              <MoneyInput
+                id="precoVenda"
+                value={watch('precoVenda')}
+                onChange={(value) => setValue('precoVenda', value)}
+                placeholder="R$ 0,00"
+              />
+              {errors.precoVenda && (
+                <p className="text-sm text-red-600">{errors.precoVenda.message}</p>
+              )}
+            </div>
+
+            {/* Custo Total */}
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <Label htmlFor="custoTotal">Custo Total</Label>
+                <div className="group relative">
+                  <HelpCircle className="h-4 w-4 text-gray-400 cursor-help" />
+                  <div className="absolute left-0 bottom-6 hidden group-hover:block bg-gray-900 text-white text-xs rounded px-2 py-1 whitespace-nowrap z-10">
+                    Soma de todos os custos (produto, embalagem, frete, etc)
+                  </div>
+                </div>
+              </div>
+              <MoneyInput
+                id="custoTotal"
+                value={watch('custoTotal')}
+                onChange={(value) => setValue('custoTotal', value)}
+                placeholder="R$ 0,00"
+              />
+              {errors.custoTotal && (
+                <p className="text-sm text-red-600">{errors.custoTotal.message}</p>
+              )}
+            </div>
+
+            <Button type="submit" className="w-full" size="lg">
+              Calcular Margem
+            </Button>
+          </form>
         </div>
 
         {/* Right: Result */}
         <div className="bg-lumei-50 border-l-4 border-lumei-500 rounded-lumei-lg p-8">
           <h2 className="text-2xl font-bold mb-6">Resultado</h2>
-          {/* Result will appear here */}
-          <div className="text-center py-12">
-            <p className="text-gray-400">
-              Preencha os dados ao lado para ver o resultado
-            </p>
-          </div>
+          
+          <AnimatePresence mode="wait">
+            {!resultado ? (
+              <motion.div
+                key="empty"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="text-center py-12"
+              >
+                <p className="text-gray-400">
+                  Preencha os dados ao lado para ver o resultado
+                </p>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="result"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="space-y-8"
+              >
+                {/* Margem Bruta (Principal) */}
+                <div className="text-center">
+                  <p className="text-sm text-gray-600 mb-2">Margem Bruta</p>
+                  <p className="text-5xl font-bold text-lumei-600">
+                    {resultado.margemBruta.toFixed(1)}%
+                  </p>
+                </div>
+
+                {/* Divider */}
+                <div className="border-t border-lumei-200" />
+
+                {/* Breakdown */}
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Lucro Bruto</span>
+                    <span className="text-xl font-bold text-lumei-600">
+                      R$ {resultado.lucroBruto.toFixed(2).replace('.', ',')}
+                    </span>
+                  </div>
+                  
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Margem Líquida</span>
+                    <span className="text-xl font-bold text-lumei-600">
+                      {resultado.margemLiquida.toFixed(1)}%
+                    </span>
+                  </div>
+                  
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Markup</span>
+                    <span className="text-xl font-bold text-lumei-600">
+                      {resultado.markup.toFixed(2)}x
+                    </span>
+                  </div>
+                </div>
+
+                {/* MEI Note */}
+                <div className="bg-white rounded-lg p-4 text-sm text-gray-600">
+                  <p className="font-medium text-gray-900 mb-1">📊 Para MEI:</p>
+                  <p>
+                    Margem líquida = bruta (sem impostos sobre receita, apenas DAS fixo)
+                  </p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
