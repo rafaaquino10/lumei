@@ -40,21 +40,21 @@ const calculadoras = [
     titulo: 'Simulador Faturamento',
     descricao: 'Saiba se vai estourar o teto do MEI',
     href: '/calcular/faturamento',
-    ativo: false,
+    ativo: true,
   },
   {
     icon: ArrowLeftRight,
     titulo: 'Fluxo de Caixa',
     descricao: 'Controle entradas e saídas mensais',
     href: '/calcular/fluxo-caixa',
-    ativo: false,
+    ativo: true,
   },
   {
     icon: Calendar,
     titulo: 'Calendário DAS',
     descricao: 'Nunca mais atrase o pagamento',
     href: '/calcular/das',
-    ativo: false,
+    ativo: true,
   },
 ]
 

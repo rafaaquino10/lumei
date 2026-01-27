@@ -48,21 +48,21 @@ const calculadoras: Calculadora[] = [
     titulo: 'Faturamento',
     descricao: 'Monitore o teto MEI',
     href: '/calcular/faturamento',
-    ativo: false,
+    ativo: true,
   },
   {
     icon: ArrowLeftRight,
     titulo: 'Fluxo de Caixa',
     descricao: 'Controle financeiro',
     href: '/calcular/fluxo-caixa',
-    ativo: false,
+    ativo: true,
   },
   {
     icon: Calendar,
-    titulo: 'Calendário DAS',
-    descricao: 'Alertas automáticos',
+    titulo: 'DAS 2025',
+    descricao: 'Calendário completo',
     href: '/calcular/das',
-    ativo: false,
+    ativo: true,
   },
 ]
 
