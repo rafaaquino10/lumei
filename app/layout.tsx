@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import { Space_Mono } from "next/font/google";
+import Header from "@/components/header";
+import Footer from "@/components/footer";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -41,7 +43,11 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${manrope.variable} ${spaceMono.variable}`}>
       <body className="antialiased">
-        {children}
+        <Header />
+        <main className="min-h-screen">
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );
