@@ -2,13 +2,60 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { ArrowRight, Check } from 'lucide-react'
+import { ArrowRight, Check, TrendingUp, Clock, Tag, BarChart3, ArrowLeftRight, Calendar } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { cn } from '@/lib/utils'
 
 const trustBadges = [
   { text: 'Sem cadastro', icon: Check },
   { text: '100% grátis', icon: Check },
   { text: 'Resultados agora', icon: Check },
+]
+
+const calculadoras = [
+  {
+    icon: TrendingUp,
+    titulo: 'Margem de Lucro',
+    descricao: 'Descubra quanto você lucra de verdade',
+    href: '/calcular/margem-lucro',
+    ativo: true,
+  },
+  {
+    icon: Clock,
+    titulo: 'Preço por Hora',
+    descricao: 'Calcule o valor mínimo que deve cobrar',
+    href: '/calcular/preco-hora',
+    ativo: true,
+  },
+  {
+    icon: Tag,
+    titulo: 'Precificação',
+    descricao: 'Defina o preço ideal dos seus produtos/serviços',
+    href: '/calcular/precificacao',
+    ativo: true,
+  },
+  {
+    icon: BarChart3,
+    titulo: 'Simulador Faturamento',
+    descricao: 'Saiba se vai estourar o teto do MEI',
+    href: '/calcular/faturamento',
+    ativo: false,
+  },
+  {
+    icon: ArrowLeftRight,
+    titulo: 'Fluxo de Caixa',
+    descricao: 'Controle entradas e saídas mensais',
+    href: '/calcular/fluxo-caixa',
+    ativo: false,
+  },
+  {
+    icon: Calendar,
+    titulo: 'Calendário DAS',
+    descricao: 'Nunca mais atrase o pagamento',
+    href: '/calcular/das',
+    ativo: false,
+  },
 ]
 
 const steps = [
@@ -145,6 +192,74 @@ export default function Home() {
                 <div className="absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-lumei-300/50 blur-3xl" />
               </div>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Calculadoras Section */}
+      <section className="w-full bg-white">
+        <div className="mx-auto max-w-7xl px-4 py-20 md:px-6 lg:px-8">
+          {/* Section Heading */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-16 text-center"
+          >
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Todas as Calculadoras
+            </h2>
+            <p className="text-xl text-gray-600">
+              Ferramentas essenciais para gerenciar seu MEI
+            </p>
+          </motion.div>
+
+          {/* Calculators Grid */}
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {calculadoras.map((calc, i) => (
+              <motion.div
+                key={calc.titulo}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+              >
+                <Link 
+                  href={calc.ativo ? calc.href : '#'}
+                  className={cn(
+                    "block h-full",
+                    !calc.ativo && "pointer-events-none"
+                  )}
+                >
+                  <Card className={cn(
+                    "p-8 h-full transition-all duration-300 relative",
+                    calc.ativo 
+                      ? "hover:shadow-lumei-lg hover:-translate-y-1 cursor-pointer border-gray-200" 
+                      : "opacity-60"
+                  )}>
+                    {!calc.ativo && (
+                      <div className="absolute top-4 right-4 bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded font-medium">
+                        Em breve
+                      </div>
+                    )}
+                    <calc.icon className="w-12 h-12 text-lumei-500 mb-4" />
+                    <h3 className="text-xl font-bold mb-2 text-gray-900">{calc.titulo}</h3>
+                    <p className="text-gray-600 text-sm mb-6">{calc.descricao}</p>
+                    <Button 
+                      variant={calc.ativo ? "default" : "ghost"} 
+                      className={cn(
+                        "w-full",
+                        calc.ativo && "bg-lumei-500 hover:bg-lumei-600 text-white"
+                      )}
+                      disabled={!calc.ativo}
+                    >
+                      {calc.ativo ? 'Calcular →' : 'Em breve'}
+                    </Button>
+                  </Card>
+                </Link>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
