@@ -88,7 +88,7 @@ export function calcularDAS(inputs: DASInputs): DASResultado {
   // Gerar calendário anual
   const calendarioAnual = MESES.map((mesNome, index) => {
     const vencimento = new Date(ano, index + 1, 20)
-    
+
     // Ajustar se cair em fim de semana
     if (vencimento.getDay() === 0) {
       // Domingo
@@ -97,7 +97,7 @@ export function calcularDAS(inputs: DASInputs): DASResultado {
       // Sábado
       vencimento.setDate(22)
     }
-    
+
     let status: 'VENCIDO' | 'PROXIMO' | 'FUTURO'
     if (vencimento < hoje) {
       status = 'VENCIDO'
@@ -106,12 +106,21 @@ export function calcularDAS(inputs: DASInputs): DASResultado {
     } else {
       status = 'FUTURO'
     }
-    
+
+    // Only access icms/iss if they exist
+    let valor = valorMensal
+    if ('icms' in valores && typeof valores.icms === 'number') {
+      // icms exists, do nothing (valorMensal already includes it)
+    }
+    if ('iss' in valores && typeof valores.iss === 'number') {
+      // iss exists, do nothing (valorMensal already includes it)
+    }
+
     return {
       mes: index + 1,
       mesNome,
       vencimento,
-      valor: valorMensal,
+      valor,
       status,
     }
   })
