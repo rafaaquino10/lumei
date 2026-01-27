@@ -3,6 +3,7 @@ import { Manrope } from "next/font/google";
 import { Space_Mono } from "next/font/google";
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { ClerkProvider } from '@clerk/nextjs';
+import { ptBR } from '@clerk/localizations';
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { Toaster } from "@/components/ui/sonner";
@@ -89,7 +90,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider localization={ptBR}>
       <html lang="pt-BR" className={`${manrope.variable} ${spaceMono.variable}`}>
         <body className="antialiased">
           <OrganizationSchema />
