@@ -108,7 +108,10 @@ export function calcularDAS(inputs: DASInputs): DASResultado {
   const inssBase = config.salarioMinimo * config.aliquotaMEI
   const inssCaminhoneiro = config.salarioMinimo * config.aliquotaCaminhoneiro
 
-  const valores = {
+  const valores: Record<
+    DASInputs['tipoMEI'],
+    { inss: number; total: number; icms?: number; iss?: number }
+  > = {
     COMERCIO: {
       inss: inssBase,
       icms: config.icms,
@@ -130,7 +133,7 @@ export function calcularDAS(inputs: DASInputs): DASResultado {
       icms: config.icms,
       total: inssCaminhoneiro + config.icms,
     },
-  } as const
+  }
 
   const valorMensal = valores[tipoMEI].total
   const valorAnual = valorMensal * 12
