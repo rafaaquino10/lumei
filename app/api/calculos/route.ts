@@ -7,6 +7,7 @@ import { CALCULO_FORMULA_VERSION } from '@/lib/calculos/version'
 import { getClientIp, getRequestId } from '@/lib/request'
 import { rateLimit } from '@/lib/rate-limit'
 import { log } from '@/lib/logger'
+import { Prisma } from '@prisma/client'
 
 const schema = z.object({
   tipo: tipoCalculoEnum,
@@ -59,8 +60,8 @@ export async function POST(request: Request) {
     const data = schema.parse(body)
     const schemaByTipo = calculoSchemas[data.tipo]
 
-    const parsedInputs = schemaByTipo.inputs.parse(data.inputs)
-    const parsedResultado = schemaByTipo.resultado.parse(data.resultado)
+    const parsedInputs = schemaByTipo.inputs.parse(data.inputs) as Prisma.InputJsonValue
+    const parsedResultado = schemaByTipo.resultado.parse(data.resultado) as Prisma.InputJsonValue
 
     // Find user in database
     let user
