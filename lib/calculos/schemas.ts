@@ -99,8 +99,8 @@ export const fluxoCaixaResultadoSchema = z.object({
   totalSaidas: z.number(),
   saldo: z.number(),
   margemOperacional: z.number(),
-  entradasPorCategoria: z.record(z.number()),
-  saidasPorCategoria: z.record(z.number()),
+  entradasPorCategoria: z.record(z.string(), z.number()),
+  saidasPorCategoria: z.record(z.string(), z.number()),
   statusSaude: z.enum(['POSITIVO', 'NEUTRO', 'NEGATIVO']),
   mensagem: z.string(),
 })
