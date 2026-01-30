@@ -46,7 +46,7 @@ export function HeroCarousel() {
   return (
     <div className="relative">
       {/* Main screenshot container */}
-      <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-white">
+      <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-border bg-card">
         <AnimatePresence mode="wait">
           <motion.div
             key={current.id}
@@ -91,8 +91,8 @@ export function HeroCarousel() {
             onClick={() => setCurrentIndex(index)}
             className={`w-2 h-2 rounded-full transition-all ${
               index === currentIndex
-                ? 'bg-mei-500 w-6'
-                : 'bg-gray-300 hover:bg-gray-400'
+                ? 'bg-primary w-6'
+                : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
             }`}
             aria-label={`Ver calculadora ${index + 1}`}
           />
@@ -101,11 +101,11 @@ export function HeroCarousel() {
 
       {/* Floating badge */}
       <motion.div
-        className="absolute -top-4 -right-4 bg-white rounded-lg shadow-lg p-3 border border-gray-100"
+        className="absolute -top-4 -right-4 bg-card rounded-lg shadow-lg p-3 border border-border"
         animate={{ y: [0, -8, 0] }}
         transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
       >
-        <p className="text-sm font-bold text-mei-600">100% Gratuito</p>
+        <p className="text-sm font-bold text-primary">100% Gratuito</p>
       </motion.div>
     </div>
   )
