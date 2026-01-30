@@ -193,7 +193,7 @@ export default function PrecoHoraPage() {
       <CalculatorSchema
         name="Calculadora de Preço por Hora MEI"
         description="Descubra quanto cobrar por hora considerando férias, custos fixos e margem de lucro"
-        url="https://lumei.vercel.app/calcular/preco-hora"
+        url="https://lumei.com.br/calcular/preco-hora"
       />
       {/* Breadcrumb */}
       <nav className="mb-8 text-sm text-gray-600">

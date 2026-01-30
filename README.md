@@ -2,7 +2,7 @@
 
 Calculadoras financeiras feitas para MEI crescer. 100% grátis.
 
-🚀 **Status:** 6 calculadoras funcionais | **Live:** [lumei.vercel.app](https://lumei.vercel.app)
+🚀 **Status:** 6 calculadoras funcionais | **Live:** [lumei.com.br](https://lumei.com.br)
 
 ---
 
@@ -268,7 +268,7 @@ Este projeto é privado. Todos os direitos reservados © 2025 Lumei.
 
 ## 📞 Contato
 
-- Website: [lumei.vercel.app](https://lumei.vercel.app)
+- Website: [lumei.com.br](https://lumei.com.br)
 - Email: contato@lumei.com.br
 - GitHub: [@rafaaquino10](https://github.com/rafaaquino10)
 

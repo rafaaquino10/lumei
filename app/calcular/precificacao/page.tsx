@@ -266,7 +266,7 @@ export default function PrecificacaoPage() {
       <CalculatorSchema
         name="Calculadora de Precificação MEI"
         description="Calcule o preço ideal para seus produtos e serviços incluindo todos os custos e margem desejada"
-        url="https://lumei.vercel.app/calcular/precificacao"
+        url="https://lumei.com.br/calcular/precificacao"
       />
       {/* Breadcrumb */}
       <nav className="mb-8 text-sm text-gray-600">

@@ -3,8 +3,8 @@ export function OrganizationSchema() {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'Lumei',
-    url: 'https://lumei.vercel.app',
-    logo: 'https://lumei.vercel.app/logo.svg',
+    url: 'https://lumei.com.br',
+    logo: 'https://lumei.com.br/logo.svg',
     description: 'Calculadoras financeiras para MEI crescer',
     sameAs: [
       'https://instagram.com/lumei',

@@ -183,12 +183,12 @@ export default function MargemLucroPage() {
       <CalculatorSchema
         name="Calculadora de Margem de Lucro MEI"
         description="Calcule sua margem de lucro real e descubra quanto você está realmente ganhando em cada venda"
-        url="https://lumei.vercel.app/calcular/margem-lucro"
+        url="https://lumei.com.br/calcular/margem-lucro"
       />
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: 'https://lumei.vercel.app' },
-          { name: 'Margem de Lucro', url: 'https://lumei.vercel.app/calcular/margem-lucro' },
+          { name: 'Home', url: 'https://lumei.com.br' },
+          { name: 'Margem de Lucro', url: 'https://lumei.com.br/calcular/margem-lucro' },
         ]}
       />
       {/* Breadcrumb */}

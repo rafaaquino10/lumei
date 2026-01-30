@@ -1,8 +1,8 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://lumei.vercel.app'
-  
+  const baseUrl = 'https://lumei.com.br'
+
   const calculadoras = [
     'margem-lucro',
     'preco-hora',
@@ -11,14 +11,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'fluxo-caixa',
     'das',
   ]
-  
+
   const calculadorasUrls = calculadoras.map(calc => ({
     url: `${baseUrl}/calcular/${calc}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.8,
   }))
-  
+
   return [
     {
       url: baseUrl,
@@ -44,6 +44,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: 'daily' as const,
       priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/privacidade`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/termos`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/cookies`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/faq`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
     },
   ]
 }

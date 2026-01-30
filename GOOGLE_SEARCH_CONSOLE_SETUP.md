@@ -6,7 +6,7 @@
 - [ ] Acesse [Google Search Console](https://search.google.com/search-console)
 - [ ] Clique em "Adicionar propriedade"
 - [ ] Escolha "Prefixo de URL"
-- [ ] Digite: `https://lumei.vercel.app` (ou `https://lumei.com.br` se tiver domínio próprio)
+- [ ] Digite: `https://lumei.com.br`
 
 ### 2. Verificar Propriedade
 Escolha um dos métodos:
@@ -39,15 +39,15 @@ Escolha um dos métodos:
 ### 4. Solicitar Indexação das Páginas Principais
 Vá em "Inspeção de URL" e solicite indexação para:
 
-- [ ] `https://lumei.vercel.app/`
-- [ ] `https://lumei.vercel.app/calcular/margem-lucro`
-- [ ] `https://lumei.vercel.app/calcular/preco-hora`
-- [ ] `https://lumei.vercel.app/calcular/precificacao`
-- [ ] `https://lumei.vercel.app/calcular/faturamento`
-- [ ] `https://lumei.vercel.app/calcular/fluxo-caixa`
-- [ ] `https://lumei.vercel.app/calcular/das`
-- [ ] `https://lumei.vercel.app/premium`
-- [ ] `https://lumei.vercel.app/blog`
+- [ ] `https://lumei.com.br/`
+- [ ] `https://lumei.com.br/calcular/margem-lucro`
+- [ ] `https://lumei.com.br/calcular/preco-hora`
+- [ ] `https://lumei.com.br/calcular/precificacao`
+- [ ] `https://lumei.com.br/calcular/faturamento`
+- [ ] `https://lumei.com.br/calcular/fluxo-caixa`
+- [ ] `https://lumei.com.br/calcular/das`
+- [ ] `https://lumei.com.br/premium`
+- [ ] `https://lumei.com.br/blog`
 
 ### 5. Verificar Compatibilidade Mobile
 - [ ] Vá em "Experiência" → "Usabilidade em dispositivos móveis"

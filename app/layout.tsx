@@ -19,7 +19,7 @@ const manrope = Manrope({
 
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://lumei.vercel.app'),
+  metadataBase: new URL('https://lumei.com.br'),
   title: {
     default: 'Lumei - Calculadoras Financeiras para MEI',
     template: '%s | Lumei',
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'pt_BR',
-    url: 'https://lumei.vercel.app',
+    url: 'https://lumei.com.br',
     title: 'Lumei - Lucre mais. Sempre.',
     description: 'Calculadoras financeiras feitas para MEI crescer. 100% grátis.',
     siteName: 'Lumei',
