@@ -64,6 +64,28 @@
   /* Custom Box Shadows */
   --shadow-lumei: 0 4px 12px rgba(0, 208, 132, 0.3);
   --shadow-lumei-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+  /* Accordion Animations */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
 }
 
 :root {
