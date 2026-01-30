@@ -19,7 +19,7 @@ export async function GET() {
       where: { clerkId: userId },
     })
 
-    if (!user?.stripeCustomerId) {
+    if (!user?.stripeCustomerId || !stripe) {
       return NextResponse.json(
         { error: 'Customer not found' },
         { status: 404 }

@@ -7,6 +7,10 @@ export async function createCheckoutSession(
   stripePriceId: string,
   returnUrl: string
 ) {
+  if (!stripe) {
+    throw new Error('Stripe is not initialized')
+  }
+
   const session = await stripe.checkout.sessions.create({
     customer_email: email,
     client_reference_id: userId,
@@ -26,6 +30,10 @@ export async function createCheckoutSession(
 }
 
 export async function getOrCreateCustomer(userId: string, email: string) {
+  if (!stripe) {
+    throw new Error('Stripe is not initialized')
+  }
+
   const user = await prisma.user.findUnique({
     where: { id: userId },
     select: { stripeCustomerId: true },

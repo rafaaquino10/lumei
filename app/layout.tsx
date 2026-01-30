@@ -7,6 +7,8 @@ import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { Toaster } from "@/components/ui/sonner";
 import { OrganizationSchema } from "./structured-data";
+import { Providers } from "./providers";
+import { CookieConsentBanner } from "@/components/cookie-consent-banner";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -93,24 +95,27 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider localization={ptBR}>
-      <html lang="pt-BR" className={manrope.variable}>
-        <head>
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-        </head>
-        <body className="antialiased">
-          <OrganizationSchema />
-          <Header />
-          <main className="min-h-screen">
-            {children}
-          </main>
-          <Footer />
-          <Toaster />
-          {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
-            <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
-          )}
-        </body>
-      </html>
+      <Providers>
+        <html lang="pt-BR" className={manrope.variable}>
+          <head>
+            <link rel="preconnect" href="https://fonts.googleapis.com" />
+            <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+          </head>
+          <body className="antialiased">
+            <OrganizationSchema />
+            <Header />
+            <main className="min-h-screen">
+              {children}
+            </main>
+            <Footer />
+            <Toaster />
+            <CookieConsentBanner />
+            {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+              <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+            )}
+          </body>
+        </html>
+      </Providers>
     </ClerkProvider>
   );
 }
