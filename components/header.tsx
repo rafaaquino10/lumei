@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Menu } from 'lucide-react'
-import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
+import { SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs'
 import { Button } from '@/components/ui/button'
 import {
   Sheet,
@@ -18,17 +18,22 @@ const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/calculadoras', label: 'Calculadoras' },
   { href: '/blog', label: 'Blog' },
-  { href: '/premium', label: 'Premium' },
+  // TODO: Reativar após implementação Stripe
+  // { href: '/premium', label: 'Premium' },
 ]
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
+  const { isSignedIn } = useUser()
+
+  // Define home href based on auth status
+  const homeHref = isSignedIn ? '/dashboard' : '/'
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
       <div className="mx-auto flex h-[72px] max-w-[1280px] items-center justify-between px-4 md:px-6 lg:px-8">
         {/* Logo */}
-        <Link href="/" className="flex items-center">
+        <Link href={homeHref} className="flex items-center">
           <Image
             src="/logo.svg"
             alt="Lumei"
@@ -44,7 +49,7 @@ export default function Header() {
           {navLinks.map((link) => (
             <Link
               key={link.href}
-              href={link.href}
+              href={link.label === 'Home' ? homeHref : link.href}
               className="text-sm font-medium text-gray-700 transition-colors hover:text-lumei-600"
             >
               {link.label}
@@ -99,7 +104,7 @@ export default function Header() {
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
-                    href={link.href}
+                    href={link.label === 'Home' ? homeHref : link.href}
                     onClick={() => setIsOpen(false)}
                     className="text-lg font-medium text-gray-700 transition-colors hover:text-lumei-600"
                   >
