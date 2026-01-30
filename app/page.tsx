@@ -130,12 +130,12 @@ export default function Home() {
             >
               {/* Main Heading */}
               <div className="space-y-3">
-                <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
+                <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
                   Lucre mais.
                   <br />
                   <span className="text-mei-600">Sempre.</span>
                 </h1>
-                <p className="text-lg text-gray-600 sm:text-xl">
+                <p className="text-lg text-muted-foreground sm:text-xl">
                   Calculadoras financeiras feitas para MEI crescer.
                 </p>
               </div>
@@ -164,7 +164,7 @@ export default function Home() {
                   return (
                     <div
                       key={badge.text}
-                      className="flex items-center gap-2 text-sm text-gray-500"
+                      className="flex items-center gap-2 text-sm text-muted-foreground"
                     >
                       <Icon className="h-4 w-4 text-mei-600" />
                       <span>{badge.text}</span>
@@ -188,7 +188,7 @@ export default function Home() {
       </section>
 
       {/* Calculadoras Section */}
-      <section className="w-full bg-gray-50">
+      <section className="w-full bg-secondary">
         <div className="mx-auto max-w-7xl px-4 py-12 md:px-6 lg:py-16 lg:px-8">
           {/* Section Heading */}
           <motion.div
@@ -198,10 +198,10 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             className="mb-10 text-center"
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">
+            <h2 className="text-3xl font-bold text-foreground mb-2">
               Todas as Calculadoras
             </h2>
-            <p className="text-lg text-gray-600">
+            <p className="text-lg text-muted-foreground">
               Ferramentas essenciais para gerenciar seu MEI
             </p>
           </motion.div>
@@ -224,9 +224,9 @@ export default function Home() {
                   )}
                 >
                   <Card className={cn(
-                    "p-4 h-full transition-all duration-200 relative bg-white text-center group",
+                    "p-4 h-full transition-all duration-200 relative bg-card text-center group",
                     calc.ativo
-                      ? "hover:shadow-lg hover:-translate-y-0.5 cursor-pointer border-gray-200 hover:border-mei-300"
+                      ? "hover:shadow-lg hover:-translate-y-0.5 cursor-pointer border-border hover:border-mei-300"
                       : "opacity-60"
                   )}>
                     {!calc.ativo && (
@@ -235,8 +235,8 @@ export default function Home() {
                       </div>
                     )}
                     <calc.icon className="w-8 h-8 text-mei-500 mx-auto mb-2 group-hover:scale-110 transition-transform" />
-                    <h3 className="text-sm font-bold text-gray-900 mb-1 leading-tight">{calc.titulo}</h3>
-                    <p className="text-gray-500 text-xs leading-snug">{calc.descricao}</p>
+                    <h3 className="text-sm font-bold text-foreground mb-1 leading-tight">{calc.titulo}</h3>
+                    <p className="text-muted-foreground text-xs leading-snug">{calc.descricao}</p>
                   </Card>
                 </Link>
               </motion.div>
@@ -246,7 +246,7 @@ export default function Home() {
       </section>
 
       {/* Como Funciona Section */}
-      <section className="w-full bg-white">
+      <section className="w-full bg-card">
         <div className="mx-auto max-w-5xl px-4 py-12 md:px-6 lg:py-16 lg:px-8">
           {/* Section Heading */}
           <motion.div
@@ -256,7 +256,7 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             className="mb-10 text-center"
           >
-            <h2 className="text-3xl font-bold text-gray-900">
+            <h2 className="text-3xl font-bold text-foreground">
               Simples em 3 Passos
             </h2>
           </motion.div>
@@ -270,7 +270,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.15 }}
-                className="flex flex-col items-center rounded-lg bg-gray-50 p-6"
+                className="flex flex-col items-center rounded-lg bg-secondary p-6"
               >
                 {/* Number Badge */}
                 <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-mei-500 text-xl font-bold text-white">
@@ -278,12 +278,12 @@ export default function Home() {
                 </div>
 
                 {/* Title */}
-                <h3 className="mb-2 text-center text-lg font-bold text-gray-900">
+                <h3 className="mb-2 text-center text-lg font-bold text-foreground">
                   {step.title}
                 </h3>
 
                 {/* Description */}
-                <p className="text-center text-sm text-gray-600">
+                <p className="text-center text-sm text-muted-foreground">
                   {step.description}
                 </p>
               </motion.div>
@@ -312,7 +312,7 @@ export default function Home() {
       </section>
 
       {/* Pricing Section */}
-      <section className="w-full bg-gray-50">
+      <section className="w-full bg-secondary">
         <div className="mx-auto max-w-5xl px-4 py-12 md:px-6 lg:py-16 lg:px-8">
           {/* Section Heading */}
           <motion.div
@@ -322,7 +322,7 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             className="mb-10 text-center"
           >
-            <h2 className="text-3xl font-bold text-gray-900">
+            <h2 className="text-3xl font-bold text-foreground">
               Planos Transparentes
             </h2>
           </motion.div>
@@ -336,10 +336,10 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
-                className={`relative rounded-lg bg-white p-5 ${
+                className={`relative rounded-lg bg-card p-5 ${
                   plan.highlighted
                     ? 'border-2 border-mei-500 shadow-md'
-                    : 'border border-gray-200'
+                    : 'border border-border'
                 }`}
               >
                 {/* Badge for Premium */}
@@ -350,12 +350,12 @@ export default function Home() {
                 )}
 
                 <div className="flex items-baseline justify-between mb-3">
-                  <h3 className="text-lg font-bold text-gray-900">{plan.name}</h3>
+                  <h3 className="text-lg font-bold text-foreground">{plan.name}</h3>
                   <div>
-                    <span className={`text-2xl font-bold ${plan.highlighted ? 'text-mei-600' : 'text-gray-900'}`}>
+                    <span className={`text-2xl font-bold ${plan.highlighted ? 'text-mei-600' : 'text-foreground'}`}>
                       {plan.price}
                     </span>
-                    <span className="text-gray-500 text-sm">{plan.period}</span>
+                    <span className="text-muted-foreground text-sm">{plan.period}</span>
                   </div>
                 </div>
 
@@ -364,7 +364,7 @@ export default function Home() {
                   {plan.features.map((feature, idx) => (
                     <li key={idx} className="flex items-center gap-1.5">
                       <Check className="h-3.5 w-3.5 flex-shrink-0 text-mei-600" />
-                      <span className="text-xs text-gray-600">{feature}</span>
+                      <span className="text-xs text-muted-foreground">{feature}</span>
                     </li>
                   ))}
                 </ul>
@@ -393,7 +393,7 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mt-8 text-center"
           >
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-muted-foreground">
               💡 Cancele quando quiser. Sem compromisso.
             </p>
           </motion.div>
