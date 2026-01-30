@@ -47,20 +47,20 @@ export function HeroCarousel() {
     <div className="relative">
       {/* Main screenshot container */}
       <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-border bg-card">
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="sync">
           <motion.div
             key={current.id}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.05 }}
-            transition={{ duration: 0.5, ease: 'easeInOut' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
             <Image
               src={current.src}
               alt={`Calculadora ${current.title}`}
-              width={600}
-              height={400}
-              className="w-full"
+              width={900}
+              height={600}
+              className="w-full h-auto"
               priority={currentIndex === 0}
             />
           </motion.div>
@@ -68,12 +68,12 @@ export function HeroCarousel() {
 
         {/* Caption overlay */}
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="sync">
             <motion.div
               key={current.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
               <p className="text-white font-semibold">{current.title}</p>
