@@ -17,11 +17,11 @@ export default function BlogPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-lumei-500 to-lumei-600 text-white">
+      <div className="bg-gradient-to-br from-mei-500 to-mei-600 text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
           <div className="max-w-3xl">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-              Blog Lumei
+              Blog Calcula MEI
             </h1>
             <p className="text-lg sm:text-xl text-white/90">
               Dicas, guias e novidades para MEI crescer
@@ -39,7 +39,7 @@ export default function BlogPage() {
               onClick={() => setSelectedCategory(null)}
               className={`px-4 py-2 rounded-full font-semibold transition-colors duration-200 ${
                 selectedCategory === null
-                  ? "bg-lumei-600 text-white"
+                  ? "bg-mei-600 text-white"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
@@ -51,7 +51,7 @@ export default function BlogPage() {
                 onClick={() => setSelectedCategory(category)}
                 className={`px-4 py-2 rounded-full font-semibold transition-colors duration-200 ${
                   selectedCategory === category
-                    ? "bg-lumei-600 text-white"
+                    ? "bg-mei-600 text-white"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >

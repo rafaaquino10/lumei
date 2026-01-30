@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Calculadora de Margem de Lucro | Lumei',
+  title: 'Calculadora de Margem de Lucro | Calcula MEI',
   description: 'Calcule sua margem de lucro bruta e líquida de forma simples. Ferramenta gratuita para MEI descobrir o lucro real de cada venda.',
 }
 

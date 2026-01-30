@@ -1,6 +1,6 @@
-import { auth, currentUser } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { getServerUser } from '@/lib/auth/server'
 import { z } from 'zod'
 import { getClientIp, getRequestId } from '@/lib/request'
 import { rateLimit } from '@/lib/rate-limit'
@@ -39,9 +39,9 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { userId } = await auth()
+    const user = await getServerUser()
 
-    if (!userId) {
+    if (!user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401, headers: { 'x-request-id': requestId } }
@@ -50,49 +50,6 @@ export async function POST(request: Request) {
 
     const body = await request.json()
     const data = schema.parse(body)
-
-    // Find or create user
-    const clerkUser = await currentUser()
-    if (!clerkUser || clerkUser.emailAddresses.length === 0) {
-      return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404, headers: { 'x-request-id': requestId } }
-      )
-    }
-
-    let user
-    try {
-      user = await prisma.user.upsert({
-        where: { clerkId: userId },
-        update: {
-          email: clerkUser.emailAddresses[0].emailAddress,
-          name: `${clerkUser.firstName || ''} ${clerkUser.lastName || ''}`.trim() || null,
-          avatarUrl: clerkUser.imageUrl || null,
-        },
-        create: {
-          clerkId: userId,
-          email: clerkUser.emailAddresses[0].emailAddress,
-          name: `${clerkUser.firstName || ''} ${clerkUser.lastName || ''}`.trim() || null,
-          avatarUrl: clerkUser.imageUrl || null,
-        },
-      })
-    } catch (error) {
-      log({
-        level: 'error',
-        event: 'database_error',
-        requestId,
-        route: '/api/user/onboarding',
-        method: 'POST',
-        meta: { error: error instanceof Error ? error.message : String(error) },
-      })
-      return NextResponse.json(
-        {
-          error: 'database_unavailable',
-          message: 'Banco indisponível. Tente novamente em instantes.',
-        },
-        { status: 503, headers: { 'x-request-id': requestId } }
-      )
-    }
 
     // Update user with onboarding data
     const updatedUser = await prisma.user.update({
@@ -110,14 +67,14 @@ export async function POST(request: Request) {
       level: 'info',
       event: 'onboarding_completed',
       requestId,
-      userId,
+      userId: user.id,
       route: '/api/user/onboarding',
       method: 'POST',
     })
 
     return NextResponse.json(
-      { 
-        success: true, 
+      {
+        success: true,
         user: {
           id: updatedUser.id,
           tipoMEI: updatedUser.tipoMEI,

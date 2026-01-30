@@ -131,7 +131,7 @@ export default function FaturamentoPage() {
     <div className="container mx-auto px-4 py-12">
       {/* Breadcrumb */}
       <nav className="mb-8 text-sm text-gray-600">
-        <Link href="/" className="hover:text-lumei-600">Home</Link>
+        <Link href="/" className="hover:text-mei-600">Home</Link>
         {' / '}
         <span className="text-gray-900">Simulador Faturamento</span>
       </nav>
@@ -243,12 +243,12 @@ export default function FaturamentoPage() {
               </Card>
 
               {/* Main Result */}
-              <Card className="p-8 bg-lumei-50">
+              <Card className="p-8 bg-mei-50">
                 <h2 className="text-2xl font-bold mb-6">Resultado Anual</h2>
                 
                 <div className="mb-6">
                   <p className="text-gray-600 mb-2">Faturamento Anual</p>
-                  <p className="text-5xl font-bold text-lumei-600 font-mono">
+                  <p className="text-5xl font-bold text-mei-600 font-mono">
                     R$ {resultado.faturamentoAnual.toLocaleString('pt-BR', {
                       minimumFractionDigits: 2,
                     })}
@@ -345,7 +345,7 @@ export default function FaturamentoPage() {
       </div>
 
       {/* Explanation */}
-      <div className="mt-12 bg-gray-50 rounded-lumei-lg p-8">
+      <div className="mt-12 bg-gray-50 rounded-mei-lg p-8">
         <h3 className="text-2xl font-bold mb-4">Sobre o Teto MEI</h3>
         <div className="prose max-w-none text-gray-600 space-y-4">
           <p>

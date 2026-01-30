@@ -2,16 +2,16 @@ import { Metadata } from "next";
 import { Card } from "@/components/ui/card";
 
 export const metadata: Metadata = {
-  title: "Política de Privacidade | Lumei",
+  title: "Política de Privacidade | Calcula MEI",
   description:
-    "Saiba como o Lumei protege seus dados pessoais e como usamos informações",
+    "Saiba como o Calcula MEI protege seus dados pessoais e como usamos informações",
 };
 
 export default function PrivacidadePage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-lumei-500 to-lumei-600 text-white">
+      <div className="bg-gradient-to-br from-mei-500 to-mei-600 text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
           <div className="max-w-3xl">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
@@ -152,7 +152,7 @@ export default function PrivacidadePage() {
             </p>
           </Card>
 
-          <div className="bg-lumei-50 rounded-lg p-6 sm:p-8 text-center mt-12">
+          <div className="bg-mei-50 rounded-lg p-6 sm:p-8 text-center mt-12">
             <p className="text-gray-600 text-sm">
               Última atualização: janeiro de 2026
             </p>

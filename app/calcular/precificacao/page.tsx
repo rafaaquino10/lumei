@@ -198,7 +198,7 @@ export default function PrecificacaoPage() {
     const precoVenda = 'precoVenda' in resultado ? resultado.precoVenda : 0
     
     const shareData = {
-      title: `Minha Precificação de ${modo === 'produtos' ? 'Produto' : 'Serviço'} - Lumei`,
+      title: `Minha Precificação de ${modo === 'produtos' ? 'Produto' : 'Serviço'} - Calcula MEI`,
       text: `Preço ${modo === 'produtos' ? 'de Venda' : 'do Serviço'}: R$ ${precoVenda.toFixed(2).replace('.', ',')}`,
       url: window.location.href,
     }
@@ -266,11 +266,11 @@ export default function PrecificacaoPage() {
       <CalculatorSchema
         name="Calculadora de Precificação MEI"
         description="Calcule o preço ideal para seus produtos e serviços incluindo todos os custos e margem desejada"
-        url="https://lumei.com.br/calcular/precificacao"
+        url="https://calculamei.com.br/calcular/precificacao"
       />
       {/* Breadcrumb */}
       <nav className="mb-8 text-sm text-gray-600">
-        <Link href="/" className="hover:text-lumei-600">Home</Link>
+        <Link href="/" className="hover:text-mei-600">Home</Link>
         {' / '}
         <span className="text-gray-900">Precificação</span>
       </nav>
@@ -286,7 +286,7 @@ export default function PrecificacaoPage() {
       {/* Main content: 2 columns */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left: Form with Tabs */}
-        <div className="bg-white border rounded-lumei-lg p-8">
+        <div className="bg-white border rounded-mei-lg p-8">
           <h2 className="text-2xl font-bold mb-6">Dados do Cálculo</h2>
           
           <Tabs value={modo} onValueChange={(value) => setModo(value as 'produtos' | 'servicos')}>
@@ -442,7 +442,7 @@ export default function PrecificacaoPage() {
                   <a
                     href="/calcular/preco-hora"
                     target="_blank"
-                    className="text-xs text-lumei-600 hover:text-lumei-700 flex items-center gap-1"
+                    className="text-xs text-mei-600 hover:text-mei-700 flex items-center gap-1"
                   >
                     Não sabe seu valor/hora? Calcular →
                     <ExternalLink className="h-3 w-3" />
@@ -525,7 +525,7 @@ export default function PrecificacaoPage() {
         </div>
 
         {/* Right: Result */}
-        <div className="bg-lumei-50 border-l-4 border-lumei-500 rounded-lumei-lg p-8">
+        <div className="bg-mei-50 border-l-4 border-mei-500 rounded-mei-lg p-8">
           <h2 className="text-2xl font-bold mb-6">Resultado</h2>
           
           <AnimatePresence mode="wait">
@@ -553,33 +553,33 @@ export default function PrecificacaoPage() {
                 {/* Preço de Venda (Principal) */}
                 <div className="text-center">
                   <p className="text-sm text-gray-600 mb-2">Preço de Venda Sugerido</p>
-                  <p className="text-5xl font-bold text-lumei-600">
+                  <p className="text-5xl font-bold text-mei-600">
                     R$ {resultadoProduto.precoVenda.toFixed(2).replace('.', ',')}
                   </p>
                 </div>
 
                 {/* Divider */}
-                <div className="border-t border-lumei-200" />
+                <div className="border-t border-mei-200" />
 
                 {/* Breakdown */}
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Custo Total</span>
-                    <span className="text-xl font-bold text-lumei-600">
+                    <span className="text-xl font-bold text-mei-600">
                       R$ {resultadoProduto.custoTotal.toFixed(2).replace('.', ',')}
                     </span>
                   </div>
                   
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Markup</span>
-                    <span className="text-xl font-bold text-lumei-600">
+                    <span className="text-xl font-bold text-mei-600">
                       {resultadoProduto.markup.toFixed(2)}x
                     </span>
                   </div>
                   
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Lucro</span>
-                    <span className="text-xl font-bold text-lumei-600">
+                    <span className="text-xl font-bold text-mei-600">
                       R$ {resultadoProduto.lucro.toFixed(2).replace('.', ',')}
                     </span>
                   </div>
@@ -636,40 +636,40 @@ export default function PrecificacaoPage() {
                 {/* Preço do Serviço (Principal) */}
                 <div className="text-center">
                   <p className="text-sm text-gray-600 mb-2">Preço do Serviço</p>
-                  <p className="text-5xl font-bold text-lumei-600">
+                  <p className="text-5xl font-bold text-mei-600">
                     R$ {resultadoServico.precoVenda.toFixed(2).replace('.', ',')}
                   </p>
                 </div>
 
                 {/* Divider */}
-                <div className="border-t border-lumei-200" />
+                <div className="border-t border-mei-200" />
 
                 {/* Breakdown */}
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Custo Mão de Obra</span>
-                    <span className="text-xl font-bold text-lumei-600">
+                    <span className="text-xl font-bold text-mei-600">
                       R$ {resultadoServico.custoMaoDeObra.toFixed(2).replace('.', ',')}
                     </span>
                   </div>
                   
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Custo Total</span>
-                    <span className="text-xl font-bold text-lumei-600">
+                    <span className="text-xl font-bold text-mei-600">
                       R$ {resultadoServico.custoTotal.toFixed(2).replace('.', ',')}
                     </span>
                   </div>
                   
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Preço/Hora Efetivo</span>
-                    <span className="text-xl font-bold text-lumei-600">
+                    <span className="text-xl font-bold text-mei-600">
                       R$ {resultadoServico.precoHoraEfetivo.toFixed(2).replace('.', ',')}
                     </span>
                   </div>
                   
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Lucro</span>
-                    <span className="text-xl font-bold text-lumei-600">
+                    <span className="text-xl font-bold text-mei-600">
                       R$ {resultadoServico.lucro.toFixed(2).replace('.', ',')}
                     </span>
                   </div>
@@ -720,7 +720,7 @@ export default function PrecificacaoPage() {
       </div>
 
       {/* Explanation below */}
-      <div className="mt-12 bg-gray-50 rounded-lumei-lg p-8">
+      <div className="mt-12 bg-gray-50 rounded-mei-lg p-8">
         <h3 className="text-2xl font-bold mb-4">Como Calculamos</h3>
         <div className="prose max-w-none text-gray-600">
           <p className="mb-4">

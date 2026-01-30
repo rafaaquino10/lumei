@@ -2,9 +2,10 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Menu, LayoutDashboard } from 'lucide-react'
-import { SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs'
+import { Menu, LayoutDashboard, LogOut, User } from 'lucide-react'
+import { useAuth, SignedIn, SignedOut } from '@/lib/auth/context'
 import { Button } from '@/components/ui/button'
+import { ThemeToggle } from '@/components/theme-toggle'
 import {
   Sheet,
   SheetContent,
@@ -12,31 +13,36 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { useState } from 'react'
 
 const publicNavLinks = [
   { href: '/', label: 'Home' },
   { href: '/calculadoras', label: 'Calculadoras' },
   { href: '/blog', label: 'Blog' },
-  // TODO: Reativar após implementação Stripe
-  // { href: '/premium', label: 'Premium' },
 ]
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
-  const { isSignedIn } = useUser()
+  const { user, isSignedIn, signOut } = useAuth()
 
   // Define home href based on auth status
   const homeHref = isSignedIn ? '/dashboard' : '/'
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
+    <header className="sticky top-0 z-50 w-full bg-white dark:bg-gray-900 shadow-sm dark:shadow-gray-800/20 border-b border-transparent dark:border-gray-800">
       <div className="mx-auto flex h-[72px] max-w-[1280px] items-center justify-between px-4 md:px-6 lg:px-8">
         {/* Logo */}
         <Link href={homeHref} className="flex items-center">
           <Image
             src="/logo.svg"
-            alt="Lumei"
+            alt="Calcula MEI"
             width={120}
             height={32}
             className="h-8 w-auto"
@@ -50,7 +56,7 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.label === 'Home' ? homeHref : link.href}
-              className="text-sm font-medium text-gray-700 transition-colors hover:text-lumei-600"
+              className="text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors hover:text-mei-600 dark:hover:text-mei-400"
             >
               {link.label}
             </Link>
@@ -59,7 +65,7 @@ export default function Header() {
           <SignedIn>
             <Link
               href="/dashboard"
-              className="flex items-center gap-1.5 text-sm font-medium text-lumei-600 transition-colors hover:text-lumei-700"
+              className="flex items-center gap-1.5 text-sm font-medium text-mei-600 transition-colors hover:text-mei-700"
             >
               <LayoutDashboard className="h-4 w-4" />
               Painel
@@ -67,14 +73,15 @@ export default function Header() {
           </SignedIn>
         </nav>
 
-        {/* Desktop Auth Buttons */}
-        <div className="hidden items-center gap-3 md:flex">
+        {/* Desktop Auth Buttons + Theme Toggle */}
+        <div className="hidden items-center gap-2 md:flex">
+          <ThemeToggle />
           <SignedOut>
             <Button variant="ghost" asChild>
               <Link href="/sign-in">Entrar</Link>
             </Button>
             <Button
-              className="bg-lumei-500 text-white hover:bg-lumei-600"
+              className="bg-mei-500 text-white hover:bg-mei-600"
               asChild
             >
               <Link href="/sign-up">Começar Grátis</Link>
@@ -82,14 +89,39 @@ export default function Header() {
           </SignedOut>
 
           <SignedIn>
-            <UserButton
-              afterSignOutUrl="/"
-              appearance={{
-                elements: {
-                  avatarBox: 'w-9 h-9 border-2 border-lumei-500',
-                },
-              }}
-            />
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="rounded-full">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-mei-500 bg-mei-100">
+                    <User className="h-5 w-5 text-mei-600" />
+                  </div>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <div className="px-2 py-1.5">
+                  <p className="text-sm font-medium">{user?.name || 'Usuário'}</p>
+                  <p className="text-xs text-gray-500">{user?.email}</p>
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard" className="cursor-pointer">
+                    <LayoutDashboard className="mr-2 h-4 w-4" />
+                    Painel
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard/configuracoes" className="cursor-pointer">
+                    <User className="mr-2 h-4 w-4" />
+                    Configurações
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={signOut} className="cursor-pointer text-red-600">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Sair
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </SignedIn>
         </div>
 
@@ -113,7 +145,7 @@ export default function Header() {
                     key={link.href}
                     href={link.label === 'Home' ? homeHref : link.href}
                     onClick={() => setIsOpen(false)}
-                    className="text-lg font-medium text-gray-700 transition-colors hover:text-lumei-600"
+                    className="text-lg font-medium text-gray-700 transition-colors hover:text-mei-600"
                   >
                     {link.label}
                   </Link>
@@ -123,7 +155,7 @@ export default function Header() {
                   <Link
                     href="/dashboard"
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-2 text-lg font-medium text-lumei-600 transition-colors hover:text-lumei-700"
+                    className="flex items-center gap-2 text-lg font-medium text-mei-600 transition-colors hover:text-mei-700"
                   >
                     <LayoutDashboard className="h-5 w-5" />
                     Painel
@@ -144,7 +176,7 @@ export default function Header() {
                     </Link>
                   </Button>
                   <Button
-                    className="w-full bg-lumei-500 text-white hover:bg-lumei-600"
+                    className="w-full bg-mei-500 text-white hover:bg-mei-600"
                     asChild
                   >
                     <Link href="/sign-up" onClick={() => setIsOpen(false)}>
@@ -154,16 +186,27 @@ export default function Header() {
                 </SignedOut>
 
                 <SignedIn>
-                  <div className="flex items-center gap-3 py-2">
-                    <UserButton
-                      afterSignOutUrl="/"
-                      appearance={{
-                        elements: {
-                          avatarBox: 'w-10 h-10 border-2 border-lumei-500',
-                        },
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-3 py-2">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-mei-500 bg-mei-100">
+                        <User className="h-5 w-5 text-mei-600" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium">{user?.name || 'Usuário'}</p>
+                        <p className="text-xs text-gray-500">{user?.email}</p>
+                      </div>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start text-red-600"
+                      onClick={() => {
+                        setIsOpen(false)
+                        signOut()
                       }}
-                    />
-                    <span className="text-sm text-gray-600">Minha conta</span>
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Sair
+                    </Button>
                   </div>
                 </SignedIn>
               </div>

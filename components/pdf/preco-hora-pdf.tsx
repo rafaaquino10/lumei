@@ -117,7 +117,7 @@ export function PrecoHoraPDF({ inputs, resultado }: PrecoHoraPDFProps) {
         </View>
         
         <Text style={styles.footer}>
-          Calculado em Lumei.com.br - Lucre mais. Sempre.
+          Calculado em Calcula MEI.com.br - Lucre mais. Sempre.
         </Text>
       </Page>
     </Document>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useUser } from '@clerk/nextjs'
+import { useAuth } from '@/lib/auth/context'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
@@ -13,11 +13,11 @@ interface CheckoutButtonProps {
 
 export function CheckoutButton({ stripePriceId, className }: CheckoutButtonProps) {
   const [loading, setLoading] = useState(false)
-  const { user } = useUser()
+  const { user } = useAuth()
   const router = useRouter()
 
   const handleCheckout = async () => {
-    if (!user?.primaryEmailAddress?.emailAddress) {
+    if (!user) {
       router.push('/sign-in')
       return
     }

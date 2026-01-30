@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label'
 import { calcularDAS, DASResultado } from '@/lib/calculos'
 import { Calendar, ExternalLink, AlertCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { useUser } from '@clerk/nextjs'
+import { useAuth } from '@/lib/auth/context'
 import { trackCalculatorUsed, trackCalculatorCompleted } from '@/lib/analytics'
 import Link from 'next/link'
 
@@ -30,7 +30,7 @@ const MESES_COMPLETO = [
 ]
 
 export default function DASPage() {
-  const { user } = useUser()
+  const { user } = useAuth()
   const [tipoMEI, setTipoMEI] = useState<TipoMEI>('COMERCIO')
   const anoAtual = new Date().getFullYear()
 
@@ -66,7 +66,7 @@ export default function DASPage() {
     <div className="container mx-auto px-4 py-12">
       {/* Breadcrumb */}
       <nav className="mb-8 text-sm text-gray-600">
-        <Link href="/" className="hover:text-lumei-600">
+        <Link href="/" className="hover:text-mei-600">
           Home
         </Link>
         {' / '}
@@ -160,11 +160,11 @@ export default function DASPage() {
       </Card>
 
       {/* Summary Card */}
-      <Card className="p-8 mb-8 bg-lumei-50">
+      <Card className="p-8 mb-8 bg-mei-50">
         <div className="grid md:grid-cols-3 gap-6">
           <div>
             <p className="text-gray-600 mb-2">Valor Mensal</p>
-            <p className="text-4xl font-bold text-lumei-600 font-mono">
+            <p className="text-4xl font-bold text-mei-600 font-mono">
               R$ {resultado.valorMensal.toFixed(2)}
             </p>
           </div>
@@ -298,14 +298,14 @@ export default function DASPage() {
       </div>
 
       {/* CTA Premium */}
-      <Card className="p-8 bg-gradient-to-r from-lumei-50 to-lumei-100 border-lumei-500">
+      <Card className="p-8 bg-gradient-to-r from-mei-50 to-mei-100 border-mei-500">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <h3 className="text-2xl font-bold mb-2">
               Quer receber alertas automáticos?
             </h3>
             <p className="text-gray-700">
-              Com Lumei Premium você recebe alertas 5, 3 e 1 dia antes do
+              Com Calcula MEI Premium você recebe alertas 5, 3 e 1 dia antes do
               vencimento por email e WhatsApp. Nunca mais atrase!
             </p>
           </div>
@@ -318,7 +318,7 @@ export default function DASPage() {
       </Card>
 
       {/* Explanation */}
-      <div className="mt-12 bg-gray-50 rounded-lumei-lg p-8">
+      <div className="mt-12 bg-gray-50 rounded-mei-lg p-8">
         <h3 className="text-2xl font-bold mb-4">Sobre o DAS</h3>
         <div className="prose max-w-none text-gray-600 space-y-4">
           <p>
@@ -352,7 +352,7 @@ export default function DASPage() {
               href="https://www.gov.br/empresas-e-negocios/pt-br/empreendedor"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-lumei-600 hover:underline"
+              className="text-mei-600 hover:underline"
             >
               Portal do Empreendedor
             </a>

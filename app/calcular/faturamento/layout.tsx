@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Simulador de Faturamento MEI | Lumei',
+  title: 'Simulador de Faturamento MEI | Calcula MEI',
   description: 'Simule seu faturamento anual e veja se está dentro do limite MEI de R$ 81.000. Alerta de desenquadramento.',
 }
 

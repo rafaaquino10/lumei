@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
 
   // Experimental features for better performance
   experimental: {
-    optimizePackageImports: ['recharts', 'lucide-react', '@clerk/nextjs'],
+    optimizePackageImports: ['recharts', 'lucide-react'],
   },
 };
 

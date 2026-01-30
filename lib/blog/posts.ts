@@ -17,7 +17,7 @@ export const posts: BlogPost[] = [
     description:
       "Aprenda de forma simples e prática como calcular a margem de lucro do seu negócio MEI. Fórmulas, exemplos reais e dicas para aumentar sua lucratividade.",
     date: "2026-01-30",
-    author: "Lumei",
+    author: "Calcula MEI",
     category: "Finanças",
     readTime: 7,
     image: "/blog/calcular-margem-lucro.jpg",
@@ -358,7 +358,7 @@ export const posts: BlogPost[] = [
 
       <p>Conhecer sua margem de lucro real é o primeiro passo para ter um negócio sustentável e lucrativo. Com essas informações, você pode precificar melhor, reduzir custos desnecessários e tomar decisões mais inteligentes.</p>
 
-      <p>Quer calcular sua margem de lucro de forma rápida e automática? Use a <a href="/calculadoras/margem-lucro">Calculadora de Margem de Lucro</a> do Lumei e descubra agora a rentabilidade real do seu negócio!</p>
+      <p>Quer calcular sua margem de lucro de forma rápida e automática? Use a <a href="/calculadoras/margem-lucro">Calculadora de Margem de Lucro</a> do Calcula MEI e descubra agora a rentabilidade real do seu negócio!</p>
 
       <p>Empreender com conhecimento financeiro faz toda a diferença. Sucesso! 📊</p>
     `,
@@ -369,7 +369,7 @@ export const posts: BlogPost[] = [
     description:
       "Descubra os valores atualizados do DAS para MEI em 2026, calendário de vencimentos, como pagar e o que fazer se atrasar. Guia completo e atualizado.",
     date: "2026-01-30",
-    author: "Lumei",
+    author: "Calcula MEI",
     category: "Impostos",
     readTime: 9,
     image: "/blog/das-mei-2026.jpg",
@@ -695,7 +695,7 @@ export const posts: BlogPost[] = [
         <li>✅ Complemente 15% se quiser aposentar por tempo de contribuição</li>
       </ul>
 
-      <p>Use o <a href="/blog/calendario-das-2026">Calendário DAS 2026</a> do Lumei para acompanhar todas as datas de vencimento e nunca mais perder um prazo. Organize-se e mantenha seu MEI sempre regular!</p>
+      <p>Use o <a href="/blog/calendario-das-2026">Calendário DAS 2026</a> do Calcula MEI para acompanhar todas as datas de vencimento e nunca mais perder um prazo. Organize-se e mantenha seu MEI sempre regular!</p>
 
       <p>Empreender é mais tranquilo quando você está em dia com suas obrigações. Programe-se e bons negócios! 💙</p>
     `,
@@ -706,7 +706,7 @@ export const posts: BlogPost[] = [
     description:
       "Descubra tudo sobre ser MEI em 2026: requisitos, limites de faturamento, custos, direitos, obrigações e como abrir seu CNPJ. Guia completo atualizado.",
     date: "2026-01-30",
-    author: "Lumei",
+    author: "Calcula MEI",
     category: "Guias",
     readTime: 13,
     image: "/blog/guia-mei-2026.jpg",
@@ -794,7 +794,7 @@ export const posts: BlogPost[] = [
         <li>Pode precisar de um contador para regularização</li>
       </ul>
 
-      <p>Use o <a href="/calculadoras/simulador-faturamento">Simulador de Faturamento</a> do Lumei para acompanhar mensalmente se você está dentro do limite e planejar melhor seu negócio.</p>
+      <p>Use o <a href="/calculadoras/simulador-faturamento">Simulador de Faturamento</a> do Calcula MEI para acompanhar mensalmente se você está dentro do limite e planejar melhor seu negócio.</p>
 
       <h2>Quanto Custa Ser MEI?</h2>
       <p>Uma das grandes vantagens do MEI é o baixo custo mensal. Em 2026, com o salário mínimo em R$ 1.518,00, os valores do DAS são:</p>
@@ -1045,7 +1045,7 @@ export const posts: BlogPost[] = [
         <li>✅ Avalie quando for hora de crescer e migrar de categoria</li>
       </ul>
 
-      <p>O Lumei foi criado para facilitar a vida de empreendedores MEI como você. Use nosso <a href="/calculadoras/simulador-faturamento">Simulador de Faturamento</a> para acompanhar se está dentro do limite mensal, planejar seu crescimento e tomar decisões mais inteligentes sobre seu negócio.</p>
+      <p>O Calcula MEI foi criado para facilitar a vida de empreendedores MEI como você. Use nosso <a href="/calculadoras/simulador-faturamento">Simulador de Faturamento</a> para acompanhar se está dentro do limite mensal, planejar seu crescimento e tomar decisões mais inteligentes sobre seu negócio.</p>
 
       <p>Agora que você já sabe tudo sobre o MEI, está pronto para formalizar seu negócio ou gerenciar melhor sua empresa. Sucesso na sua jornada empreendedora! 🚀</p>
     `,
@@ -1056,7 +1056,7 @@ export const posts: BlogPost[] = [
     description:
       "Aprenda a calcular corretamente a margem de lucro do seu MEI e tome decisões financeiras mais inteligentes para seu negócio.",
     date: "2026-01-15",
-    author: "Lumei",
+    author: "Calcula MEI",
     category: "Finanças",
     readTime: 5,
     image: "/blog/margem-lucro.jpg",
@@ -1105,7 +1105,7 @@ export const posts: BlogPost[] = [
         <li>Acima de 40%: Margem excelente</li>
       </ul>
 
-      <p>Use a Calculadora de Margem de Lucro do Lumei para acompanhar sua margem mensalmente e identificar oportunidades de melhoria!</p>
+      <p>Use a Calculadora de Margem de Lucro do Calcula MEI para acompanhar sua margem mensalmente e identificar oportunidades de melhoria!</p>
     `,
   },
   {
@@ -1114,7 +1114,7 @@ export const posts: BlogPost[] = [
     description:
       "Confira o calendário completo de vencimentos do DAS 2026 e não perca nenhuma data importante para seu MEI.",
     date: "2026-01-10",
-    author: "Lumei",
+    author: "Calcula MEI",
     category: "Impostos",
     readTime: 4,
     image: "/blog/calendario-das.jpg",
@@ -1163,7 +1163,7 @@ export const posts: BlogPost[] = [
         <li>Problemas ao tentar obter crédito</li>
       </ul>
 
-      <p>Use a Calculadora de DAS do Lumei para acompanhar seus pagamentos e se organizar financeiramente!</p>
+      <p>Use a Calculadora de DAS do Calcula MEI para acompanhar seus pagamentos e se organizar financeiramente!</p>
     `,
   },
   {
@@ -1172,7 +1172,7 @@ export const posts: BlogPost[] = [
     description:
       "Descubra como calcular o preço ideal por hora para sua prestação de serviço como freelancer MEI e aumentar seus ganhos.",
     date: "2026-01-05",
-    author: "Lumei",
+    author: "Calcula MEI",
     category: "Precificação",
     readTime: 6,
     image: "/blog/preco-hora.jpg",
@@ -1255,7 +1255,7 @@ export const posts: BlogPost[] = [
         <li>Preço por hora: R$ 110,65</li>
       </ul>
 
-      <p>Use a Calculadora de Preço por Hora do Lumei para automatizar esses cálculos e encontrar seu preço ideal!</p>
+      <p>Use a Calculadora de Preço por Hora do Calcula MEI para automatizar esses cálculos e encontrar seu preço ideal!</p>
     `,
   },
 ];

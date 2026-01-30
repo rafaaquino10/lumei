@@ -1,12 +1,12 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ArrowRight, Check, TrendingUp, Clock, Tag, BarChart3, ArrowLeftRight, Calendar } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
+import { HeroCarousel } from '@/components/hero-carousel'
 
 const trustBadges = [
   { text: 'Sem cadastro', icon: Check },
@@ -133,7 +133,7 @@ export default function Home() {
                 <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
                   Lucre mais.
                   <br />
-                  <span className="text-lumei-600">Sempre.</span>
+                  <span className="text-mei-600">Sempre.</span>
                 </h1>
                 <p className="text-lg text-gray-600 sm:text-xl">
                   Calculadoras financeiras feitas para MEI crescer.
@@ -147,7 +147,7 @@ export default function Home() {
               >
                 <Button
                   size="lg"
-                  className="group h-12 bg-lumei-500 px-6 text-base font-semibold text-white shadow-lumei transition-all hover:bg-lumei-600 hover:shadow-lumei-lg"
+                  className="group h-12 bg-mei-500 px-6 text-base font-semibold text-white shadow-mei transition-all hover:bg-mei-600 hover:shadow-mei-lg"
                   asChild
                 >
                   <Link href="/calculadoras">
@@ -166,7 +166,7 @@ export default function Home() {
                       key={badge.text}
                       className="flex items-center gap-2 text-sm text-gray-500"
                     >
-                      <Icon className="h-4 w-4 text-lumei-600" />
+                      <Icon className="h-4 w-4 text-mei-600" />
                       <span>{badge.text}</span>
                     </div>
                   )
@@ -174,28 +174,15 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Right column */}
-            <div className="relative flex items-center justify-center">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-200">
-                <Image
-                  src="/hero-screenshot.png"
-                  alt="Calculadora Lumei em ação"
-                  width={600}
-                  height={400}
-                  className="w-full"
-                  priority
-                  style={{ display: 'block' }}
-                />
-              </div>
-              {/* Floating badges (opcional, pra dar vida) */}
-              <motion.div
-                className="absolute -top-4 -right-4 bg-white rounded-lg shadow-lg p-4"
-                animate={{ y: [0, -10, 0] }}
-                transition={{ repeat: Infinity, duration: 3 }}
-              >
-                <p className="text-sm font-bold text-lumei-600">✅ Gratuito</p>
-              </motion.div>
-            </div>
+            {/* Right column - Carousel */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="relative flex items-center justify-center"
+            >
+              <HeroCarousel />
+            </motion.div>
           </div>
         </div>
       </section>
@@ -219,15 +206,15 @@ export default function Home() {
             </p>
           </motion.div>
 
-          {/* Calculators Grid */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {/* Calculators Grid - Compact */}
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
             {calculadoras.map((calc, i) => (
               <motion.div
                 key={calc.titulo}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
+                transition={{ delay: i * 0.03 }}
               >
                 <Link
                   href={calc.ativo ? calc.href : '#'}
@@ -237,30 +224,19 @@ export default function Home() {
                   )}
                 >
                   <Card className={cn(
-                    "p-5 h-full transition-all duration-300 relative bg-white",
+                    "p-4 h-full transition-all duration-200 relative bg-white text-center group",
                     calc.ativo
-                      ? "hover:shadow-lumei-lg hover:-translate-y-1 cursor-pointer border-gray-200"
+                      ? "hover:shadow-lg hover:-translate-y-0.5 cursor-pointer border-gray-200 hover:border-mei-300"
                       : "opacity-60"
                   )}>
                     {!calc.ativo && (
-                      <div className="absolute top-3 right-3 bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded font-medium">
-                        Em breve
+                      <div className="absolute top-2 right-2 bg-yellow-100 text-yellow-800 text-[10px] px-1.5 py-0.5 rounded font-medium">
+                        Breve
                       </div>
                     )}
-                    <calc.icon className="w-9 h-9 text-lumei-500 mb-3" />
-                    <h3 className="text-lg font-bold mb-1 text-gray-900">{calc.titulo}</h3>
-                    <p className="text-gray-600 text-sm mb-4">{calc.descricao}</p>
-                    <Button
-                      variant={calc.ativo ? "default" : "ghost"}
-                      size="sm"
-                      className={cn(
-                        "w-full",
-                        calc.ativo && "bg-lumei-500 hover:bg-lumei-600 text-white"
-                      )}
-                      disabled={!calc.ativo}
-                    >
-                      {calc.ativo ? 'Calcular →' : 'Em breve'}
-                    </Button>
+                    <calc.icon className="w-8 h-8 text-mei-500 mx-auto mb-2 group-hover:scale-110 transition-transform" />
+                    <h3 className="text-sm font-bold text-gray-900 mb-1 leading-tight">{calc.titulo}</h3>
+                    <p className="text-gray-500 text-xs leading-snug">{calc.descricao}</p>
                   </Card>
                 </Link>
               </motion.div>
@@ -297,7 +273,7 @@ export default function Home() {
                 className="flex flex-col items-center rounded-lg bg-gray-50 p-6"
               >
                 {/* Number Badge */}
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-lumei-500 text-xl font-bold text-white">
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-mei-500 text-xl font-bold text-white">
                   {step.number}
                 </div>
 
@@ -324,7 +300,7 @@ export default function Home() {
           >
             <Button
               size="lg"
-              className="h-11 bg-lumei-500 px-6 text-base font-semibold text-white shadow-lumei transition-all hover:bg-lumei-600 hover:shadow-lumei-lg"
+              className="h-11 bg-mei-500 px-6 text-base font-semibold text-white shadow-mei transition-all hover:bg-mei-600 hover:shadow-mei-lg"
               asChild
             >
               <Link href="/calculadoras">
@@ -351,61 +327,55 @@ export default function Home() {
             </h2>
           </motion.div>
 
-          {/* Pricing Cards */}
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {/* Pricing Cards - Compact */}
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 max-w-3xl mx-auto">
             {pricingPlans.map((plan, index) => (
               <motion.div
                 key={plan.name}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
-                className={`relative rounded-xl bg-white p-6 ${
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                className={`relative rounded-lg bg-white p-5 ${
                   plan.highlighted
-                    ? 'border-2 border-lumei-500 shadow-lg'
-                    : 'border border-gray-200 shadow-sm'
+                    ? 'border-2 border-mei-500 shadow-md'
+                    : 'border border-gray-200'
                 }`}
               >
                 {/* Badge for Premium */}
                 {plan.badge && (
-                  <div className="absolute -top-3 right-4 rounded-full bg-lumei-500 px-3 py-1 text-xs font-semibold text-white shadow-sm">
+                  <div className="absolute -top-2.5 right-3 rounded-full bg-mei-500 px-2.5 py-0.5 text-[11px] font-semibold text-white">
                     {plan.badge}
                   </div>
                 )}
 
-                {/* Plan Name */}
-                <h3 className="mb-2 text-xl font-bold text-gray-900">
-                  {plan.name}
-                </h3>
-
-                {/* Price */}
-                <div className="mb-4">
-                  <span
-                    className={`text-3xl font-bold ${
-                      plan.highlighted ? 'text-lumei-600' : 'text-gray-900'
-                    }`}
-                  >
-                    {plan.price}
-                  </span>
-                  <span className="text-gray-600">{plan.period}</span>
+                <div className="flex items-baseline justify-between mb-3">
+                  <h3 className="text-lg font-bold text-gray-900">{plan.name}</h3>
+                  <div>
+                    <span className={`text-2xl font-bold ${plan.highlighted ? 'text-mei-600' : 'text-gray-900'}`}>
+                      {plan.price}
+                    </span>
+                    <span className="text-gray-500 text-sm">{plan.period}</span>
+                  </div>
                 </div>
 
-                {/* Features List */}
-                <ul className="mb-6 space-y-2">
+                {/* Features List - Compact */}
+                <ul className="mb-4 space-y-1.5">
                   {plan.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
-                      <Check className="h-4 w-4 flex-shrink-0 text-lumei-600 mt-0.5" />
-                      <span className="text-sm text-gray-700">{feature}</span>
+                    <li key={idx} className="flex items-center gap-1.5">
+                      <Check className="h-3.5 w-3.5 flex-shrink-0 text-mei-600" />
+                      <span className="text-xs text-gray-600">{feature}</span>
                     </li>
                   ))}
                 </ul>
 
                 {/* CTA Button */}
                 <Button
+                  size="sm"
                   className={`w-full ${
                     plan.highlighted
-                      ? 'bg-lumei-500 text-white hover:bg-lumei-600'
-                      : 'border-2 border-lumei-500 bg-transparent text-lumei-600 hover:bg-lumei-50'
+                      ? 'bg-mei-500 text-white hover:bg-mei-600'
+                      : 'border border-mei-500 bg-transparent text-mei-600 hover:bg-mei-50'
                   }`}
                   asChild
                 >

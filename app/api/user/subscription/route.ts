@@ -1,19 +1,19 @@
-import { auth } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
+import { getServerUser } from '@/lib/auth/server'
 import { getSubscriptionStatus } from '@/lib/billing/subscription-manager'
 
 export async function GET() {
   try {
-    const { userId } = await auth()
+    const user = await getServerUser()
 
-    if (!userId) {
+    if (!user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       )
     }
 
-    const subscription = await getSubscriptionStatus(userId)
+    const subscription = await getSubscriptionStatus(user.id)
 
     if (!subscription) {
       return NextResponse.json(null)

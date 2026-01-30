@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/', '/dashboard/'],
     },
-    sitemap: 'https://lumei.com.br/sitemap.xml',
+    sitemap: 'https://calculamei.com.br/sitemap.xml',
   }
 }

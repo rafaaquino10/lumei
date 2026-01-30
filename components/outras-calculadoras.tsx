@@ -87,11 +87,11 @@ export function OutrasCalculadoras({ currentPath }: OutrasCalculadorasProps) {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {outras.map(calc => (
           <Link key={calc.href} href={calc.href}>
-            <Card className="p-6 h-full hover:shadow-lumei-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer">
-              <calc.icon className="w-10 h-10 text-lumei-500 mb-3" />
+            <Card className="p-6 h-full hover:shadow-mei-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer">
+              <calc.icon className="w-10 h-10 text-mei-500 mb-3" />
               <h4 className="font-bold text-lg mb-2">{calc.titulo}</h4>
               <p className="text-gray-600 text-sm mb-4">{calc.descricao}</p>
-              <Button variant="ghost" className="w-full text-lumei-600 hover:text-lumei-700">
+              <Button variant="ghost" className="w-full text-mei-600 hover:text-mei-700">
                 Calcular →
               </Button>
             </Card>

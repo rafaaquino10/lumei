@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useUser } from '@clerk/nextjs'
+import { useAuth } from '@/lib/auth/context'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -12,7 +12,7 @@ import { toast } from 'sonner'
 import { ArrowRight, ArrowLeft } from 'lucide-react'
 
 export default function OnboardingPage() {
-  const { user } = useUser()
+  const { user } = useAuth()
   const router = useRouter()
   const [step, setStep] = useState(1)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -50,7 +50,7 @@ export default function OnboardingPage() {
     <div className="container max-w-2xl mx-auto px-4 py-12">
       <div className="mb-8 text-center">
         <h1 className="text-3xl font-bold mb-2">
-          Bem-vindo ao Lumei, {user?.firstName}! 👋
+          Bem-vindo ao Calcula MEI, {user?.name?.split(' ')[0] || ''}! 👋
         </h1>
         <p className="text-gray-600">
           Vamos personalizar sua experiência em 3 passos rápidos
@@ -64,7 +64,7 @@ export default function OnboardingPage() {
             <div
               key={s}
               className={`h-2 w-16 rounded-full transition-colors ${
-                s <= step ? 'bg-lumei-500' : 'bg-gray-200'
+                s <= step ? 'bg-mei-500' : 'bg-gray-200'
               }`}
             />
           ))}
@@ -233,7 +233,7 @@ export default function OnboardingPage() {
               </div>
             </RadioGroup>
 
-            <div className="bg-lumei-50 border-l-4 border-lumei-500 p-4 rounded">
+            <div className="bg-mei-50 border-l-4 border-mei-500 p-4 rounded">
               <p className="text-sm text-gray-700">
                 💡 <strong>Por que perguntamos?</strong> Para alertá-lo quando
                 estiver próximo do teto de R$ 81.000/ano e personalizar suas
@@ -263,7 +263,7 @@ export default function OnboardingPage() {
                 (step === 1 && !formData.tipoMEI) ||
                 (step === 2 && !formData.ocupacao)
               }
-              className="ml-auto bg-lumei-500 hover:bg-lumei-600"
+              className="ml-auto bg-mei-500 hover:bg-mei-600"
             >
               Próximo
               <ArrowRight className="w-4 h-4 ml-2" />
@@ -272,7 +272,7 @@ export default function OnboardingPage() {
             <Button
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className="ml-auto bg-lumei-500 hover:bg-lumei-600"
+              className="ml-auto bg-mei-500 hover:bg-mei-600"
             >
               {isSubmitting ? 'Salvando...' : 'Finalizar'}
             </Button>

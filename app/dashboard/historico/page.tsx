@@ -1,6 +1,5 @@
-import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
-import { prisma } from '@/lib/prisma'
+import { getServerUserWithAllCalcs } from '@/lib/auth/server'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
@@ -64,32 +63,10 @@ const formatCurrency = (value: number) =>
   `R$ ${value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
 
 export default async function HistoricoPage() {
-  const { userId } = await auth()
-
-  if (!userId) {
-    redirect('/sign-in')
-  }
-
-  // Fetch user from database
-  let user
-  try {
-    user = await prisma.user.findUnique({
-      where: { clerkId: userId },
-      include: {
-        calculos: {
-          orderBy: { createdAt: 'desc' },
-          take: 100, // Limit to last 100
-        },
-      },
-    })
-  } catch (error) {
-    console.error('Database connection error:', error)
-    // If database is unavailable, redirect to onboarding
-    redirect('/onboarding')
-  }
+  const user = await getServerUserWithAllCalcs()
 
   if (!user) {
-    redirect('/onboarding')
+    redirect('/sign-in')
   }
 
   // Group by type
@@ -167,7 +144,7 @@ export default async function HistoricoPage() {
             return (
               <div key={tipo}>
                 <div className="flex items-center gap-3 mb-6">
-                  <Icon className="w-6 h-6 text-lumei-500" />
+                  <Icon className="w-6 h-6 text-mei-500" />
                   <h2 className="text-2xl font-bold">{config.label}</h2>
                   <span className="text-gray-500">({typedCalculos.length})</span>
                 </div>

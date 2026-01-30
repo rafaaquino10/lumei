@@ -48,7 +48,7 @@ export function SubscriptionStatus({ userId }: SubscriptionStatusProps) {
   }
 
   return (
-    <Card className="p-6 bg-lumei-50 border-lumei-500">
+    <Card className="p-6 bg-mei-50 border-mei-500">
       <div className="flex items-start justify-between">
         <div>
           <h3 className="font-bold flex items-center gap-2 mb-2">

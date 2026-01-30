@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Calculadora de Precificação | Lumei',
+  title: 'Calculadora de Precificação | Calcula MEI',
   description: 'Calcule o preço ideal para seus produtos e serviços. Ferramenta gratuita de precificação para MEI.',
 }
 

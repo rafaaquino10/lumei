@@ -9,9 +9,9 @@ interface BlogCardProps {
 export function BlogCard({ post }: BlogCardProps) {
   return (
     <Link href={`/blog/${post.slug}`}>
-      <div className="group h-full bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg hover:border-lumei-400 transition-all duration-300">
+      <div className="group h-full bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg hover:border-mei-400 transition-all duration-300">
         {/* Image placeholder */}
-        <div className="relative h-48 bg-gradient-to-br from-lumei-400 to-lumei-600 flex items-center justify-center overflow-hidden group-hover:from-lumei-500 group-hover:to-lumei-700 transition-colors duration-300">
+        <div className="relative h-48 bg-gradient-to-br from-mei-400 to-mei-600 flex items-center justify-center overflow-hidden group-hover:from-mei-500 group-hover:to-mei-700 transition-colors duration-300">
           <FileText className="w-16 h-16 text-white/40" />
         </div>
 
@@ -19,13 +19,13 @@ export function BlogCard({ post }: BlogCardProps) {
         <div className="p-6 flex flex-col h-full">
           {/* Category Badge */}
           <div className="mb-3">
-            <span className="inline-block px-3 py-1 bg-lumei-50 text-lumei-700 text-xs font-semibold rounded-full group-hover:bg-lumei-100 transition-colors duration-300">
+            <span className="inline-block px-3 py-1 bg-mei-50 text-mei-700 text-xs font-semibold rounded-full group-hover:bg-mei-100 transition-colors duration-300">
               {post.category}
             </span>
           </div>
 
           {/* Title */}
-          <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-lumei-600 transition-colors duration-300 line-clamp-2">
+          <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-mei-600 transition-colors duration-300 line-clamp-2">
             {post.title}
           </h3>
 

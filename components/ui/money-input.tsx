@@ -132,7 +132,7 @@ export const MoneyInput = React.forwardRef<HTMLInputElement, MoneyInputProps>(
             // Placeholder
             'placeholder:text-gray-400',
             // Focus states
-            'focus:border-lumei-500 focus:outline-none focus:ring-2 focus:ring-lumei-500/20',
+            'focus:border-mei-500 focus:outline-none focus:ring-2 focus:ring-mei-500/20',
             // Disabled
             'disabled:cursor-not-allowed disabled:bg-gray-50',
             // Error state (via aria-invalid)

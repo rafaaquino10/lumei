@@ -1,23 +1,14 @@
-import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
-import { prisma } from '@/lib/prisma'
+import { getServerUser } from '@/lib/auth/server'
 import { Card } from '@/components/ui/card'
 import { SubscriptionStatus } from '@/components/billing/subscription-status'
 import { Button } from '@/components/ui/button'
 
 export default async function ConfiguracoesPage() {
-  const { userId } = await auth()
-
-  if (!userId) {
-    redirect('/sign-in')
-  }
-
-  const user = await prisma.user.findUnique({
-    where: { clerkId: userId },
-  })
+  const user = await getServerUser()
 
   if (!user) {
-    redirect('/onboarding')
+    redirect('/sign-in')
   }
 
   return (
@@ -76,6 +67,6 @@ export default async function ConfiguracoesPage() {
 }
 
 export const metadata = {
-  title: 'Configurações | Lumei',
+  title: 'Configurações | Calcula MEI',
   description: 'Gerencie suas configurações e assinatura',
 }

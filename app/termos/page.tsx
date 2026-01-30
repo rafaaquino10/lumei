@@ -2,23 +2,23 @@ import { Metadata } from "next";
 import { Card } from "@/components/ui/card";
 
 export const metadata: Metadata = {
-  title: "Termos de Uso | Lumei",
+  title: "Termos de Uso | Calcula MEI",
   description:
-    "Termos e condições de uso das calculadoras e serviços do Lumei",
+    "Termos e condições de uso das calculadoras e serviços do Calcula MEI",
 };
 
 export default function TermosPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-lumei-500 to-lumei-600 text-white">
+      <div className="bg-gradient-to-br from-mei-500 to-mei-600 text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
           <div className="max-w-3xl">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
               Termos de Uso
             </h1>
             <p className="text-lg sm:text-xl text-white/90">
-              Condições e regras para uso das ferramentas do Lumei
+              Condições e regras para uso das ferramentas do Calcula MEI
             </p>
           </div>
         </div>
@@ -32,7 +32,7 @@ export default function TermosPage() {
               1. Aceitação dos Termos
             </h2>
             <p className="text-gray-700 leading-relaxed">
-              Ao acessar e usar o Lumei, você concorda em estar vinculado a estes
+              Ao acessar e usar o Calcula MEI, você concorda em estar vinculado a estes
               Termos de Uso. Se você não concorda com qualquer parte destes
               termos, não deve usar o serviço.
             </p>
@@ -43,7 +43,7 @@ export default function TermosPage() {
               2. Descrição do Serviço
             </h2>
             <p className="text-gray-700 mb-4 leading-relaxed">
-              O Lumei fornece calculadoras financeiras para MEIs com fins
+              O Calcula MEI fornece calculadoras financeiras para MEIs com fins
               educacionais e informativos. Os resultados das calculadoras são
               estimativas baseadas em fórmulas matemáticas e dados informados por
               você. Não constituem aconselhamento financeiro profissional.
@@ -55,7 +55,7 @@ export default function TermosPage() {
               3. Limitação de Responsabilidade
             </h2>
             <p className="text-gray-700 mb-4 leading-relaxed">
-              O Lumei não é responsável por:
+              O Calcula MEI não é responsável por:
             </p>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
               <li>Precisão ou atualização das calculadoras</li>
@@ -71,7 +71,7 @@ export default function TermosPage() {
               4. Uso Apropriado
             </h2>
             <p className="text-gray-700 mb-4 leading-relaxed">
-              Você concorda em usar o Lumei apenas para fins legais e apropriados.
+              Você concorda em usar o Calcula MEI apenas para fins legais e apropriados.
               Você não deve:
             </p>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
@@ -88,8 +88,8 @@ export default function TermosPage() {
               5. Propriedade Intelectual
             </h2>
             <p className="text-gray-700 mb-4 leading-relaxed">
-              Todo conteúdo, funcionalidade e design do Lumei são propriedade de
-              Lumei e protegidos por leis de direitos autorais. Você pode
+              Todo conteúdo, funcionalidade e design do Calcula MEI são propriedade de
+              Calcula MEI e protegidos por leis de direitos autorais. Você pode
               visualizar e imprimir páginas para uso pessoal, mas não pode
               reproduzir, distribuir ou transmitir o conteúdo sem permissão.
             </p>
@@ -100,7 +100,7 @@ export default function TermosPage() {
               6. Contas de Usuário
             </h2>
             <p className="text-gray-700 mb-4 leading-relaxed">
-              Se você criar uma conta no Lumei, você é responsável por manter a
+              Se você criar uma conta no Calcula MEI, você é responsável por manter a
               confidencialidade de suas credenciais de login. Você concorda em
               aceitar responsabilidade por todas as atividades que ocorrem sob sua
               conta.
@@ -123,7 +123,7 @@ export default function TermosPage() {
               8. Isenção de Garantias
             </h2>
             <p className="text-gray-700 leading-relaxed">
-              O Lumei é fornecido &quot;no estado em que se encontra&quot; sem garantias de
+              O Calcula MEI é fornecido &quot;no estado em que se encontra&quot; sem garantias de
               qualquer tipo. Não garantimos que o serviço será ininterrupto ou
               livre de erros. Você usa o serviço por sua conta e risco.
             </p>
@@ -134,7 +134,7 @@ export default function TermosPage() {
               9. Consultoria Profissional
             </h2>
             <p className="text-gray-700 leading-relaxed">
-              O Lumei NÃO substitui aconselhamento profissional de um contador,
+              O Calcula MEI NÃO substitui aconselhamento profissional de um contador,
               advogado ou consultor financeiro. Para decisões importantes,
               sempre consulte um profissional qualificado.
             </p>
@@ -172,7 +172,7 @@ export default function TermosPage() {
             </p>
           </Card>
 
-          <div className="bg-lumei-50 rounded-lg p-6 sm:p-8 text-center mt-12">
+          <div className="bg-mei-50 rounded-lg p-6 sm:p-8 text-center mt-12">
             <p className="text-gray-600 text-sm">
               Última atualização: janeiro de 2026
             </p>

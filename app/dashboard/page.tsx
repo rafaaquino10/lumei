@@ -1,6 +1,6 @@
-import { auth, currentUser } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
+import { getServerUserWithCalcs } from '@/lib/auth/server'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
@@ -14,68 +14,16 @@ import {
 } from 'lucide-react'
 
 export default async function DashboardPage() {
-  const { userId } = await auth()
-  const clerkUser = await currentUser()
-
-  if (!userId) {
-    redirect('/sign-in')
-  }
-
-  // Fetch user from database
-  let user
-  try {
-    user = await prisma.user.findUnique({
-      where: { clerkId: userId },
-      include: {
-        calculos: {
-          orderBy: { createdAt: 'desc' },
-          take: 5,
-        },
-      },
-    })
-  } catch (error) {
-    console.error('Database connection error:', error)
-    // If database is unavailable, redirect to onboarding or show error
-    redirect('/onboarding')
-  }
+  const user = await getServerUserWithCalcs()
 
   if (!user) {
-    if (clerkUser?.emailAddresses?.length) {
-      user = await prisma.user.upsert({
-        where: { clerkId: userId },
-        update: {
-          email: clerkUser.emailAddresses[0].emailAddress,
-          name: `${clerkUser.firstName || ''} ${clerkUser.lastName || ''}`.trim() || null,
-          avatarUrl: clerkUser.imageUrl || null,
-        },
-        create: {
-          clerkId: userId,
-          email: clerkUser.emailAddresses[0].emailAddress,
-          name: `${clerkUser.firstName || ''} ${clerkUser.lastName || ''}`.trim() || null,
-          avatarUrl: clerkUser.imageUrl || null,
-        },
-        include: {
-          calculos: {
-            orderBy: { createdAt: 'desc' },
-            take: 5,
-          },
-        },
-      })
-    } else {
-      redirect('/onboarding')
-    }
+    redirect('/sign-in')
   }
 
   // Calculate stats
   const totalCalculos = await prisma.calculo.count({
     where: { userId: user.id },
   })
-
-  // const calculosPorTipo = await prisma.calculo.groupBy({
-  //   by: ['tipo'],
-  //   where: { userId: user.id },
-  //   _count: true,
-  // })
 
   // Calculate days until next DAS (simplified)
   const today = new Date()
@@ -89,10 +37,10 @@ export default async function DashboardPage() {
       {/* Welcome section */}
       <div className="mb-12">
         <h1 className="text-4xl font-bold mb-2">
-          Olá, {clerkUser?.firstName || 'empreendedor'}! 👋
+          Olá, {user.name?.split(' ')[0] || 'empreendedor'}! 👋
         </h1>
         <p className="text-xl text-gray-600">
-          Bem-vindo ao seu painel Lumei
+          Bem-vindo ao seu painel Calcula MEI
         </p>
       </div>
 
@@ -101,7 +49,7 @@ export default async function DashboardPage() {
         <Card className="p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold text-gray-600">Cálculos Feitos</h3>
-            <Calculator className="w-8 h-8 text-lumei-500" />
+            <Calculator className="w-8 h-8 text-mei-500" />
           </div>
           <p className="text-4xl font-bold">{totalCalculos}</p>
         </Card>
@@ -109,19 +57,19 @@ export default async function DashboardPage() {
         <Card className="p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold text-gray-600">Tipo de MEI</h3>
-            <TrendingUp className="w-8 h-8 text-lumei-500" />
+            <TrendingUp className="w-8 h-8 text-mei-500" />
           </div>
           <p className="text-2xl font-bold">
             {user.tipoMEI?.replace('_', ' ') || 'Não informado'}
           </p>
         </Card>
 
-        <Card className="p-6 bg-lumei-50 border-lumei-500">
+        <Card className="p-6 bg-mei-50 border-mei-500">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold text-gray-700">Próximo DAS</h3>
-            <Calendar className="w-8 h-8 text-lumei-600" />
+            <Calendar className="w-8 h-8 text-mei-600" />
           </div>
-          <p className="text-4xl font-bold text-lumei-600">
+          <p className="text-4xl font-bold text-mei-600">
             {daysUntilDAS} dias
           </p>
           <p className="text-sm text-gray-600 mt-2">
@@ -135,8 +83,8 @@ export default async function DashboardPage() {
         <h2 className="text-2xl font-bold mb-6">Calculadoras Rápidas</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Link href="/calcular/margem-lucro">
-            <Card className="p-6 hover:shadow-lumei-lg transition-all cursor-pointer">
-              <TrendingUp className="w-10 h-10 text-lumei-500 mb-3" />
+            <Card className="p-6 hover:shadow-mei-lg transition-all cursor-pointer">
+              <TrendingUp className="w-10 h-10 text-mei-500 mb-3" />
               <h3 className="font-bold mb-1">Margem de Lucro</h3>
               <p className="text-sm text-gray-600">
                 Calcule quanto você lucra
@@ -145,8 +93,8 @@ export default async function DashboardPage() {
           </Link>
 
           <Link href="/calcular/preco-hora">
-            <Card className="p-6 hover:shadow-lumei-lg transition-all cursor-pointer">
-              <Clock className="w-10 h-10 text-lumei-500 mb-3" />
+            <Card className="p-6 hover:shadow-mei-lg transition-all cursor-pointer">
+              <Clock className="w-10 h-10 text-mei-500 mb-3" />
               <h3 className="font-bold mb-1">Preço por Hora</h3>
               <p className="text-sm text-gray-600">
                 Defina seu valor/hora
@@ -155,8 +103,8 @@ export default async function DashboardPage() {
           </Link>
 
           <Link href="/calcular/precificacao">
-            <Card className="p-6 hover:shadow-lumei-lg transition-all cursor-pointer">
-              <Tag className="w-10 h-10 text-lumei-500 mb-3" />
+            <Card className="p-6 hover:shadow-mei-lg transition-all cursor-pointer">
+              <Tag className="w-10 h-10 text-mei-500 mb-3" />
               <h3 className="font-bold mb-1">Precificação</h3>
               <p className="text-sm text-gray-600">
                 Preço ideal de produtos/serviços
@@ -236,7 +184,7 @@ export default async function DashboardPage() {
 
       {/* CTA to Premium (if free user) */}
       {user.plano === 'FREE' && (
-        <Card className="mt-12 p-8 bg-gradient-to-r from-lumei-50 to-lumei-100 border-lumei-500">
+        <Card className="mt-12 p-8 bg-gradient-to-r from-mei-50 to-mei-100 border-mei-500">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
               <h3 className="text-2xl font-bold mb-2">
@@ -260,6 +208,6 @@ export default async function DashboardPage() {
 }
 
 export const metadata = {
-  title: 'Dashboard | Lumei',
-  description: 'Seu painel de controle Lumei',
+  title: 'Dashboard | Calcula MEI',
+  description: 'Seu painel de controle Calcula MEI',
 }

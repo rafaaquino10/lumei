@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Calculadora de Fluxo de Caixa | Lumei',
+  title: 'Calculadora de Fluxo de Caixa | Calcula MEI',
   description: 'Controle entradas e saídas do seu negócio. Calculadora gratuita de fluxo de caixa para MEI.',
 }
 

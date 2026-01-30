@@ -10,11 +10,11 @@ export interface CategoriaFAQ {
 
 export const faqContent: CategoriaFAQ[] = [
   {
-    titulo: "Sobre o Lumei",
+    titulo: "Sobre o Calcula MEI",
     perguntas: [
       {
-        pergunta: "O que é o Lumei?",
-        resposta: "O Lumei é uma plataforma gratuita com 6 calculadoras financeiras desenvolvidas especialmente para MEIs (Microempreendedores Individuais). Ajudamos você a calcular margem de lucro, definir preços, simular faturamento, organizar fluxo de caixa e acompanhar o calendário do DAS. Tudo em um só lugar, de forma simples e sem complicação.",
+        pergunta: "O que é o Calcula MEI?",
+        resposta: "O Calcula MEI é uma plataforma gratuita com 6 calculadoras financeiras desenvolvidas especialmente para MEIs (Microempreendedores Individuais). Ajudamos você a calcular margem de lucro, definir preços, simular faturamento, organizar fluxo de caixa e acompanhar o calendário do DAS. Tudo em um só lugar, de forma simples e sem complicação.",
       },
       {
         pergunta: "As calculadoras são realmente gratuitas?",
@@ -25,8 +25,8 @@ export const faqContent: CategoriaFAQ[] = [
         resposta: "Não necessariamente. Você pode usar todas as calculadoras sem criar conta. Porém, para salvar seus cálculos e acessar o histórico, é necessário fazer um cadastro rápido e gratuito.",
       },
       {
-        pergunta: "O Lumei substitui um contador?",
-        resposta: "Não. O Lumei é uma ferramenta complementar para ajudar você a organizar suas finanças e tomar decisões no dia a dia. Para questões tributárias, fiscais e declarações obrigatórias, sempre consulte um contador profissional.",
+        pergunta: "O Calcula MEI substitui um contador?",
+        resposta: "Não. O Calcula MEI é uma ferramenta complementar para ajudar você a organizar suas finanças e tomar decisões no dia a dia. Para questões tributárias, fiscais e declarações obrigatórias, sempre consulte um contador profissional.",
       },
     ],
   },
@@ -68,7 +68,7 @@ export const faqContent: CategoriaFAQ[] = [
       },
       {
         pergunta: "Posso acessar de qualquer dispositivo?",
-        resposta: "Sim! O Lumei funciona em computadores, tablets e celulares. Seus dados ficam salvos na nuvem e você pode acessar de qualquer dispositivo, a qualquer hora.",
+        resposta: "Sim! O Calcula MEI funciona em computadores, tablets e celulares. Seus dados ficam salvos na nuvem e você pode acessar de qualquer dispositivo, a qualquer hora.",
       },
       {
         pergunta: "Como excluo minha conta?",
@@ -105,7 +105,7 @@ export const faqContent: CategoriaFAQ[] = [
     titulo: "MEI e Obrigações",
     perguntas: [
       {
-        pergunta: "O Lumei me ajuda com a Declaração Anual (DASN-SIMEI)?",
+        pergunta: "O Calcula MEI me ajuda com a Declaração Anual (DASN-SIMEI)?",
         resposta: "Não diretamente. Nossa calculadora de Fluxo de Caixa pode ajudar você a organizar faturamento e despesas ao longo do ano, facilitando o preenchimento da declaração. Porém, o envio oficial da DASN deve ser feito no Portal do Empreendedor ou com seu contador.",
       },
       {
@@ -113,8 +113,8 @@ export const faqContent: CategoriaFAQ[] = [
         resposta: "Depende da sua atividade: Anexo I (comércio, indústria, transporte), Anexo III (serviços em geral como designer, consultor), Anexo V (serviços específicos como cabeleireiro, arquiteto). Você pode verificar no seu CCMEI (Certificado da Condição de MEI) ou consultando um contador.",
       },
       {
-        pergunta: "O Lumei emite notas fiscais?",
-        resposta: "Não. O Lumei é uma ferramenta de gestão financeira, não um sistema de emissão de notas. Para emitir notas fiscais como MEI, utilize o sistema da sua prefeitura ou aplicativos específicos para isso.",
+        pergunta: "O Calcula MEI emite notas fiscais?",
+        resposta: "Não. O Calcula MEI é uma ferramenta de gestão financeira, não um sistema de emissão de notas. Para emitir notas fiscais como MEI, utilize o sistema da sua prefeitura ou aplicativos específicos para isso.",
       },
     ],
   },

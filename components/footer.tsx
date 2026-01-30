@@ -21,17 +21,17 @@ const legalLinks = [
 
 const socialLinks = [
   {
-    href: 'https://instagram.com/lumei',
+    href: 'https://instagram.com/calculamei',
     icon: Instagram,
     label: 'Instagram',
   },
   {
-    href: 'https://twitter.com/lumei',
+    href: 'https://twitter.com/calculamei',
     icon: Twitter,
     label: 'Twitter',
   },
   {
-    href: 'mailto:contato@lumei.com.br',
+    href: 'mailto:contato@calculamei.com.br',
     icon: Mail,
     label: 'Email',
   },
@@ -50,7 +50,7 @@ export default function Footer() {
             <Link href="/" className="inline-block">
               <Image
                 src="/logo.svg"
-                alt="Lumei"
+                alt="Calcula MEI"
                 width={100}
                 height={28}
                 className="h-7 w-auto brightness-0 invert"
@@ -72,7 +72,7 @@ export default function Footer() {
                     href={social.href}
                     target={social.label !== 'Email' ? '_blank' : undefined}
                     rel={social.label !== 'Email' ? 'noopener noreferrer' : undefined}
-                    className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-gray-400 transition-colors hover:bg-lumei-500 hover:text-white"
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-gray-400 transition-colors hover:bg-mei-500 hover:text-white"
                     aria-label={social.label}
                   >
                     <Icon className="h-4 w-4" />
@@ -92,7 +92,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-300 transition-colors hover:text-lumei-400"
+                    className="text-sm text-gray-300 transition-colors hover:text-mei-400"
                   >
                     {link.label}
                   </Link>
@@ -111,7 +111,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-300 transition-colors hover:text-lumei-400"
+                    className="text-sm text-gray-300 transition-colors hover:text-mei-400"
                   >
                     {link.label}
                   </Link>
@@ -130,7 +130,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-300 transition-colors hover:text-lumei-400"
+                    className="text-sm text-gray-300 transition-colors hover:text-mei-400"
                   >
                     {link.label}
                   </Link>
@@ -142,7 +142,7 @@ export default function Footer() {
 
         {/* Bottom Row - Copyright & Disclaimer */}
         <div className="mt-8 flex flex-col items-center justify-between gap-3 border-t border-gray-800 pt-6 text-xs text-gray-500 md:flex-row">
-          <p>© {currentYear} Lumei. Todos os direitos reservados.</p>
+          <p>© {currentYear} Calcula MEI. Todos os direitos reservados.</p>
           <p>Valores são referências. Confirme no Portal do Empreendedor.</p>
         </div>
       </div>

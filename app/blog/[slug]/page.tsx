@@ -31,7 +31,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${post.title} | Lumei`,
+    title: `${post.title} | Calcula MEI`,
     description: post.description,
   };
 }
@@ -57,7 +57,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <Link
               href="/blog"
-              className="text-lumei-600 hover:text-lumei-700 font-semibold inline-flex items-center gap-2"
+              className="text-mei-600 hover:text-mei-700 font-semibold inline-flex items-center gap-2"
             >
               ← Voltar para Blog
             </Link>
@@ -65,7 +65,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         </div>
 
         {/* Hero Section */}
-        <div className="bg-gradient-to-br from-lumei-500 to-lumei-600 text-white">
+        <div className="bg-gradient-to-br from-mei-500 to-mei-600 text-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
             <div className="max-w-3xl">
               {/* Category Badge */}
@@ -110,17 +110,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             />
 
             {/* CTA Section */}
-            <div className="bg-gradient-to-br from-lumei-50 to-lumei-100 rounded-2xl p-8 sm:p-12 text-center mb-16">
+            <div className="bg-gradient-to-br from-mei-50 to-mei-100 rounded-2xl p-8 sm:p-12 text-center mb-16">
               <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
                 Pronto para colocar em prática?
               </h3>
               <p className="text-base sm:text-lg text-gray-700 mb-8 max-w-2xl mx-auto">
-                Use as calculadoras do Lumei para automatizar seus cálculos e
+                Use as calculadoras do Calcula MEI para automatizar seus cálculos e
                 tomar melhores decisões para seu MEI.
               </p>
               <Link
                 href="/calculadoras"
-                className="inline-block bg-lumei-600 text-white px-8 py-4 rounded-lg font-semibold text-base sm:text-lg hover:bg-lumei-700 transition-colors shadow-lg hover:shadow-xl"
+                className="inline-block bg-mei-600 text-white px-8 py-4 rounded-lg font-semibold text-base sm:text-lg hover:bg-mei-700 transition-colors shadow-lg hover:shadow-xl"
               >
                 Acessar Calculadoras
               </Link>

@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://lumei.com.br'
+  const baseUrl = 'https://calculamei.com.br'
 
   const calculadoras = [
     'margem-lucro',

@@ -2,16 +2,16 @@ import { Metadata } from "next";
 import { Card } from "@/components/ui/card";
 
 export const metadata: Metadata = {
-  title: "Política de Cookies | Lumei",
+  title: "Política de Cookies | Calcula MEI",
   description:
-    "Saiba como o Lumei usa cookies para melhorar sua experiência",
+    "Saiba como o Calcula MEI usa cookies para melhorar sua experiência",
 };
 
 export default function CookiesPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-lumei-500 to-lumei-600 text-white">
+      <div className="bg-gradient-to-br from-mei-500 to-mei-600 text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
           <div className="max-w-3xl">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
@@ -113,7 +113,7 @@ export default function CookiesPage() {
                     <td className="py-3 px-4">Google Analytics</td>
                   </tr>
                   <tr className="border-b border-gray-200">
-                    <td className="py-3 px-4">lumei_cookie_consent</td>
+                    <td className="py-3 px-4">calculamei_cookie_consent</td>
                     <td className="py-3 px-4">Preferência</td>
                     <td className="py-3 px-4">1 ano</td>
                     <td className="py-3 px-4">Consentimento do usuário</td>
@@ -183,7 +183,7 @@ export default function CookiesPage() {
               Consentimento
             </h2>
             <p className="text-gray-700 leading-relaxed">
-              Ao continuar navegando no Lumei após ver nossa notificação de
+              Ao continuar navegando no Calcula MEI após ver nossa notificação de
               cookies, você concorda com o uso de cookies conforme descrito nesta
               política. Você pode revogar seu consentimento a qualquer momento
               alterando suas configurações de cookies.
@@ -210,7 +210,7 @@ export default function CookiesPage() {
             </p>
           </Card>
 
-          <div className="bg-lumei-50 rounded-lg p-6 sm:p-8 text-center mt-12">
+          <div className="bg-mei-50 rounded-lg p-6 sm:p-8 text-center mt-12">
             <p className="text-gray-600 text-sm">
               Última atualização: janeiro de 2026
             </p>

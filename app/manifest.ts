@@ -2,8 +2,8 @@ import { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Lumei - Calculadoras para MEI',
-    short_name: 'Lumei',
+    name: 'Calcula MEI - Calculadoras para MEI',
+    short_name: 'Calcula MEI',
     description: 'Calculadoras financeiras feitas para MEI crescer',
     start_url: '/',
     display: 'standalone',

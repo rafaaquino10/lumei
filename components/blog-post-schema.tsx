@@ -18,10 +18,10 @@ export function BlogPostSchema({ post }: BlogPostSchemaProps) {
     },
     publisher: {
       "@type": "Organization",
-      name: "Lumei",
+      name: "Calcula MEI",
       logo: {
         "@type": "ImageObject",
-        url: "https://lumei.com/logo.png",
+        url: "https://calculamei.com.br/logo.svg",
       },
     },
     wordCount: Math.ceil(post.content.split(/\s+/).length),

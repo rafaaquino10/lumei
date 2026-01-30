@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Calculadora de Preço por Hora | Lumei',
+  title: 'Calculadora de Preço por Hora | Calcula MEI',
   description: 'Descubra quanto cobrar por hora de trabalho. Calculadora gratuita para freelancers e prestadores de serviço MEI.',
 }
 

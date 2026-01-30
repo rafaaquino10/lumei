@@ -1,7 +1,9 @@
+'use client'
+
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { SignedIn, SignedOut } from '@clerk/nextjs'
+import { SignedIn, SignedOut } from '@/lib/auth/context'
 import { Check, X, Zap, Shield, Clock, TrendingUp } from 'lucide-react'
 import { CheckoutButton } from '@/components/billing/checkout-button'
 import { PLANS } from '@/lib/billing/plans'
@@ -12,7 +14,7 @@ export default function PremiumPage() {
       {/* Hero */}
       <div className="text-center mb-16">
         <div className="inline-block bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-sm font-semibold mb-6">
-          ⭐ Lumei Premium
+          ⭐ Calcula MEI Premium
         </div>
         <h1 className="text-5xl font-bold mb-6">
           Nunca mais atrase o DAS.<br />
@@ -112,14 +114,14 @@ export default function PremiumPage() {
           </Card>
 
           {/* PREMIUM */}
-          <Card className="p-8 border-4 border-lumei-500 relative bg-gradient-to-br from-lumei-50 to-white">
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-lumei-500 text-white px-4 py-1 rounded-full text-sm font-bold">
+          <Card className="p-8 border-4 border-mei-500 relative bg-gradient-to-br from-mei-50 to-white">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-mei-500 text-white px-4 py-1 rounded-full text-sm font-bold">
               Mais Popular
             </div>
 
             <div className="mb-6">
               <h3 className="text-2xl font-bold mb-2">Premium</h3>
-              <p className="text-4xl font-bold text-lumei-600">
+              <p className="text-4xl font-bold text-mei-600">
                 R$ 19<span className="text-lg text-gray-600">/mês</span>
               </p>
               <p className="text-sm text-gray-600 mt-1">
@@ -129,35 +131,35 @@ export default function PremiumPage() {
 
             <ul className="space-y-4 mb-8">
               <li className="flex items-start gap-3">
-                <Check className="w-5 h-5 text-lumei-600 flex-shrink-0 mt-0.5" />
+                <Check className="w-5 h-5 text-mei-600 flex-shrink-0 mt-0.5" />
                 <span className="font-semibold">Tudo do Grátis +</span>
               </li>
               <li className="flex items-start gap-3">
-                <Check className="w-5 h-5 text-lumei-600 flex-shrink-0 mt-0.5" />
+                <Check className="w-5 h-5 text-mei-600 flex-shrink-0 mt-0.5" />
                 <span>Cálculos ilimitados</span>
               </li>
               <li className="flex items-start gap-3">
-                <Check className="w-5 h-5 text-lumei-600 flex-shrink-0 mt-0.5" />
+                <Check className="w-5 h-5 text-mei-600 flex-shrink-0 mt-0.5" />
                 <span>Histórico de 5 anos</span>
               </li>
               <li className="flex items-start gap-3">
-                <Check className="w-5 h-5 text-lumei-600 flex-shrink-0 mt-0.5" />
+                <Check className="w-5 h-5 text-mei-600 flex-shrink-0 mt-0.5" />
                 <span><strong>3 alertas DAS</strong> (5, 3, 1 dia antes)</span>
               </li>
               <li className="flex items-start gap-3">
-                <Check className="w-5 h-5 text-lumei-600 flex-shrink-0 mt-0.5" />
+                <Check className="w-5 h-5 text-mei-600 flex-shrink-0 mt-0.5" />
                 <span><strong>Alertas WhatsApp</strong></span>
               </li>
               <li className="flex items-start gap-3">
-                <Check className="w-5 h-5 text-lumei-600 flex-shrink-0 mt-0.5" />
+                <Check className="w-5 h-5 text-mei-600 flex-shrink-0 mt-0.5" />
                 <span>PDF e Excel ilimitados</span>
               </li>
               <li className="flex items-start gap-3">
-                <Check className="w-5 h-5 text-lumei-600 flex-shrink-0 mt-0.5" />
+                <Check className="w-5 h-5 text-mei-600 flex-shrink-0 mt-0.5" />
                 <span>Sem anúncios</span>
               </li>
               <li className="flex items-start gap-3">
-                <Check className="w-5 h-5 text-lumei-600 flex-shrink-0 mt-0.5" />
+                <Check className="w-5 h-5 text-mei-600 flex-shrink-0 mt-0.5" />
                 <span>Relatórios mensais automáticos</span>
               </li>
             </ul>
@@ -193,8 +195,8 @@ export default function PremiumPage() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="text-center">
-            <div className="w-16 h-16 bg-lumei-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Clock className="w-8 h-8 text-lumei-600" />
+            <div className="w-16 h-16 bg-mei-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Clock className="w-8 h-8 text-mei-600" />
             </div>
             <h3 className="font-bold text-lg mb-2">Economize Tempo</h3>
             <p className="text-gray-600 text-sm">
@@ -203,8 +205,8 @@ export default function PremiumPage() {
           </div>
 
           <div className="text-center">
-            <div className="w-16 h-16 bg-lumei-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Shield className="w-8 h-8 text-lumei-600" />
+            <div className="w-16 h-16 bg-mei-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Shield className="w-8 h-8 text-mei-600" />
             </div>
             <h3 className="font-bold text-lg mb-2">Evite Multas</h3>
             <p className="text-gray-600 text-sm">
@@ -213,8 +215,8 @@ export default function PremiumPage() {
           </div>
 
           <div className="text-center">
-            <div className="w-16 h-16 bg-lumei-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <TrendingUp className="w-8 h-8 text-lumei-600" />
+            <div className="w-16 h-16 bg-mei-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <TrendingUp className="w-8 h-8 text-mei-600" />
             </div>
             <h3 className="font-bold text-lg mb-2">Cresça Mais</h3>
             <p className="text-gray-600 text-sm">
@@ -223,8 +225,8 @@ export default function PremiumPage() {
           </div>
 
           <div className="text-center">
-            <div className="w-16 h-16 bg-lumei-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Zap className="w-8 h-8 text-lumei-600" />
+            <div className="w-16 h-16 bg-mei-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Zap className="w-8 h-8 text-mei-600" />
             </div>
             <h3 className="font-bold text-lg mb-2">Sem Limites</h3>
             <p className="text-gray-600 text-sm">
@@ -325,12 +327,12 @@ export default function PremiumPage() {
 
       {/* Final CTA */}
       <div className="max-w-4xl mx-auto text-center">
-        <Card className="p-12 bg-gradient-to-br from-lumei-500 to-lumei-600 text-white">
+        <Card className="p-12 bg-gradient-to-br from-mei-500 to-mei-600 text-white">
           <h2 className="text-4xl font-bold mb-4">
             Pronto para nunca mais atrasar?
           </h2>
-          <p className="text-xl mb-8 text-lumei-50">
-            Junte-se a centenas de MEI que já usam o Lumei Premium
+          <p className="text-xl mb-8 text-mei-50">
+            Junte-se a centenas de MEI que já usam o Calcula MEI Premium
           </p>
           <SignedOut>
             <Link href="/sign-up">
@@ -351,7 +353,7 @@ export default function PremiumPage() {
               </Button>
             )}
           </SignedIn>
-          <p className="text-sm mt-4 text-lumei-100">
+          <p className="text-sm mt-4 text-mei-100">
             7 dias de garantia • Cancele quando quiser
           </p>
         </Card>
@@ -361,7 +363,7 @@ export default function PremiumPage() {
 }
 
 export const metadata = {
-  title: 'Lumei Premium - Alertas Automáticos de DAS | R$ 19/mês',
+  title: 'Calcula MEI Premium - Alertas Automáticos de DAS | R$ 19/mês',
   description:
     'Nunca mais atrase o DAS. Alertas WhatsApp, relatórios ilimitados e muito mais por R$ 19/mês. Cancele quando quiser.',
 }

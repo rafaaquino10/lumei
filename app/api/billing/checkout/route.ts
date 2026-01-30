@@ -1,15 +1,13 @@
-import { auth } from '@clerk/nextjs/server'
-import { currentUser } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
+import { getServerUser } from '@/lib/auth/server'
 import { createCheckoutSession, getOrCreateCustomer } from '@/lib/billing/subscription-manager'
 import { log } from '@/lib/logger'
 
 export async function POST(request: Request) {
   try {
-    const { userId } = await auth()
-    const clerkUser = await currentUser()
+    const user = await getServerUser()
 
-    if (!userId || !clerkUser?.primaryEmailAddress?.emailAddress) {
+    if (!user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
@@ -25,14 +23,11 @@ export async function POST(request: Request) {
       )
     }
 
-    await getOrCreateCustomer(
-      userId,
-      clerkUser.primaryEmailAddress.emailAddress
-    )
+    await getOrCreateCustomer(user.id, user.email)
 
     const session = await createCheckoutSession(
-      userId,
-      clerkUser.primaryEmailAddress.emailAddress,
+      user.id,
+      user.email,
       stripePriceId,
       `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`
     )
@@ -40,7 +35,7 @@ export async function POST(request: Request) {
     log({
       level: 'info',
       event: 'checkout_session_created',
-      userId,
+      userId: user.id,
       meta: { sessionId: session.id },
     })
 

@@ -15,37 +15,57 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  clerkId   String   @unique
-  email     String   @unique
-  name      String?
-  avatarUrl String?
-  
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  avatarUrl    String?
+
+  emailVerified   Boolean  @default(false)
+  emailVerifiedAt DateTime?
+
   tipoMEI            TipoMEI?
   cnpj               String?
   temFuncionario     Boolean   @default(false)
   faturamentoMedio   Float?
   ocupacao           String?
-  
+
   plano              Plano     @default(FREE)
   stripeCustomerId   String?   @unique
   stripeSubscriptionId String? @unique
   stripePriceId      String?
   stripeCurrentPeriodEnd DateTime?
-  
+
   alertasEmail       Boolean   @default(true)
   alertasWhatsApp    Boolean   @default(false)
   whatsapp           String?
-  
+
   calculos      Calculo[]
   alertas       Alerta[]
+  sessions      Session[]
   subscription  Subscription?
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  
-  @@index([clerkId])
+
   @@index([email])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  refreshToken String   @unique
+  userAgent    String?
+  ipAddress    String?
+
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+
+  @@index([userId])
+  @@index([refreshToken])
+  @@index([expiresAt])
 }
 
 model Calculo {

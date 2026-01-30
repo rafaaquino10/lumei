@@ -1,25 +1,20 @@
-import { auth } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import { getServerUser } from '@/lib/auth/server'
 import { stripe } from '@/lib/billing/stripe'
 import { log } from '@/lib/logger'
 
 export async function GET() {
   try {
-    const { userId } = await auth()
+    const user = await getServerUser()
 
-    if (!userId) {
+    if (!user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       )
     }
 
-    const user = await prisma.user.findUnique({
-      where: { clerkId: userId },
-    })
-
-    if (!user?.stripeCustomerId || !stripe) {
+    if (!user.stripeCustomerId || !stripe) {
       return NextResponse.json(
         { error: 'Customer not found' },
         { status: 404 }
@@ -34,7 +29,7 @@ export async function GET() {
     log({
       level: 'info',
       event: 'billing_portal_accessed',
-      userId,
+      userId: user.id,
       meta: { sessionId: portalSession.id },
     })
 

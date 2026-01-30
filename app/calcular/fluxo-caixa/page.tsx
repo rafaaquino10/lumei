@@ -168,7 +168,7 @@ export default function FluxoCaixaPage() {
     <div className="container mx-auto px-4 py-12">
       {/* Breadcrumb */}
       <nav className="mb-8 text-sm text-gray-600">
-        <Link href="/" className="hover:text-lumei-600">
+        <Link href="/" className="hover:text-mei-600">
           Home
         </Link>
         {' / '}
@@ -347,7 +347,7 @@ export default function FluxoCaixaPage() {
               </Card>
 
               {/* Main Result */}
-              <Card className="p-8 bg-lumei-50">
+              <Card className="p-8 bg-mei-50">
                 <h2 className="text-2xl font-bold mb-6">Resumo</h2>
 
                 <div className="space-y-4">
@@ -383,7 +383,7 @@ export default function FluxoCaixaPage() {
                       <span
                         className={`text-4xl font-bold font-mono ${
                           resultado.saldo >= 0
-                            ? 'text-lumei-600'
+                            ? 'text-mei-600'
                             : 'text-red-600'
                         }`}
                       >
@@ -492,7 +492,7 @@ export default function FluxoCaixaPage() {
       </div>
 
       {/* Explanation */}
-      <div className="mt-12 bg-gray-50 rounded-lumei-lg p-8">
+      <div className="mt-12 bg-gray-50 rounded-mei-lg p-8">
         <h3 className="text-2xl font-bold mb-4">O que é Fluxo de Caixa?</h3>
         <div className="prose max-w-none text-gray-600">
           <p>

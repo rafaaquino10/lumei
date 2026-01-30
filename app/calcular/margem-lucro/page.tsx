@@ -122,7 +122,7 @@ export default function MargemLucroPage() {
     if (!resultado) return
     
     const shareData = {
-      title: 'Meu Cálculo de Margem de Lucro - Lumei',
+      title: 'Meu Cálculo de Margem de Lucro - Calcula MEI',
       text: `Margem de Lucro: ${resultado.margemBruta.toFixed(1)}%\nLucro: R$ ${resultado.lucroBruto.toFixed(2).replace('.', ',')}`,
       url: window.location.href,
     }
@@ -183,17 +183,17 @@ export default function MargemLucroPage() {
       <CalculatorSchema
         name="Calculadora de Margem de Lucro MEI"
         description="Calcule sua margem de lucro real e descubra quanto você está realmente ganhando em cada venda"
-        url="https://lumei.com.br/calcular/margem-lucro"
+        url="https://calculamei.com.br/calcular/margem-lucro"
       />
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: 'https://lumei.com.br' },
-          { name: 'Margem de Lucro', url: 'https://lumei.com.br/calcular/margem-lucro' },
+          { name: 'Home', url: 'https://calculamei.com.br' },
+          { name: 'Margem de Lucro', url: 'https://calculamei.com.br/calcular/margem-lucro' },
         ]}
       />
       {/* Breadcrumb */}
       <nav className="mb-8 text-sm text-gray-600">
-        <Link href="/" className="hover:text-lumei-600">Home</Link>
+        <Link href="/" className="hover:text-mei-600">Home</Link>
         {' / '}
         <span className="text-gray-900">Margem de Lucro</span>
       </nav>
@@ -209,7 +209,7 @@ export default function MargemLucroPage() {
       {/* Main content: 2 columns */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left: Form */}
-        <div className="bg-white border rounded-lumei-lg p-8">
+        <div className="bg-white border rounded-mei-lg p-8">
           <h2 className="text-2xl font-bold mb-6">Dados do Cálculo</h2>
           
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -264,7 +264,7 @@ export default function MargemLucroPage() {
         </div>
 
         {/* Right: Result */}
-        <div className="bg-lumei-50 border-l-4 border-lumei-500 rounded-lumei-lg p-8">
+        <div className="bg-mei-50 border-l-4 border-mei-500 rounded-mei-lg p-8">
           <h2 className="text-2xl font-bold mb-6">Resultado</h2>
           
           <AnimatePresence mode="wait">
@@ -292,33 +292,33 @@ export default function MargemLucroPage() {
                 {/* Margem Bruta (Principal) */}
                 <div className="text-center">
                   <p className="text-sm text-gray-600 mb-2">Margem Bruta</p>
-                  <p className="text-5xl font-bold text-lumei-600">
+                  <p className="text-5xl font-bold text-mei-600">
                     {resultado.margemBruta.toFixed(1)}%
                   </p>
                 </div>
 
                 {/* Divider */}
-                <div className="border-t border-lumei-200" />
+                <div className="border-t border-mei-200" />
 
                 {/* Breakdown */}
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Lucro Bruto</span>
-                    <span className="text-xl font-bold text-lumei-600">
+                    <span className="text-xl font-bold text-mei-600">
                       R$ {resultado.lucroBruto.toFixed(2).replace('.', ',')}
                     </span>
                   </div>
                   
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Margem Líquida</span>
-                    <span className="text-xl font-bold text-lumei-600">
+                    <span className="text-xl font-bold text-mei-600">
                       {resultado.margemLiquida.toFixed(1)}%
                     </span>
                   </div>
                   
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Markup</span>
-                    <span className="text-xl font-bold text-lumei-600">
+                    <span className="text-xl font-bold text-mei-600">
                       {resultado.markup.toFixed(2)}x
                     </span>
                   </div>
@@ -368,7 +368,7 @@ export default function MargemLucroPage() {
       </div>
 
       {/* Explanation below */}
-      <div className="mt-12 bg-gray-50 rounded-lumei-lg p-8">
+      <div className="mt-12 bg-gray-50 rounded-mei-lg p-8">
         <h3 className="text-2xl font-bold mb-4">Como Calculamos</h3>
         <div className="prose max-w-none text-gray-600">
           <p>

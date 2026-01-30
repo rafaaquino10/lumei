@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { auth } from '@clerk/nextjs/server'
+import { getServerUser } from '@/lib/auth/server'
 import { z } from 'zod'
 import { calculoSchemas, tipoCalculoEnum } from '@/lib/calculos/schemas'
 import { CALCULO_FORMULA_VERSION } from '@/lib/calculos/version'
@@ -43,9 +43,9 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { userId } = await auth()
+    const user = await getServerUser()
 
-    if (!userId) {
+    if (!user) {
       return NextResponse.json(
         {
           success: false,
@@ -62,35 +62,6 @@ export async function POST(request: Request) {
 
     const parsedInputs = schemaByTipo.inputs.parse(data.inputs) as Prisma.InputJsonValue
     const parsedResultado = schemaByTipo.resultado.parse(data.resultado) as Prisma.InputJsonValue
-
-    // Find user in database
-    let user
-    try {
-      user = await prisma.user.findUnique({
-        where: { clerkId: userId },
-      })
-    } catch (error) {
-      console.error('Database connection error:', error)
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'database_error',
-          message: 'Erro de conexão com o banco de dados. Tente novamente.',
-        },
-        { status: 503, headers: { 'x-request-id': requestId } }
-      )
-    }
-
-    if (!user) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'user_not_found',
-          message: 'Complete seu cadastro primeiro',
-        },
-        { status: 404, headers: { 'x-request-id': requestId } }
-      )
-    }
 
     // Check plan limits
     if (user.plano === 'FREE') {
@@ -127,7 +98,7 @@ export async function POST(request: Request) {
       level: 'info',
       event: 'calculo_salvo',
       requestId,
-      userId,
+      userId: user.id,
       route: '/api/calculos',
       method: 'POST',
       meta: { tipo: data.tipo },

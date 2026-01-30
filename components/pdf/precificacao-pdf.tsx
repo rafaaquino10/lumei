@@ -209,7 +209,7 @@ export function PrecificacaoPDF({ modo, inputs, resultado }: PrecificacaoPDFProp
         )}
 
         <Text style={styles.footer}>
-          Calculado em Lumei.com.br - Lucre mais. Sempre.
+          Calculado em Calcula MEI.com.br - Lucre mais. Sempre.
         </Text>
       </Page>
     </Document>

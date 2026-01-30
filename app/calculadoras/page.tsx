@@ -51,9 +51,9 @@ const calculadoras = [
 ]
 
 export const metadata: Metadata = {
-  title: 'Calculadoras | Lumei',
+  title: 'Calculadoras | Calcula MEI',
   description:
-    'Todas as calculadoras financeiras do Lumei para MEI: margem, preço por hora, precificação, DAS e mais.',
+    'Todas as calculadoras financeiras do Calcula MEI para MEI: margem, preço por hora, precificação, DAS e mais.',
 }
 
 export default function CalculadorasPage() {
@@ -79,7 +79,7 @@ export default function CalculadorasPage() {
               className={cn(
                 'p-8 h-full transition-all duration-300 relative',
                 calc.ativo
-                  ? 'hover:shadow-lumei-lg hover:-translate-y-1 cursor-pointer border-gray-200'
+                  ? 'hover:shadow-mei-lg hover:-translate-y-1 cursor-pointer border-gray-200'
                   : 'opacity-60'
               )}
             >
@@ -88,14 +88,14 @@ export default function CalculadorasPage() {
                   Em breve
                 </div>
               )}
-              <calc.icon className="w-12 h-12 text-lumei-500 mb-4" />
+              <calc.icon className="w-12 h-12 text-mei-500 mb-4" />
               <h3 className="text-xl font-bold mb-2 text-gray-900">{calc.titulo}</h3>
               <p className="text-gray-600 text-sm mb-6">{calc.descricao}</p>
               <Button
                 variant={calc.ativo ? 'default' : 'ghost'}
                 className={cn(
                   'w-full',
-                  calc.ativo && 'bg-lumei-500 hover:bg-lumei-600 text-white'
+                  calc.ativo && 'bg-mei-500 hover:bg-mei-600 text-white'
                 )}
                 disabled={!calc.ativo}
               >

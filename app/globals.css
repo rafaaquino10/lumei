@@ -45,25 +45,25 @@
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
   
-  /* Lumei Brand Colors */
-  --color-lumei-50: #f0fdf4;
-  --color-lumei-100: #d1fae5;
-  --color-lumei-200: #a7f3d0;
-  --color-lumei-300: #6ee7b7;
-  --color-lumei-400: #34d399;
-  --color-lumei-500: #00d084;
-  --color-lumei-600: #00a86b;
-  --color-lumei-700: #047857;
-  --color-lumei-800: #065f46;
-  --color-lumei-900: #064e3b;
-  
+  /* Calcula MEI Brand Colors */
+  --color-mei-50: #f0fdf4;
+  --color-mei-100: #d1fae5;
+  --color-mei-200: #a7f3d0;
+  --color-mei-300: #6ee7b7;
+  --color-mei-400: #34d399;
+  --color-mei-500: #00d084;
+  --color-mei-600: #00a86b;
+  --color-mei-700: #047857;
+  --color-mei-800: #065f46;
+  --color-mei-900: #064e3b;
+
   /* Custom Border Radius */
-  --radius-lumei: 8px;
-  --radius-lumei-lg: 12px;
-  
+  --radius-mei: 8px;
+  --radius-mei-lg: 12px;
+
   /* Custom Box Shadows */
-  --shadow-lumei: 0 4px 12px rgba(0, 208, 132, 0.3);
-  --shadow-lumei-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-mei: 0 4px 12px rgba(0, 208, 132, 0.3);
+  --shadow-mei-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
 
   /* Accordion Animations */
   --animate-accordion-down: accordion-down 0.2s ease-out;

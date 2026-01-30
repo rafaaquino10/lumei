@@ -20,7 +20,7 @@ export function CalculatorSchema({ name, description, url }: CalculatorSchemaPro
     },
     author: {
       '@type': 'Organization',
-      name: 'Lumei',
+      name: 'Calcula MEI',
     },
   }
 

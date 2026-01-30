@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <div className="text-center max-w-2xl">
-        <h1 className="text-9xl font-bold text-lumei-500 mb-4">404</h1>
+        <h1 className="text-9xl font-bold text-mei-500 mb-4">404</h1>
         <h2 className="text-4xl font-bold mb-4">Página não encontrada</h2>
         <p className="text-xl text-gray-600 mb-8">
           Ops! A página que você procura não existe. Mas suas calculadoras
@@ -32,7 +32,7 @@ export default function NotFound() {
         <div className="mt-12 grid grid-cols-2 md:grid-cols-3 gap-4 text-left">
           <Link
             href="/calcular/margem-lucro"
-            className="p-4 border rounded-lg hover:border-lumei-500 transition-colors"
+            className="p-4 border rounded-lg hover:border-mei-500 transition-colors"
           >
             <p className="font-bold mb-1">Margem de Lucro</p>
             <p className="text-sm text-gray-600">Calcule seu lucro real</p>
@@ -40,7 +40,7 @@ export default function NotFound() {
 
           <Link
             href="/calcular/preco-hora"
-            className="p-4 border rounded-lg hover:border-lumei-500 transition-colors"
+            className="p-4 border rounded-lg hover:border-mei-500 transition-colors"
           >
             <p className="font-bold mb-1">Preço por Hora</p>
             <p className="text-sm text-gray-600">Quanto cobrar</p>
@@ -48,7 +48,7 @@ export default function NotFound() {
 
           <Link
             href="/calcular/das"
-            className="p-4 border rounded-lg hover:border-lumei-500 transition-colors"
+            className="p-4 border rounded-lg hover:border-mei-500 transition-colors"
           >
             <p className="font-bold mb-1">Calendário DAS</p>
             <p className="text-sm text-gray-600">Vencimentos 2025</p>
