@@ -6,22 +6,21 @@ declare global {
 
 let prisma: PrismaClient
 
+const resolveDatabaseUrl = () => {
+  if (process.env.DATABASE_URL) return process.env.DATABASE_URL
+  if (process.env.DIRECT_URL) return process.env.DIRECT_URL
+  return undefined
+}
+
 if (typeof window === 'undefined') {
   if (process.env.NODE_ENV === 'production') {
-    prisma = new PrismaClient({
-      log: ['error'],
-    })
+    prisma = new PrismaClient({ log: ['error'] })
   } else {
     if (!global.__prisma) {
-      global.__prisma = new PrismaClient({
-        log: ['query', 'error', 'warn'],
-      })
+      global.__prisma = new PrismaClient({ log: ['query', 'error', 'warn'] })
     }
     prisma = global.__prisma
   }
-} else {
-  // For client-side, create a dummy client (shouldn't be used)
-  prisma = {} as PrismaClient
 }
 
 export { prisma }

@@ -42,6 +42,13 @@ const DEFAULT_DAS_CONFIG_BY_YEAR: Record<number, DasYearConfig> = {
     aliquotaMEI: 0.05,
     aliquotaCaminhoneiro: 0.12,
   },
+  2026: {
+    salarioMinimo: 1518,
+    icms: 1.0,
+    iss: 5.0,
+    aliquotaMEI: 0.05,
+    aliquotaCaminhoneiro: 0.12,
+  },
 }
 
 const loadEnvConfig = (): Record<number, DasYearConfig> => {

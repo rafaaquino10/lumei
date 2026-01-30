@@ -142,13 +142,14 @@ export async function POST(request: Request) {
       { headers: { 'x-request-id': requestId } }
     )
   } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error)
     log({
       level: 'error',
       event: 'calculo_save_error',
       requestId,
       route: '/api/calculos',
       method: 'POST',
-      meta: { error: error instanceof Error ? error.message : String(error) },
+      meta: { error: errorMessage },
     })
 
     if (error instanceof z.ZodError) {

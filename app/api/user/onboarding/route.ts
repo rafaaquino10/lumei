@@ -51,37 +51,17 @@ export async function POST(request: Request) {
     const body = await request.json()
     const data = schema.parse(body)
 
-    // Find user by Clerk ID
-    let user
-    try {
-      user = await prisma.user.findUnique({
-        where: { clerkId: userId },
-      })
-    } catch (error) {
-      console.error('Database connection error:', error)
-      log({
-        level: 'error',
-        event: 'database_error',
-        requestId,
-        route: '/api/user/onboarding',
-        method: 'POST',
-        meta: { error: error instanceof Error ? error.message : String(error) },
-      })
+    // Find or create user
+    const clerkUser = await currentUser()
+    if (!clerkUser || clerkUser.emailAddresses.length === 0) {
       return NextResponse.json(
-        { error: 'Database connection error' },
-        { status: 503, headers: { 'x-request-id': requestId } }
+        { error: 'User not found' },
+        { status: 404, headers: { 'x-request-id': requestId } }
       )
     }
 
-    if (!user) {
-      const clerkUser = await currentUser()
-      if (!clerkUser || clerkUser.emailAddresses.length === 0) {
-        return NextResponse.json(
-          { error: 'User not found' },
-          { status: 404, headers: { 'x-request-id': requestId } }
-        )
-      }
-
+    let user
+    try {
       user = await prisma.user.upsert({
         where: { clerkId: userId },
         update: {
@@ -96,6 +76,22 @@ export async function POST(request: Request) {
           avatarUrl: clerkUser.imageUrl || null,
         },
       })
+    } catch (error) {
+      log({
+        level: 'error',
+        event: 'database_error',
+        requestId,
+        route: '/api/user/onboarding',
+        method: 'POST',
+        meta: { error: error instanceof Error ? error.message : String(error) },
+      })
+      return NextResponse.json(
+        {
+          error: 'database_unavailable',
+          message: 'Banco indisponível. Tente novamente em instantes.',
+        },
+        { status: 503, headers: { 'x-request-id': requestId } }
+      )
     }
 
     // Update user with onboarding data
