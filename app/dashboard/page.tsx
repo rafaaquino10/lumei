@@ -236,7 +236,7 @@ export default async function DashboardPage() {
 
       {/* CTA to Premium (if free user) */}
       {user.plano === 'FREE' && (
-        <Card className="mt-12 p-8 bg-linear-to-r from-lumei-50 to-lumei-100 border-lumei-500">
+        <Card className="mt-12 p-8 bg-gradient-to-r from-lumei-50 to-lumei-100 border-lumei-500">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
               <h3 className="text-2xl font-bold mb-2">
