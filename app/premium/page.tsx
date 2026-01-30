@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { SignedIn, SignedOut } from '@clerk/nextjs'
 import { Check, X, Zap, Shield, Clock, TrendingUp } from 'lucide-react'
+import { CheckoutButton } from '@/components/billing/checkout-button'
+import { PLANS } from '@/lib/billing/plans'
 
 export default function PremiumPage() {
   return (
@@ -166,9 +168,16 @@ export default function PremiumPage() {
               </Link>
             </SignedOut>
             <SignedIn>
-              <Button className="w-full" size="lg" disabled>
-                Assinar Premium (em breve)
-              </Button>
+              {PLANS.PREMIUM.stripePriceId ? (
+                <CheckoutButton
+                  stripePriceId={PLANS.PREMIUM.stripePriceId}
+                  className="w-full"
+                />
+              ) : (
+                <Button className="w-full" size="lg" disabled>
+                  Configurar Stripe
+                </Button>
+              )}
             </SignedIn>
           </Card>
         </div>
@@ -329,9 +338,16 @@ export default function PremiumPage() {
             </Link>
           </SignedOut>
           <SignedIn>
-            <Button size="lg" variant="secondary" className="text-lg px-10" disabled>
-              Assinar Premium (em breve)
-            </Button>
+            {PLANS.PREMIUM.stripePriceId ? (
+              <CheckoutButton
+                stripePriceId={PLANS.PREMIUM.stripePriceId}
+                className="text-lg px-10"
+              />
+            ) : (
+              <Button size="lg" variant="secondary" className="text-lg px-10" disabled>
+                Configurar Stripe
+              </Button>
+            )}
           </SignedIn>
           <p className="text-sm mt-4 text-lumei-100">
             7 dias de garantia • Cancele quando quiser

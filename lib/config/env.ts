@@ -4,8 +4,12 @@ const envSchema = z.object({
   DATABASE_URL: z.string().url('DATABASE_URL deve ser uma URL válida'),
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().min(1, 'Clerk publishable key é obrigatória'),
   CLERK_SECRET_KEY: z.string().min(1, 'Clerk secret key é obrigatória'),
-  STRIPE_PUBLIC_KEY: z.string().optional(),
-  STRIPE_SECRET_KEY: z.string().optional(),
+  STRIPE_SECRET_KEY: z.string().min(1, 'Stripe secret key é obrigatória'),
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().optional(),
+  NEXT_PUBLIC_STRIPE_PRODUCT_ID_PREMIUM: z.string().optional(),
+  NEXT_PUBLIC_STRIPE_PRICE_ID_PREMIUM: z.string().optional(),
+  STRIPE_WEBHOOK_SECRET: z.string().optional(),
+  NEXT_PUBLIC_APP_URL: z.string().url('NEXT_PUBLIC_APP_URL deve ser uma URL válida').optional(),
 })
 
 export type EnvConfig = z.infer<typeof envSchema>

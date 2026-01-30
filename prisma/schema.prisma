@@ -37,9 +37,10 @@ model User {
   alertasWhatsApp    Boolean   @default(false)
   whatsapp           String?
   
-  calculos  Calculo[]
-  alertas   Alerta[]
-  
+  calculos      Calculo[]
+  alertas       Alerta[]
+  subscription  Subscription?
+
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   
@@ -71,17 +72,36 @@ model Alerta {
   id        String   @id @default(cuid())
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   tipo      TipoAlerta
   ativo     Boolean  @default(true)
-  
+
   diasAntecedencia Int @default(7)
   ultimoEnvio      DateTime?
-  
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
+
   @@index([userId, ativo])
+}
+
+model Subscription {
+  id                    String   @id @default(cuid())
+  userId                String   @unique
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  stripeSubscriptionId  String   @unique
+  stripeCustomerId      String
+
+  status                String   @default("active")
+  currentPeriodStart    DateTime
+  currentPeriodEnd      DateTime
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([userId])
+  @@index([stripeSubscriptionId])
 }
 
 enum TipoMEI {
