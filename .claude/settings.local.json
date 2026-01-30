@@ -4,7 +4,13 @@
       "Bash(npm install:*)",
       "Bash(npx prisma migrate dev:*)",
       "Bash(git reset:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run lint)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }
