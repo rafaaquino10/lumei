@@ -361,9 +361,3 @@ export default function PremiumPage() {
     </div>
   )
 }
-
-export const metadata = {
-  title: 'Calcula MEI Premium - Alertas Automáticos de DAS | R$ 19/mês',
-  description:
-    'Nunca mais atrase o DAS. Alertas WhatsApp, relatórios ilimitados e muito mais por R$ 19/mês. Cancele quando quiser.',
-}
