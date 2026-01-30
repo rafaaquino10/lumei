@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FileText } from "lucide-react";
 import { BlogPost } from "@/lib/blog/posts";
 
 interface BlogCardProps {
@@ -9,11 +10,9 @@ export function BlogCard({ post }: BlogCardProps) {
   return (
     <Link href={`/blog/${post.slug}`}>
       <div className="group h-full bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg hover:border-lumei-400 transition-all duration-300">
-        {/* Image */}
+        {/* Image placeholder */}
         <div className="relative h-48 bg-gradient-to-br from-lumei-400 to-lumei-600 flex items-center justify-center overflow-hidden group-hover:from-lumei-500 group-hover:to-lumei-700 transition-colors duration-300">
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-white/80 font-semibold">{post.image}</span>
-          </div>
+          <FileText className="w-16 h-16 text-white/40" />
         </div>
 
         {/* Content */}
