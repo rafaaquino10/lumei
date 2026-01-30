@@ -6,12 +6,6 @@ declare global {
 
 let prisma: PrismaClient
 
-const resolveDatabaseUrl = () => {
-  if (process.env.DATABASE_URL) return process.env.DATABASE_URL
-  if (process.env.DIRECT_URL) return process.env.DIRECT_URL
-  return undefined
-}
-
 if (typeof window === 'undefined') {
   if (process.env.NODE_ENV === 'production') {
     prisma = new PrismaClient({ log: ['error'] })
