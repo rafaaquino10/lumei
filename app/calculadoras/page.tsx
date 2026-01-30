@@ -9,21 +9,21 @@ const calculadoras = [
   {
     icon: TrendingUp,
     titulo: 'Margem de Lucro',
-    descricao: 'Descubra quanto voce lucra de verdade',
+    descricao: 'Descubra quanto você lucra de verdade',
     href: '/calcular/margem-lucro',
     ativo: true,
   },
   {
     icon: Clock,
-    titulo: 'Preco por Hora',
-    descricao: 'Calcule o valor minimo que deve cobrar',
+    titulo: 'Preço por Hora',
+    descricao: 'Calcule o valor mínimo que deve cobrar',
     href: '/calcular/preco-hora',
     ativo: true,
   },
   {
     icon: Tag,
-    titulo: 'Precificacao',
-    descricao: 'Defina o preco ideal dos seus produtos/servicos',
+    titulo: 'Precificação',
+    descricao: 'Defina o preço ideal dos seus produtos/serviços',
     href: '/calcular/precificacao',
     ativo: true,
   },
@@ -37,13 +37,13 @@ const calculadoras = [
   {
     icon: ArrowLeftRight,
     titulo: 'Fluxo de Caixa',
-    descricao: 'Controle entradas e saidas mensais',
+    descricao: 'Controle entradas e saídas mensais',
     href: '/calcular/fluxo-caixa',
     ativo: true,
   },
   {
     icon: Calendar,
-    titulo: 'Calendario DAS',
+    titulo: 'Calendário DAS',
     descricao: 'Nunca mais atrase o pagamento',
     href: '/calcular/das',
     ativo: true,
@@ -53,7 +53,7 @@ const calculadoras = [
 export const metadata: Metadata = {
   title: 'Calculadoras | Lumei',
   description:
-    'Todas as calculadoras financeiras do Lumei para MEI: margem, preco por hora, precificacao, DAS e mais.',
+    'Todas as calculadoras financeiras do Lumei para MEI: margem, preço por hora, precificação, DAS e mais.',
 }
 
 export default function CalculadorasPage() {

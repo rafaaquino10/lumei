@@ -35,9 +35,11 @@ export default function PremiumPage() {
               Assinar Premium (em breve)
             </Button>
           </SignedIn>
-          <Button size="lg" variant="outline" className="text-lg px-8">
-            Ver Plano Grátis
-          </Button>
+          <Link href="#plano-gratis">
+            <Button size="lg" variant="outline" className="text-lg px-8">
+              Ver Plano Grátis
+            </Button>
+          </Link>
         </div>
         <p className="text-sm text-gray-500 mt-4">
           💳 Cancele quando quiser • Sem multa • Sem burocracia
@@ -52,7 +54,7 @@ export default function PremiumPage() {
 
         <div className="grid md:grid-cols-2 gap-8">
           {/* FREE */}
-          <Card className="p-8 border-2">
+          <Card id="plano-gratis" className="p-8 border-2 scroll-mt-24">
             <div className="mb-6">
               <h3 className="text-2xl font-bold mb-2">Grátis</h3>
               <p className="text-4xl font-bold">R$ 0<span className="text-lg text-gray-600">/mês</span></p>

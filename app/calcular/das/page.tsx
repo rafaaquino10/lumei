@@ -76,7 +76,7 @@ export default function DASPage() {
       {/* Header */}
       <div className="mb-12">
         <h1 className="text-4xl font-bold mb-4">
-          Calendario DAS {resultado.anoReferencia}
+          Calendário DAS {resultado.anoReferencia}
         </h1>
         <p className="text-xl text-gray-600">
           Nunca mais atrase o pagamento do DAS. Veja todos os vencimentos do ano.
@@ -89,14 +89,14 @@ export default function DASPage() {
             <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
             <div>
               <p className="font-semibold text-yellow-900 mb-1">
-                Valores de referencia
+                Valores de referência
               </p>
               <p className="text-sm text-yellow-800">
                 Ano solicitado: {resultado.anoSolicitado}. Ano aplicado:{' '}
                 {resultado.anoReferencia}. Fonte: {resultado.fonteValores}.
               </p>
               <p className="text-sm text-yellow-800">
-                Salario minimo considerado: R$ {resultado.salarioMinimo.toFixed(2)}.
+                Salário mínimo considerado: R$ {resultado.salarioMinimo.toFixed(2)}.
               </p>
             </div>
           </div>
@@ -220,7 +220,7 @@ export default function DASPage() {
       {/* Calendar */}
       <div className="mb-8">
         <h2 className="text-2xl font-bold mb-6">
-          Calendario Anual {resultado.anoReferencia}
+          Calendário Anual {resultado.anoReferencia}
         </h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {resultado.calendarioAnual.map((item, index) => {

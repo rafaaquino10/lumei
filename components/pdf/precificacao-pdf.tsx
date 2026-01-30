@@ -89,7 +89,7 @@ export function PrecificacaoPDF({ modo, inputs, resultado }: PrecificacaoPDFProp
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
           <Text style={styles.title}>
-            Calculo de Precificacao - {isProduto ? 'Produto' : 'Servico'}
+            Cálculo de Precificação - {isProduto ? 'Produto' : 'Serviço'}
           </Text>
           <Text style={{ fontSize: 10, color: '#64748B', marginTop: 4 }}>
             Gerado em {new Date().toLocaleDateString('pt-BR')}
@@ -111,7 +111,7 @@ export function PrecificacaoPDF({ modo, inputs, resultado }: PrecificacaoPDFProp
               </Text>
             </View>
             <View style={styles.section}>
-              <Text style={styles.label}>Despesas Variaveis</Text>
+              <Text style={styles.label}>Despesas Variáveis</Text>
               <Text style={styles.value}>
                 {formatCurrency((inputs as InputsProdutos).despesasVariaveis)}
               </Text>
@@ -124,7 +124,7 @@ export function PrecificacaoPDF({ modo, inputs, resultado }: PrecificacaoPDFProp
             </View>
 
             <View style={styles.section}>
-              <Text style={styles.label}>Preco de Venda Sugerido</Text>
+              <Text style={styles.label}>Preço de Venda Sugerido</Text>
               <Text style={[styles.value, { fontSize: 24 }]}>
                 {formatCurrency((resultado as ResultadoProduto).precoVenda)}
               </Text>
@@ -151,7 +151,7 @@ export function PrecificacaoPDF({ modo, inputs, resultado }: PrecificacaoPDFProp
         ) : (
           <>
             <View style={styles.section}>
-              <Text style={styles.label}>Horas do Servico</Text>
+              <Text style={styles.label}>Horas do Serviço</Text>
               <Text style={styles.value}>
                 {(inputs as InputsServicos).horasServico}h
               </Text>
@@ -182,7 +182,7 @@ export function PrecificacaoPDF({ modo, inputs, resultado }: PrecificacaoPDFProp
             </View>
 
             <View style={styles.section}>
-              <Text style={styles.label}>Preco do Servico</Text>
+              <Text style={styles.label}>Preço do Serviço</Text>
               <Text style={[styles.value, { fontSize: 24 }]}>
                 {formatCurrency((resultado as ResultadoServico).precoVenda)}
               </Text>
@@ -194,7 +194,7 @@ export function PrecificacaoPDF({ modo, inputs, resultado }: PrecificacaoPDFProp
               </Text>
             </View>
             <View style={styles.section}>
-              <Text style={styles.label}>Preco/Hora Efetivo</Text>
+              <Text style={styles.label}>Preço/Hora Efetivo</Text>
               <Text style={styles.value}>
                 {formatCurrency((resultado as ResultadoServico).precoHoraEfetivo)}
               </Text>

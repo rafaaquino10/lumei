@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Menu } from 'lucide-react'
+import { Menu, LayoutDashboard } from 'lucide-react'
 import { SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs'
 import { Button } from '@/components/ui/button'
 import {
@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/sheet'
 import { useState } from 'react'
 
-const navLinks = [
+const publicNavLinks = [
   { href: '/', label: 'Home' },
   { href: '/calculadoras', label: 'Calculadoras' },
   { href: '/blog', label: 'Blog' },
@@ -45,8 +45,8 @@ export default function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden items-center gap-8 md:flex">
-          {navLinks.map((link) => (
+        <nav className="hidden items-center gap-6 md:flex">
+          {publicNavLinks.map((link) => (
             <Link
               key={link.href}
               href={link.label === 'Home' ? homeHref : link.href}
@@ -55,31 +55,38 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
+          {/* Painel - só aparece para usuários logados */}
+          <SignedIn>
+            <Link
+              href="/dashboard"
+              className="flex items-center gap-1.5 text-sm font-medium text-lumei-600 transition-colors hover:text-lumei-700"
+            >
+              <LayoutDashboard className="h-4 w-4" />
+              Painel
+            </Link>
+          </SignedIn>
         </nav>
 
         {/* Desktop Auth Buttons */}
-        <div className="hidden items-center gap-4 md:flex">
+        <div className="hidden items-center gap-3 md:flex">
           <SignedOut>
             <Button variant="ghost" asChild>
               <Link href="/sign-in">Entrar</Link>
             </Button>
-            <Button 
-              className="bg-lumei-500 text-white hover:bg-lumei-600" 
+            <Button
+              className="bg-lumei-500 text-white hover:bg-lumei-600"
               asChild
             >
               <Link href="/sign-up">Começar Grátis</Link>
             </Button>
           </SignedOut>
-          
+
           <SignedIn>
-            <Button variant="ghost" asChild>
-              <Link href="/dashboard">Dashboard</Link>
-            </Button>
-            <UserButton 
+            <UserButton
               afterSignOutUrl="/"
               appearance={{
                 elements: {
-                  avatarBox: 'w-10 h-10 border-2 border-lumei-500',
+                  avatarBox: 'w-9 h-9 border-2 border-lumei-500',
                 },
               }}
             />
@@ -101,7 +108,7 @@ export default function Header() {
             <div className="mt-8 flex flex-col gap-6">
               {/* Mobile Navigation Links */}
               <nav className="flex flex-col gap-4">
-                {navLinks.map((link) => (
+                {publicNavLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.label === 'Home' ? homeHref : link.href}
@@ -111,22 +118,33 @@ export default function Header() {
                     {link.label}
                   </Link>
                 ))}
+                {/* Painel - só para usuários logados */}
+                <SignedIn>
+                  <Link
+                    href="/dashboard"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center gap-2 text-lg font-medium text-lumei-600 transition-colors hover:text-lumei-700"
+                  >
+                    <LayoutDashboard className="h-5 w-5" />
+                    Painel
+                  </Link>
+                </SignedIn>
               </nav>
 
               {/* Mobile Auth Buttons */}
-              <div className="mt-4 flex flex-col gap-3">
+              <div className="mt-4 flex flex-col gap-3 border-t pt-6">
                 <SignedOut>
-                  <Button 
-                    variant="ghost" 
-                    className="w-full" 
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start"
                     asChild
                   >
                     <Link href="/sign-in" onClick={() => setIsOpen(false)}>
                       Entrar
                     </Link>
                   </Button>
-                  <Button 
-                    className="w-full bg-lumei-500 text-white hover:bg-lumei-600" 
+                  <Button
+                    className="w-full bg-lumei-500 text-white hover:bg-lumei-600"
                     asChild
                   >
                     <Link href="/sign-up" onClick={() => setIsOpen(false)}>
@@ -134,26 +152,18 @@ export default function Header() {
                     </Link>
                   </Button>
                 </SignedOut>
-                
+
                 <SignedIn>
-                  <Button 
-                    variant="ghost" 
-                    className="w-full" 
-                    asChild
-                  >
-                    <Link href="/dashboard" onClick={() => setIsOpen(false)}>
-                      Dashboard
-                    </Link>
-                  </Button>
-                  <div className="flex items-center justify-center py-4">
-                    <UserButton 
+                  <div className="flex items-center gap-3 py-2">
+                    <UserButton
                       afterSignOutUrl="/"
                       appearance={{
                         elements: {
-                          avatarBox: 'w-12 h-12 border-2 border-lumei-500',
+                          avatarBox: 'w-10 h-10 border-2 border-lumei-500',
                         },
                       }}
                     />
+                    <span className="text-sm text-gray-600">Minha conta</span>
                   </div>
                 </SignedIn>
               </div>
