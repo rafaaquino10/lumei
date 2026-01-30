@@ -60,15 +60,15 @@ export default function CalculadorasPage() {
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="mb-12 text-center">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+        <h1 className="text-4xl font-bold text-foreground mb-4">
           Todas as Calculadoras
         </h1>
-        <p className="text-xl text-gray-600">
+        <p className="text-xl text-muted-foreground">
           Ferramentas essenciais para gerenciar seu MEI
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
         {calculadoras.map((calc) => (
           <Link
             key={calc.titulo}
@@ -77,20 +77,20 @@ export default function CalculadorasPage() {
           >
             <Card
               className={cn(
-                'p-8 h-full transition-all duration-300 relative',
+                'p-4 h-full transition-all duration-300 relative',
                 calc.ativo
-                  ? 'hover:shadow-mei-lg hover:-translate-y-1 cursor-pointer border-gray-200'
+                  ? 'hover:shadow-mei-lg hover:-translate-y-1 cursor-pointer'
                   : 'opacity-60'
               )}
             >
               {!calc.ativo && (
-                <div className="absolute top-4 right-4 bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded font-medium">
+                <div className="absolute top-2 right-2 bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded font-medium">
                   Em breve
                 </div>
               )}
-              <calc.icon className="w-12 h-12 text-mei-500 mb-4" />
-              <h3 className="text-xl font-bold mb-2 text-gray-900">{calc.titulo}</h3>
-              <p className="text-gray-600 text-sm mb-6">{calc.descricao}</p>
+              <calc.icon className="w-8 h-8 text-mei-500 mb-3" />
+              <h3 className="text-base font-bold mb-2 text-foreground">{calc.titulo}</h3>
+              <p className="text-muted-foreground text-xs mb-4">{calc.descricao}</p>
               <Button
                 variant={calc.ativo ? 'default' : 'ghost'}
                 className={cn(
