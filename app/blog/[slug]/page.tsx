@@ -66,22 +66,22 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         {/* Hero Section */}
         <div className="bg-gradient-to-br from-primary/80 to-primary text-primary-foreground">
-          <div className="container mx-auto px-4 py-8">
+          <div className="container mx-auto px-4 py-6">
             <div className="max-w-3xl">
               {/* Category Badge */}
-              <div className="mb-3">
-                <span className="inline-block px-3 py-1 bg-primary-foreground/20 text-primary-foreground text-sm font-semibold rounded-full">
+              <div className="mb-2">
+                <span className="inline-block px-2 py-0.5 bg-primary-foreground/20 text-primary-foreground text-xs font-semibold rounded-full">
                   {post.category}
                 </span>
               </div>
 
               {/* Title */}
-              <h1 className="text-2xl sm:text-3xl font-bold mb-3">
+              <h1 className="text-xl sm:text-2xl font-bold mb-2">
                 {post.title}
               </h1>
 
               {/* Meta Information */}
-              <div className="flex flex-wrap items-center gap-3 text-sm text-primary-foreground/90">
+              <div className="flex flex-wrap items-center gap-2 text-xs text-primary-foreground/90">
                 <div>
                   <span className="font-semibold">Por</span> {post.author}
                 </div>
@@ -89,12 +89,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 <time dateTime={post.date}>
                   {new Date(post.date).toLocaleDateString("pt-BR", {
                     day: "numeric",
-                    month: "long",
+                    month: "short",
                     year: "numeric",
                   })}
                 </time>
                 <div className="hidden sm:block text-primary-foreground/50">•</div>
-                <div>{post.readTime} min de leitura</div>
+                <div>{post.readTime} min</div>
               </div>
             </div>
           </div>
