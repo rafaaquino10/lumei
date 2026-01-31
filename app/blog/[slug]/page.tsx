@@ -102,10 +102,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         {/* Content */}
         <div className="container mx-auto px-4 py-8">
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-5xl mx-auto">
             {/* Article Content */}
             <article
-              className="prose prose-lg dark:prose-invert max-w-none mb-12"
+              className="blog-content mb-12"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
 
