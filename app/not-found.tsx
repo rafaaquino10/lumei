@@ -4,15 +4,15 @@ import { Home, Search } from 'lucide-react'
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-background">
       <div className="text-center max-w-2xl">
-        <h1 className="text-9xl font-bold text-mei-500 mb-4">404</h1>
-        <h2 className="text-4xl font-bold mb-4">Página não encontrada</h2>
-        <p className="text-xl text-gray-600 mb-8">
+        <h1 className="text-9xl font-bold text-primary mb-4">404</h1>
+        <h2 className="text-4xl font-bold mb-4 text-foreground">Página não encontrada</h2>
+        <p className="text-xl text-muted-foreground mb-8">
           Ops! A página que você procura não existe. Mas suas calculadoras
           favoritas estão te esperando!
         </p>
-        
+
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link href="/">
             <Button size="lg">
@@ -20,8 +20,8 @@ export default function NotFound() {
               Voltar para Home
             </Button>
           </Link>
-          
-          <Link href="/#calculadoras">
+
+          <Link href="/calculadoras">
             <Button size="lg" variant="outline">
               <Search className="w-5 h-5 mr-2" />
               Ver Calculadoras
@@ -31,27 +31,27 @@ export default function NotFound() {
 
         <div className="mt-12 grid grid-cols-2 md:grid-cols-3 gap-4 text-left">
           <Link
-            href="/calcular/margem-lucro"
-            className="p-4 border rounded-lg hover:border-mei-500 transition-colors"
+            href="/calculadoras"
+            className="p-4 border border-border rounded-lg hover:border-primary transition-colors"
           >
-            <p className="font-bold mb-1">Margem de Lucro</p>
-            <p className="text-sm text-gray-600">Calcule seu lucro real</p>
+            <p className="font-bold mb-1 text-foreground">Margem de Lucro</p>
+            <p className="text-sm text-muted-foreground">Calcule seu lucro real</p>
           </Link>
 
           <Link
-            href="/calcular/preco-hora"
-            className="p-4 border rounded-lg hover:border-mei-500 transition-colors"
+            href="/calculadoras"
+            className="p-4 border border-border rounded-lg hover:border-primary transition-colors"
           >
-            <p className="font-bold mb-1">Preço por Hora</p>
-            <p className="text-sm text-gray-600">Quanto cobrar</p>
+            <p className="font-bold mb-1 text-foreground">Preço por Hora</p>
+            <p className="text-sm text-muted-foreground">Quanto cobrar</p>
           </Link>
 
           <Link
-            href="/calcular/das"
-            className="p-4 border rounded-lg hover:border-mei-500 transition-colors"
+            href="/calculadoras"
+            className="p-4 border border-border rounded-lg hover:border-primary transition-colors"
           >
-            <p className="font-bold mb-1">Calendário DAS</p>
-            <p className="text-sm text-gray-600">Vencimentos 2025</p>
+            <p className="font-bold mb-1 text-foreground">Calendário DAS</p>
+            <p className="text-sm text-muted-foreground">Vencimentos 2025</p>
           </Link>
         </div>
       </div>
