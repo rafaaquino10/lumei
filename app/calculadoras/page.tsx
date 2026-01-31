@@ -94,39 +94,40 @@ function CalculadorasContent() {
         </p>
       </div>
 
-      {/* Cards horizontais com scroll */}
-      <div className="mb-8 overflow-x-auto pb-4 pt-2">
-        <div className="flex gap-3 justify-center flex-wrap">
+      {/* Grid responsivo de calculadoras */}
+      <div className="mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
           {calculadoras.map((calc) => (
             <button
               key={calc.id}
               onClick={() => setAtiva(calc.id)}
-              className="flex-shrink-0"
+              className="w-full"
             >
               <Card
                 className={cn(
-                  'p-3 transition-all duration-200 flex items-center gap-3 min-w-[200px]',
+                  'p-3 transition-all duration-200 h-full',
+                  'flex flex-col items-center text-center gap-2',
                   ativa === calc.id
-                    ? 'border-primary shadow-lg scale-105 bg-primary/5'
-                    : 'hover:shadow-md hover:scale-[1.02]'
+                    ? 'border-primary shadow-lg bg-primary/5'
+                    : 'hover:shadow-md hover:border-primary/50'
                 )}
               >
                 <calc.icon
                   className={cn(
-                    'w-8 h-8 flex-shrink-0',
+                    'w-6 h-6',
                     ativa === calc.id ? 'text-primary' : 'text-muted-foreground'
                   )}
                 />
-                <div className="flex-1 min-w-0">
+                <div>
                   <h3
                     className={cn(
-                      'text-sm font-semibold mb-0.5 truncate',
+                      'text-xs font-semibold leading-tight',
                       ativa === calc.id ? 'text-foreground' : 'text-muted-foreground'
                     )}
                   >
                     {calc.titulo}
                   </h3>
-                  <p className="text-xs text-muted-foreground truncate">
+                  <p className="text-[10px] text-muted-foreground mt-0.5 hidden sm:block">
                     {calc.descricao}
                   </p>
                 </div>
