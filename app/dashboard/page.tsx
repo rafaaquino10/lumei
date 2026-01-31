@@ -44,37 +44,39 @@ export default async function DashboardPage() {
         </p>
       </div>
 
-      {/* Stats grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+      {/* Stats grid - 2 colunas no mobile */}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-6">
         <Card className="p-3">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="font-semibold text-xs text-muted-foreground">Cálculos Feitos</h3>
-            <Calculator className="w-5 h-5 text-primary" />
+          <div className="flex items-center justify-between mb-1">
+            <h3 className="font-semibold text-[10px] sm:text-xs text-muted-foreground">Cálculos</h3>
+            <Calculator className="w-4 h-4 text-primary" />
           </div>
-          <p className="text-2xl font-bold text-foreground">{totalCalculos}</p>
+          <p className="text-xl sm:text-2xl font-bold text-foreground">{totalCalculos}</p>
         </Card>
 
         <Card className="p-3">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="font-semibold text-xs text-muted-foreground">Tipo de MEI</h3>
-            <TrendingUp className="w-5 h-5 text-primary" />
+          <div className="flex items-center justify-between mb-1">
+            <h3 className="font-semibold text-[10px] sm:text-xs text-muted-foreground">Tipo MEI</h3>
+            <TrendingUp className="w-4 h-4 text-primary" />
           </div>
-          <p className="text-lg font-bold text-foreground">
+          <p className="text-sm sm:text-lg font-bold text-foreground truncate">
             {user.tipoMEI?.replace('_', ' ') || 'Não informado'}
           </p>
         </Card>
 
-        <Card className="p-3 bg-primary/10 border-primary">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="font-semibold text-xs text-foreground">Próximo DAS</h3>
-            <Calendar className="w-5 h-5 text-primary" />
+        <Card className="p-3 col-span-2 md:col-span-1 bg-primary/10 border-primary">
+          <div className="flex items-center justify-between mb-1">
+            <h3 className="font-semibold text-[10px] sm:text-xs text-foreground">Próximo DAS</h3>
+            <Calendar className="w-4 h-4 text-primary" />
           </div>
-          <p className="text-2xl font-bold text-primary">
-            {daysUntilDAS} dias
-          </p>
-          <p className="text-xs text-muted-foreground mt-1">
-            Vencimento: {nextDAS.toLocaleDateString('pt-BR')}
-          </p>
+          <div className="flex items-baseline justify-between">
+            <p className="text-xl sm:text-2xl font-bold text-primary">
+              {daysUntilDAS} dias
+            </p>
+            <p className="text-[10px] sm:text-xs text-muted-foreground">
+              {nextDAS.toLocaleDateString('pt-BR')}
+            </p>
+          </div>
         </Card>
       </div>
 
