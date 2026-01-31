@@ -49,10 +49,10 @@ export default function OnboardingPage() {
   return (
     <div className="container max-w-2xl mx-auto px-4 py-12">
       <div className="mb-8 text-center">
-        <h1 className="text-3xl font-bold mb-2">
+        <h1 className="text-3xl font-bold mb-2 text-foreground">
           Bem-vindo ao Calcula MEI, {user?.name?.split(' ')[0] || ''}! 👋
         </h1>
-        <p className="text-gray-600">
+        <p className="text-muted-foreground">
           Vamos personalizar sua experiência em 3 passos rápidos
         </p>
       </div>
@@ -64,7 +64,7 @@ export default function OnboardingPage() {
             <div
               key={s}
               className={`h-2 w-16 rounded-full transition-colors ${
-                s <= step ? 'bg-mei-500' : 'bg-gray-200'
+                s <= step ? 'bg-primary' : 'bg-muted'
               }`}
             />
           ))}
@@ -75,8 +75,8 @@ export default function OnboardingPage() {
         {step === 1 && (
           <div className="space-y-6">
             <div>
-              <h2 className="text-2xl font-bold mb-2">Tipo de MEI</h2>
-              <p className="text-gray-600 mb-6">
+              <h2 className="text-2xl font-bold mb-2 text-foreground">Tipo de MEI</h2>
+              <p className="text-muted-foreground mb-6">
                 Selecione o tipo do seu MEI
               </p>
             </div>
@@ -87,41 +87,41 @@ export default function OnboardingPage() {
                 setFormData({ ...formData, tipoMEI: value })
               }
             >
-              <div className="flex items-center space-x-2 border rounded-lg p-4 hover:bg-gray-50 cursor-pointer">
+              <div className="flex items-center space-x-2 border border-border rounded-lg p-4 hover:bg-secondary/50 cursor-pointer transition-colors">
                 <RadioGroupItem value="COMERCIO" id="comercio" />
                 <Label htmlFor="comercio" className="flex-1 cursor-pointer">
-                  <div className="font-semibold">Comércio/Indústria</div>
-                  <div className="text-sm text-gray-600">
+                  <div className="font-semibold text-foreground">Comércio/Indústria</div>
+                  <div className="text-sm text-muted-foreground">
                     Vende produtos (INSS + ICMS)
                   </div>
                 </Label>
               </div>
 
-              <div className="flex items-center space-x-2 border rounded-lg p-4 hover:bg-gray-50 cursor-pointer">
+              <div className="flex items-center space-x-2 border border-border rounded-lg p-4 hover:bg-secondary/50 cursor-pointer transition-colors">
                 <RadioGroupItem value="SERVICOS" id="servicos" />
                 <Label htmlFor="servicos" className="flex-1 cursor-pointer">
-                  <div className="font-semibold">Serviços</div>
-                  <div className="text-sm text-gray-600">
+                  <div className="font-semibold text-foreground">Serviços</div>
+                  <div className="text-sm text-muted-foreground">
                     Presta serviços (INSS + ISS)
                   </div>
                 </Label>
               </div>
 
-              <div className="flex items-center space-x-2 border rounded-lg p-4 hover:bg-gray-50 cursor-pointer">
+              <div className="flex items-center space-x-2 border border-border rounded-lg p-4 hover:bg-secondary/50 cursor-pointer transition-colors">
                 <RadioGroupItem value="MISTO" id="misto" />
                 <Label htmlFor="misto" className="flex-1 cursor-pointer">
-                  <div className="font-semibold">Misto</div>
-                  <div className="text-sm text-gray-600">
+                  <div className="font-semibold text-foreground">Misto</div>
+                  <div className="text-sm text-muted-foreground">
                     Comércio + Serviços (INSS + ICMS + ISS)
                   </div>
                 </Label>
               </div>
 
-              <div className="flex items-center space-x-2 border rounded-lg p-4 hover:bg-gray-50 cursor-pointer">
+              <div className="flex items-center space-x-2 border border-border rounded-lg p-4 hover:bg-secondary/50 cursor-pointer transition-colors">
                 <RadioGroupItem value="CAMINHONEIRO" id="caminhoneiro" />
                 <Label htmlFor="caminhoneiro" className="flex-1 cursor-pointer">
-                  <div className="font-semibold">Caminhoneiro</div>
-                  <div className="text-sm text-gray-600">
+                  <div className="font-semibold text-foreground">Caminhoneiro</div>
+                  <div className="text-sm text-muted-foreground">
                     Transporte de cargas (INSS 12% + ICMS)
                   </div>
                 </Label>
@@ -133,8 +133,8 @@ export default function OnboardingPage() {
         {step === 2 && (
           <div className="space-y-6">
             <div>
-              <h2 className="text-2xl font-bold mb-2">Dados do Negócio</h2>
-              <p className="text-gray-600 mb-6">
+              <h2 className="text-2xl font-bold mb-2 text-foreground">Dados do Negócio</h2>
+              <p className="text-muted-foreground mb-6">
                 Informações básicas para personalizar suas calculadoras
               </p>
             </div>
@@ -161,7 +161,7 @@ export default function OnboardingPage() {
                   setFormData({ ...formData, cnpj: e.target.value })
                 }
               />
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-muted-foreground mt-1">
                 Usado para personalizar alertas de DAS
               </p>
             </div>
@@ -192,8 +192,8 @@ export default function OnboardingPage() {
         {step === 3 && (
           <div className="space-y-6">
             <div>
-              <h2 className="text-2xl font-bold mb-2">Faturamento</h2>
-              <p className="text-gray-600 mb-6">
+              <h2 className="text-2xl font-bold mb-2 text-foreground">Faturamento</h2>
+              <p className="text-muted-foreground mb-6">
                 Quanto você fatura em média por mês?
               </p>
             </div>
@@ -204,37 +204,37 @@ export default function OnboardingPage() {
                 setFormData({ ...formData, faturamentoMedio: Number(value) })
               }
             >
-              <div className="flex items-center space-x-2 border rounded-lg p-4 hover:bg-gray-50 cursor-pointer">
+              <div className="flex items-center space-x-2 border border-border rounded-lg p-4 hover:bg-secondary/50 cursor-pointer transition-colors">
                 <RadioGroupItem value="1500" id="fat-1" />
-                <Label htmlFor="fat-1" className="flex-1 cursor-pointer">
+                <Label htmlFor="fat-1" className="flex-1 cursor-pointer text-foreground">
                   Até R$ 2.000/mês
                 </Label>
               </div>
 
-              <div className="flex items-center space-x-2 border rounded-lg p-4 hover:bg-gray-50 cursor-pointer">
+              <div className="flex items-center space-x-2 border border-border rounded-lg p-4 hover:bg-secondary/50 cursor-pointer transition-colors">
                 <RadioGroupItem value="4000" id="fat-2" />
-                <Label htmlFor="fat-2" className="flex-1 cursor-pointer">
+                <Label htmlFor="fat-2" className="flex-1 cursor-pointer text-foreground">
                   R$ 2.000 - R$ 5.000/mês
                 </Label>
               </div>
 
-              <div className="flex items-center space-x-2 border rounded-lg p-4 hover:bg-gray-50 cursor-pointer">
+              <div className="flex items-center space-x-2 border border-border rounded-lg p-4 hover:bg-secondary/50 cursor-pointer transition-colors">
                 <RadioGroupItem value="7000" id="fat-3" />
-                <Label htmlFor="fat-3" className="flex-1 cursor-pointer">
+                <Label htmlFor="fat-3" className="flex-1 cursor-pointer text-foreground">
                   R$ 5.000 - R$ 8.100/mês (próximo do teto)
                 </Label>
               </div>
 
-              <div className="flex items-center space-x-2 border rounded-lg p-4 hover:bg-gray-50 cursor-pointer">
+              <div className="flex items-center space-x-2 border border-border rounded-lg p-4 hover:bg-secondary/50 cursor-pointer transition-colors">
                 <RadioGroupItem value="0" id="fat-4" />
-                <Label htmlFor="fat-4" className="flex-1 cursor-pointer">
+                <Label htmlFor="fat-4" className="flex-1 cursor-pointer text-foreground">
                   Ainda não faturei / Prefiro não informar
                 </Label>
               </div>
             </RadioGroup>
 
-            <div className="bg-mei-50 border-l-4 border-mei-500 p-4 rounded">
-              <p className="text-sm text-gray-700">
+            <div className="bg-primary/10 border-l-4 border-primary p-4 rounded">
+              <p className="text-sm text-foreground">
                 💡 <strong>Por que perguntamos?</strong> Para alertá-lo quando
                 estiver próximo do teto de R$ 81.000/ano e personalizar suas
                 calculadoras.
@@ -263,7 +263,7 @@ export default function OnboardingPage() {
                 (step === 1 && !formData.tipoMEI) ||
                 (step === 2 && !formData.ocupacao)
               }
-              className="ml-auto bg-mei-500 hover:bg-mei-600"
+              className="ml-auto bg-primary hover:bg-primary/90"
             >
               Próximo
               <ArrowRight className="w-4 h-4 ml-2" />
@@ -272,7 +272,7 @@ export default function OnboardingPage() {
             <Button
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className="ml-auto bg-mei-500 hover:bg-mei-600"
+              className="ml-auto bg-primary hover:bg-primary/90"
             >
               {isSubmitting ? 'Salvando...' : 'Finalizar'}
             </Button>
@@ -282,7 +282,7 @@ export default function OnboardingPage() {
         <div className="mt-6 text-center">
           <button
             onClick={() => router.push('/dashboard')}
-            className="text-sm text-gray-500 hover:text-gray-700"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             disabled={isSubmitting}
           >
             Pular por enquanto →
