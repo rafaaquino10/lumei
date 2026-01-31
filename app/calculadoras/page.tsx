@@ -11,6 +11,7 @@ import { PrecificacaoCalc } from '@/components/calculadoras/precificacao-calc'
 import { FaturamentoCalc } from '@/components/calculadoras/faturamento-calc'
 import { FluxoCaixaCalc } from '@/components/calculadoras/fluxo-caixa-calc'
 import { DasCalc } from '@/components/calculadoras/das-calc'
+import { CalculadorasPageSchema } from '@/components/calculator-schema'
 
 type CalculadoraId = 'margem-lucro' | 'preco-hora' | 'precificacao' | 'faturamento' | 'fluxo-caixa' | 'das'
 
@@ -147,8 +148,11 @@ function CalculadorasContent() {
 
 export default function CalculadorasPage() {
   return (
-    <Suspense fallback={<div className="container mx-auto px-4 py-8 text-center">Carregando...</div>}>
-      <CalculadorasContent />
-    </Suspense>
+    <>
+      <CalculadorasPageSchema />
+      <Suspense fallback={<div className="container mx-auto px-4 py-8 text-center">Carregando...</div>}>
+        <CalculadorasContent />
+      </Suspense>
+    </>
   )
 }

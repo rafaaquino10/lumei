@@ -7,10 +7,13 @@ import { SignedIn, SignedOut } from '@/lib/auth/context'
 import { Check, X, Zap, Shield, Clock, TrendingUp } from 'lucide-react'
 import { CheckoutButton } from '@/components/billing/checkout-button'
 import { PLANS } from '@/lib/billing/plans'
+import { PremiumFAQSchema } from '@/components/faq-page-schema'
 
 export default function PremiumPage() {
   return (
-    <div className="container mx-auto px-4 py-12">
+    <>
+      <PremiumFAQSchema />
+      <div className="container mx-auto px-4 py-12">
       {/* Hero */}
       <div className="text-center mb-16">
         <div className="inline-block bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold mb-6">
