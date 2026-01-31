@@ -1,10 +1,12 @@
 'use client'
 
 import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
+import { Loader2 } from 'lucide-react'
 
 const meses = [
   'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
@@ -20,6 +22,7 @@ export function FaturamentoCalc() {
     percentual: number
     status: 'seguro' | 'atencao' | 'perigo'
   } | null>(null)
+  const [isCalculating, setIsCalculating] = useState(false)
 
   const LIMITE_MEI = 81000
 
@@ -29,7 +32,10 @@ export function FaturamentoCalc() {
     setValores(novosValores)
   }
 
-  const calcular = () => {
+  const calcular = async () => {
+    setIsCalculating(true)
+    await new Promise(resolve => setTimeout(resolve, 400))
+
     const total = valores.reduce((acc, val) => {
       const num = parseFloat(val) || 0
       return acc + num
@@ -43,6 +49,7 @@ export function FaturamentoCalc() {
     else if (percentual > 80) status = 'atencao'
 
     setResultado({ total, media, limite: LIMITE_MEI, percentual, status })
+    setIsCalculating(false)
   }
 
   const limpar = () => {
@@ -73,63 +80,95 @@ export function FaturamentoCalc() {
                 value={valores[index]}
                 onChange={(e) => handleChange(index, e.target.value)}
                 className="h-9 text-sm"
+                disabled={isCalculating}
               />
             </div>
           ))}
         </div>
 
         <div className="flex gap-2 mb-4">
-          <Button onClick={calcular} className="flex-1 h-10">
-            Calcular Total Anual
+          <Button
+            onClick={calcular}
+            className="flex-1 h-10"
+            disabled={isCalculating}
+          >
+            {isCalculating ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Calculando...
+              </>
+            ) : (
+              'Calcular Total Anual'
+            )}
           </Button>
-          <Button onClick={limpar} variant="outline" className="h-10">
+          <Button onClick={limpar} variant="outline" className="h-10" disabled={isCalculating}>
             Limpar
           </Button>
         </div>
 
-        {resultado && (
-          <div className="grid md:grid-cols-2 gap-4">
-            <Card className="p-4 bg-primary/10 border-primary">
-              <p className="text-xs text-muted-foreground mb-1">Total Anual</p>
-              <p className="text-2xl font-bold text-foreground">
-                R$ {resultado.total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-              </p>
-            </Card>
+        <AnimatePresence mode="wait">
+          {resultado && !isCalculating && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="grid md:grid-cols-2 gap-4"
+            >
+              <Card className="p-4 bg-primary/10 border-primary">
+                <p className="text-xs text-muted-foreground mb-1">Total Anual</p>
+                <motion.p
+                  className="text-2xl font-bold text-foreground"
+                  initial={{ scale: 0.8 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
+                >
+                  R$ {resultado.total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                </motion.p>
+              </Card>
 
-            <Card className="p-4 bg-card">
-              <p className="text-xs text-muted-foreground mb-1">Média Mensal</p>
-              <p className="text-2xl font-bold text-foreground">
-                R$ {resultado.media.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-              </p>
-            </Card>
+              <Card className="p-4 bg-card">
+                <p className="text-xs text-muted-foreground mb-1">Média Mensal</p>
+                <p className="text-2xl font-bold text-foreground">
+                  R$ {resultado.media.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                </p>
+              </Card>
 
-            <Card className={`p-4 md:col-span-2 ${
-              resultado.status === 'perigo' ? 'bg-destructive/10 border-destructive' :
-              resultado.status === 'atencao' ? 'bg-yellow-500/10 border-yellow-500' :
-              'bg-primary/10 border-primary'
-            }`}>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs text-muted-foreground mb-1">Status do Limite MEI</p>
-                  <p className="text-xl font-bold text-foreground">
-                    {resultado.percentual.toFixed(1)}% do limite anual
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    {resultado.status === 'perigo' && '⚠️ Você ultrapassou o limite do MEI de R$ 81.000!'}
-                    {resultado.status === 'atencao' && '⚠️ Atenção! Você está próximo do limite.'}
-                    {resultado.status === 'seguro' && '✓ Você está dentro do limite anual de R$ 81.000'}
-                  </p>
-                </div>
-                <div className="text-right">
-                  <p className="text-xs text-muted-foreground">Falta</p>
-                  <p className="text-lg font-semibold text-foreground">
-                    R$ {(resultado.limite - resultado.total).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                  </p>
-                </div>
-              </div>
-            </Card>
-          </div>
-        )}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="md:col-span-2"
+              >
+                <Card className={`p-4 ${
+                  resultado.status === 'perigo' ? 'bg-destructive/10 border-destructive' :
+                  resultado.status === 'atencao' ? 'bg-yellow-500/10 border-yellow-500' :
+                  'bg-primary/10 border-primary'
+                }`}>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-xs text-muted-foreground mb-1">Status do Limite MEI</p>
+                      <p className="text-xl font-bold text-foreground">
+                        {resultado.percentual.toFixed(1)}% do limite anual
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {resultado.status === 'perigo' && '⚠️ Você ultrapassou o limite do MEI de R$ 81.000!'}
+                        {resultado.status === 'atencao' && '⚠️ Atenção! Você está próximo do limite.'}
+                        {resultado.status === 'seguro' && '✓ Você está dentro do limite anual de R$ 81.000'}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xs text-muted-foreground">Falta</p>
+                      <p className="text-lg font-semibold text-foreground">
+                        R$ {(resultado.limite - resultado.total).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                      </p>
+                    </div>
+                  </div>
+                </Card>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </Card>
     </div>
   )

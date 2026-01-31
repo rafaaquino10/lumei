@@ -1,9 +1,10 @@
 'use client'
 
+import { useState } from 'react'
+import { motion } from 'framer-motion'
 import { Card } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { useState } from 'react'
 
 export function DasCalc() {
   const [tipoMei, setTipoMei] = useState('comercio')
@@ -51,15 +52,27 @@ export function DasCalc() {
             </Select>
           </div>
 
-          <Card className="p-4 bg-primary/10 border-primary">
-            <p className="text-xs text-muted-foreground mb-1">Valor do DAS Mensal</p>
-            <p className="text-2xl font-bold text-foreground">
-              R$ {calcularDAS().toFixed(2)}
-            </p>
-            <p className="text-xs text-muted-foreground mt-2">
-              Vencimento: dia 20 de cada mês
-            </p>
-          </Card>
+          <motion.div
+            key={tipoMei}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Card className="p-4 bg-primary/10 border-primary">
+              <p className="text-xs text-muted-foreground mb-1">Valor do DAS Mensal</p>
+              <motion.p
+                className="text-2xl font-bold text-foreground"
+                initial={{ scale: 0.8 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 200 }}
+              >
+                R$ {calcularDAS().toFixed(2)}
+              </motion.p>
+              <p className="text-xs text-muted-foreground mt-2">
+                Vencimento: dia 20 de cada mês
+              </p>
+            </Card>
+          </motion.div>
         </div>
 
         {/* Coluna direita - Próximos Vencimentos */}
@@ -68,13 +81,20 @@ export function DasCalc() {
             Próximos Vencimentos
           </h3>
           <div className="grid grid-cols-2 gap-2">
-            {proximosVencimentos.map((item) => (
-              <Card key={item.mes} className="p-2">
-                <div className="text-center">
-                  <p className="text-xs font-medium text-foreground">{item.mes}</p>
-                  <p className="text-xs text-muted-foreground">{item.vencimento}</p>
-                </div>
-              </Card>
+            {proximosVencimentos.map((item, index) => (
+              <motion.div
+                key={item.mes}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+              >
+                <Card className="p-2">
+                  <div className="text-center">
+                    <p className="text-xs font-medium text-foreground">{item.mes}</p>
+                    <p className="text-xs text-muted-foreground">{item.vencimento}</p>
+                  </div>
+                </Card>
+              </motion.div>
             ))}
           </div>
         </div>

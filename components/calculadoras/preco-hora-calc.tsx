@@ -1,22 +1,28 @@
 'use client'
 
 import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
+import { Loader2 } from 'lucide-react'
 
 export function PrecoHoraCalc() {
   const [salarioDesejado, setSalarioDesejado] = useState('')
   const [horasMes, setHorasMes] = useState('160')
   const [resultado, setResultado] = useState<number | null>(null)
+  const [isCalculating, setIsCalculating] = useState(false)
 
-  const calcular = () => {
+  const calcular = async () => {
     const salario = parseFloat(salarioDesejado)
     const horas = parseFloat(horasMes)
     if (salario && horas && horas > 0) {
+      setIsCalculating(true)
+      await new Promise(resolve => setTimeout(resolve, 300))
       const valorHora = salario / horas
       setResultado(valorHora)
+      setIsCalculating(false)
     }
   }
 
@@ -36,6 +42,7 @@ export function PrecoHoraCalc() {
             value={salarioDesejado}
             onChange={(e) => setSalarioDesejado(e.target.value)}
             className="h-10"
+            disabled={isCalculating}
           />
         </div>
 
@@ -48,25 +55,51 @@ export function PrecoHoraCalc() {
             value={horasMes}
             onChange={(e) => setHorasMes(e.target.value)}
             className="h-10"
+            disabled={isCalculating}
           />
         </div>
       </div>
 
-      <Button onClick={calcular} className="w-full h-10 mb-4">
-        Calcular Valor/Hora
+      <Button
+        onClick={calcular}
+        className="w-full h-10 mb-4"
+        disabled={isCalculating || !salarioDesejado}
+      >
+        {isCalculating ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Calculando...
+          </>
+        ) : (
+          'Calcular Valor/Hora'
+        )}
       </Button>
 
-      {resultado !== null && (
-        <Card className="p-4 bg-primary/10 border-primary">
-          <p className="text-sm text-muted-foreground mb-2">Valor por Hora</p>
-          <p className="text-2xl font-bold text-foreground">
-            R$ {resultado.toFixed(2)}
-          </p>
-          <p className="text-xs text-muted-foreground mt-2">
-            Esse é o valor mínimo que você deve cobrar por hora de trabalho
-          </p>
-        </Card>
-      )}
+      <AnimatePresence mode="wait">
+        {resultado !== null && !isCalculating && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Card className="p-4 bg-primary/10 border-primary">
+              <p className="text-sm text-muted-foreground mb-2">Valor por Hora</p>
+              <motion.p
+                className="text-2xl font-bold text-foreground"
+                initial={{ scale: 0.8 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
+              >
+                R$ {resultado.toFixed(2)}
+              </motion.p>
+              <p className="text-xs text-muted-foreground mt-2">
+                Esse é o valor mínimo que você deve cobrar por hora de trabalho
+              </p>
+            </Card>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Card>
   )
 }

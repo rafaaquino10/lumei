@@ -1,10 +1,12 @@
 'use client'
 
 import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
+import { Loader2 } from 'lucide-react'
 
 export function PrecificacaoCalc() {
   const [custoMaterial, setCustoMaterial] = useState('')
@@ -12,16 +14,20 @@ export function PrecificacaoCalc() {
   const [valorHora, setValorHora] = useState('')
   const [margemLucro, setMargemLucro] = useState('30')
   const [resultado, setResultado] = useState<number | null>(null)
+  const [isCalculating, setIsCalculating] = useState(false)
 
-  const calcular = () => {
+  const calcular = async () => {
     const material = parseFloat(custoMaterial) || 0
     const tempo = parseFloat(tempoHoras) || 0
     const hora = parseFloat(valorHora) || 0
     const margem = parseFloat(margemLucro) || 0
 
+    setIsCalculating(true)
+    await new Promise(resolve => setTimeout(resolve, 300))
     const custoTotal = material + (tempo * hora)
     const precoFinal = custoTotal * (1 + margem / 100)
     setResultado(precoFinal)
+    setIsCalculating(false)
   }
 
   return (
@@ -40,6 +46,7 @@ export function PrecificacaoCalc() {
             value={custoMaterial}
             onChange={(e) => setCustoMaterial(e.target.value)}
             className="h-10"
+            disabled={isCalculating}
           />
         </div>
 
@@ -52,6 +59,7 @@ export function PrecificacaoCalc() {
             value={tempoHoras}
             onChange={(e) => setTempoHoras(e.target.value)}
             className="h-10"
+            disabled={isCalculating}
           />
         </div>
 
@@ -64,6 +72,7 @@ export function PrecificacaoCalc() {
             value={valorHora}
             onChange={(e) => setValorHora(e.target.value)}
             className="h-10"
+            disabled={isCalculating}
           />
         </div>
 
@@ -76,22 +85,48 @@ export function PrecificacaoCalc() {
             value={margemLucro}
             onChange={(e) => setMargemLucro(e.target.value)}
             className="h-10"
+            disabled={isCalculating}
           />
         </div>
       </div>
 
-      <Button onClick={calcular} className="w-full h-10 mb-4">
-        Calcular Preço
+      <Button
+        onClick={calcular}
+        className="w-full h-10 mb-4"
+        disabled={isCalculating}
+      >
+        {isCalculating ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Calculando...
+          </>
+        ) : (
+          'Calcular Preço'
+        )}
       </Button>
 
-      {resultado !== null && (
-        <Card className="p-4 bg-primary/10 border-primary">
-          <p className="text-sm text-muted-foreground mb-2">Preço Sugerido</p>
-          <p className="text-2xl font-bold text-foreground">
-            R$ {resultado.toFixed(2)}
-          </p>
-        </Card>
-      )}
+      <AnimatePresence mode="wait">
+        {resultado !== null && !isCalculating && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Card className="p-4 bg-primary/10 border-primary">
+              <p className="text-sm text-muted-foreground mb-2">Preço Sugerido</p>
+              <motion.p
+                className="text-2xl font-bold text-foreground"
+                initial={{ scale: 0.8 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
+              >
+                R$ {resultado.toFixed(2)}
+              </motion.p>
+            </Card>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Card>
   )
 }
