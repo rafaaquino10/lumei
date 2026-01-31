@@ -2,7 +2,7 @@
 
 Calculadoras financeiras feitas para MEI crescer. 100% grátis.
 
-🚀 **Status:** 6 calculadoras funcionais | **Live:** [lumei.com.br](https://lumei.com.br)
+🚀 **Status:** 6 calculadoras funcionais | **Live:** [calculamei.com.br](https://calculamei.com.br)
 
 ---
 
@@ -268,8 +268,8 @@ Este projeto é privado. Todos os direitos reservados © 2025 Lumei.
 
 ## 📞 Contato
 
-- Website: [lumei.com.br](https://lumei.com.br)
-- Email: contato@lumei.com.br
+- Website: [calculamei.com.br](https://calculamei.com.br)
+- Email: contato@calculamei.com.br
 - GitHub: [@rafaaquino10](https://github.com/rafaaquino10)
 
 ---

@@ -1,109 +1,134 @@
-import Link from 'next/link'
+'use client'
+
+import { useState } from 'react'
 import { Metadata } from 'next'
 import { TrendingUp, Clock, Tag, BarChart3, ArrowLeftRight, Calendar } from 'lucide-react'
 import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { MargemLucroCalc } from '@/components/calculadoras/margem-lucro-calc'
+import { PrecoHoraCalc } from '@/components/calculadoras/preco-hora-calc'
+import { PrecificacaoCalc } from '@/components/calculadoras/precificacao-calc'
+import { FaturamentoCalc } from '@/components/calculadoras/faturamento-calc'
+import { FluxoCaixaCalc } from '@/components/calculadoras/fluxo-caixa-calc'
+import { DasCalc } from '@/components/calculadoras/das-calc'
+
+type CalculadoraId = 'margem-lucro' | 'preco-hora' | 'precificacao' | 'faturamento' | 'fluxo-caixa' | 'das'
 
 const calculadoras = [
   {
+    id: 'margem-lucro' as CalculadoraId,
     icon: TrendingUp,
     titulo: 'Margem de Lucro',
-    descricao: 'Descubra quanto você lucra de verdade',
-    href: '/calcular/margem-lucro',
-    ativo: true,
+    descricao: 'Descubra quanto você lucra',
   },
   {
+    id: 'preco-hora' as CalculadoraId,
     icon: Clock,
     titulo: 'Preço por Hora',
-    descricao: 'Calcule o valor mínimo que deve cobrar',
-    href: '/calcular/preco-hora',
-    ativo: true,
+    descricao: 'Calcule seu valor/hora',
   },
   {
+    id: 'precificacao' as CalculadoraId,
     icon: Tag,
     titulo: 'Precificação',
-    descricao: 'Defina o preço ideal dos seus produtos/serviços',
-    href: '/calcular/precificacao',
-    ativo: true,
+    descricao: 'Defina preços ideais',
   },
   {
+    id: 'faturamento' as CalculadoraId,
     icon: BarChart3,
-    titulo: 'Simulador Faturamento',
-    descricao: 'Saiba se vai estourar o teto do MEI',
-    href: '/calcular/faturamento',
-    ativo: true,
+    titulo: 'Faturamento',
+    descricao: 'Simule seu faturamento',
   },
   {
+    id: 'fluxo-caixa' as CalculadoraId,
     icon: ArrowLeftRight,
     titulo: 'Fluxo de Caixa',
-    descricao: 'Controle entradas e saídas mensais',
-    href: '/calcular/fluxo-caixa',
-    ativo: true,
+    descricao: 'Controle entradas e saídas',
   },
   {
+    id: 'das' as CalculadoraId,
     icon: Calendar,
-    titulo: 'Calendário DAS',
-    descricao: 'Nunca mais atrase o pagamento',
-    href: '/calcular/das',
-    ativo: true,
+    titulo: 'DAS',
+    descricao: 'Calendário e valores',
   },
 ]
 
-export const metadata: Metadata = {
-  title: 'Calculadoras | Calcula MEI',
-  description:
-    'Todas as calculadoras financeiras do Calcula MEI para MEI: margem, preço por hora, precificação, DAS e mais.',
-}
-
 export default function CalculadorasPage() {
+  const [ativa, setAtiva] = useState<CalculadoraId>('margem-lucro')
+
+  const renderCalculadora = () => {
+    switch (ativa) {
+      case 'margem-lucro':
+        return <MargemLucroCalc />
+      case 'preco-hora':
+        return <PrecoHoraCalc />
+      case 'precificacao':
+        return <PrecificacaoCalc />
+      case 'faturamento':
+        return <FaturamentoCalc />
+      case 'fluxo-caixa':
+        return <FluxoCaixaCalc />
+      case 'das':
+        return <DasCalc />
+      default:
+        return null
+    }
+  }
+
   return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="mb-12 text-center">
-        <h1 className="text-4xl font-bold text-foreground mb-4">
-          Todas as Calculadoras
+    <div className="container mx-auto px-4 py-8">
+      <div className="mb-8 text-center">
+        <h1 className="text-3xl font-bold text-foreground mb-2">
+          Calculadoras MEI
         </h1>
-        <p className="text-xl text-muted-foreground">
-          Ferramentas essenciais para gerenciar seu MEI
+        <p className="text-muted-foreground">
+          Escolha uma calculadora abaixo para começar
         </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-        {calculadoras.map((calc) => (
-          <Link
-            key={calc.titulo}
-            href={calc.ativo ? calc.href : '#'}
-            className={cn('block h-full', !calc.ativo && 'pointer-events-none')}
-          >
-            <Card
-              className={cn(
-                'p-4 h-full transition-all duration-300 relative',
-                calc.ativo
-                  ? 'hover:shadow-mei-lg hover:-translate-y-1 cursor-pointer'
-                  : 'opacity-60'
-              )}
+      {/* Cards horizontais com scroll */}
+      <div className="mb-8 overflow-x-auto pb-4 -mx-4 px-4">
+        <div className="flex gap-3 min-w-max">
+          {calculadoras.map((calc) => (
+            <button
+              key={calc.id}
+              onClick={() => setAtiva(calc.id)}
+              className="flex-shrink-0"
             >
-              {!calc.ativo && (
-                <div className="absolute top-2 right-2 bg-secondary text-muted-foreground border border-border text-xs px-2 py-1 rounded font-medium">
-                  Em breve
-                </div>
-              )}
-              <calc.icon className="w-8 h-8 text-mei-500 mb-3" />
-              <h3 className="text-base font-bold mb-2 text-foreground">{calc.titulo}</h3>
-              <p className="text-muted-foreground text-xs mb-4">{calc.descricao}</p>
-              <Button
-                variant={calc.ativo ? 'default' : 'ghost'}
+              <Card
                 className={cn(
-                  'w-full',
-                  calc.ativo && 'bg-mei-500 hover:bg-mei-600 text-white'
+                  'p-4 w-40 transition-all duration-200',
+                  ativa === calc.id
+                    ? 'border-primary shadow-lg scale-105 bg-primary/5'
+                    : 'hover:shadow-md hover:scale-[1.02]'
                 )}
-                disabled={!calc.ativo}
               >
-                {calc.ativo ? 'Calcular →' : 'Em breve'}
-              </Button>
-            </Card>
-          </Link>
-        ))}
+                <calc.icon
+                  className={cn(
+                    'w-6 h-6 mx-auto mb-2',
+                    ativa === calc.id ? 'text-primary' : 'text-muted-foreground'
+                  )}
+                />
+                <h3
+                  className={cn(
+                    'text-sm font-semibold text-center mb-1',
+                    ativa === calc.id ? 'text-foreground' : 'text-muted-foreground'
+                  )}
+                >
+                  {calc.titulo}
+                </h3>
+                <p className="text-xs text-muted-foreground text-center line-clamp-2">
+                  {calc.descricao}
+                </p>
+              </Card>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Calculadora ativa */}
+      <div className="mt-8">
+        {renderCalculadora()}
       </div>
     </div>
   )

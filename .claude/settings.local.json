@@ -11,7 +11,24 @@
       "Bash(npm run lint)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(npx next build:*)"
+      "Bash(npx next build:*)",
+      "Bash(npm run dev)",
+      "Bash(git rm:*)",
+      "Bash(git push)",
+      "Bash(npx tsc:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(cd:*)",
+      "Bash(npx prisma generate:*)",
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(echo:*)",
+      "Bash(npx prisma migrate:*)",
+      "Bash(git push:*)",
+      "Bash(xargs -I {} sh -c 'grep -l \"\"export const metadata\"\" {} 2>/dev/null')",
+      "Bash(taskkill:*)",
+      "Bash(powershell -Command \"Stop-Process -Id 51052 -Force\")",
+      "Bash(npx prisma:*)",
+      "Bash(curl:*)",
+      "Bash(powershell -Command:*)"
     ]
   }
 }

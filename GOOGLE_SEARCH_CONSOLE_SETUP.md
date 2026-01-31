@@ -6,7 +6,7 @@
 - [ ] Acesse [Google Search Console](https://search.google.com/search-console)
 - [ ] Clique em "Adicionar propriedade"
 - [ ] Escolha "Prefixo de URL"
-- [ ] Digite: `https://lumei.com.br`
+- [ ] Digite: `https://calculamei.com.br`
 
 ### 2. Verificar Propriedade
 Escolha um dos métodos:
@@ -39,15 +39,15 @@ Escolha um dos métodos:
 ### 4. Solicitar Indexação das Páginas Principais
 Vá em "Inspeção de URL" e solicite indexação para:
 
-- [ ] `https://lumei.com.br/`
-- [ ] `https://lumei.com.br/calcular/margem-lucro`
-- [ ] `https://lumei.com.br/calcular/preco-hora`
-- [ ] `https://lumei.com.br/calcular/precificacao`
-- [ ] `https://lumei.com.br/calcular/faturamento`
-- [ ] `https://lumei.com.br/calcular/fluxo-caixa`
-- [ ] `https://lumei.com.br/calcular/das`
-- [ ] `https://lumei.com.br/premium`
-- [ ] `https://lumei.com.br/blog`
+- [ ] `https://calculamei.com.br/`
+- [ ] `https://calculamei.com.br/calcular/margem-lucro`
+- [ ] `https://calculamei.com.br/calcular/preco-hora`
+- [ ] `https://calculamei.com.br/calcular/precificacao`
+- [ ] `https://calculamei.com.br/calcular/faturamento`
+- [ ] `https://calculamei.com.br/calcular/fluxo-caixa`
+- [ ] `https://calculamei.com.br/calcular/das`
+- [ ] `https://calculamei.com.br/premium`
+- [ ] `https://calculamei.com.br/blog`
 
 ### 5. Verificar Compatibilidade Mobile
 - [ ] Vá em "Experiência" → "Usabilidade em dispositivos móveis"
