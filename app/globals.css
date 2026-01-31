@@ -379,4 +379,26 @@
     border-radius: 0.5rem;
     margin: 2rem 0;
   }
+
+  /* Ad containers - prevent CLS (Cumulative Layout Shift) */
+  .ad-container {
+    min-height: 90px;
+    background-color: rgb(var(--muted) / 0.3);
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ad-container-interstitial {
+    min-height: 250px;
+    background-color: rgb(var(--muted) / 0.3);
+    border-radius: 0.5rem;
+  }
+
+  .ad-container ins,
+  .ad-container-interstitial ins {
+    display: block;
+    width: 100%;
+  }
 }
