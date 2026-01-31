@@ -21,12 +21,12 @@ export function PrecoHoraCalc() {
   }
 
   return (
-    <Card className="p-6 max-w-3xl mx-auto">
-      <h2 className="text-2xl font-bold text-foreground mb-4">
+    <Card className="p-4 max-w-3xl mx-auto">
+      <h2 className="text-xl font-bold text-foreground mb-3">
         Calculadora de Preço por Hora
       </h2>
 
-      <div className="grid md:grid-cols-2 gap-4 mb-6">
+      <div className="grid md:grid-cols-2 gap-4 mb-4">
         <div>
           <Label htmlFor="salario">Salário Mensal Desejado (R$)</Label>
           <Input
@@ -52,14 +52,14 @@ export function PrecoHoraCalc() {
         </div>
       </div>
 
-      <Button onClick={calcular} className="w-full h-10 mb-6">
+      <Button onClick={calcular} className="w-full h-10 mb-4">
         Calcular Valor/Hora
       </Button>
 
       {resultado !== null && (
         <Card className="p-4 bg-primary/10 border-primary">
           <p className="text-sm text-muted-foreground mb-2">Valor por Hora</p>
-          <p className="text-3xl font-bold text-foreground">
+          <p className="text-2xl font-bold text-foreground">
             R$ {resultado.toFixed(2)}
           </p>
           <p className="text-xs text-muted-foreground mt-2">

@@ -130,7 +130,7 @@ export default async function HistoricoPage() {
           <p className="text-muted-foreground mb-4">
             Você ainda não salvou nenhum cálculo
           </p>
-          <Link href="/">
+          <Link href="/calculadoras">
             <Button>Fazer um Cálculo</Button>
           </Link>
         </Card>

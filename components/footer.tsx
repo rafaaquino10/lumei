@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { Instagram, Twitter, Mail } from 'lucide-react'
+import { Logo } from '@/components/logo'
 
 const productLinks = [
   { href: '/calculadoras', label: 'Calculadoras' },
@@ -42,28 +42,22 @@ export default function Footer() {
 
   return (
     <footer className="bg-card border-t border-border">
-      <div className="mx-auto max-w-[1280px] px-4 py-10 md:px-6 lg:px-8">
+      <div className="mx-auto max-w-[1280px] px-4 py-6 md:px-6 lg:px-8">
         {/* Main Footer Content - 4 columns */}
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 lg:gap-12">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4 lg:gap-8">
           {/* Column 1 - Brand */}
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="inline-block">
-              <Image
-                src="/logo.svg"
-                alt="Calcula MEI"
-                width={100}
-                height={28}
-                className="h-7 w-auto"
-              />
+              <Logo className="h-7 w-auto" />
             </Link>
-            <p className="mt-3 text-sm font-medium text-foreground">
+            <p className="mt-2 text-sm font-medium text-foreground">
               Lucre mais. Sempre.
             </p>
             <p className="mt-1 text-xs text-muted-foreground">
               Calculadoras financeiras para MEI
             </p>
             {/* Social icons */}
-            <div className="mt-4 flex items-center gap-3">
+            <div className="mt-3 flex items-center gap-3">
               {socialLinks.map((social) => {
                 const Icon = social.icon
                 return (
@@ -84,10 +78,10 @@ export default function Footer() {
 
           {/* Column 2 - Produto */}
           <div>
-            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Produto
             </h3>
-            <ul className="space-y-2">
+            <ul className="space-y-1.5">
               {productLinks.map((link) => (
                 <li key={link.href}>
                   <Link
@@ -103,10 +97,10 @@ export default function Footer() {
 
           {/* Column 3 - Suporte */}
           <div>
-            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Suporte
             </h3>
-            <ul className="space-y-2">
+            <ul className="space-y-1.5">
               {supportLinks.map((link) => (
                 <li key={link.href}>
                   <Link
@@ -122,10 +116,10 @@ export default function Footer() {
 
           {/* Column 4 - Legal */}
           <div>
-            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Legal
             </h3>
-            <ul className="space-y-2">
+            <ul className="space-y-1.5">
               {legalLinks.map((link) => (
                 <li key={link.href}>
                   <Link
@@ -141,7 +135,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Row - Copyright & Disclaimer */}
-        <div className="mt-8 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row">
+        <div className="mt-6 flex flex-col items-center justify-between gap-2 border-t border-border pt-4 text-xs text-muted-foreground md:flex-row">
           <p>© {currentYear} Calcula MEI. Todos os direitos reservados.</p>
           <p>Valores são referências. Confirme no Portal do Empreendedor.</p>
         </div>

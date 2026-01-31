@@ -44,9 +44,9 @@ export function HeroCarousel() {
   const current = screenshots[currentIndex]
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       {/* Main screenshot container */}
-      <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-border bg-card">
+      <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-border bg-card aspect-video">
         <AnimatePresence mode="sync">
           <motion.div
             key={current.id}
@@ -54,13 +54,14 @@ export function HeroCarousel() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="absolute inset-0"
           >
             <Image
               src={current.src}
               alt={`Calculadora ${current.title}`}
               width={900}
               height={600}
-              className="w-full h-auto"
+              className="w-full h-full object-cover"
               priority={currentIndex === 0}
             />
           </motion.div>

@@ -27,12 +27,12 @@ export function FluxoCaixaCalc() {
   }
 
   return (
-    <Card className="p-6 max-w-3xl mx-auto">
-      <h2 className="text-2xl font-bold text-foreground mb-4">
+    <Card className="p-4 max-w-3xl mx-auto">
+      <h2 className="text-xl font-bold text-foreground mb-3">
         Calculadora de Fluxo de Caixa
       </h2>
 
-      <div className="grid md:grid-cols-2 gap-4 mb-6">
+      <div className="grid md:grid-cols-2 gap-4 mb-4">
         <div>
           <Label htmlFor="entradas">Entradas do Mês (R$)</Label>
           <Input
@@ -58,7 +58,7 @@ export function FluxoCaixaCalc() {
         </div>
       </div>
 
-      <Button onClick={calcular} className="w-full h-10 mb-6">
+      <Button onClick={calcular} className="w-full h-10 mb-4">
         Calcular Saldo
       </Button>
 
@@ -69,7 +69,7 @@ export function FluxoCaixaCalc() {
           'bg-secondary border-border'
         }`}>
           <p className="text-sm text-muted-foreground mb-2">Saldo do Fluxo de Caixa</p>
-          <p className="text-3xl font-bold text-foreground">
+          <p className="text-2xl font-bold text-foreground">
             R$ {Math.abs(resultado.saldo).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
           </p>
           <p className="text-xs text-muted-foreground mt-2">

@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { Metadata } from 'next'
+import { Suspense, useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { TrendingUp, Clock, Tag, BarChart3, ArrowLeftRight, Calendar } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
@@ -53,8 +53,16 @@ const calculadoras = [
   },
 ]
 
-export default function CalculadorasPage() {
+function CalculadorasContent() {
+  const searchParams = useSearchParams()
   const [ativa, setAtiva] = useState<CalculadoraId>('margem-lucro')
+
+  useEffect(() => {
+    const calc = searchParams.get('calc') as CalculadoraId | null
+    if (calc && calculadoras.some(c => c.id === calc)) {
+      setAtiva(calc)
+    }
+  }, [searchParams])
 
   const renderCalculadora = () => {
     switch (ativa) {
@@ -87,8 +95,8 @@ export default function CalculadorasPage() {
       </div>
 
       {/* Cards horizontais com scroll */}
-      <div className="mb-8 overflow-x-auto pb-4 pt-2 -mx-4 px-4">
-        <div className="flex gap-3 min-w-max">
+      <div className="mb-8 overflow-x-auto pb-4 pt-2">
+        <div className="flex gap-3 justify-center flex-wrap">
           {calculadoras.map((calc) => (
             <button
               key={calc.id}
@@ -133,5 +141,13 @@ export default function CalculadorasPage() {
         {renderCalculadora()}
       </div>
     </div>
+  )
+}
+
+export default function CalculadorasPage() {
+  return (
+    <Suspense fallback={<div className="container mx-auto px-4 py-8 text-center">Carregando...</div>}>
+      <CalculadorasContent />
+    </Suspense>
   )
 }

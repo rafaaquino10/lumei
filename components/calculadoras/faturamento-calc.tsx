@@ -52,15 +52,15 @@ export function FaturamentoCalc() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <Card className="p-6">
-        <h2 className="text-2xl font-bold text-foreground mb-4">
+      <Card className="p-4">
+        <h2 className="text-xl font-bold text-foreground mb-3">
           Simulador de Faturamento MEI
         </h2>
-        <p className="text-sm text-muted-foreground mb-6">
+        <p className="text-sm text-muted-foreground mb-4">
           Preencha o faturamento de cada mês para simular seu total anual
         </p>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-4">
           {meses.map((mes, index) => (
             <div key={mes}>
               <Label htmlFor={`mes-${index}`} className="text-xs">
@@ -78,7 +78,7 @@ export function FaturamentoCalc() {
           ))}
         </div>
 
-        <div className="flex gap-2 mb-6">
+        <div className="flex gap-2 mb-4">
           <Button onClick={calcular} className="flex-1 h-10">
             Calcular Total Anual
           </Button>

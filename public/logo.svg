@@ -1,10 +1,26 @@
-<svg width="120" height="32" viewBox="0 0 120 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Icon with L + Arrow -->
-  <path d="M8 4H12V24H20V28H8V4Z" fill="#00D084"/>
-  <path d="M18 8L24 14L18 20L20.5 20L26.5 14L20.5 8L18 8Z" fill="#00D084"/>
-  
-  <!-- Text: umei -->
-  <text x="36" y="22" font-family="Manrope, sans-serif" font-size="20" font-weight="700" fill="#1a1a1a">
-    umei
+<svg width="160" height="40" viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Calculator Icon -->
+  <rect x="2" y="6" width="28" height="28" rx="4" fill="hsl(var(--primary))" fill-opacity="0.1"/>
+  <rect x="2" y="6" width="28" height="28" rx="4" stroke="hsl(var(--primary))" stroke-width="2"/>
+  <rect x="7" y="11" width="6" height="4" rx="1" fill="hsl(var(--primary))"/>
+  <rect x="15" y="11" width="6" height="4" rx="1" fill="hsl(var(--primary))"/>
+  <rect x="23" y="11" width="2" height="4" rx="1" fill="hsl(var(--primary))"/>
+  <line x1="7" y1="19" x2="11" y2="19" stroke="hsl(var(--primary))" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="15" y1="19" x2="19" y2="19" stroke="hsl(var(--primary))" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="23" y1="17" x2="23" y2="21" stroke="hsl(var(--primary))" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="21" y1="19" x2="25" y2="19" stroke="hsl(var(--primary))" stroke-width="1.5" stroke-linecap="round"/>
+  <rect x="7" y="23" width="4" height="3" rx="1" fill="hsl(var(--primary))"/>
+  <rect x="13" y="23" width="4" height="3" rx="1" fill="hsl(var(--primary))"/>
+  <rect x="19" y="23" width="4" height="3" rx="1" fill="hsl(var(--primary))"/>
+  <rect x="7" y="28" width="16" height="3" rx="1" fill="hsl(var(--primary))"/>
+
+  <!-- Text: Calcula -->
+  <text x="38" y="24" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700" fill="currentColor">
+    Calcula
+  </text>
+
+  <!-- Text: MEI -->
+  <text x="108" y="24" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700" fill="hsl(var(--primary))">
+    MEI
   </text>
 </svg>

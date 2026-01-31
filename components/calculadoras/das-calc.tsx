@@ -28,12 +28,12 @@ export function DasCalc() {
   ]
 
   return (
-    <Card className="p-6 max-w-3xl mx-auto">
-      <h2 className="text-2xl font-bold text-foreground mb-4">
+    <Card className="p-4 max-w-3xl mx-auto">
+      <h2 className="text-xl font-bold text-foreground mb-3">
         Calendário DAS MEI 2026
       </h2>
 
-      <div className="grid md:grid-cols-2 gap-6 mb-6">
+      <div className="grid md:grid-cols-2 gap-6 mb-4">
         {/* Coluna esquerda - Tipo e Valor */}
         <div className="space-y-4">
           <div>
@@ -53,7 +53,7 @@ export function DasCalc() {
 
           <Card className="p-4 bg-primary/10 border-primary">
             <p className="text-xs text-muted-foreground mb-1">Valor do DAS Mensal</p>
-            <p className="text-3xl font-bold text-foreground">
+            <p className="text-2xl font-bold text-foreground">
               R$ {calcularDAS().toFixed(2)}
             </p>
             <p className="text-xs text-muted-foreground mt-2">

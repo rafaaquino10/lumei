@@ -1,11 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { Menu, LayoutDashboard, LogOut, User } from 'lucide-react'
 import { useAuth, SignedIn, SignedOut } from '@/lib/auth/context'
 import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/theme-toggle'
+import { Logo } from '@/components/logo'
 import {
   Sheet,
   SheetContent,
@@ -40,14 +40,7 @@ export default function Header() {
       <div className="mx-auto flex h-[72px] max-w-[1280px] items-center justify-between px-4 md:px-6 lg:px-8">
         {/* Logo */}
         <Link href={homeHref} className="flex items-center">
-          <Image
-            src="/logo.svg"
-            alt="Calcula MEI"
-            width={120}
-            height={32}
-            className="h-8 w-auto"
-            priority
-          />
+          <Logo className="h-8 w-auto" />
         </Link>
 
         {/* Desktop Navigation */}

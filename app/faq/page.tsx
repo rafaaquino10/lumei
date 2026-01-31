@@ -19,15 +19,15 @@ export default function FAQPage() {
   return (
     <>
       <FAQSchema />
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-background">
         {/* Hero Section */}
-        <div className="bg-gradient-to-br from-mei-500 to-mei-600 text-white">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+        <div className="bg-gradient-to-br from-primary to-primary/90 text-primary-foreground">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="max-w-3xl">
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+              <h1 className="text-2xl sm:text-3xl font-bold mb-2">
                 Perguntas Frequentes
               </h1>
-              <p className="text-lg sm:text-xl text-white/90">
+              <p className="text-base sm:text-lg opacity-90">
                 Tire suas dúvidas sobre o Calcula MEI e como ele pode ajudar seu MEI
               </p>
             </div>
@@ -35,16 +35,16 @@ export default function FAQPage() {
         </div>
 
         {/* FAQ Content */}
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-          <div className="max-w-4xl mx-auto space-y-12">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="max-w-4xl mx-auto space-y-8">
             {faqContent.map((categoria, categoriaIndex) => (
-              <div key={categoriaIndex} className="space-y-6">
-                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
+              <div key={categoriaIndex} className="space-y-4">
+                <h2 className="text-xl sm:text-2xl font-bold text-foreground">
                   {categoria.titulo}
                 </h2>
                 <Accordion
                   type="multiple"
-                  className="w-full bg-white rounded-lg border border-gray-200 divide-y divide-gray-200"
+                  className="w-full bg-card rounded-lg border border-border divide-y divide-border"
                 >
                   {categoria.perguntas.map((item, index) => (
                     <AccordionItem
@@ -65,18 +65,18 @@ export default function FAQPage() {
             ))}
 
             {/* CTA Section */}
-            <div className="mt-16 pt-12 border-t border-gray-200">
-              <div className="bg-gradient-to-br from-mei-50 to-mei-100 rounded-2xl p-8 sm:p-12 text-center">
-                <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+            <div className="mt-8 pt-8 border-t border-border">
+              <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl p-6 sm:p-8 text-center">
+                <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-3">
                   Ainda tem dúvidas?
                 </h3>
-                <p className="text-base sm:text-lg text-gray-700 mb-8 max-w-2xl mx-auto">
+                <p className="text-sm sm:text-base text-muted-foreground mb-6 max-w-2xl mx-auto">
                   Nossa equipe está pronta para ajudar você a aproveitar ao
                   máximo as ferramentas do Calcula MEI.
                 </p>
                 <Link
                   href="/contato"
-                  className="inline-block bg-mei-600 text-white px-8 py-4 rounded-lg font-semibold text-base sm:text-lg hover:bg-mei-700 transition-colors shadow-lg hover:shadow-xl"
+                  className="inline-block bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold text-base sm:text-lg hover:bg-primary/90 transition-colors shadow-lg hover:shadow-xl"
                 >
                   Falar com o suporte
                 </Link>

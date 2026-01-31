@@ -33,80 +33,80 @@ export default async function DashboardPage() {
   )
 
   return (
-    <div className="container mx-auto px-4 py-12">
+    <div className="container mx-auto px-4 py-6">
       {/* Welcome section */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2 text-foreground">
+      <div className="mb-4">
+        <h1 className="text-2xl font-bold mb-1 text-foreground">
           Olá, {user.name?.split(' ')[0] || 'empreendedor'}! 👋
         </h1>
-        <p className="text-lg text-muted-foreground">
+        <p className="text-base text-muted-foreground">
           Bem-vindo ao seu painel Calcula MEI
         </p>
       </div>
 
       {/* Stats grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <Card className="p-4">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="font-semibold text-sm text-muted-foreground">Cálculos Feitos</h3>
-            <Calculator className="w-6 h-6 text-primary" />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+        <Card className="p-3">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="font-semibold text-xs text-muted-foreground">Cálculos Feitos</h3>
+            <Calculator className="w-5 h-5 text-primary" />
           </div>
-          <p className="text-3xl font-bold text-foreground">{totalCalculos}</p>
+          <p className="text-2xl font-bold text-foreground">{totalCalculos}</p>
         </Card>
 
-        <Card className="p-4">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="font-semibold text-sm text-muted-foreground">Tipo de MEI</h3>
-            <TrendingUp className="w-6 h-6 text-primary" />
+        <Card className="p-3">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="font-semibold text-xs text-muted-foreground">Tipo de MEI</h3>
+            <TrendingUp className="w-5 h-5 text-primary" />
           </div>
-          <p className="text-xl font-bold text-foreground">
+          <p className="text-lg font-bold text-foreground">
             {user.tipoMEI?.replace('_', ' ') || 'Não informado'}
           </p>
         </Card>
 
-        <Card className="p-4 bg-primary/10 border-primary">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="font-semibold text-sm text-foreground">Próximo DAS</h3>
-            <Calendar className="w-6 h-6 text-primary" />
+        <Card className="p-3 bg-primary/10 border-primary">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="font-semibold text-xs text-foreground">Próximo DAS</h3>
+            <Calendar className="w-5 h-5 text-primary" />
           </div>
-          <p className="text-3xl font-bold text-primary">
+          <p className="text-2xl font-bold text-primary">
             {daysUntilDAS} dias
           </p>
-          <p className="text-sm text-muted-foreground mt-2">
+          <p className="text-xs text-muted-foreground mt-1">
             Vencimento: {nextDAS.toLocaleDateString('pt-BR')}
           </p>
         </Card>
       </div>
 
       {/* Quick access calculators */}
-      <div className="mb-8">
-        <h2 className="text-xl font-bold mb-4 text-foreground">Calculadoras Rápidas</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Link href="/calculadoras">
-            <Card className="p-4 hover:shadow-lg hover:border-primary transition-all cursor-pointer">
-              <TrendingUp className="w-8 h-8 text-primary mb-2" />
-              <h3 className="font-bold mb-1 text-foreground">Margem de Lucro</h3>
-              <p className="text-sm text-muted-foreground">
+      <div className="mb-6">
+        <h2 className="text-lg font-bold mb-3 text-foreground">Calculadoras Rápidas</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <Link href="/calculadoras?calc=margem-lucro">
+            <Card className="p-3 hover:shadow-lg hover:border-primary transition-all cursor-pointer">
+              <TrendingUp className="w-6 h-6 text-primary mb-1" />
+              <h3 className="font-bold text-sm mb-0.5 text-foreground">Margem de Lucro</h3>
+              <p className="text-xs text-muted-foreground">
                 Calcule quanto você lucra
               </p>
             </Card>
           </Link>
 
-          <Link href="/calculadoras">
-            <Card className="p-4 hover:shadow-lg hover:border-primary transition-all cursor-pointer">
-              <Clock className="w-8 h-8 text-primary mb-2" />
-              <h3 className="font-bold mb-1 text-foreground">Preço por Hora</h3>
-              <p className="text-sm text-muted-foreground">
+          <Link href="/calculadoras?calc=preco-hora">
+            <Card className="p-3 hover:shadow-lg hover:border-primary transition-all cursor-pointer">
+              <Clock className="w-6 h-6 text-primary mb-1" />
+              <h3 className="font-bold text-sm mb-0.5 text-foreground">Preço por Hora</h3>
+              <p className="text-xs text-muted-foreground">
                 Defina seu valor/hora
               </p>
             </Card>
           </Link>
 
-          <Link href="/calculadoras">
-            <Card className="p-4 hover:shadow-lg hover:border-primary transition-all cursor-pointer">
-              <Tag className="w-8 h-8 text-primary mb-2" />
-              <h3 className="font-bold mb-1 text-foreground">Precificação</h3>
-              <p className="text-sm text-muted-foreground">
+          <Link href="/calculadoras?calc=precificacao">
+            <Card className="p-3 hover:shadow-lg hover:border-primary transition-all cursor-pointer">
+              <Tag className="w-6 h-6 text-primary mb-1" />
+              <h3 className="font-bold text-sm mb-0.5 text-foreground">Precificação</h3>
+              <p className="text-xs text-muted-foreground">
                 Preço ideal de produtos/serviços
               </p>
             </Card>
@@ -116,27 +116,27 @@ export default async function DashboardPage() {
 
       {/* Recent calculations */}
       <div>
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold text-foreground">Cálculos Recentes</h2>
+        <div className="flex justify-between items-center mb-3">
+          <h2 className="text-lg font-bold text-foreground">Cálculos Recentes</h2>
           <Link href="/dashboard/historico">
-            <Button variant="ghost">
+            <Button variant="ghost" size="sm">
               Ver Todos
-              <ArrowRight className="w-4 h-4 ml-2" />
+              <ArrowRight className="w-3 h-3 ml-2" />
             </Button>
           </Link>
         </div>
 
         {user.calculos.length === 0 ? (
-          <Card className="p-8 text-center">
-            <p className="text-muted-foreground mb-4">
+          <Card className="p-4 text-center">
+            <p className="text-muted-foreground mb-3 text-sm">
               Você ainda não fez nenhum cálculo
             </p>
             <Link href="/calculadoras">
-              <Button>Começar Agora</Button>
+              <Button size="sm">Começar Agora</Button>
             </Link>
           </Card>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-2">
             {user.calculos.map((calculo: {
               id: string
               tipo: 'MARGEM_LUCRO' | 'PRECO_HORA' | 'PRECIFICACAO' | 'FATURAMENTO' | 'FLUXO_CAIXA' | 'CALENDARIO_DAS'
@@ -153,11 +153,11 @@ export default async function DashboardPage() {
               const tipoLabel = tipoLabelMap[calculo.tipo]
 
               return (
-                <Card key={calculo.id} className="p-4">
+                <Card key={calculo.id} className="p-3">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="font-bold text-foreground">{tipoLabel}</h3>
-                      <p className="text-sm text-muted-foreground">
+                      <h3 className="font-bold text-sm text-foreground">{tipoLabel}</h3>
+                      <p className="text-xs text-muted-foreground">
                         {new Date(calculo.createdAt).toLocaleDateString(
                           'pt-BR',
                           {
@@ -172,7 +172,7 @@ export default async function DashboardPage() {
                     </div>
                     <Button variant="ghost" size="sm">
                       Ver Detalhes
-                      <ArrowRight className="w-4 h-4 ml-2" />
+                      <ArrowRight className="w-3 h-3 ml-2" />
                     </Button>
                   </div>
                 </Card>
@@ -184,19 +184,19 @@ export default async function DashboardPage() {
 
       {/* CTA to Premium (if free user) */}
       {user.plano === 'FREE' && (
-        <Card className="mt-8 p-6 bg-primary/10 border-primary">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+        <Card className="mt-6 p-4 bg-primary/10 border-primary">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-3">
             <div>
-              <h3 className="text-xl font-bold mb-2 text-foreground">
+              <h3 className="text-base font-bold mb-1 text-foreground">
                 Quer alertas automáticos de DAS?
               </h3>
-              <p className="text-muted-foreground">
+              <p className="text-sm text-muted-foreground">
                 Com Premium você recebe 3 alertas (email + WhatsApp) e muito
                 mais por R$ 19/mês
               </p>
             </div>
             <Link href="/premium">
-              <Button size="lg" className="whitespace-nowrap">
+              <Button size="sm" className="whitespace-nowrap">
                 Ver Premium →
               </Button>
             </Link>

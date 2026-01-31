@@ -37,7 +37,7 @@ export function UsageIndicator() {
   }
 
   return (
-    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 text-sm">
+    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary text-foreground text-sm">
       <div className="flex items-center gap-1">
         <span className="font-medium">{usage.used}/{usage.limit}</span>
         <div className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
