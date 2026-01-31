@@ -36,7 +36,7 @@ function SignInForm() {
     <Card className="w-full max-w-md p-8">
       <div className="text-center mb-8">
         <h1 className="text-2xl font-bold mb-2">Entrar</h1>
-        <p className="text-gray-600">
+        <p className="text-muted-foreground">
           Acesse sua conta para continuar
         </p>
       </div>
@@ -45,7 +45,7 @@ function SignInForm() {
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/70" />
             <Input
               id="email"
               type="email"
@@ -62,7 +62,7 @@ function SignInForm() {
         <div className="space-y-2">
           <Label htmlFor="password">Senha</Label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/70" />
             <Input
               id="password"
               type="password"
@@ -92,7 +92,7 @@ function SignInForm() {
         </Button>
       </form>
 
-      <div className="mt-6 text-center text-sm text-gray-600">
+      <div className="mt-6 text-center text-sm text-muted-foreground">
         Não tem conta?{' '}
         <Link
           href={redirect ? `/sign-up?redirect=${redirect}` : '/sign-up'}
@@ -110,7 +110,7 @@ function SignInFallback() {
     <Card className="w-full max-w-md p-8">
       <div className="text-center mb-8">
         <h1 className="text-2xl font-bold mb-2">Entrar</h1>
-        <p className="text-gray-600">
+        <p className="text-muted-foreground">
           Acesse sua conta para continuar
         </p>
       </div>

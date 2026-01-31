@@ -45,7 +45,7 @@ function SignUpForm() {
     <Card className="w-full max-w-md p-8">
       <div className="text-center mb-8">
         <h1 className="text-2xl font-bold mb-2">Criar Conta</h1>
-        <p className="text-gray-600">
+        <p className="text-muted-foreground">
           Comece a usar as calculadoras gratuitamente
         </p>
       </div>
@@ -54,7 +54,7 @@ function SignUpForm() {
         <div className="space-y-2">
           <Label htmlFor="name">Nome (opcional)</Label>
           <div className="relative">
-            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/70" />
             <Input
               id="name"
               type="text"
@@ -70,7 +70,7 @@ function SignUpForm() {
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/70" />
             <Input
               id="email"
               type="email"
@@ -87,7 +87,7 @@ function SignUpForm() {
         <div className="space-y-2">
           <Label htmlFor="password">Senha</Label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/70" />
             <Input
               id="password"
               type="password"
@@ -100,7 +100,7 @@ function SignUpForm() {
               disabled={isLoading}
             />
           </div>
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-muted-foreground">
             Mínimo 8 caracteres, com letra maiúscula, minúscula e número
           </p>
         </div>
@@ -114,7 +114,7 @@ function SignUpForm() {
           />
           <label
             htmlFor="terms"
-            className="text-sm text-gray-600 leading-tight cursor-pointer"
+            className="text-sm text-muted-foreground leading-tight cursor-pointer"
           >
             Li e aceito os{' '}
             <Link href="/termos" className="text-mei-600 hover:underline">
@@ -143,7 +143,7 @@ function SignUpForm() {
         </Button>
       </form>
 
-      <div className="mt-6 text-center text-sm text-gray-600">
+      <div className="mt-6 text-center text-sm text-muted-foreground">
         Já tem conta?{' '}
         <Link
           href={redirect ? `/sign-in?redirect=${redirect}` : '/sign-in'}
@@ -161,7 +161,7 @@ function SignUpFallback() {
     <Card className="w-full max-w-md p-8">
       <div className="text-center mb-8">
         <h1 className="text-2xl font-bold mb-2">Criar Conta</h1>
-        <p className="text-gray-600">
+        <p className="text-muted-foreground">
           Comece a usar as calculadoras gratuitamente
         </p>
       </div>
