@@ -12,6 +12,7 @@ import {
   ArrowRight,
   Calculator,
 } from 'lucide-react'
+import { UsageIndicatorWrapper } from '@/components/dashboard/usage-indicator-wrapper'
 
 export default async function DashboardPage() {
   const user = await getServerUserWithCalcs()
@@ -36,12 +37,21 @@ export default async function DashboardPage() {
     <div className="container mx-auto px-4 py-6">
       {/* Welcome section */}
       <div className="mb-4">
-        <h1 className="text-2xl font-bold mb-1 text-foreground">
-          Olá, {user.name?.split(' ')[0] || 'empreendedor'}! 👋
-        </h1>
-        <p className="text-base text-muted-foreground">
-          Bem-vindo ao seu painel Calcula MEI
-        </p>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <h1 className="text-2xl font-bold mb-1 text-foreground">
+              Olá, {user.name?.split(' ')[0] || 'empreendedor'}! 👋
+            </h1>
+            <p className="text-base text-muted-foreground">
+              Bem-vindo ao seu painel Calcula MEI
+            </p>
+          </div>
+          {user.plano === 'FREE' && (
+            <div className="w-full sm:w-auto sm:min-w-[200px]">
+              <UsageIndicatorWrapper variant="compact" />
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Stats grid - 2 colunas no mobile */}
