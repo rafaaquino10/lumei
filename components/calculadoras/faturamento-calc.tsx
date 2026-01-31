@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
+import { PaywallModal, usePaywall } from '@/components/paywall'
 
 const meses = [
   'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
@@ -24,6 +25,16 @@ export function FaturamentoCalc() {
   } | null>(null)
   const [isCalculating, setIsCalculating] = useState(false)
 
+  const {
+    checkLimit,
+    recordCalculation,
+    showPaywall,
+    setShowPaywall,
+    paywallType,
+    remaining,
+    limit
+  } = usePaywall()
+
   const LIMITE_MEI = 81000
 
   const handleChange = (index: number, value: string) => {
@@ -33,6 +44,12 @@ export function FaturamentoCalc() {
   }
 
   const calcular = async () => {
+    const { isBlocked } = checkLimit()
+    if (isBlocked) {
+      setShowPaywall(true)
+      return
+    }
+
     setIsCalculating(true)
     await new Promise(resolve => setTimeout(resolve, 400))
 
@@ -50,6 +67,7 @@ export function FaturamentoCalc() {
 
     setResultado({ total, media, limite: LIMITE_MEI, percentual, status })
     setIsCalculating(false)
+    recordCalculation()
   }
 
   const limpar = () => {
@@ -170,6 +188,14 @@ export function FaturamentoCalc() {
           )}
         </AnimatePresence>
       </Card>
+
+      <PaywallModal
+        isOpen={showPaywall}
+        onClose={() => setShowPaywall(false)}
+        type={paywallType}
+        remaining={remaining}
+        limit={limit}
+      />
     </div>
   )
 }

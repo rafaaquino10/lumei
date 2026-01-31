@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
+import { PaywallModal, usePaywall } from '@/components/paywall'
 
 export function PrecoHoraCalc() {
   const [salarioDesejado, setSalarioDesejado] = useState('')
@@ -14,7 +15,23 @@ export function PrecoHoraCalc() {
   const [resultado, setResultado] = useState<number | null>(null)
   const [isCalculating, setIsCalculating] = useState(false)
 
+  const {
+    checkLimit,
+    recordCalculation,
+    showPaywall,
+    setShowPaywall,
+    paywallType,
+    remaining,
+    limit
+  } = usePaywall()
+
   const calcular = async () => {
+    const { isBlocked } = checkLimit()
+    if (isBlocked) {
+      setShowPaywall(true)
+      return
+    }
+
     const salario = parseFloat(salarioDesejado)
     const horas = parseFloat(horasMes)
     if (salario && horas && horas > 0) {
@@ -23,6 +40,7 @@ export function PrecoHoraCalc() {
       const valorHora = salario / horas
       setResultado(valorHora)
       setIsCalculating(false)
+      recordCalculation()
     }
   }
 
@@ -100,6 +118,14 @@ export function PrecoHoraCalc() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <PaywallModal
+        isOpen={showPaywall}
+        onClose={() => setShowPaywall(false)}
+        type={paywallType}
+        remaining={remaining}
+        limit={limit}
+      />
     </Card>
   )
 }

@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
+import { PaywallModal, usePaywall } from '@/components/paywall'
 
 export function FluxoCaixaCalc() {
   const [entradas, setEntradas] = useState('')
@@ -17,7 +18,23 @@ export function FluxoCaixaCalc() {
   } | null>(null)
   const [isCalculating, setIsCalculating] = useState(false)
 
+  const {
+    checkLimit,
+    recordCalculation,
+    showPaywall,
+    setShowPaywall,
+    paywallType,
+    remaining,
+    limit
+  } = usePaywall()
+
   const calcular = async () => {
+    const { isBlocked } = checkLimit()
+    if (isBlocked) {
+      setShowPaywall(true)
+      return
+    }
+
     const ent = parseFloat(entradas) || 0
     const sai = parseFloat(saidas) || 0
 
@@ -31,6 +48,7 @@ export function FluxoCaixaCalc() {
 
     setResultado({ saldo, status })
     setIsCalculating(false)
+    recordCalculation()
   }
 
   return (
@@ -113,6 +131,14 @@ export function FluxoCaixaCalc() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <PaywallModal
+        isOpen={showPaywall}
+        onClose={() => setShowPaywall(false)}
+        type={paywallType}
+        remaining={remaining}
+        limit={limit}
+      />
     </Card>
   )
 }

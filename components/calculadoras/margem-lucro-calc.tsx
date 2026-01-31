@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
+import { PaywallModal, usePaywall } from '@/components/paywall'
 
 export function MargemLucroCalc() {
   const [custoTotal, setCustoTotal] = useState('')
@@ -14,7 +15,24 @@ export function MargemLucroCalc() {
   const [resultado, setResultado] = useState<number | null>(null)
   const [isCalculating, setIsCalculating] = useState(false)
 
+  const {
+    checkLimit,
+    recordCalculation,
+    showPaywall,
+    setShowPaywall,
+    paywallType,
+    remaining,
+    limit
+  } = usePaywall()
+
   const calcular = async () => {
+    // Verifica limite antes de calcular
+    const { isBlocked } = checkLimit()
+    if (isBlocked) {
+      setShowPaywall(true)
+      return
+    }
+
     const custo = parseFloat(custoTotal)
     const preco = parseFloat(precoVenda)
     if (custo && preco && preco > 0) {
@@ -24,6 +42,8 @@ export function MargemLucroCalc() {
       const margem = ((preco - custo) / preco) * 100
       setResultado(margem)
       setIsCalculating(false)
+      // Registra o cálculo para controle de limite
+      recordCalculation()
     }
   }
 
@@ -99,6 +119,14 @@ export function MargemLucroCalc() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <PaywallModal
+        isOpen={showPaywall}
+        onClose={() => setShowPaywall(false)}
+        type={paywallType}
+        remaining={remaining}
+        limit={limit}
+      />
     </Card>
   )
 }

@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
+import { PaywallModal, usePaywall } from '@/components/paywall'
 
 export function PrecificacaoCalc() {
   const [custoMaterial, setCustoMaterial] = useState('')
@@ -16,7 +17,23 @@ export function PrecificacaoCalc() {
   const [resultado, setResultado] = useState<number | null>(null)
   const [isCalculating, setIsCalculating] = useState(false)
 
+  const {
+    checkLimit,
+    recordCalculation,
+    showPaywall,
+    setShowPaywall,
+    paywallType,
+    remaining,
+    limit
+  } = usePaywall()
+
   const calcular = async () => {
+    const { isBlocked } = checkLimit()
+    if (isBlocked) {
+      setShowPaywall(true)
+      return
+    }
+
     const material = parseFloat(custoMaterial) || 0
     const tempo = parseFloat(tempoHoras) || 0
     const hora = parseFloat(valorHora) || 0
@@ -28,6 +45,7 @@ export function PrecificacaoCalc() {
     const precoFinal = custoTotal * (1 + margem / 100)
     setResultado(precoFinal)
     setIsCalculating(false)
+    recordCalculation()
   }
 
   return (
@@ -127,6 +145,14 @@ export function PrecificacaoCalc() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <PaywallModal
+        isOpen={showPaywall}
+        onClose={() => setShowPaywall(false)}
+        type={paywallType}
+        remaining={remaining}
+        limit={limit}
+      />
     </Card>
   )
 }

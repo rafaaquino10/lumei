@@ -362,5 +362,6 @@ export default function PremiumPage() {
         </Card>
       </div>
     </div>
+    </>
   )
 }
