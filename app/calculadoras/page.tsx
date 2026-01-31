@@ -97,7 +97,7 @@ export default function CalculadorasPage() {
             >
               <Card
                 className={cn(
-                  'p-4 w-40 transition-all duration-200',
+                  'p-3 transition-all duration-200 flex items-center gap-3 min-w-[200px]',
                   ativa === calc.id
                     ? 'border-primary shadow-lg scale-105 bg-primary/5'
                     : 'hover:shadow-md hover:scale-[1.02]'
@@ -105,21 +105,23 @@ export default function CalculadorasPage() {
               >
                 <calc.icon
                   className={cn(
-                    'w-6 h-6 mx-auto mb-2',
+                    'w-8 h-8 flex-shrink-0',
                     ativa === calc.id ? 'text-primary' : 'text-muted-foreground'
                   )}
                 />
-                <h3
-                  className={cn(
-                    'text-sm font-semibold text-center mb-1',
-                    ativa === calc.id ? 'text-foreground' : 'text-muted-foreground'
-                  )}
-                >
-                  {calc.titulo}
-                </h3>
-                <p className="text-xs text-muted-foreground text-center line-clamp-2">
-                  {calc.descricao}
-                </p>
+                <div className="flex-1 min-w-0">
+                  <h3
+                    className={cn(
+                      'text-sm font-semibold mb-0.5 truncate',
+                      ativa === calc.id ? 'text-foreground' : 'text-muted-foreground'
+                    )}
+                  >
+                    {calc.titulo}
+                  </h3>
+                  <p className="text-xs text-muted-foreground truncate">
+                    {calc.descricao}
+                  </p>
+                </div>
               </Card>
             </button>
           ))}

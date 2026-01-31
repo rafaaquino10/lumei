@@ -21,12 +21,12 @@ export function PrecoHoraCalc() {
   }
 
   return (
-    <Card className="p-6 max-w-2xl mx-auto">
-      <h2 className="text-2xl font-bold text-foreground mb-6">
+    <Card className="p-6 max-w-3xl mx-auto">
+      <h2 className="text-2xl font-bold text-foreground mb-4">
         Calculadora de Preço por Hora
       </h2>
 
-      <div className="space-y-4 mb-6">
+      <div className="grid md:grid-cols-2 gap-4 mb-6">
         <div>
           <Label htmlFor="salario">Salário Mensal Desejado (R$)</Label>
           <Input

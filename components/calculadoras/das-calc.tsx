@@ -25,8 +25,8 @@ export function DasCalc() {
   ]
 
   return (
-    <Card className="p-6 max-w-2xl mx-auto">
-      <h2 className="text-2xl font-bold text-foreground mb-6">
+    <Card className="p-6 max-w-3xl mx-auto">
+      <h2 className="text-2xl font-bold text-foreground mb-4">
         Calendário DAS MEI 2026
       </h2>
 
