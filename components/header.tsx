@@ -127,18 +127,18 @@ export default function Header() {
             </Button>
           </SheetTrigger>
           <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-            <SheetHeader>
+            <SheetHeader className="px-6">
               <SheetTitle>Menu</SheetTitle>
             </SheetHeader>
-            <div className="mt-8 flex flex-col gap-6">
+            <div className="mt-6 flex flex-col gap-6 px-6">
               {/* Mobile Navigation Links */}
-              <nav className="flex flex-col gap-4">
+              <nav className="flex flex-col gap-1">
                 {publicNavLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.label === 'Home' ? homeHref : link.href}
                     onClick={() => setIsOpen(false)}
-                    className="text-lg font-medium text-foreground transition-colors hover:text-mei-600"
+                    className="flex items-center py-3 px-4 -mx-4 text-lg font-medium text-foreground rounded-lg transition-colors hover:bg-muted active:bg-muted/80"
                   >
                     {link.label}
                   </Link>
@@ -148,7 +148,7 @@ export default function Header() {
                   <Link
                     href="/dashboard"
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-2 text-lg font-medium text-mei-600 transition-colors hover:text-mei-700"
+                    className="flex items-center gap-3 py-3 px-4 -mx-4 text-lg font-medium text-mei-600 rounded-lg transition-colors hover:bg-muted active:bg-muted/80"
                   >
                     <LayoutDashboard className="h-5 w-5" />
                     Painel
@@ -157,7 +157,7 @@ export default function Header() {
               </nav>
 
               {/* Mobile Auth Buttons */}
-              <div className="mt-4 flex flex-col gap-3 border-t pt-6">
+              <div className="flex flex-col gap-3 border-t pt-6">
                 <SignedOut>
                   <Button
                     variant="ghost"
