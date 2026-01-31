@@ -87,7 +87,7 @@ export default function CalculadorasPage() {
       </div>
 
       {/* Cards horizontais com scroll */}
-      <div className="mb-8 overflow-x-auto pb-4 -mx-4 px-4">
+      <div className="mb-8 overflow-x-auto pb-4 pt-2 -mx-4 px-4">
         <div className="flex gap-3 min-w-max">
           {calculadoras.map((calc) => (
             <button
