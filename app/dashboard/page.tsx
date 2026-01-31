@@ -80,36 +80,36 @@ export default async function DashboardPage() {
         </Card>
       </div>
 
-      {/* Quick access calculators */}
+      {/* Quick access calculators - sempre 3 colunas */}
       <div className="mb-6">
-        <h2 className="text-lg font-bold mb-3 text-foreground">Calculadoras Rápidas</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <h2 className="text-base sm:text-lg font-bold mb-2 text-foreground">Calculadoras</h2>
+        <div className="grid grid-cols-3 gap-2">
           <Link href="/calculadoras?calc=margem-lucro">
-            <Card className="p-3 hover:shadow-lg hover:border-primary transition-all cursor-pointer">
-              <TrendingUp className="w-6 h-6 text-primary mb-1" />
-              <h3 className="font-bold text-sm mb-0.5 text-foreground">Margem de Lucro</h3>
-              <p className="text-xs text-muted-foreground">
-                Calcule quanto você lucra
+            <Card className="p-2 sm:p-3 hover:shadow-lg hover:border-primary transition-all cursor-pointer text-center h-full">
+              <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-primary mx-auto mb-1" />
+              <h3 className="font-bold text-[10px] sm:text-sm text-foreground leading-tight">Margem</h3>
+              <p className="text-[9px] sm:text-xs text-muted-foreground hidden sm:block">
+                Calcule seu lucro
               </p>
             </Card>
           </Link>
 
           <Link href="/calculadoras?calc=preco-hora">
-            <Card className="p-3 hover:shadow-lg hover:border-primary transition-all cursor-pointer">
-              <Clock className="w-6 h-6 text-primary mb-1" />
-              <h3 className="font-bold text-sm mb-0.5 text-foreground">Preço por Hora</h3>
-              <p className="text-xs text-muted-foreground">
-                Defina seu valor/hora
+            <Card className="p-2 sm:p-3 hover:shadow-lg hover:border-primary transition-all cursor-pointer text-center h-full">
+              <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-primary mx-auto mb-1" />
+              <h3 className="font-bold text-[10px] sm:text-sm text-foreground leading-tight">Hora</h3>
+              <p className="text-[9px] sm:text-xs text-muted-foreground hidden sm:block">
+                Valor por hora
               </p>
             </Card>
           </Link>
 
           <Link href="/calculadoras?calc=precificacao">
-            <Card className="p-3 hover:shadow-lg hover:border-primary transition-all cursor-pointer">
-              <Tag className="w-6 h-6 text-primary mb-1" />
-              <h3 className="font-bold text-sm mb-0.5 text-foreground">Precificação</h3>
-              <p className="text-xs text-muted-foreground">
-                Preço ideal de produtos/serviços
+            <Card className="p-2 sm:p-3 hover:shadow-lg hover:border-primary transition-all cursor-pointer text-center h-full">
+              <Tag className="w-5 h-5 sm:w-6 sm:h-6 text-primary mx-auto mb-1" />
+              <h3 className="font-bold text-[10px] sm:text-sm text-foreground leading-tight">Preço</h3>
+              <p className="text-[9px] sm:text-xs text-muted-foreground hidden sm:block">
+                Preço ideal
               </p>
             </Card>
           </Link>
