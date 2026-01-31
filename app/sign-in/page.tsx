@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label'
 import { Card } from '@/components/ui/card'
 import { toast } from 'sonner'
 import { Loader2, Mail, Lock } from 'lucide-react'
+import { GoogleButton } from '@/components/auth/google-button'
 
 function SignInForm() {
   const { signIn } = useAuth()
@@ -39,6 +40,17 @@ function SignInForm() {
         <p className="text-muted-foreground">
           Acesse sua conta para continuar
         </p>
+      </div>
+
+      <GoogleButton mode="signin" />
+
+      <div className="relative my-6">
+        <div className="absolute inset-0 flex items-center">
+          <span className="w-full border-t border-border" />
+        </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <span className="bg-card px-2 text-muted-foreground">ou continue com email</span>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -74,6 +86,15 @@ function SignInForm() {
               disabled={isLoading}
             />
           </div>
+        </div>
+
+        <div className="flex justify-end">
+          <Link
+            href="/forgot-password"
+            className="text-sm text-mei-600 hover:text-mei-700"
+          >
+            Esqueci minha senha
+          </Link>
         </div>
 
         <Button

@@ -11,6 +11,7 @@ import { Card } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
 import { toast } from 'sonner'
 import { Loader2, Mail, Lock, User } from 'lucide-react'
+import { GoogleButton } from '@/components/auth/google-button'
 
 function SignUpForm() {
   const { signUp } = useAuth()
@@ -48,6 +49,17 @@ function SignUpForm() {
         <p className="text-muted-foreground">
           Comece a usar as calculadoras gratuitamente
         </p>
+      </div>
+
+      <GoogleButton mode="signup" />
+
+      <div className="relative my-6">
+        <div className="absolute inset-0 flex items-center">
+          <span className="w-full border-t border-border" />
+        </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <span className="bg-card px-2 text-muted-foreground">ou cadastre com email</span>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
