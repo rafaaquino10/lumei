@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FileText } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { BlogPost } from "@/lib/blog/posts";
 
 interface BlogCardProps {
@@ -9,44 +9,33 @@ interface BlogCardProps {
 export function BlogCard({ post }: BlogCardProps) {
   return (
     <Link href={`/blog/${post.slug}`}>
-      <div className="group h-full bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg hover:border-primary transition-all duration-300">
-        {/* Image placeholder */}
-        <div className="relative h-32 bg-gradient-to-br from-primary/80 to-primary flex items-center justify-center overflow-hidden group-hover:from-primary group-hover:to-primary/90 transition-colors duration-300">
-          <FileText className="w-12 h-12 text-primary-foreground/40" />
+      <article className="group py-6 border-b border-border hover:border-primary/50 transition-colors">
+        {/* Meta info */}
+        <div className="flex items-center gap-3 mb-2 text-xs text-muted-foreground">
+          <span className="px-2 py-0.5 bg-primary/10 text-primary font-medium rounded">
+            {post.category}
+          </span>
+          <time dateTime={post.date}>
+            {new Date(post.date).toLocaleDateString("pt-BR", {
+              day: "numeric",
+              month: "short",
+              year: "numeric",
+            })}
+          </time>
+          <span>{post.readTime} min</span>
         </div>
 
-        {/* Content */}
-        <div className="p-4 flex flex-col h-full">
-          {/* Category Badge */}
-          <div className="mb-2">
-            <span className="inline-block px-2 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full group-hover:bg-primary/20 transition-colors duration-300">
-              {post.category}
-            </span>
-          </div>
+        {/* Title */}
+        <h2 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors flex items-center gap-2">
+          {post.title}
+          <ChevronRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" />
+        </h2>
 
-          {/* Title */}
-          <h3 className="text-base font-bold text-foreground mb-2 group-hover:text-primary transition-colors duration-300 line-clamp-2">
-            {post.title}
-          </h3>
-
-          {/* Description */}
-          <p className="text-muted-foreground text-sm mb-3 flex-grow line-clamp-2">
-            {post.description}
-          </p>
-
-          {/* Meta */}
-          <div className="flex items-center justify-between pt-3 border-t border-border text-xs text-muted-foreground">
-            <time dateTime={post.date}>
-              {new Date(post.date).toLocaleDateString("pt-BR", {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              })}
-            </time>
-            <span>{post.readTime} min de leitura</span>
-          </div>
-        </div>
-      </div>
+        {/* Description preview */}
+        <p className="text-muted-foreground line-clamp-2">
+          {post.description}
+        </p>
+      </article>
     </Link>
   );
 }

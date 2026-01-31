@@ -61,9 +61,9 @@ export default function BlogPage() {
           </div>
         </div>
 
-        {/* Posts Grid */}
+        {/* Posts List */}
         {filteredPosts.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="max-w-3xl">
             {filteredPosts.map((post) => (
               <BlogCard key={post.slug} post={post} />
             ))}
