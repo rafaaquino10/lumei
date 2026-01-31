@@ -18,12 +18,12 @@ export default function BlogPage() {
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <div className="bg-gradient-to-br from-primary to-primary/90 text-primary-foreground">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+        <div className="container mx-auto px-4 py-8">
           <div className="max-w-3xl">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-2">
               Blog Calcula MEI
             </h1>
-            <p className="text-lg sm:text-xl text-primary-foreground/90">
+            <p className="text-base text-primary-foreground/90">
               Dicas, guias e novidades para MEI crescer
             </p>
           </div>
@@ -31,9 +31,9 @@ export default function BlogPage() {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <div className="container mx-auto px-4 py-8">
         {/* Category Filter */}
-        <div className="mb-12">
+        <div className="mb-6">
           <div className="flex flex-wrap gap-3">
             <button
               onClick={() => setSelectedCategory(null)}
