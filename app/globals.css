@@ -194,7 +194,7 @@
     color: rgb(var(--foreground));
     line-height: 1.7;
     font-size: 1rem;
-    font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+    font-family: var(--font-sans);
   }
 
   .blog-content > * + * {
