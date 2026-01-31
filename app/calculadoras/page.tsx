@@ -84,7 +84,7 @@ export default function CalculadorasPage() {
               )}
             >
               {!calc.ativo && (
-                <div className="absolute top-2 right-2 bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded font-medium">
+                <div className="absolute top-2 right-2 bg-secondary text-muted-foreground border border-border text-xs px-2 py-1 rounded font-medium">
                   Em breve
                 </div>
               )}
