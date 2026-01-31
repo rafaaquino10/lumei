@@ -13,7 +13,7 @@ export interface BlogPost {
 export const posts: BlogPost[] = [
   {
     slug: "como-calcular-margem-de-lucro",
-    title: "Como Calcular Margem de Lucro: Guia Prático para MEI",
+    title: "Como calcular margem de lucro: guia prático para MEI",
     description:
       "Aprenda de forma simples e prática como calcular a margem de lucro do seu negócio MEI. Fórmulas, exemplos reais e dicas para aumentar sua lucratividade.",
     date: "2026-01-30",
@@ -365,7 +365,7 @@ export const posts: BlogPost[] = [
   },
   {
     slug: "das-mei-2026-valores-datas",
-    title: "DAS MEI 2026: Valores, Datas e Como Pagar",
+    title: "DAS MEI 2026: valores, datas e como pagar",
     description:
       "Descubra os valores atualizados do DAS para MEI em 2026, calendário de vencimentos, como pagar e o que fazer se atrasar. Guia completo e atualizado.",
     date: "2026-01-30",
@@ -702,7 +702,7 @@ export const posts: BlogPost[] = [
   },
   {
     slug: "guia-completo-mei-2026",
-    title: "Guia Completo do MEI 2026: Tudo que Você Precisa Saber",
+    title: "Guia completo do MEI 2026: tudo que você precisa saber",
     description:
       "Descubra tudo sobre ser MEI em 2026: requisitos, limites de faturamento, custos, direitos, obrigações e como abrir seu CNPJ. Guia completo atualizado.",
     date: "2026-01-30",
@@ -1052,7 +1052,7 @@ export const posts: BlogPost[] = [
   },
   {
     slug: "como-calcular-margem-de-lucro-mei",
-    title: "Como Calcular Margem de Lucro para MEI",
+    title: "Como calcular margem de lucro para MEI",
     description:
       "Aprenda a calcular corretamente a margem de lucro do seu MEI e tome decisões financeiras mais inteligentes para seu negócio.",
     date: "2026-01-15",
@@ -1110,7 +1110,7 @@ export const posts: BlogPost[] = [
   },
   {
     slug: "calendario-das-2026",
-    title: "Calendário DAS 2026: Datas Importantes para MEI",
+    title: "Calendário DAS 2026: datas importantes para MEI",
     description:
       "Confira o calendário completo de vencimentos do DAS 2026 e não perca nenhuma data importante para seu MEI.",
     date: "2026-01-10",
@@ -1168,7 +1168,7 @@ export const posts: BlogPost[] = [
   },
   {
     slug: "como-calcular-preco-por-hora-freelancer-mei",
-    title: "Como Calcular Seu Preço por Hora como Freelancer MEI",
+    title: "Como calcular seu preço por hora como freelancer MEI",
     description:
       "Descubra como calcular o preço ideal por hora para sua prestação de serviço como freelancer MEI e aumentar seus ganhos.",
     date: "2026-01-05",
