@@ -192,9 +192,9 @@
   /* Blog article content styling */
   .blog-content {
     color: rgb(var(--foreground));
-    line-height: 1.75;
-    font-size: 1.0625rem;
-    letter-spacing: 0.01em;
+    line-height: 1.7;
+    font-size: 1rem;
+    font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   }
 
   .blog-content > * + * {
@@ -202,21 +202,21 @@
   }
 
   .blog-content p {
-    margin-bottom: 1.75rem;
-    line-height: 1.85;
-    text-align: justify;
+    margin-bottom: 1.25rem;
+    line-height: 1.7;
   }
 
   .blog-content h2 {
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: 700;
-    margin-top: 3.5rem;
-    margin-bottom: 1.75rem;
-    padding-bottom: 0.75rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
     border-bottom: 2px solid rgb(var(--border));
     color: rgb(var(--foreground));
     line-height: 1.3;
     letter-spacing: -0.02em;
+    font-family: var(--font-sans);
   }
 
   .blog-content h2:first-child {
@@ -224,28 +224,30 @@
   }
 
   .blog-content h3 {
-    font-size: 1.625rem;
+    font-size: 1.375rem;
     font-weight: 700;
-    margin-top: 3rem;
-    margin-bottom: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
     color: rgb(var(--foreground));
     line-height: 1.35;
     letter-spacing: -0.01em;
+    font-family: var(--font-sans);
   }
 
   .blog-content h4 {
-    font-size: 1.375rem;
+    font-size: 1.125rem;
     font-weight: 600;
-    margin-top: 2.5rem;
-    margin-bottom: 1.25rem;
+    margin-top: 1.75rem;
+    margin-bottom: 0.875rem;
     color: rgb(var(--foreground));
     line-height: 1.4;
+    font-family: var(--font-sans);
   }
 
   .blog-content ul,
   .blog-content ol {
-    margin-bottom: 2rem;
-    padding-left: 2rem;
+    margin-bottom: 1.5rem;
+    padding-left: 1.75rem;
   }
 
   .blog-content ul {
@@ -257,9 +259,9 @@
   }
 
   .blog-content li {
-    margin-bottom: 0.875rem;
-    line-height: 1.8;
-    padding-left: 0.5rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.65;
+    padding-left: 0.375rem;
   }
 
   .blog-content li::marker {
@@ -268,15 +270,15 @@
   }
 
   .blog-content li > p {
-    margin-bottom: 0.625rem;
+    margin-bottom: 0.5rem;
   }
 
   .blog-content ul ul,
   .blog-content ol ol,
   .blog-content ul ol,
   .blog-content ol ul {
-    margin-top: 0.875rem;
-    margin-bottom: 0.875rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 
   .blog-content a {
@@ -303,37 +305,37 @@
   .blog-content code {
     background-color: rgb(var(--muted));
     color: rgb(var(--foreground));
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.375rem;
-    font-size: 0.9375rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
     font-family: var(--font-mono);
     font-weight: 500;
   }
 
   .blog-content pre {
     background-color: rgb(var(--muted));
-    padding: 2rem;
-    border-radius: 0.625rem;
+    padding: 1.25rem;
+    border-radius: 0.5rem;
     overflow-x: auto;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
     border: 1px solid rgb(var(--border));
   }
 
   .blog-content pre code {
     background-color: transparent;
     padding: 0;
-    font-size: 0.9375rem;
+    font-size: 0.875rem;
     font-weight: 400;
   }
 
   .blog-content blockquote {
-    border-left: 4px solid rgb(var(--primary));
-    padding: 1.5rem 0 1.5rem 2rem;
-    margin: 2rem 0;
+    border-left: 3px solid rgb(var(--primary));
+    padding: 1rem 0 1rem 1.5rem;
+    margin: 1.5rem 0;
     font-style: italic;
     background-color: rgb(var(--muted) / 0.3);
-    border-radius: 0 0.5rem 0.5rem 0;
+    border-radius: 0 0.375rem 0.375rem 0;
   }
 
   .blog-content blockquote p {
@@ -344,14 +346,14 @@
   .blog-content table {
     width: 100%;
     border-collapse: collapse;
-    margin: 2.5rem 0;
+    margin: 1.75rem 0;
     font-size: 0.9375rem;
   }
 
   .blog-content th,
   .blog-content td {
     border: 1px solid rgb(var(--border));
-    padding: 0.875rem 1rem;
+    padding: 0.625rem 0.875rem;
     text-align: left;
   }
 
@@ -367,14 +369,14 @@
 
   .blog-content hr {
     border: 0;
-    border-top: 2px solid rgb(var(--border));
-    margin: 4rem 0;
+    border-top: 1px solid rgb(var(--border));
+    margin: 2.5rem 0;
   }
 
   .blog-content img {
     max-width: 100%;
     height: auto;
-    border-radius: 0.625rem;
-    margin: 2.5rem 0;
+    border-radius: 0.5rem;
+    margin: 2rem 0;
   }
 }
