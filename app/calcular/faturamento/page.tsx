@@ -146,9 +146,9 @@ export default function FaturamentoPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left: Form */}
-        <div className="space-y-6">
+        <div className="space-y-4">
           <Card className="p-8">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold">Faturamento Mensal</h2>
@@ -162,7 +162,7 @@ export default function FaturamentoPage() {
               </Button>
             </div>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
               <div className="grid grid-cols-2 gap-4">
                 {MESES.map((mes, index) => (
                   <div key={mes}>
@@ -216,7 +216,7 @@ export default function FaturamentoPage() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="space-y-6"
+              className="space-y-4"
             >
               {/* Status Alert */}
               <Card
@@ -243,12 +243,12 @@ export default function FaturamentoPage() {
               </Card>
 
               {/* Main Result */}
-              <Card className="p-8 bg-mei-50">
-                <h2 className="text-2xl font-bold mb-6">Resultado Anual</h2>
+              <Card className="p-6 bg-mei-50">
+                <h2 className="text-xl font-bold mb-4">Resultado Anual</h2>
                 
                 <div className="mb-6">
                   <p className="text-gray-600 mb-2">Faturamento Anual</p>
-                  <p className="text-5xl font-bold text-mei-600 font-mono">
+                  <p className="text-3xl font-bold text-mei-600 font-mono">
                     R$ {resultado.faturamentoAnual.toLocaleString('pt-BR', {
                       minimumFractionDigits: 2,
                     })}
@@ -283,13 +283,13 @@ export default function FaturamentoPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-sm text-gray-600 mb-1">Média Mensal</p>
-                    <p className="text-2xl font-bold font-mono">
+                    <p className="text-lg font-bold font-mono">
                       R$ {resultado.mediaMonsal.toLocaleString('pt-BR')}
                     </p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-600 mb-1">Ainda Pode Faturar</p>
-                    <p className="text-2xl font-bold font-mono">
+                    <p className="text-lg font-bold font-mono">
                       R$ {Math.max(0, resultado.faltante).toLocaleString('pt-BR')}
                     </p>
                   </div>
@@ -334,8 +334,8 @@ export default function FaturamentoPage() {
               </div>
             </motion.div>
           ) : (
-            <Card className="p-12 text-center bg-gray-50">
-              <TrendingUp className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+            <Card className="p-8 text-center bg-gray-50">
+              <TrendingUp className="w-12 h-12 text-gray-300 mx-auto mb-4" />
               <p className="text-gray-500">
                 Preencha o faturamento dos meses para ver a simulação
               </p>

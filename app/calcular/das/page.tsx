@@ -63,7 +63,7 @@ export default function DASPage() {
   }, [tipoMEI])
 
   return (
-    <div className="container mx-auto px-4 py-12">
+    <div className="container mx-auto px-4 py-8">
       {/* Breadcrumb */}
       <nav className="mb-8 text-sm text-gray-600">
         <Link href="/" className="hover:text-mei-600">
@@ -74,11 +74,11 @@ export default function DASPage() {
       </nav>
 
       {/* Header */}
-      <div className="mb-12">
-        <h1 className="text-4xl font-bold mb-4">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold mb-4">
           Calendário DAS {resultado.anoReferencia}
         </h1>
-        <p className="text-xl text-gray-600">
+        <p className="text-lg text-gray-600">
           Nunca mais atrase o pagamento do DAS. Veja todos os vencimentos do ano.
         </p>
       </div>
@@ -104,8 +104,8 @@ export default function DASPage() {
       )}
 
       {/* Tipo MEI Selector */}
-      <Card className="p-8 mb-8">
-        <h2 className="text-2xl font-bold mb-6">Selecione seu Tipo de MEI</h2>
+      <Card className="p-6 mb-6">
+        <h2 className="text-xl font-bold mb-4">Selecione seu Tipo de MEI</h2>
         <RadioGroup
           value={tipoMEI}
           onValueChange={(value) => setTipoMEI(value as TipoMEI)}
@@ -161,22 +161,22 @@ export default function DASPage() {
 
       {/* Summary Card */}
       <Card className="p-8 mb-8 bg-mei-50">
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-4">
           <div>
             <p className="text-gray-600 mb-2">Valor Mensal</p>
-            <p className="text-4xl font-bold text-mei-600 font-mono">
+            <p className="text-3xl font-bold text-mei-600 font-mono">
               R$ {resultado.valorMensal.toFixed(2)}
             </p>
           </div>
           <div>
             <p className="text-gray-600 mb-2">Total Anual</p>
-            <p className="text-4xl font-bold font-mono">
+            <p className="text-3xl font-bold font-mono">
               R$ {resultado.valorAnual.toFixed(2)}
             </p>
           </div>
           <div>
             <p className="text-gray-600 mb-2">Próximo Vencimento</p>
-            <p className="text-2xl font-bold">
+            <p className="text-lg font-bold">
               {resultado.proximoVencimento.toLocaleDateString('pt-BR', {
                 day: '2-digit',
                 month: 'long',
@@ -219,7 +219,7 @@ export default function DASPage() {
 
       {/* Calendar */}
       <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-6">
+        <h2 className="text-xl font-bold mb-4">
           Calendário Anual {resultado.anoReferencia}
         </h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -273,7 +273,7 @@ export default function DASPage() {
                     </span>
                   </div>
 
-                  <p className="text-2xl font-bold font-mono">
+                  <p className="text-lg font-bold font-mono">
                     R$ {item.valor.toFixed(2)}
                   </p>
 
@@ -298,10 +298,10 @@ export default function DASPage() {
       </div>
 
       {/* CTA Premium */}
-      <Card className="p-8 bg-gradient-to-r from-mei-50 to-mei-100 border-mei-500">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+      <Card className="p-4 bg-gradient-to-r from-mei-50 to-mei-100 border-mei-500">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
-            <h3 className="text-2xl font-bold mb-2">
+            <h3 className="text-xl font-bold mb-2">
               Quer receber alertas automáticos?
             </h3>
             <p className="text-gray-700">

@@ -207,12 +207,12 @@ export default function MargemLucroPage() {
       </div>
 
       {/* Main content: 2 columns */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left: Form */}
         <div className="bg-white border rounded-mei-lg p-8">
           <h2 className="text-2xl font-bold mb-6">Dados do Cálculo</h2>
           
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {/* Preço de Venda */}
             <div className="space-y-2">
               <div className="flex items-center gap-2">
@@ -274,7 +274,7 @@ export default function MargemLucroPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="text-center py-12"
+                className="text-center py-8"
               >
                 <p className="text-gray-400">
                   Preencha os dados ao lado para ver o resultado
@@ -287,12 +287,12 @@ export default function MargemLucroPage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                className="space-y-8"
+                className="space-y-6"
               >
                 {/* Margem Bruta (Principal) */}
                 <div className="text-center">
                   <p className="text-sm text-gray-600 mb-2">Margem Bruta</p>
-                  <p className="text-5xl font-bold text-mei-600">
+                  <p className="text-3xl font-bold text-mei-600">
                     {resultado.margemBruta.toFixed(1)}%
                   </p>
                 </div>

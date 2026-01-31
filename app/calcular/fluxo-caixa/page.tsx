@@ -183,7 +183,7 @@ export default function FluxoCaixaPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left: Form */}
         <div>
           <Card className="p-8">
@@ -200,7 +200,7 @@ export default function FluxoCaixaPage() {
               </Button>
             </div>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2">
                 {fields.map((field, index) => {
                   const tipo = watch(`transacoes.${index}.tipo`)
@@ -331,7 +331,7 @@ export default function FluxoCaixaPage() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="space-y-6"
+              className="space-y-4"
             >
               {/* Status Card */}
               <Card
@@ -347,8 +347,8 @@ export default function FluxoCaixaPage() {
               </Card>
 
               {/* Main Result */}
-              <Card className="p-8 bg-mei-50">
-                <h2 className="text-2xl font-bold mb-6">Resumo</h2>
+              <Card className="p-6 bg-mei-50">
+                <h2 className="text-xl font-bold mb-4">Resumo</h2>
 
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
@@ -481,8 +481,8 @@ export default function FluxoCaixaPage() {
               </Button>
             </motion.div>
           ) : (
-            <Card className="p-12 text-center bg-gray-50">
-              <TrendingUp className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+            <Card className="p-8 text-center bg-gray-50">
+              <TrendingUp className="w-12 h-12 text-gray-300 mx-auto mb-4" />
               <p className="text-gray-500">
                 Adicione suas transações para calcular o fluxo de caixa
               </p>
