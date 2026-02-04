@@ -1,0 +1,59 @@
+{
+  "name": "Calcula MEI - Controle seu MEI",
+  "short_name": "Calcula MEI",
+  "description": "Calculadoras e ferramentas para MEI. Controle faturamento, DAS e muito mais.",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#00D084",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "pt-BR",
+  "categories": ["business", "finance", "productivity"],
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Registrar Faturamento",
+      "short_name": "Faturamento",
+      "description": "Registrar faturamento do mês",
+      "url": "/dashboard/faturamento"
+    },
+    {
+      "name": "Calculadoras",
+      "short_name": "Calcular",
+      "description": "Acessar calculadoras MEI",
+      "url": "/ferramentas"
+    }
+  ]
+}

@@ -11,6 +11,7 @@ import {
   ArrowLeftRight,
   Calendar,
   ArrowRight,
+  ArrowUpCircle,
   LucideIcon,
 } from 'lucide-react'
 import { trackContextualSuggestionClicked } from '@/lib/analytics'
@@ -22,6 +23,7 @@ type CalculatorType =
   | 'faturamento'
   | 'fluxo-caixa'
   | 'das'
+  | 'transicao-mei-me'
 
 interface Suggestion {
   id: CalculatorType
@@ -81,6 +83,14 @@ const ALL_SUGGESTIONS: Record<CalculatorType, Suggestion> = {
     href: '/calculadoras?calc=das',
     contextText: 'Confira seu DAS',
   },
+  'transicao-mei-me': {
+    id: 'transicao-mei-me',
+    title: 'Transição MEI → ME',
+    description: 'Simule quando migrar para ME',
+    icon: ArrowUpCircle,
+    href: '/calculadoras?calc=transicao-mei-me',
+    contextText: 'Vale migrar para ME?',
+  },
 }
 
 // Mapeamento de sugestões contextuais por calculadora
@@ -88,9 +98,10 @@ const CONTEXTUAL_MAP: Record<CalculatorType, CalculatorType[]> = {
   'margem-lucro': ['precificacao', 'preco-hora'],
   'preco-hora': ['margem-lucro', 'faturamento'],
   'precificacao': ['margem-lucro', 'fluxo-caixa'],
-  'faturamento': ['das', 'fluxo-caixa'],
+  'faturamento': ['das', 'transicao-mei-me'],
   'fluxo-caixa': ['faturamento', 'margem-lucro'],
-  'das': ['faturamento'],
+  'das': ['faturamento', 'transicao-mei-me'],
+  'transicao-mei-me': ['faturamento', 'das'],
 }
 
 // Textos contextuais personalizados
@@ -109,7 +120,7 @@ const CONTEXT_TEXTS: Partial<Record<CalculatorType, Partial<Record<CalculatorTyp
   },
   'faturamento': {
     'das': 'Não esqueça do DAS - veja datas e valores',
-    'fluxo-caixa': 'Detalhe entradas e saídas do mês',
+    'transicao-mei-me': 'Crescendo? Veja quando migrar para ME',
   },
   'fluxo-caixa': {
     'faturamento': 'Projete seu faturamento anual',
@@ -117,6 +128,11 @@ const CONTEXT_TEXTS: Partial<Record<CalculatorType, Partial<Record<CalculatorTyp
   },
   'das': {
     'faturamento': 'Acompanhe se está perto do limite MEI',
+    'transicao-mei-me': 'Simule quando vale migrar para ME',
+  },
+  'transicao-mei-me': {
+    'faturamento': 'Registre seu faturamento mensal',
+    'das': 'Veja o calendário de pagamento do DAS',
   },
 }
 
