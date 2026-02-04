@@ -23,13 +23,14 @@ export async function POST(request: Request) {
       )
     }
 
-    await getOrCreateCustomer(user.id, user.email)
+    const customerId = await getOrCreateCustomer(user.id, user.email)
 
     const session = await createCheckoutSession(
       user.id,
       user.email,
       stripePriceId,
-      `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`
+      `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`,
+      customerId
     )
 
     log({

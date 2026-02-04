@@ -5,14 +5,20 @@ export async function createCheckoutSession(
   userId: string,
   email: string,
   stripePriceId: string,
-  returnUrl: string
+  returnUrl: string,
+  customerId?: string
 ) {
   if (!stripe) {
     throw new Error('Stripe is not initialized')
   }
 
+  // Usa customer ID se disponível, senão usa email
+  const customerConfig = customerId
+    ? { customer: customerId }
+    : { customer_email: email }
+
   const session = await stripe.checkout.sessions.create({
-    customer_email: email,
+    ...customerConfig,
     client_reference_id: userId,
     payment_method_types: ['card'],
     line_items: [
@@ -22,7 +28,7 @@ export async function createCheckoutSession(
       },
     ],
     mode: 'subscription',
-    success_url: `${returnUrl}?success=true`,
+    success_url: `${returnUrl}?success=true&refresh=true`,
     cancel_url: returnUrl,
   })
 

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { stripe } from '@/lib/billing/stripe'
+import { prisma } from '@/lib/prisma'
 import {
   handleSubscriptionCreated,
   handleSubscriptionDeleted,
@@ -31,11 +32,23 @@ export async function POST(request: Request) {
     switch (event.type) {
       case 'checkout.session.completed': {
         const session = event.data.object as unknown as Record<string, unknown>
-        if (session.subscription) {
+        const userId = session.client_reference_id as string
+        const customerId = session.customer as string
+
+        if (userId && customerId) {
+          // Atualiza o stripeCustomerId do usuário
+          await prisma.user.update({
+            where: { id: userId },
+            data: {
+              stripeCustomerId: customerId,
+              plano: 'PREMIUM',
+            },
+          })
+
           log({
             level: 'info',
-            event: 'checkout_completed',
-            meta: { customerId: session.customer },
+            event: 'checkout_completed_user_updated',
+            meta: { userId, customerId },
           })
         }
         break
