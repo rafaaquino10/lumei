@@ -37,7 +37,6 @@ export async function GET() {
   authUrl.searchParams.set('scope', scope)
   authUrl.searchParams.set('state', state)
   authUrl.searchParams.set('access_type', 'offline')
-  authUrl.searchParams.set('prompt', 'select_account')
 
   return NextResponse.redirect(authUrl.toString())
 }

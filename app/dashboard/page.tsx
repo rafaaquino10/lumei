@@ -268,6 +268,8 @@ export default async function DashboardPage() {
   )
 }
 
+export const dynamic = 'force-dynamic'
+
 export const metadata = {
   title: 'Dashboard | Calcula MEI',
   description: 'Controle financeiro do seu MEI - Acompanhe faturamento, limite e DAS',
