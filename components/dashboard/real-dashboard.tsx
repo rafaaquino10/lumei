@@ -306,8 +306,8 @@ export function RealDashboard({
             {MESES_CURTOS.map((mes, i) => (
               <span
                 key={mes}
-                className={`text-[8px] flex-1 text-center ${
-                  isAnoAtual && i === mesAtual - 1 ? 'text-primary font-medium' : 'text-muted-foreground'
+                className={`text-xs flex-1 text-center ${
+                  isAnoAtual && i === mesAtual - 1 ? 'text-primary font-semibold' : 'text-muted-foreground'
                 }`}
               >
                 {mes}
