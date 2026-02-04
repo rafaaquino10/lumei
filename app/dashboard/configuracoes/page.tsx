@@ -127,13 +127,14 @@ export default async function ConfiguracoesPage() {
               )}
 
               {user.plano === 'PREMIUM' && (
-                <Button
-                  variant="outline"
-                  className="w-full"
-                  onClick={() => window.location.href = '/api/billing/portal'}
-                >
-                  Gerenciar Assinatura no Stripe
-                </Button>
+                <Link href="/api/billing/portal">
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                  >
+                    Gerenciar Assinatura no Stripe
+                  </Button>
+                </Link>
               )}
             </div>
           </Card>
