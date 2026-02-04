@@ -1,7 +1,13 @@
 import { SignJWT, jwtVerify, type JWTPayload } from 'jose'
 
+// JWT_SECRET é obrigatório - sem fallback para evitar tokens fracos
+const jwtSecret = process.env.JWT_SECRET
+if (!jwtSecret && process.env.NODE_ENV === 'production') {
+  throw new Error('JWT_SECRET é obrigatório em produção')
+}
+
 const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || 'fallback-secret-change-in-production'
+  jwtSecret || 'dev-only-secret-do-not-use-in-production'
 )
 
 const ACCESS_TOKEN_EXPIRY = '15m'

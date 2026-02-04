@@ -13,11 +13,20 @@ import { sendWhatsApp, getDasWhatsAppMessage } from '@/lib/whatsapp/send'
  */
 export async function POST(request: Request) {
   try {
-    // Verifica autorizacao do cron
+    // Verifica autorizacao do cron - OBRIGATÓRIO
     const authHeader = request.headers.get('authorization')
     const cronSecret = process.env.CRON_SECRET
 
-    if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
+    // CRON_SECRET é obrigatório - bloqueia se não existir
+    if (!cronSecret) {
+      console.error('[Alertas DAS] CRON_SECRET não configurado')
+      return NextResponse.json(
+        { success: false, error: 'server_misconfigured' },
+        { status: 500 }
+      )
+    }
+
+    if (authHeader !== `Bearer ${cronSecret}`) {
       return NextResponse.json(
         { success: false, error: 'unauthorized' },
         { status: 401 }
@@ -244,12 +253,20 @@ export async function POST(request: Request) {
   }
 }
 
-// GET para verificar status (debug)
+// GET para verificar status (debug) - Protegido por CRON_SECRET
 export async function GET(request: Request) {
   const authHeader = request.headers.get('authorization')
   const cronSecret = process.env.CRON_SECRET
 
-  if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
+  // CRON_SECRET é obrigatório
+  if (!cronSecret) {
+    return NextResponse.json(
+      { success: false, error: 'server_misconfigured' },
+      { status: 500 }
+    )
+  }
+
+  if (authHeader !== `Bearer ${cronSecret}`) {
     return NextResponse.json(
       { success: false, error: 'unauthorized' },
       { status: 401 }

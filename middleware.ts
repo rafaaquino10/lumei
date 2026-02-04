@@ -2,9 +2,20 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { jwtVerify } from 'jose'
 
+// JWT_SECRET obrigatório em produção
+const jwtSecret = process.env.JWT_SECRET
 const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || 'fallback-secret-change-in-production'
+  jwtSecret || 'dev-only-secret-do-not-use-in-production'
 )
+
+// Headers de segurança
+const securityHeaders = {
+  'X-Content-Type-Options': 'nosniff',
+  'X-Frame-Options': 'DENY',
+  'X-XSS-Protection': '1; mode=block',
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
+  'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+}
 
 const publicRoutes = [
   '/',
@@ -46,6 +57,14 @@ function isPublicRoute(pathname: string): boolean {
   return false
 }
 
+// Adiciona headers de segurança à resposta
+function addSecurityHeaders(response: NextResponse): NextResponse {
+  Object.entries(securityHeaders).forEach(([key, value]) => {
+    response.headers.set(key, value)
+  })
+  return response
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
@@ -56,12 +75,12 @@ export async function middleware(request: NextRequest) {
     pathname.includes('.') ||
     pathname.startsWith('/favicon')
   ) {
-    return NextResponse.next()
+    return addSecurityHeaders(NextResponse.next())
   }
 
   // Allow public routes
   if (isPublicRoute(pathname)) {
-    return NextResponse.next()
+    return addSecurityHeaders(NextResponse.next())
   }
 
   // Check for access token
@@ -81,7 +100,7 @@ export async function middleware(request: NextRequest) {
   try {
     // Verify token
     await jwtVerify(accessToken, JWT_SECRET)
-    return NextResponse.next()
+    return addSecurityHeaders(NextResponse.next())
   } catch {
     // Token invalid or expired, try refresh
     const refreshToken = request.cookies.get('refresh_token')?.value
@@ -92,11 +111,13 @@ export async function middleware(request: NextRequest) {
         signInUrl.searchParams.set('redirect', pathname)
         return NextResponse.redirect(signInUrl)
       }
-      return NextResponse.json({ error: 'Sessão expirada' }, { status: 401 })
+      return addSecurityHeaders(
+        NextResponse.json({ error: 'Sessão expirada' }, { status: 401 })
+      )
     }
 
     // Let the request through, the session helper will handle refresh
-    return NextResponse.next()
+    return addSecurityHeaders(NextResponse.next())
   }
 }
 
