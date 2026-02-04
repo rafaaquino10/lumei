@@ -29,20 +29,29 @@ const DAS_VALUES: Record<string, number> = {
 
 const LIMITE_MEI = 81000
 
-export default async function DashboardPage() {
+interface DashboardPageProps {
+  searchParams: Promise<{ ano?: string }>
+}
+
+export default async function DashboardPage({ searchParams }: DashboardPageProps) {
   const user = await getServerUserWithCalcs()
 
   if (!user) {
     redirect('/sign-in')
   }
 
+  const params = await searchParams
   const anoAtual = new Date().getFullYear()
+  const anoSelecionado = params.ano ? parseInt(params.ano, 10) : anoAtual
 
-  // Buscar registros de faturamento do ano atual
+  // Validar ano (não pode ser maior que o atual nem muito antigo)
+  const anoValido = Math.min(Math.max(anoSelecionado, 2020), anoAtual)
+
+  // Buscar registros de faturamento do ano selecionado
   const registros = await prisma.registroFaturamento.findMany({
     where: {
       userId: user.id,
-      ano: anoAtual,
+      ano: anoValido,
     },
     orderBy: { mes: 'asc' },
   })
@@ -65,7 +74,7 @@ export default async function DashboardPage() {
     valorRestante,
     mesesAteEstourar,
     limiteMEI: LIMITE_MEI,
-    ano: anoAtual,
+    ano: anoValido,
   }
 
   // Próximo DAS
@@ -113,11 +122,11 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {/* Lembrete mensal de registro */}
-      {onboardingCompleto && (
+      {/* Lembrete mensal de registro - só mostra no ano atual */}
+      {onboardingCompleto && anoValido === anoAtual && (
         <MonthlyReminder
           registeredMonths={registros.map(r => r.mes)}
-          ano={anoAtual}
+          ano={anoValido}
         />
       )}
 
@@ -134,6 +143,7 @@ export default async function DashboardPage() {
           dasInfo={dasInfo}
           onboardingCompleto={onboardingCompleto}
           ocupacao={user.ocupacao}
+          anoAtual={anoAtual}
         />
       </div>
 
@@ -175,9 +185,9 @@ export default async function DashboardPage() {
           ].map((tool) => (
             <Link key={tool.label} href={tool.href}>
               <Card className="p-3 hover:shadow-lg hover:border-primary transition-all cursor-pointer text-center h-full group">
-                <tool.icon className="w-5 h-5 text-primary mx-auto mb-1 group-hover:scale-110 transition-transform" />
-                <span className="text-xs font-medium text-foreground block">{tool.label}</span>
-                <span className="text-[9px] text-muted-foreground hidden sm:block">{tool.desc}</span>
+                <tool.icon className="w-6 h-6 text-primary mx-auto mb-1.5 group-hover:scale-110 transition-transform" />
+                <span className="text-sm font-semibold text-foreground block">{tool.label}</span>
+                <span className="text-xs text-muted-foreground hidden sm:block">{tool.desc}</span>
               </Card>
             </Link>
           ))}

@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import {
@@ -11,6 +12,8 @@ import {
   ArrowRight,
   Plus,
   BarChart3,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react'
 import Link from 'next/link'
 import { InfoTooltip, METRIC_TOOLTIPS } from '@/components/ui/info-tooltip'
@@ -46,6 +49,7 @@ interface RealDashboardProps {
   dasInfo: DasInfo
   onboardingCompleto: boolean
   ocupacao: string | null
+  anoAtual: number
 }
 
 const MESES_CURTOS = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
@@ -56,7 +60,11 @@ export function RealDashboard({
   dasInfo,
   onboardingCompleto,
   ocupacao,
+  anoAtual,
 }: RealDashboardProps) {
+  const router = useRouter()
+  const anoSelecionado = metricas?.ano || anoAtual
+
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
@@ -66,8 +74,19 @@ export function RealDashboard({
     }).format(value)
   }
 
+  const navegarAno = (direcao: 'anterior' | 'proximo') => {
+    const novoAno = direcao === 'anterior' ? anoSelecionado - 1 : anoSelecionado + 1
+    if (novoAno >= 2020 && novoAno <= anoAtual) {
+      router.push(`/dashboard?ano=${novoAno}`)
+    }
+  }
+
+  const podeIrAnterior = anoSelecionado > 2020
+  const podeIrProximo = anoSelecionado < anoAtual
+
   const mesAtual = new Date().getMonth() + 1
-  const temRegistroMesAtual = registros.some(r => r.mes === mesAtual)
+  const isAnoAtual = anoSelecionado === anoAtual
+  const temRegistroMesAtual = isAnoAtual && registros.some(r => r.mes === mesAtual)
   const temDados = registros.length > 0
 
   // Preparar dados do gráfico
@@ -139,8 +158,8 @@ export function RealDashboard({
 
   return (
     <div className="space-y-4">
-      {/* Alerta para registrar mês atual */}
-      {!temRegistroMesAtual && (
+      {/* Alerta para registrar mês atual - só mostra no ano atual */}
+      {isAnoAtual && !temRegistroMesAtual && (
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -150,7 +169,7 @@ export function RealDashboard({
               <div className="flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 text-amber-600" />
                 <span className="text-sm text-amber-800 dark:text-amber-200">
-                  Você ainda não registrou o faturamento de {MESES_CURTOS[mesAtual - 1]}
+                  Voce ainda nao registrou o faturamento de {MESES_CURTOS[mesAtual - 1]}
                 </span>
               </div>
               <Link href="/registrar">
@@ -170,11 +189,32 @@ export function RealDashboard({
           <div className="w-3 h-3 rounded-full bg-yellow-400" />
           <div className="w-3 h-3 rounded-full bg-green-400" />
         </div>
-        <div className="flex-1 text-center">
-          <span className="text-xs text-muted-foreground font-medium">
-            Controle Financeiro • {ocupacao || 'MEI'} • {metricas?.ano}
+        <div className="flex-1 flex items-center justify-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-6 w-6"
+            onClick={() => navegarAno('anterior')}
+            disabled={!podeIrAnterior}
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+          <span className="text-sm font-semibold text-foreground min-w-[50px] text-center">
+            {anoSelecionado}
           </span>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-6 w-6"
+            onClick={() => navegarAno('proximo')}
+            disabled={!podeIrProximo}
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
         </div>
+        <span className="text-xs text-muted-foreground font-medium">
+          {ocupacao || 'MEI'}
+        </span>
       </div>
 
       {/* Main Dashboard */}
@@ -240,7 +280,7 @@ export function RealDashboard({
           <div className="flex items-end justify-between gap-1 h-24">
             {evolucaoMensal.map((valor, i) => {
               const height = (valor / maxValor) * 100
-              const isCurrentMonth = i === mesAtual - 1
+              const isCurrentMonth = isAnoAtual && i === mesAtual - 1
               const hasData = valor > 0
 
               return (
@@ -267,7 +307,7 @@ export function RealDashboard({
               <span
                 key={mes}
                 className={`text-[8px] flex-1 text-center ${
-                  i === mesAtual - 1 ? 'text-primary font-medium' : 'text-muted-foreground'
+                  isAnoAtual && i === mesAtual - 1 ? 'text-primary font-medium' : 'text-muted-foreground'
                 }`}
               >
                 {mes}
