@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { Menu, LayoutDashboard, LogOut, User } from 'lucide-react'
 import { useAuth, SignedIn, SignedOut } from '@/lib/auth/context'
+import { useAuthModal } from '@/components/auth/auth-modal-context'
 import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Logo } from '@/components/logo'
@@ -22,14 +23,14 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useState } from 'react'
 
-// Links para usuários não logados
+// Links para usuarios nao logados
 const publicNavLinks = [
   { href: '/', label: 'Home' },
   { href: '/calculadoras', label: 'Ferramentas' },
   { href: '/blog', label: 'Blog' },
 ]
 
-// Links para usuários logados (ordem: Painel, Registrar, Ferramentas, Blog)
+// Links para usuarios logados (ordem: Painel, Registrar, Ferramentas, Blog)
 const authNavLinks = [
   { href: '/dashboard', label: 'Painel', icon: true },
   { href: '/registrar', label: 'Registrar', primary: true },
@@ -40,6 +41,7 @@ const authNavLinks = [
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const { user, isSignedIn, signOut } = useAuth()
+  const { openLogin, openSignup } = useAuthModal()
 
   // Define home href based on auth status
   const homeHref = isSignedIn ? '/dashboard' : '/'
@@ -53,8 +55,8 @@ export default function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden items-center gap-6 md:flex" aria-label="Navegação principal">
-          {/* Links para usuários não logados */}
+        <nav className="hidden items-center gap-6 md:flex" aria-label="Navegacao principal">
+          {/* Links para usuarios nao logados */}
           <SignedOut>
             {publicNavLinks.map((link) => (
               <Link
@@ -67,7 +69,7 @@ export default function Header() {
             ))}
           </SignedOut>
 
-          {/* Links para usuários logados */}
+          {/* Links para usuarios logados */}
           <SignedIn>
             {authNavLinks.map((link) => (
               <Link
@@ -92,21 +94,21 @@ export default function Header() {
         <div className="hidden items-center gap-2 md:flex">
           <ThemeToggle />
           <SignedOut>
-            <Button variant="ghost" asChild>
-              <Link href="/sign-in">Entrar</Link>
+            <Button variant="ghost" onClick={openLogin}>
+              Acessar
             </Button>
             <Button
               className="bg-mei-500 text-white hover:bg-mei-600"
-              asChild
+              onClick={openSignup}
             >
-              <Link href="/sign-up">Começar Grátis</Link>
+              Criar conta gratis
             </Button>
           </SignedOut>
 
           <SignedIn>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full" aria-label="Menu do usuário">
+                <Button variant="ghost" size="icon" className="rounded-full" aria-label="Menu do usuario">
                   <div className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-mei-500 bg-mei-100">
                     <User className="h-5 w-5 text-mei-600" aria-hidden="true" />
                   </div>
@@ -114,14 +116,14 @@ export default function Header() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
                 <div className="px-2 py-1.5">
-                  <p className="text-sm font-medium">{user?.name || 'Usuário'}</p>
+                  <p className="text-sm font-medium">{user?.name || 'Usuario'}</p>
                   <p className="text-xs text-muted-foreground">{user?.email}</p>
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
                   <Link href="/dashboard/configuracoes" className="cursor-pointer">
                     <User className="mr-2 h-4 w-4" />
-                    Configurações
+                    Configuracoes
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -148,22 +150,22 @@ export default function Header() {
             </SheetHeader>
             <div className="mt-6 flex flex-col gap-6 px-6">
               {/* Mobile Navigation Links */}
-              <nav className="flex flex-col gap-1" aria-label="Navegação mobile">
-                {/* Links para usuários não logados */}
+              <nav className="flex flex-col gap-1" aria-label="Navegacao mobile">
+                {/* Links para usuarios nao logados */}
                 <SignedOut>
                   {publicNavLinks.map((link) => (
                     <Link
                       key={link.href}
                       href={link.href}
                       onClick={() => setIsOpen(false)}
-                      className="flex items-center py-3 px-4 -mx-4 text-lg font-medium text-foreground rounded-lg transition-colors hover:bg-muted active:bg-muted/80"
+                      className="flex items-center py-3 px-4 -mx-4 text-base font-medium text-foreground rounded-lg transition-colors hover:bg-muted active:bg-muted/80"
                     >
                       {link.label}
                     </Link>
                   ))}
                 </SignedOut>
 
-                {/* Links para usuários logados */}
+                {/* Links para usuarios logados */}
                 <SignedIn>
                   {authNavLinks.map((link) => (
                     <Link
@@ -172,10 +174,10 @@ export default function Header() {
                       onClick={() => setIsOpen(false)}
                       className={
                         link.primary
-                          ? 'flex items-center gap-3 py-3 px-4 -mx-4 text-lg font-medium text-white bg-mei-500 rounded-lg transition-colors hover:bg-mei-600'
+                          ? 'flex items-center gap-3 py-3 px-4 -mx-4 text-base font-medium text-white bg-mei-500 rounded-lg transition-colors hover:bg-mei-600'
                           : link.icon
-                            ? 'flex items-center gap-3 py-3 px-4 -mx-4 text-lg font-medium text-mei-600 rounded-lg transition-colors hover:bg-muted active:bg-muted/80'
-                            : 'flex items-center py-3 px-4 -mx-4 text-lg font-medium text-foreground rounded-lg transition-colors hover:bg-muted active:bg-muted/80'
+                            ? 'flex items-center gap-3 py-3 px-4 -mx-4 text-base font-medium text-mei-600 rounded-lg transition-colors hover:bg-muted active:bg-muted/80'
+                            : 'flex items-center py-3 px-4 -mx-4 text-base font-medium text-foreground rounded-lg transition-colors hover:bg-muted active:bg-muted/80'
                       }
                     >
                       {link.icon && <LayoutDashboard className="h-5 w-5" />}
@@ -191,19 +193,21 @@ export default function Header() {
                   <Button
                     variant="ghost"
                     className="w-full justify-start"
-                    asChild
+                    onClick={() => {
+                      setIsOpen(false)
+                      openLogin()
+                    }}
                   >
-                    <Link href="/sign-in" onClick={() => setIsOpen(false)}>
-                      Entrar
-                    </Link>
+                    Acessar
                   </Button>
                   <Button
                     className="w-full bg-mei-500 text-white hover:bg-mei-600"
-                    asChild
+                    onClick={() => {
+                      setIsOpen(false)
+                      openSignup()
+                    }}
                   >
-                    <Link href="/sign-up" onClick={() => setIsOpen(false)}>
-                      Começar Grátis
-                    </Link>
+                    Criar conta gratis
                   </Button>
                 </SignedOut>
 
@@ -214,7 +218,7 @@ export default function Header() {
                         <User className="h-5 w-5 text-mei-600" />
                       </div>
                       <div>
-                        <p className="text-sm font-medium">{user?.name || 'Usuário'}</p>
+                        <p className="text-sm font-medium">{user?.name || 'Usuario'}</p>
                         <p className="text-xs text-muted-foreground">{user?.email}</p>
                       </div>
                     </div>

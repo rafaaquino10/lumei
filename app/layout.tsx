@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope } from "next/font/google";
+import { Plus_Jakarta_Sans, Lora } from "next/font/google";
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { AuthProvider } from '@/lib/auth/context';
+import { AuthModalProvider } from '@/components/auth/auth-modal-context';
+import { AuthModal } from '@/components/auth/auth-modal';
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { Toaster } from "@/components/ui/sonner";
@@ -12,9 +14,15 @@ import { PWAInstallPrompt } from "@/components/pwa/install-prompt";
 import { SkipToContent } from "@/components/skip-to-content";
 import "./globals.css";
 
-const manrope = Manrope({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-manrope",
+  variable: "--font-plus-jakarta",
+  display: "swap",
+});
+
+const lora = Lora({
+  subsets: ["latin"],
+  variable: "--font-lora",
   display: "swap",
 });
 
@@ -89,7 +97,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={manrope.variable}>
+    <html lang="pt-BR" className={`${plusJakarta.variable} ${lora.variable}`}>
       <head>
         {/* Preconnect para recursos externos críticos */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -110,17 +118,20 @@ export default function RootLayout({
       <body className="antialiased">
         <Providers>
           <AuthProvider>
-            <SkipToContent />
-            <OrganizationSchema />
-            <SoftwareApplicationSchema />
-            <Header />
-            <main id="main-content" className="min-h-screen" role="main">
-              {children}
-            </main>
-            <Footer />
-            <Toaster />
-            <CookieConsentBanner />
-            <PWAInstallPrompt />
+            <AuthModalProvider>
+              <SkipToContent />
+              <OrganizationSchema />
+              <SoftwareApplicationSchema />
+              <Header />
+              <main id="main-content" className="min-h-screen" role="main">
+                {children}
+              </main>
+              <Footer />
+              <Toaster />
+              <CookieConsentBanner />
+              <PWAInstallPrompt />
+              <AuthModal />
+            </AuthModalProvider>
           </AuthProvider>
         </Providers>
         {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
