@@ -123,7 +123,7 @@ export function MargemLucroPDF({ inputs, resultado, titulo, userData }: MargemLu
     <Document>
       <Page size="A4" style={baseStyles.page}>
         {/* Header */}
-        <PDFHeader documentType="Calculo de Margem de Lucro" />
+        <PDFHeader documentType="Cálculo de Margem de Lucro" />
 
         {/* Identificacao do Usuario/Empresa */}
         <PDFUserIdentification userData={userData} />
@@ -131,7 +131,7 @@ export function MargemLucroPDF({ inputs, resultado, titulo, userData }: MargemLu
         {/* Title */}
         <View style={baseStyles.titleSection}>
           <Text style={baseStyles.title}>
-            {titulo || 'Analise de Margem de Lucro'}
+            {titulo || 'Análise de Margem de Lucro'}
           </Text>
           <Text style={baseStyles.subtitle}>
             Veja quanto voce esta lucrando em cada venda e se o preco esta adequado.

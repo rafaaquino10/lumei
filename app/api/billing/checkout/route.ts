@@ -42,6 +42,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       sessionId: session.id,
+      url: session.url,
     })
   } catch (error) {
     log({

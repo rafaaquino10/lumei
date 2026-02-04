@@ -31,8 +31,10 @@ export function CheckoutButton({ stripePriceId, className }: CheckoutButtonProps
       })
 
       const data = await response.json()
-      if (data.sessionId) {
-        window.location.href = `https://checkout.stripe.com/pay/${data.sessionId}`
+      if (data.url) {
+        window.location.href = data.url
+      } else if (data.error) {
+        console.error('Checkout error:', data.error)
       }
     } catch (error) {
       console.error('Checkout error:', error)

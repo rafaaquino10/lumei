@@ -169,7 +169,7 @@ export function PrecoHoraPDF({ inputs, resultado, titulo, userData }: PrecoHoraP
     <Document>
       <Page size="A4" style={baseStyles.page}>
         {/* Header */}
-        <PDFHeader documentType="Calculo de Preco por Hora" />
+        <PDFHeader documentType="Cálculo de Preço por Hora" />
 
         {/* Identificacao do Usuario/Empresa */}
         <PDFUserIdentification userData={userData} />
@@ -177,7 +177,7 @@ export function PrecoHoraPDF({ inputs, resultado, titulo, userData }: PrecoHoraP
         {/* Title */}
         <View style={baseStyles.titleSection}>
           <Text style={baseStyles.title}>
-            {titulo || 'Seu Preco por Hora Ideal'}
+            {titulo || 'Seu Preço por Hora Ideal'}
           </Text>
           <Text style={baseStyles.subtitle}>
             Descubra quanto cobrar por hora considerando seus custos, ferias e margem de lucro.

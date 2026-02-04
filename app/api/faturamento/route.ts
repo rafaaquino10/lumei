@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 import { getServerUser } from '@/lib/auth/server'
 import { z } from 'zod'
@@ -95,6 +96,10 @@ export async function POST(request: NextRequest) {
       },
     })
 
+    // Revalidar dashboard para mostrar dados atualizados
+    revalidatePath('/dashboard')
+    revalidatePath('/registrar')
+
     return NextResponse.json({ success: true, registro })
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -130,6 +135,10 @@ export async function DELETE(request: NextRequest) {
         },
       },
     })
+
+    // Revalidar dashboard
+    revalidatePath('/dashboard')
+    revalidatePath('/registrar')
 
     return NextResponse.json({ success: true })
   } catch (error) {

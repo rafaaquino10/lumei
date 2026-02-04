@@ -47,10 +47,10 @@ export function DasCalc() {
   return (
     <Card className="p-4 max-w-3xl mx-auto">
       <h2 className="text-xl font-bold text-foreground mb-3">
-        Calendario DAS MEI 2026
+        Calendário DAS MEI 2026
       </h2>
       <p className="text-sm text-muted-foreground mb-4">
-        Consulte o valor do DAS e proximos vencimentos
+        Consulte o valor do DAS e próximos vencimentos
       </p>
 
       <div className="grid md:grid-cols-2 gap-6 mb-4">
@@ -63,9 +63,9 @@ export function DasCalc() {
                 <SelectValue placeholder="Selecione o tipo" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="comercio">Comercio</SelectItem>
-                <SelectItem value="servicos">Servicos</SelectItem>
-                <SelectItem value="comercio-servicos">Comercio e Servicos</SelectItem>
+                <SelectItem value="comercio">Comércio</SelectItem>
+                <SelectItem value="servicos">Serviços</SelectItem>
+                <SelectItem value="comercio-servicos">Comércio e Serviços</SelectItem>
                 <SelectItem value="caminhoneiro">Caminhoneiro</SelectItem>
               </SelectContent>
             </Select>
@@ -88,7 +88,7 @@ export function DasCalc() {
                 R$ {calcularDAS().toFixed(2)}
               </motion.p>
               <p className="text-xs text-muted-foreground mt-2">
-                Vencimento: dia 20 de cada mes
+                Vencimento: dia 20 de cada mês
               </p>
             </Card>
           </motion.div>
@@ -101,10 +101,10 @@ export function DasCalc() {
           </Card>
         </div>
 
-        {/* Coluna direita - Proximos Vencimentos */}
+        {/* Coluna direita - Próximos Vencimentos */}
         <div>
           <h3 className="text-sm font-semibold text-foreground mb-3">
-            Proximos Vencimentos
+            Próximos Vencimentos
           </h3>
           <div className="grid grid-cols-2 gap-2">
             {proximosVencimentos.map((item, index) => (

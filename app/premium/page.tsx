@@ -45,9 +45,16 @@ export default function PremiumPage() {
             </Link>
           </SignedOut>
           <SignedIn>
-            <Button size="lg" className="text-lg px-8" disabled>
-              Assinar Premium (em breve)
-            </Button>
+            {PLANS.PREMIUM.stripePriceId ? (
+              <CheckoutButton
+                stripePriceId={PLANS.PREMIUM.stripePriceId}
+                className="text-lg px-8"
+              />
+            ) : (
+              <Button size="lg" className="text-lg px-8" disabled>
+                Configurar Stripe
+              </Button>
+            )}
           </SignedIn>
           <Link href="#plano-gratis">
             <Button size="lg" variant="outline" className="text-lg px-8">
@@ -259,51 +266,6 @@ export default function PremiumPage() {
               Salve quantos cálculos quiser. Histórico de 5 anos sempre acessível.
             </p>
           </div>
-        </div>
-      </div>
-
-      {/* Social Proof */}
-      <div className="max-w-4xl mx-auto mb-20">
-        <h2 className="text-2xl font-bold text-center mb-8 text-foreground">
-          O que os usuários dizem
-        </h2>
-
-        <div className="grid md:grid-cols-3 gap-4">
-          <Card className="p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="flex text-yellow-500">⭐⭐⭐⭐⭐</div>
-            </div>
-            <p className="text-foreground mb-3 text-sm">
-              &quot;Os alertas de WhatsApp salvaram minha vida. Nunca mais atrasei o DAS!&quot;
-            </p>
-            <p className="text-xs text-muted-foreground">
-              - Maria S., Designer MEI
-            </p>
-          </Card>
-
-          <Card className="p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="flex text-yellow-500">⭐⭐⭐⭐⭐</div>
-            </div>
-            <p className="text-foreground mb-3 text-sm">
-              &quot;R$ 14,90/mês é menos que um almoço. Vale muito a pena pela tranquilidade.&quot;
-            </p>
-            <p className="text-xs text-muted-foreground">
-              - João P., Desenvolvedor MEI
-            </p>
-          </Card>
-
-          <Card className="p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="flex text-yellow-500">⭐⭐⭐⭐⭐</div>
-            </div>
-            <p className="text-foreground mb-3 text-sm">
-              &quot;Relatórios mensais me ajudam a ver como meu negócio está crescendo.&quot;
-            </p>
-            <p className="text-xs text-muted-foreground">
-              - Ana L., Confeiteira MEI
-            </p>
-          </Card>
         </div>
       </div>
 

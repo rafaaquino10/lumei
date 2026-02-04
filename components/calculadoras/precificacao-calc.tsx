@@ -83,10 +83,10 @@ export function PrecificacaoCalc() {
   return (
     <Card className="p-4 max-w-3xl mx-auto">
       <h2 className="text-xl font-bold text-foreground mb-3">
-        Calculadora de Precificacao
+        Calculadora de Precificação
       </h2>
       <p className="text-sm text-muted-foreground mb-4">
-        Calcule o preco ideal para seus servicos
+        Calcule o preço ideal para seus serviços
       </p>
 
       <div className="grid md:grid-cols-2 gap-4 mb-4">
@@ -167,7 +167,7 @@ export function PrecificacaoCalc() {
             Calculando...
           </>
         ) : (
-          'Calcular Preco'
+          'Calcular Preço'
         )}
       </Button>
 
@@ -181,7 +181,7 @@ export function PrecificacaoCalc() {
           >
             <div className="space-y-3">
               <Card className="p-4 bg-primary/10 border-primary">
-                <p className="text-sm text-muted-foreground mb-2">Preco do Servico</p>
+                <p className="text-sm text-muted-foreground mb-2">Preço do Serviço</p>
                 <motion.p
                   className="text-2xl font-bold text-foreground"
                   initial={{ scale: 0.8 }}
@@ -191,7 +191,7 @@ export function PrecificacaoCalc() {
                   R$ {resultado.precoVenda.toFixed(2)}
                 </motion.p>
                 <p className="text-xs text-muted-foreground mt-2">
-                  Lucro de R$ {resultado.lucro.toFixed(2)} por servico
+                  Lucro de R$ {resultado.lucro.toFixed(2)} por serviço
                 </p>
               </Card>
 

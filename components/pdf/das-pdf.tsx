@@ -197,9 +197,9 @@ interface DASPDFProps {
 }
 
 const tipoLabels: Record<TipoMEI, string> = {
-  'comercio': 'Comercio',
-  'servicos': 'Servicos',
-  'comercio-servicos': 'Comercio e Servicos',
+  'comercio': 'Comércio',
+  'servicos': 'Serviços',
+  'comercio-servicos': 'Comércio e Serviços',
   'caminhoneiro': 'Caminhoneiro',
 }
 
@@ -213,7 +213,7 @@ const valores2026: Record<TipoMEI, { total: number; inss: number; icms: number; 
 const vencimentos2026 = [
   { mes: 'Janeiro', vencimento: '20/01/2026' },
   { mes: 'Fevereiro', vencimento: '20/02/2026' },
-  { mes: 'Marco', vencimento: '20/03/2026' },
+  { mes: 'Março', vencimento: '20/03/2026' },
   { mes: 'Abril', vencimento: '20/04/2026' },
   { mes: 'Maio', vencimento: '20/05/2026' },
   { mes: 'Junho', vencimento: '20/06/2026' },
@@ -234,7 +234,7 @@ export function DASPDF({ inputs, titulo, userData }: DASPDFProps) {
     <Document>
       <Page size="A4" style={baseStyles.page}>
         {/* Header */}
-        <PDFHeader documentType={`Calendario DAS MEI ${ano}`} />
+        <PDFHeader documentType={`Calendário DAS MEI ${ano}`} />
 
         {/* Identificacao do Usuario/Empresa */}
         <PDFUserIdentification userData={userData} />

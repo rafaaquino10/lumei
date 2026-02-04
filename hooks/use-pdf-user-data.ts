@@ -4,9 +4,9 @@ import { useAuth } from '@/lib/auth/context'
 import type { PDFUserData } from '@/components/pdf'
 
 const TIPO_MEI_LABELS: Record<string, string> = {
-  'COMERCIO': 'Comercio',
-  'SERVICOS': 'Servicos',
-  'MISTO': 'Comercio e Servicos',
+  'COMERCIO': 'Comércio',
+  'SERVICOS': 'Serviços',
+  'MISTO': 'Comércio e Serviços',
   'CAMINHONEIRO': 'Caminhoneiro',
 }
 

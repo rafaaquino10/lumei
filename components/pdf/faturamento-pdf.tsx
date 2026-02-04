@@ -186,8 +186,8 @@ export function FaturamentoPDF({ inputs, resultado, titulo, userData }: Faturame
   const getStatusText = () => {
     switch (resultado.status) {
       case 'perigo': return 'Limite ultrapassado - Risco de desenquadramento'
-      case 'atencao': return 'Atencao - Proximo do limite anual'
-      default: return 'Dentro do limite - Situacao regular'
+      case 'atencao': return 'Atenção - Próximo do limite anual'
+      default: return 'Dentro do limite - Situação regular'
     }
   }
 
