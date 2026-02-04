@@ -57,9 +57,9 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(new URL('/sign-in?error=not_configured', request.url))
   }
 
-  const redirectUri = process.env.NODE_ENV === 'production'
-    ? 'https://calculamei.com.br/api/auth/google/callback'
-    : 'http://localhost:3000/api/auth/google/callback'
+  // Usa NEXT_PUBLIC_APP_URL para flexibilidade entre ambientes
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+  const redirectUri = `${appUrl}/api/auth/google/callback`
 
   try {
     // Exchange code for tokens
