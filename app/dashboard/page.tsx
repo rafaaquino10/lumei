@@ -56,6 +56,15 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
     orderBy: { mes: 'asc' },
   })
 
+  // Buscar registros do ano anterior para comparativo
+  const registrosAnoAnterior = await prisma.registroFaturamento.findMany({
+    where: {
+      userId: user.id,
+      ano: anoValido - 1,
+    },
+    orderBy: { mes: 'asc' },
+  })
+
   // Calcular métricas reais
   const totalAcumulado = registros.reduce((sum, r) => sum + r.valor, 0)
   const mesesComRegistro = registros.length
@@ -75,6 +84,18 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
     mesesAteEstourar,
     limiteMEI: LIMITE_MEI,
     ano: anoValido,
+  }
+
+  // Métricas do ano anterior para comparativo
+  const totalAnoAnterior = registrosAnoAnterior.reduce((sum, r) => sum + r.valor, 0)
+  const mesesAnoAnterior = registrosAnoAnterior.length
+
+  const dadosComparativo = {
+    anoAtual: anoValido,
+    totalAnoAtual: totalAcumulado,
+    totalAnoAnterior,
+    mesesAnoAtual: mesesComRegistro,
+    mesesAnoAnterior,
   }
 
   // Próximo DAS
@@ -144,6 +165,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
           onboardingCompleto={onboardingCompleto}
           ocupacao={user.ocupacao}
           anoAtual={anoAtual}
+          dadosComparativo={dadosComparativo}
         />
       </div>
 

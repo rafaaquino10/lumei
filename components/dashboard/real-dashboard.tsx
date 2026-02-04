@@ -18,6 +18,7 @@ import {
 import Link from 'next/link'
 import { InfoTooltip, METRIC_TOOLTIPS } from '@/components/ui/info-tooltip'
 import { MetaMensalWidget } from './meta-mensal-widget'
+import { ComparativoAnualWidget } from './comparativo-anual-widget'
 
 interface RegistroFaturamento {
   id: string
@@ -44,6 +45,14 @@ interface DasInfo {
   diasRestantes: number
 }
 
+interface DadosComparativo {
+  anoAtual: number
+  totalAnoAtual: number
+  totalAnoAnterior: number
+  mesesAnoAtual: number
+  mesesAnoAnterior: number
+}
+
 interface RealDashboardProps {
   registros: RegistroFaturamento[]
   metricas: Metricas | null
@@ -51,6 +60,7 @@ interface RealDashboardProps {
   onboardingCompleto: boolean
   ocupacao: string | null
   anoAtual: number
+  dadosComparativo?: DadosComparativo
 }
 
 const MESES_CURTOS = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
@@ -62,6 +72,7 @@ export function RealDashboard({
   onboardingCompleto,
   ocupacao,
   anoAtual,
+  dadosComparativo,
 }: RealDashboardProps) {
   const router = useRouter()
   const anoSelecionado = metricas?.ano || anoAtual
@@ -374,6 +385,17 @@ export function RealDashboard({
             mediaMensal={metricas.mediaMovel}
             faturamentoMesAtual={faturamentoMesAtual}
             mesAtual={MESES_CURTOS[mesAtual - 1]}
+          />
+        )}
+
+        {/* Widget Comparativo Anual - mostra se tem dados do ano anterior */}
+        {dadosComparativo && (
+          <ComparativoAnualWidget
+            anoAtual={dadosComparativo.anoAtual}
+            totalAnoAtual={dadosComparativo.totalAnoAtual}
+            totalAnoAnterior={dadosComparativo.totalAnoAnterior}
+            mesesAnoAtual={dadosComparativo.mesesAnoAtual}
+            mesesAnoAnterior={dadosComparativo.mesesAnoAnterior}
           />
         )}
 
