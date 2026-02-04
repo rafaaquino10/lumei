@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans, Lora } from "next/font/google";
+import { Manrope } from "next/font/google";
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { AuthProvider } from '@/lib/auth/context';
 import { AuthModalProvider } from '@/components/auth/auth-modal-context';
@@ -14,15 +14,9 @@ import { PWAInstallPrompt } from "@/components/pwa/install-prompt";
 import { SkipToContent } from "@/components/skip-to-content";
 import "./globals.css";
 
-const plusJakarta = Plus_Jakarta_Sans({
+const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-plus-jakarta",
-  display: "swap",
-});
-
-const lora = Lora({
-  subsets: ["latin"],
-  variable: "--font-lora",
+  variable: "--font-manrope",
   display: "swap",
 });
 
@@ -97,7 +91,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={`${plusJakarta.variable} ${lora.variable}`}>
+    <html lang="pt-BR" className={manrope.variable}>
       <head>
         {/* Preconnect para recursos externos críticos */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
