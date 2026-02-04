@@ -34,7 +34,7 @@ export async function setAuthCookies(accessToken: string, refreshToken: string) 
   cookieStore.set(ACCESS_TOKEN_COOKIE, accessToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    sameSite: 'lax', // 'lax' necessário para OAuth redirects funcionar
     maxAge: 15 * 60, // 15 minutes
     path: '/',
   })
@@ -42,7 +42,7 @@ export async function setAuthCookies(accessToken: string, refreshToken: string) 
   cookieStore.set(REFRESH_TOKEN_COOKIE, refreshToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    sameSite: 'lax', // 'lax' necessário para OAuth redirects funcionar
     maxAge: 7 * 24 * 60 * 60, // 7 days
     path: '/',
   })

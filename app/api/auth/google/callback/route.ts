@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { cookies } from 'next/headers'
 import { prisma } from '@/lib/prisma'
 import { createSession, setAuthCookies } from '@/lib/auth/session'
+
+const OAUTH_STATE_COOKIE = 'oauth_state'
 
 interface GoogleTokenResponse {
   access_token: string
@@ -24,6 +27,19 @@ export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
   const code = searchParams.get('code')
   const error = searchParams.get('error')
+  const state = searchParams.get('state')
+
+  // Valida state para prevenir CSRF
+  const cookieStore = await cookies()
+  const storedState = cookieStore.get(OAUTH_STATE_COOKIE)?.value
+
+  // Limpa o cookie de state
+  cookieStore.delete(OAUTH_STATE_COOKIE)
+
+  if (!state || !storedState || state !== storedState) {
+    console.error('OAuth state mismatch - possível ataque CSRF')
+    return NextResponse.redirect(new URL('/sign-in?error=invalid_state', request.url))
+  }
 
   // Handle errors from Google
   if (error) {
@@ -76,6 +92,12 @@ export async function GET(request: NextRequest) {
     }
 
     const googleUser: GoogleUserInfo = await userInfoResponse.json()
+
+    // Rejeita emails não verificados pelo Google
+    if (!googleUser.verified_email) {
+      console.error('Google OAuth: email não verificado', googleUser.email)
+      return NextResponse.redirect(new URL('/sign-in?error=email_not_verified', request.url))
+    }
 
     // Find or create user
     let user = await prisma.user.findUnique({

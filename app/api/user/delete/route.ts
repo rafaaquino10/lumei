@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerUser } from '@/lib/auth/server'
 import { verifyPassword } from '@/lib/auth/password'
+import { rateLimitByUser } from '@/lib/rate-limit'
 import { z } from 'zod'
 import { cookies } from 'next/headers'
 
@@ -16,6 +17,15 @@ export async function DELETE(request: NextRequest) {
     const user = await getServerUser()
     if (!user) {
       return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
+    }
+
+    // Rate limiting - máximo 3 tentativas por hora
+    const rateLimit = rateLimitByUser(user.id, 'delete-account', 3, 60 * 60 * 1000)
+    if (!rateLimit.ok) {
+      return NextResponse.json(
+        { error: 'Muitas tentativas. Tente novamente mais tarde.' },
+        { status: 429 }
+      )
     }
 
     const body = await request.json()

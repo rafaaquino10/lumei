@@ -1,4 +1,7 @@
 import { NextResponse } from 'next/server'
+import { cookies } from 'next/headers'
+
+const OAUTH_STATE_COOKIE = 'oauth_state'
 
 export async function GET() {
   const clientId = process.env.GOOGLE_CLIENT_ID
@@ -16,6 +19,16 @@ export async function GET() {
 
   const scope = encodeURIComponent('openid email profile')
   const state = crypto.randomUUID()
+
+  // Armazena state em cookie httpOnly para validação no callback
+  const cookieStore = await cookies()
+  cookieStore.set(OAUTH_STATE_COOKIE, state, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: 10 * 60, // 10 minutos - tempo para completar OAuth
+    path: '/',
+  })
 
   const authUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth')
   authUrl.searchParams.set('client_id', clientId)
