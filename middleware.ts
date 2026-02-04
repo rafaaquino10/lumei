@@ -38,6 +38,7 @@ const publicApiRoutes = [
   '/api/auth/logout',
   '/api/auth/refresh',
   '/api/webhook',
+  '/api/billing/webhook',
 ]
 
 function isPublicRoute(pathname: string): boolean {
