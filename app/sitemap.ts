@@ -4,6 +4,19 @@ import { getPosts } from '@/lib/blog/posts'
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://calculamei.com.br'
 
+  // Calculadoras individuais para SEO
+  const calculadoras = [
+    'margem-lucro',
+    'preco-hora',
+    'precificacao',
+    'faturamento',
+    'fluxo-caixa',
+    'das',
+    'transicao-mei-me',
+    'ponto-equilibrio',
+    'comparador-tributario',
+  ]
+
   // Páginas estáticas
   const staticPages: MetadataRoute.Sitemap = [
     {
@@ -18,6 +31,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly' as const,
       priority: 0.9,
     },
+    // Calculadoras individuais
+    ...calculadoras.map((calc) => ({
+      url: `${baseUrl}/calculadoras?calc=${calc}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.85,
+    })),
     {
       url: `${baseUrl}/premium`,
       lastModified: new Date(),

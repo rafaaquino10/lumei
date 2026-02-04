@@ -13,6 +13,7 @@ import {
   ArrowRight,
   ArrowUpCircle,
   Target,
+  Scale,
   LucideIcon,
 } from 'lucide-react'
 import { trackContextualSuggestionClicked } from '@/lib/analytics'
@@ -26,6 +27,7 @@ type CalculatorType =
   | 'das'
   | 'transicao-mei-me'
   | 'ponto-equilibrio'
+  | 'comparador-tributario'
 
 interface Suggestion {
   id: CalculatorType
@@ -101,6 +103,14 @@ const ALL_SUGGESTIONS: Record<CalculatorType, Suggestion> = {
     href: '/calculadoras?calc=ponto-equilibrio',
     contextText: 'Quantas vendas preciso?',
   },
+  'comparador-tributario': {
+    id: 'comparador-tributario',
+    title: 'Comparador Tributário',
+    description: 'Compare regimes tributários',
+    icon: Scale,
+    href: '/calculadoras?calc=comparador-tributario',
+    contextText: 'Compare MEI, Simples e LP',
+  },
 }
 
 // Mapeamento de sugestões contextuais por calculadora
@@ -111,8 +121,9 @@ const CONTEXTUAL_MAP: Record<CalculatorType, CalculatorType[]> = {
   'faturamento': ['das', 'transicao-mei-me'],
   'fluxo-caixa': ['faturamento', 'ponto-equilibrio'],
   'das': ['faturamento', 'transicao-mei-me'],
-  'transicao-mei-me': ['faturamento', 'das'],
+  'transicao-mei-me': ['comparador-tributario', 'faturamento'],
   'ponto-equilibrio': ['margem-lucro', 'precificacao'],
+  'comparador-tributario': ['transicao-mei-me', 'faturamento'],
 }
 
 // Textos contextuais personalizados
@@ -142,12 +153,16 @@ const CONTEXT_TEXTS: Partial<Record<CalculatorType, Partial<Record<CalculatorTyp
     'transicao-mei-me': 'Simule quando vale migrar para ME',
   },
   'transicao-mei-me': {
+    'comparador-tributario': 'Compare todos os regimes tributários',
     'faturamento': 'Registre seu faturamento mensal',
-    'das': 'Veja o calendário de pagamento do DAS',
   },
   'ponto-equilibrio': {
     'margem-lucro': 'Veja qual é sua margem atual',
     'precificacao': 'Ajuste seus preços para lucrar mais',
+  },
+  'comparador-tributario': {
+    'transicao-mei-me': 'Simule a transição MEI para ME',
+    'faturamento': 'Registre seu faturamento atual',
   },
 }
 
