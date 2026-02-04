@@ -28,7 +28,21 @@
       "Bash(powershell -Command \"Stop-Process -Id 51052 -Force\")",
       "Bash(npx prisma:*)",
       "Bash(curl:*)",
-      "Bash(powershell -Command:*)"
+      "Bash(powershell -Command:*)",
+      "Bash(if exist .next rmdir /s /q .next)",
+      "Bash(timeout 5 npx next dev:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(timeout:*)",
+      "Bash(xxd:*)",
+      "Bash(perl:*)",
+      "Bash(git checkout:*)",
+      "Bash(npx playwright install chromium)",
+      "Bash(dir /b \"C:\\\\workspace\\\\lumei\\\\public\\\\*.png\" \"C:\\\\workspace\\\\lumei\\\\public\\\\*.svg\")",
+      "Bash(dir /s /b \"C:\\\\workspace\\\\lumei\\\\public\")",
+      "Bash(Get-ChildItem -Path \"C:\\\\workspace\\\\lumei\\\\public\" -Recurse -Include *.png,*.svg,*.ico)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(dir \"C:\\\\workspace\\\\lumei\\\\public\\\\pdf.worker.min.js\")"
     ]
   }
 }

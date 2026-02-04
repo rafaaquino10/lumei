@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
       : `http://localhost:3000/reset-password?token=${token}`
 
     const resendApiKey = process.env.RESEND_API_KEY
-    const emailFrom = process.env.EMAIL_FROM || 'Calcula MEI <noreply@calculamei.com.br>'
+    const emailFrom = process.env.RESEND_FROM_EMAIL || 'Calcula MEI <noreply@calculamei.com.br>'
 
     if (resendApiKey) {
       try {

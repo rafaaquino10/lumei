@@ -41,7 +41,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-card border-t border-border">
+    <footer className="bg-card border-t border-border" role="contentinfo" aria-label="Rodapé do site">
       <div className="mx-auto max-w-[1280px] px-4 py-6 md:px-6 lg:px-8">
         {/* Main Footer Content - 4 columns */}
         <div className="grid grid-cols-2 gap-6 md:grid-cols-4 lg:gap-8">
@@ -69,7 +69,7 @@ export default function Footer() {
                     className="flex h-8 w-8 items-center justify-center rounded-full bg-secondary text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
                     aria-label={social.label}
                   >
-                    <Icon className="h-4 w-4" />
+                    <Icon className="h-4 w-4" aria-hidden="true" />
                   </a>
                 )
               })}

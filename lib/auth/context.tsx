@@ -9,6 +9,7 @@ interface User {
   name: string | null
   avatarUrl: string | null
   tipoMEI: string | null
+  cnpj: string | null
   plano: string
 }
 

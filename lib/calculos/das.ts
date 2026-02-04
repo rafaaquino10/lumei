@@ -217,3 +217,17 @@ export function calcularDAS(inputs: DASInputs): DASResultado {
     calendarioAnual,
   }
 }
+
+/**
+ * Retorna o valor do DAS para um tipo de MEI
+ * Util para alertas e exibicao de valores
+ */
+export function getDasValueByType(tipoMEI: DASInputs['tipoMEI']) {
+  const resultado = calcularDAS({ tipoMEI })
+  return {
+    total: resultado.valorMensal,
+    inss: resultado.composicao.inss,
+    icms: resultado.composicao.icms,
+    iss: resultado.composicao.iss,
+  }
+}

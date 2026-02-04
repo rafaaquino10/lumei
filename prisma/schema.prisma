@@ -48,6 +48,7 @@ model User {
   alertas       Alerta[]
   sessions      Session[]
   subscription  Subscription?
+  registrosFaturamento RegistroFaturamento[]
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -165,4 +166,23 @@ model PasswordResetToken {
 
   @@index([email])
   @@index([token])
+}
+
+// Registro mensal de faturamento - núcleo do sistema
+model RegistroFaturamento {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  mes       Int      // 1-12
+  ano       Int      // 2026
+  valor     Float    // Valor faturado no mês
+
+  notas     String?  // Observações opcionais
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, mes, ano]) // Um registro por mês/ano por usuário
+  @@index([userId, ano])
 }

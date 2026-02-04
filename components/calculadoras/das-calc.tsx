@@ -5,9 +5,16 @@ import { motion } from 'framer-motion'
 import { Card } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { ContextualSuggestions } from './contextual-suggestions'
+import { ExportActions } from './export-actions'
+import { DASPDF } from '@/components/pdf'
+import { usePDFUserData } from '@/hooks/use-pdf-user-data'
+
+type TipoMEI = 'comercio' | 'servicos' | 'comercio-servicos' | 'caminhoneiro'
 
 export function DasCalc() {
-  const [tipoMei, setTipoMei] = useState('comercio')
+  const [tipoMei, setTipoMei] = useState<TipoMEI>('comercio')
+  const pdfUserData = usePDFUserData()
 
   const calcularDAS = () => {
     const valores: Record<string, number> = {
@@ -28,25 +35,37 @@ export function DasCalc() {
     { mes: 'Jul/26', vencimento: '20/07' },
   ]
 
+  const pdfInputs = {
+    tipoMei: tipoMei,
+    ano: 2026,
+  }
+
+  // A calculadora de DAS nao conta como calculo de limite
+  // pois e apenas uma consulta de tabela
+  const canExport = pdfUserData !== undefined
+
   return (
     <Card className="p-4 max-w-3xl mx-auto">
       <h2 className="text-xl font-bold text-foreground mb-3">
-        Calendário DAS MEI 2026
+        Calendario DAS MEI 2026
       </h2>
+      <p className="text-sm text-muted-foreground mb-4">
+        Consulte o valor do DAS e proximos vencimentos
+      </p>
 
       <div className="grid md:grid-cols-2 gap-6 mb-4">
         {/* Coluna esquerda - Tipo e Valor */}
         <div className="space-y-4">
           <div>
             <Label htmlFor="tipo">Tipo do MEI</Label>
-            <Select value={tipoMei} onValueChange={setTipoMei}>
+            <Select value={tipoMei} onValueChange={(value) => setTipoMei(value as TipoMEI)}>
               <SelectTrigger className="h-10">
                 <SelectValue placeholder="Selecione o tipo" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="comercio">Comércio</SelectItem>
-                <SelectItem value="servicos">Serviços</SelectItem>
-                <SelectItem value="comercio-servicos">Comércio e Serviços</SelectItem>
+                <SelectItem value="comercio">Comercio</SelectItem>
+                <SelectItem value="servicos">Servicos</SelectItem>
+                <SelectItem value="comercio-servicos">Comercio e Servicos</SelectItem>
                 <SelectItem value="caminhoneiro">Caminhoneiro</SelectItem>
               </SelectContent>
             </Select>
@@ -69,16 +88,23 @@ export function DasCalc() {
                 R$ {calcularDAS().toFixed(2)}
               </motion.p>
               <p className="text-xs text-muted-foreground mt-2">
-                Vencimento: dia 20 de cada mês
+                Vencimento: dia 20 de cada mes
               </p>
             </Card>
           </motion.div>
+
+          <Card className="p-3 bg-card">
+            <p className="text-xs text-muted-foreground">Total Anual</p>
+            <p className="text-lg font-bold text-foreground">
+              R$ {(calcularDAS() * 12).toFixed(2)}
+            </p>
+          </Card>
         </div>
 
-        {/* Coluna direita - Próximos Vencimentos */}
+        {/* Coluna direita - Proximos Vencimentos */}
         <div>
           <h3 className="text-sm font-semibold text-foreground mb-3">
-            Próximos Vencimentos
+            Proximos Vencimentos
           </h3>
           <div className="grid grid-cols-2 gap-2">
             {proximosVencimentos.map((item, index) => (
@@ -100,11 +126,28 @@ export function DasCalc() {
         </div>
       </div>
 
-      <Card className="p-3 bg-secondary">
+      <Card className="p-3 bg-secondary mb-4">
         <p className="text-xs text-muted-foreground">
-          ℹ️ O DAS vence todo dia 20 de cada mês. Valores referência 2026.
+          O DAS vence todo dia 20 de cada mes. Valores referencia 2026.
         </p>
       </Card>
+
+      {canExport && (
+        <div className="flex justify-end">
+          <ExportActions
+            pdfDocument={<DASPDF inputs={pdfInputs} userData={pdfUserData} />}
+            calculatorName="das-mei"
+          />
+        </div>
+      )}
+
+      {/* Sugestoes contextuais */}
+      <div className="mt-4">
+        <ContextualSuggestions
+          currentCalculator="das"
+          show={true}
+        />
+      </div>
     </Card>
   )
 }

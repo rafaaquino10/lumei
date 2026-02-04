@@ -66,6 +66,14 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Check if user has a password (OAuth users might not have one)
+    if (!user.passwordHash) {
+      return NextResponse.json(
+        { error: 'Esta conta usa login social. Use o botao "Entrar com Google".' },
+        { status: 401 }
+      )
+    }
+
     // Verify password
     const isValid = await verifyPassword(password, user.passwordHash)
 

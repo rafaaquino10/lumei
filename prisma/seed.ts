@@ -253,6 +253,55 @@ async function main() {
     },
   })
 
+  // =====================================================
+  // REGISTROS DE FATURAMENTO MENSAL
+  // =====================================================
+  const anoAtual = new Date().getFullYear()
+
+  // Deletar registros existentes
+  await prisma.registroFaturamento.deleteMany({
+    where: { userId: demoUser.id },
+  })
+
+  // Criar registros de faturamento para meses passados
+  const registrosFaturamento = [
+    { mes: 1, valor: 4200 },
+    { mes: 2, valor: 3800 },
+    { mes: 3, valor: 5100 },
+    { mes: 4, valor: 4500 },
+    { mes: 5, valor: 4800 },
+    { mes: 6, valor: 5500 },
+    { mes: 7, valor: 4900 },
+    { mes: 8, valor: 5200 },
+    { mes: 9, valor: 6100 },
+    { mes: 10, valor: 5800 },
+    { mes: 11, valor: 6500 },
+    // Dezembro (mes 12) não registrado para simular "mês atual pendente"
+  ]
+
+  const mesAtual = new Date().getMonth() + 1 // Janeiro = 1
+
+  // Para demo, criar todos os registros até o mês anterior ao atual
+  // Se estivermos em fevereiro (2), cria janeiro (1)
+  // Se estivermos em janeiro (1), cria do ano anterior
+  const mesesParaCriar = mesAtual > 1 ? mesAtual - 1 : 11
+
+  for (let i = 0; i < mesesParaCriar; i++) {
+    const reg = registrosFaturamento[i]
+    if (reg) {
+      await prisma.registroFaturamento.create({
+        data: {
+          userId: demoUser.id,
+          mes: reg.mes,
+          ano: anoAtual,
+          valor: reg.valor,
+        },
+      })
+    }
+  }
+
+  console.log(`Created ${mesesParaCriar} faturamento records for demo user`)
+
   console.log('Seed completed successfully!')
   console.log('')
   console.log('========================================')

@@ -26,13 +26,6 @@ export function CalculatorSchema({ name, description, url }: CalculatorSchemaPro
       priceCurrency: 'BRL',
       availability: 'https://schema.org/InStock',
     },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.8',
-      ratingCount: '1250',
-      bestRating: '5',
-      worstRating: '1',
-    },
     author: {
       '@type': 'Organization',
       name: 'Calcula MEI',
@@ -64,6 +57,36 @@ export function CalculatorSchema({ name, description, url }: CalculatorSchemaPro
   )
 }
 
+// Schema de breadcrumb reutilizável
+interface BreadcrumbItem {
+  name: string
+  url: string
+}
+
+interface BreadcrumbSchemaProps {
+  items: BreadcrumbItem[]
+}
+
+export function BreadcrumbSchema({ items }: BreadcrumbSchemaProps) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: item.url,
+    })),
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  )
+}
+
 // Schema para a página principal de calculadoras
 export function CalculadorasPageSchema() {
   const schema = {
@@ -81,11 +104,6 @@ export function CalculadorasPageSchema() {
         '@type': 'Offer',
         price: '0',
         priceCurrency: 'BRL',
-      },
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: '4.8',
-        ratingCount: '1250',
       },
     },
     breadcrumb: {

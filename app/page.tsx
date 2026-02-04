@@ -6,12 +6,12 @@ import { ArrowRight, Check, TrendingUp, Clock, Tag, BarChart3, ArrowLeftRight, C
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
-import { HeroCarousel } from '@/components/hero-carousel'
+import { HeroDashboard } from '@/components/hero-dashboard'
 
 const trustBadges = [
-  { text: 'Sem cadastro', icon: Check },
-  { text: '100% grátis', icon: Check },
-  { text: 'Resultados agora', icon: Check },
+  { text: 'Grátis para começar', icon: Check },
+  { text: 'Alerta de DAS', icon: Check },
+  { text: 'Controle do limite', icon: Check },
 ]
 
 const calculadoras = [
@@ -84,7 +84,7 @@ const pricingPlans = [
     period: '/mês',
     features: [
       'Todas as 6 calculadoras',
-      '50 cálculos salvos',
+      '10 cálculos/mês',
       'Histórico 6 meses',
       '1 alerta DAS (email)',
       '1 PDF/mês',
@@ -95,7 +95,7 @@ const pricingPlans = [
   },
   {
     name: 'Premium',
-    price: 'R$ 19',
+    price: 'R$ 14,90',
     period: '/mês',
     badge: '⭐ Mais Popular',
     features: [
@@ -131,12 +131,12 @@ export default function Home() {
               {/* Main Heading */}
               <div className="space-y-3">
                 <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-                  Lucre mais.
+                  Controle seu MEI
                   <br />
-                  <span className="text-mei-600">Sempre.</span>
+                  <span className="text-mei-600">em 1 minuto/mês</span>
                 </h1>
                 <p className="text-lg text-muted-foreground sm:text-xl">
-                  Calculadoras financeiras feitas para MEI crescer.
+                  Registre seu faturamento e saiba exatamente como está seu negócio.
                 </p>
               </div>
 
@@ -174,14 +174,14 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Right column - Carousel */}
+            {/* Right column - Dashboard Illustration */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative flex items-center justify-center"
+              className="relative flex items-center justify-center lg:justify-end"
             >
-              <HeroCarousel />
+              <HeroDashboard />
             </motion.div>
           </div>
         </div>

@@ -1,0 +1,6 @@
+# Calcula MEI - Google AdSense
+# Substitua PUBLISHER_ID pelo seu ID real do AdSense (formato: ca-pub-XXXXXXXXXX)
+# google.com, PUBLISHER_ID, DIRECT, f08c47fec0942fa0
+
+# Exemplo (descomente e ajuste quando tiver o ID):
+# google.com, ca-pub-1234567890123456, DIRECT, f08c47fec0942fa0

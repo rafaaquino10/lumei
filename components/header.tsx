@@ -24,8 +24,13 @@ import { useState } from 'react'
 
 const publicNavLinks = [
   { href: '/', label: 'Home' },
-  { href: '/calculadoras', label: 'Calculadoras' },
+  { href: '/calculadoras', label: 'Ferramentas' },
   { href: '/blog', label: 'Blog' },
+]
+
+const authNavLinks = [
+  { href: '/registrar', label: 'Registrar', primary: true },
+  { href: '/dashboard', label: 'Dashboard' },
 ]
 
 export default function Header() {
@@ -44,7 +49,7 @@ export default function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden items-center gap-6 md:flex">
+        <nav className="hidden items-center gap-6 md:flex" aria-label="Navegação principal">
           {publicNavLinks.map((link) => (
             <Link
               key={link.href}
@@ -54,8 +59,14 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
-          {/* Painel - só aparece para usuários logados */}
+          {/* Links para usuários logados */}
           <SignedIn>
+            <Link
+              href="/registrar"
+              className="flex items-center gap-1.5 text-sm font-medium text-white bg-mei-500 px-3 py-1.5 rounded-lg transition-colors hover:bg-mei-600"
+            >
+              Registrar
+            </Link>
             <Link
               href="/dashboard"
               className="flex items-center gap-1.5 text-sm font-medium text-mei-600 transition-colors hover:text-mei-700"
@@ -84,9 +95,9 @@ export default function Header() {
           <SignedIn>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full">
+                <Button variant="ghost" size="icon" className="rounded-full" aria-label="Menu do usuário">
                   <div className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-mei-500 bg-mei-100">
-                    <User className="h-5 w-5 text-mei-600" />
+                    <User className="h-5 w-5 text-mei-600" aria-hidden="true" />
                   </div>
                 </Button>
               </DropdownMenuTrigger>
@@ -132,7 +143,7 @@ export default function Header() {
             </SheetHeader>
             <div className="mt-6 flex flex-col gap-6 px-6">
               {/* Mobile Navigation Links */}
-              <nav className="flex flex-col gap-1">
+              <nav className="flex flex-col gap-1" aria-label="Navegação mobile">
                 {publicNavLinks.map((link) => (
                   <Link
                     key={link.href}
@@ -143,8 +154,15 @@ export default function Header() {
                     {link.label}
                   </Link>
                 ))}
-                {/* Painel - só para usuários logados */}
+                {/* Links para usuários logados */}
                 <SignedIn>
+                  <Link
+                    href="/registrar"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center gap-3 py-3 px-4 -mx-4 text-lg font-medium text-white bg-mei-500 rounded-lg transition-colors hover:bg-mei-600"
+                  >
+                    Registrar Faturamento
+                  </Link>
                   <Link
                     href="/dashboard"
                     onClick={() => setIsOpen(false)}

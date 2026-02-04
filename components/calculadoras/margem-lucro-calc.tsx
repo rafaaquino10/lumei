@@ -7,45 +7,63 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
-import { PaywallModal, usePaywall } from '@/components/paywall'
+import { usePaywall, UpgradeBanner } from '@/components/paywall'
+import { ContextualSuggestions } from './contextual-suggestions'
+import { ExportActions } from './export-actions'
+import { MargemLucroPDF } from '@/components/pdf'
+import { usePDFUserData } from '@/hooks/use-pdf-user-data'
 
 export function MargemLucroCalc() {
   const [custoTotal, setCustoTotal] = useState('')
   const [precoVenda, setPrecoVenda] = useState('')
-  const [resultado, setResultado] = useState<number | null>(null)
+  const [resultado, setResultado] = useState<{
+    margemBruta: number
+    lucroBruto: number
+    markup: number
+  } | null>(null)
   const [isCalculating, setIsCalculating] = useState(false)
+  const [showUpgradeBanner, setShowUpgradeBanner] = useState(false)
 
   const {
     checkLimit,
     recordCalculation,
-    showPaywall,
-    setShowPaywall,
     paywallType,
     remaining,
     limit
   } = usePaywall()
 
-  const calcular = async () => {
-    // Verifica limite antes de calcular
-    const { isBlocked } = checkLimit()
-    if (isBlocked) {
-      setShowPaywall(true)
-      return
-    }
+  const pdfUserData = usePDFUserData()
 
+  const calcular = async () => {
     const custo = parseFloat(custoTotal)
     const preco = parseFloat(precoVenda)
     if (custo && preco && preco > 0) {
       setIsCalculating(true)
-      // Simula processamento para feedback visual
       await new Promise(resolve => setTimeout(resolve, 300))
-      const margem = ((preco - custo) / preco) * 100
-      setResultado(margem)
+
+      const lucroBruto = preco - custo
+      const margemBruta = ((preco - custo) / preco) * 100
+      const markup = custo > 0 ? preco / custo : 0
+
+      setResultado({ margemBruta, lucroBruto, markup })
       setIsCalculating(false)
-      // Registra o cálculo para controle de limite
+
+      // Registra o calculo e verifica limite
       recordCalculation()
+      const { remaining: rem } = checkLimit()
+
+      // Mostra banner de upgrade se restam poucos calculos
+      setShowUpgradeBanner(rem <= 2)
     }
   }
+
+  const pdfInputs = {
+    precoVenda: parseFloat(precoVenda) || 0,
+    custoTotal: parseFloat(custoTotal) || 0,
+  }
+
+  // Verifica se pode exportar (usuario logado)
+  const canExport = pdfUserData !== undefined
 
   return (
     <Card className="p-4 max-w-3xl mx-auto">
@@ -67,7 +85,7 @@ export function MargemLucroCalc() {
         </div>
 
         <div>
-          <Label htmlFor="preco">Preço de Venda (R$)</Label>
+          <Label htmlFor="preco">Preco de Venda (R$)</Label>
           <Input
             id="preco"
             type="number"
@@ -102,31 +120,72 @@ export function MargemLucroCalc() {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
           >
-            <Card className="p-4 bg-primary/10 border-primary">
-              <p className="text-sm text-muted-foreground mb-2">Margem de Lucro</p>
-              <motion.p
-                className="text-2xl font-bold text-foreground"
-                initial={{ scale: 0.8 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
-              >
-                {resultado.toFixed(2)}%
-              </motion.p>
-              <p className="text-xs text-muted-foreground mt-2">
-                {resultado > 0 ? '✓ Lucro positivo' : '✗ Prejuízo'}
-              </p>
-            </Card>
+            <div className="space-y-3">
+              <Card className="p-4 bg-primary/10 border-primary">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-2">Margem de Lucro</p>
+                    <motion.p
+                      className="text-2xl font-bold text-foreground"
+                      initial={{ scale: 0.8 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
+                    >
+                      {resultado.margemBruta.toFixed(2)}%
+                    </motion.p>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      {resultado.margemBruta > 0 ? 'Lucro positivo' : 'Prejuizo'}
+                    </p>
+                  </div>
+                </div>
+              </Card>
+
+              <div className="grid grid-cols-2 gap-3">
+                <Card className="p-3 bg-card">
+                  <p className="text-xs text-muted-foreground">Lucro por Venda</p>
+                  <p className={`text-lg font-bold ${resultado.lucroBruto >= 0 ? 'text-primary' : 'text-destructive'}`}>
+                    R$ {resultado.lucroBruto.toFixed(2)}
+                  </p>
+                </Card>
+                <Card className="p-3 bg-card">
+                  <p className="text-xs text-muted-foreground">Markup</p>
+                  <p className="text-lg font-bold text-foreground">
+                    {resultado.markup.toFixed(2)}x
+                  </p>
+                </Card>
+              </div>
+            </div>
+
+            {canExport && (
+              <div className="flex justify-end mt-4">
+                <ExportActions
+                  pdfDocument={
+                    <MargemLucroPDF
+                      inputs={pdfInputs}
+                      resultado={resultado}
+                      userData={pdfUserData}
+                    />
+                  }
+                  calculatorName="margem-lucro"
+                />
+              </div>
+            )}
+
+            {showUpgradeBanner && (
+              <UpgradeBanner
+                type={paywallType}
+                remaining={remaining}
+                limit={limit}
+              />
+            )}
+
+            <ContextualSuggestions
+              currentCalculator="margem-lucro"
+              show={resultado !== null}
+            />
           </motion.div>
         )}
       </AnimatePresence>
-
-      <PaywallModal
-        isOpen={showPaywall}
-        onClose={() => setShowPaywall(false)}
-        type={paywallType}
-        remaining={remaining}
-        limit={limit}
-      />
     </Card>
   )
 }

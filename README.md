@@ -1,58 +1,73 @@
-# 💚 Lumei - Lucre mais. Sempre.
+# 💚 Calcula MEI - Lucre mais. Sempre.
 
-Calculadoras financeiras feitas para MEI crescer. 100% grátis.
+Calculadoras financeiras feitas para MEI crescer. Modelo freemium com plano gratuito generoso.
 
-🚀 **Status:** 6 calculadoras funcionais | **Live:** [calculamei.com.br](https://calculamei.com.br)
+🚀 **Status:** Pronto para produção | **Live:** [calculamei.com.br](https://calculamei.com.br)
 
 ---
 
-## 📊 Calculadoras Disponíveis
+## 📊 Funcionalidades
 
-### ✅ Funcionais
-- **Margem de Lucro** - Calcule sua margem real e descubra quanto você ganha em cada venda
-- **Preço por Hora** - Descubra quanto cobrar considerando férias, custos e margem
-- **Precificação** - Calcule o preço ideal para produtos e serviços
-- **Simulador de Faturamento** - Acompanhe seu faturamento vs limite MEI
+### Calculadoras (6 disponíveis)
+- **Margem de Lucro** - Calcule sua margem real
+- **Preço por Hora** - Descubra quanto cobrar
+- **Precificação** - Preço ideal para produtos/serviços
+- **Simulador de Faturamento** - Acompanhe vs limite MEI
 - **Fluxo de Caixa** - Gerencie entradas e saídas
-- **Calendário DAS** - Nunca esqueça de pagar seus impostos
+- **Calendário DAS** - Valores e vencimentos
+
+### Planos
+| Recurso | Free | Premium (R$ 14,90/mês) |
+|---------|------|------------------------|
+| Cálculos/mês | 10 | Ilimitado |
+| Histórico | 6 meses | 5 anos |
+| Alertas DAS | 1 (email) | 3 (email + WhatsApp) |
+| Export PDF | 1/mês | Ilimitado |
+| Export Excel | ❌ | ✅ |
+| Anúncios | Sim | Não |
+
+### Outros Recursos
+- 📱 **PWA** - Instalável no celular
+- 📧 **Alertas DAS** - Email e WhatsApp (Premium)
+- 📝 **Blog** - 11 artigos sobre MEI
+- 🌙 **Dark Mode** - Tema claro/escuro
+- ♿ **Acessível** - Skip-to-content, aria-labels
 
 ---
 
 ## 🛠️ Tech Stack
 
 **Frontend:**
-- Next.js 16.1.5 (App Router + Turbopack)
+- Next.js 16.1.5 (App Router)
 - TypeScript 5
-- Tailwind CSS v4 (CSS-first)
-- shadcn/ui components
-- Framer Motion (animações)
+- Tailwind CSS v4
+- shadcn/ui + Radix UI
+- Framer Motion
 
 **Backend:**
-- Prisma 5.22.0 (ORM)
-- Supabase PostgreSQL
+- Prisma 5.22 + Supabase PostgreSQL
 - API Routes (Next.js)
+- JWT Authentication (custom)
 
 **Integrações:**
-- Google Analytics 4 (tracking)
-- Clerk Auth (preparado)
-- Stripe (preparado)
+- Google Analytics 4
+- Stripe (pagamentos)
+- Resend (emails)
+- Twilio (WhatsApp)
+- Sentry (monitoramento)
 
-**Forms & Validation:**
-- React Hook Form
-- Zod validation
-- currency.js (cálculos monetários)
-
-**PDF & Share:**
-- @react-pdf/renderer
-- Web Share API + Clipboard fallback
+**Qualidade:**
+- Playwright (E2E tests)
+- ESLint + TypeScript
+- Vercel (deploy)
 
 ---
 
 ## 🚀 Getting Started
 
 ### Pré-requisitos
-- Node.js 20.11.1+
-- npm ou yarn
+- Node.js 20+
+- npm ou pnpm
 
 ### Instalação
 
@@ -66,7 +81,6 @@ npm install
 
 # Configure variáveis de ambiente
 cp .env.example .env.local
-# Edite .env.local com suas credenciais
 
 # Gere o Prisma Client
 npx prisma generate
@@ -75,194 +89,138 @@ npx prisma generate
 npm run dev
 ```
 
-Abra [http://localhost:3000](http://localhost:3000) no navegador.
-
 ### Variáveis de Ambiente
 
 ```env
-# Google Analytics
-NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
-
 # Database (Supabase)
 DATABASE_URL="postgresql://..."
 DIRECT_URL="postgresql://..."
 
-# Clerk Auth (quando configurar)
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
-CLERK_SECRET_KEY=
+# Auth
+JWT_SECRET="your-secret-key"
+
+# Google Analytics
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+
+# Stripe
+STRIPE_SECRET_KEY=sk_...
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+
+# Email (Resend)
+RESEND_API_KEY=re_...
+
+# WhatsApp (Twilio)
+TWILIO_ACCOUNT_SID=AC...
+TWILIO_AUTH_TOKEN=...
+TWILIO_WHATSAPP_NUMBER=whatsapp:+14155238886
+
+# Sentry
+NEXT_PUBLIC_SENTRY_DSN=https://...
+
+# AdSense (opcional)
+NEXT_PUBLIC_ADSENSE_PUBLISHER_ID=ca-pub-...
+
+# Cron
+CRON_SECRET=your-cron-secret
 ```
 
 ---
 
-## 📦 Scripts Disponíveis
+## 📦 Scripts
 
 ```bash
-npm run dev          # Servidor de desenvolvimento
-npm run build        # Build de produção
-npm run start        # Servidor de produção
-npm run lint         # Verificar linting
-npx prisma studio    # Interface visual do banco
-npx prisma db push   # Aplicar mudanças no schema
+npm run dev          # Desenvolvimento
+npm run build        # Build produção
+npm run start        # Servidor produção
+npm run lint         # ESLint
+npm run test:e2e     # Testes E2E
+npm run test:e2e:ui  # Testes com UI
+npx prisma studio    # Visualizar DB
+npx prisma db push   # Aplicar schema
 ```
 
 ---
 
-## 🗂️ Estrutura do Projeto
+## 🗂️ Estrutura
 
 ```
 lumei/
-├── app/                      # App Router (Next.js 15)
-│   ├── calcular/            # Páginas de calculadoras
-│   │   ├── margem-lucro/
-│   │   ├── preco-hora/
-│   │   └── precificacao/
-│   ├── api/calculos/        # API de salvamento
-│   ├── layout.tsx           # Layout raiz (SEO, Analytics)
-│   ├── sitemap.ts           # Sitemap XML
-│   ├── robots.ts            # Robots.txt
-│   └── structured-data.tsx  # Schema.org Organization
+├── app/
+│   ├── api/              # API Routes
+│   ├── blog/             # Blog pages
+│   ├── calculadoras/     # Calculadoras
+│   ├── dashboard/        # Área logada
+│   └── ...
 ├── components/
-│   ├── ui/                  # shadcn/ui components
-│   ├── pdf/                 # Templates PDF
-│   ├── header.tsx
-│   ├── footer.tsx
-│   ├── calculator-schema.tsx
-│   └── outras-calculadoras.tsx
+│   ├── calculadoras/     # Componentes calculadoras
+│   ├── illustrations/    # SVGs animados
+│   ├── paywall/          # Paywall contextual
+│   ├── pwa/              # PWA install prompt
+│   └── ui/               # shadcn/ui
 ├── lib/
-│   ├── calculos/            # Lógica de cálculo (pure functions)
-│   ├── analytics.ts         # Google Analytics tracking
-│   └── prisma.ts            # Prisma Client singleton
-├── prisma/
-│   └── schema.prisma        # Database schema
-└── public/                  # Assets estáticos
+│   ├── auth/             # Autenticação JWT
+│   ├── billing/          # Stripe
+│   ├── blog/             # Posts do blog
+│   ├── cache/            # Cache localStorage
+│   ├── calculos/         # Lógica de cálculo
+│   ├── email/            # Templates email
+│   └── whatsapp/         # WhatsApp API
+├── e2e/                  # Testes Playwright
+└── prisma/               # Schema DB
 ```
 
 ---
 
-## 📊 Database Schema
+## 📈 SEO
 
-```prisma
-model User {
-  id              String    @id @default(cuid())
-  clerkId         String    @unique
-  email           String    @unique
-  nome            String?
-  statusAssinatura StatusAssinatura @default(GRATUITO)
-  calculos        Calculo[]
-  alertas         Alerta[]
-}
-
-model Calculo {
-  id        String   @id @default(cuid())
-  userId    String
-  tipo      TipoCalculo
-  titulo    String?
-  inputs    Json     # Flexível para qualquer calculadora
-  resultado Json
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
-}
-
-model Alerta {
-  id     String      @id @default(cuid())
-  userId String
-  tipo   TipoAlerta
-  status StatusAlerta @default(ATIVO)
-  user   User        @relation(fields: [userId], references: [id])
-}
-```
+- **Sitemap.xml** automático
+- **Robots.txt** otimizado
+- **Schema.org:**
+  - Organization
+  - SoftwareApplication
+  - BreadcrumbList
+  - FAQPage
+  - Product (Premium)
+  - Review
+- **OpenGraph + Twitter Cards**
 
 ---
 
-## 🎨 Design System
+## 🔒 Segurança
 
-**Cores:**
-- Primary: `#00D084` (Lumei Green)
-- Escala: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900
-
-**Tipografia:**
-- Sans-serif: Manrope (Google Fonts)
-- Monospace: Space Mono
-
-**Componentes:**
-- shadcn/ui (Button, Input, Card, Label, Select, Sheet, Tabs, etc.)
-- Customizados: MoneyInput, NumberInput
-
----
-
-## 📈 SEO & Analytics
-
-### Google Analytics 4
-- Eventos customizados: `calculator_used`, `calculator_completed`, `calculator_saved`, `pdf_export`, `share`
-- Parâmetro: `calculator_type` (margem_lucro, preco_hora, precificacao)
-
-### SEO
-- Sitemap.xml automático (6 calculadoras + páginas)
-- Robots.txt otimizado
-- Structured Data: Organization + WebApplication
-- OpenGraph + Twitter Cards
-- Meta tags completas em todas as páginas
-
----
-
-## 🚀 Deploy
-
-**Vercel (Automático):**
-```bash
-git push origin main  # Deploy automático
-```
-
-**Variáveis de Ambiente no Vercel:**
-1. Acesse: Settings > Environment Variables
-2. Adicione as mesmas variáveis do `.env.local`
-3. Redeploy
-
-**Região:** GRU1 (São Paulo, Brasil) - Baixa latência para usuários BR
+- HTTPS obrigatório
+- JWT com refresh tokens
+- Rate limiting
+- CORS configurado
+- Headers de segurança
+- Validação Zod em todas as APIs
 
 ---
 
 ## 📝 Roadmap
 
-### v0.2.0 (Atual) ✅
-- [x] 3 calculadoras funcionais
-- [x] PDF export
-- [x] Share functionality
-- [x] Google Analytics
-- [x] SEO completo
+### v1.0.0 (Atual) ✅
+- [x] 6 calculadoras funcionais
+- [x] Sistema de autenticação
+- [x] Dashboard do usuário
+- [x] Plano Premium com Stripe
+- [x] Alertas DAS (Email + WhatsApp)
+- [x] Blog com 11 artigos
+- [x] PWA completo
+- [x] Testes E2E
+- [x] Sentry monitoramento
 
-### v0.3.0 (Próximo)
-- [ ] Clerk authentication
-- [ ] User dashboard
-- [ ] 3 calculadoras restantes
-- [ ] Histórico de cálculos
-
-### v0.4.0
-- [ ] Stripe integration
-- [ ] Premium features
-- [ ] Email/WhatsApp alerts (DAS)
-
-### v1.0.0
-- [ ] Blog
-- [ ] Recursos educativos
-- [ ] API pública
-
----
-
-## 🤝 Contribuindo
-
-Contribuições são bem-vindas! Por favor:
-
-1. Fork o projeto
-2. Crie uma branch (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
+### v1.1.0 (Próximo)
+- [ ] Relatórios mensais automáticos
+- [ ] Integração com NFe
+- [ ] App mobile nativo
 
 ---
 
 ## 📄 Licença
 
-Este projeto é privado. Todos os direitos reservados © 2025 Lumei.
+Este projeto é privado. Todos os direitos reservados © 2026 Calcula MEI.
 
 ---
 
@@ -270,7 +228,6 @@ Este projeto é privado. Todos os direitos reservados © 2025 Lumei.
 
 - Website: [calculamei.com.br](https://calculamei.com.br)
 - Email: contato@calculamei.com.br
-- GitHub: [@rafaaquino10](https://github.com/rafaaquino10)
 
 ---
 

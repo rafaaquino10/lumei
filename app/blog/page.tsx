@@ -3,6 +3,29 @@
 import { useState } from "react";
 import { getPosts, getCategories } from "@/lib/blog/posts";
 import { BlogCard } from "@/components/blog-card";
+import { BreadcrumbSchema } from "@/components/calculator-schema";
+
+function BlogListingSchema() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Blog Calcula MEI",
+    description: "Dicas, guias e novidades para MEI crescer. Artigos sobre faturamento, DAS, precificação e gestão financeira.",
+    url: "https://calculamei.com.br/blog",
+    mainEntity: {
+      "@type": "Blog",
+      name: "Blog Calcula MEI",
+      description: "Blog com artigos educativos para Microempreendedores Individuais",
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
 
 export default function BlogPage() {
   const posts = getPosts();
@@ -15,8 +38,16 @@ export default function BlogPage() {
       : posts.filter((post) => post.category === selectedCategory);
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Hero Section */}
+    <>
+      <BlogListingSchema />
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "https://calculamei.com.br" },
+          { name: "Blog", url: "https://calculamei.com.br/blog" },
+        ]}
+      />
+      <div className="min-h-screen bg-background">
+        {/* Hero Section */}
       <div className="bg-gradient-to-br from-primary to-primary/90 text-primary-foreground">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-3xl">
@@ -76,6 +107,7 @@ export default function BlogPage() {
           </div>
         )}
       </div>
-    </div>
+      </div>
+    </>
   );
 }

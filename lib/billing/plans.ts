@@ -19,7 +19,7 @@ export const PLANS: Record<Plan, PlanConfig> = {
     currency: 'BRL',
     interval: 'month',
     features: [
-      '50 cálculos por mês',
+      '10 cálculos por mês',
       'Acesso a todas as calculadoras',
       'Histórico básico',
     ],
@@ -27,7 +27,7 @@ export const PLANS: Record<Plan, PlanConfig> = {
   PREMIUM: {
     id: 'premium',
     name: 'Premium',
-    price: 1900,
+    price: 1490,
     currency: 'BRL',
     interval: 'month',
     features: [

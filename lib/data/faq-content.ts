@@ -18,7 +18,7 @@ export const faqContent: CategoriaFAQ[] = [
       },
       {
         pergunta: "As calculadoras são realmente gratuitas?",
-        resposta: "Sim! Você pode usar todas as 6 calculadoras gratuitamente, sem limite de vezes. No plano FREE, você pode salvar até 50 cálculos e acessar seu histórico dos últimos 6 meses. Se precisar de mais, temos o plano Premium por R$ 19/mês com cálculos ilimitados.",
+        resposta: "Sim! Você pode usar todas as 6 calculadoras gratuitamente. No plano FREE, você tem 10 cálculos por mês e acesso ao histórico dos últimos 6 meses. Se precisar de mais, temos o plano Premium por R$ 14,90/mês com cálculos ilimitados.",
       },
       {
         pergunta: "Preciso criar conta para usar?",
@@ -81,15 +81,15 @@ export const faqContent: CategoriaFAQ[] = [
     perguntas: [
       {
         pergunta: "Qual a diferença entre FREE e PREMIUM?",
-        resposta: "O plano FREE permite salvar até 50 cálculos, acessar histórico de 6 meses e receber 1 alerta de DAS. O Premium (R$ 19/mês) oferece cálculos salvos ilimitados, histórico completo, alertas por WhatsApp e exportação para Excel.",
+        resposta: "O plano FREE permite 10 cálculos por mês, acessar histórico de 6 meses e receber 1 alerta de DAS. O Premium (R$ 14,90/mês) oferece cálculos ilimitados, histórico de 5 anos, alertas por WhatsApp e exportação para Excel.",
       },
       {
-        pergunta: "O que acontece se eu passar do limite de 50 cálculos?",
-        resposta: "Quando você atingir 45 cálculos salvos, mostraremos um aviso. Ao chegar nos 50, você não poderá salvar novos cálculos até fazer upgrade para Premium ou excluir cálculos antigos. Você ainda pode usar as calculadoras normalmente, apenas não poderá salvar.",
+        pergunta: "O que acontece se eu atingir o limite mensal?",
+        resposta: "Quando você atingir os 10 cálculos do mês, não poderá fazer novos cálculos até o próximo mês ou fazer upgrade para Premium. O limite é renovado automaticamente no início de cada mês.",
       },
       {
         pergunta: "Como funciona o pagamento?",
-        resposta: "Aceitamos cartão de crédito via Stripe (processador de pagamentos seguro usado por empresas como Amazon e Google). O valor é de R$ 19/mês, cobrado automaticamente todo mês. Não trabalhamos com boleto no momento.",
+        resposta: "Aceitamos cartão de crédito via Stripe (processador de pagamentos seguro usado por empresas como Amazon e Google). O valor é de R$ 14,90/mês, cobrado automaticamente todo mês. Não trabalhamos com boleto no momento.",
       },
       {
         pergunta: "Como cancelo minha assinatura?",
@@ -97,7 +97,7 @@ export const faqContent: CategoriaFAQ[] = [
       },
       {
         pergunta: "O que acontece se eu cancelar o Premium?",
-        resposta: "Você mantém acesso Premium até o final do período pago. Depois, volta automaticamente para o plano FREE. Se tiver mais de 50 cálculos salvos, não perde nada, mas não poderá salvar novos até ficar abaixo do limite.",
+        resposta: "Você mantém acesso Premium até o final do período pago. Depois, volta automaticamente para o plano FREE com 10 cálculos por mês. Seu histórico continua salvo.",
       },
     ],
   },

@@ -4,15 +4,24 @@ import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { SignedIn, SignedOut } from '@/lib/auth/context'
-import { Check, X, Zap, Shield, Clock, TrendingUp } from 'lucide-react'
+import { Check, X, Zap, Shield, Clock, TrendingUp, FileCheck } from 'lucide-react'
 import { CheckoutButton } from '@/components/billing/checkout-button'
 import { PLANS } from '@/lib/billing/plans'
 import { PremiumFAQSchema } from '@/components/faq-page-schema'
+import { PremiumProductSchema } from '../structured-data'
+import { BreadcrumbSchema } from '@/components/calculator-schema'
 
 export default function PremiumPage() {
   return (
     <>
       <PremiumFAQSchema />
+      <PremiumProductSchema />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: 'https://calculamei.com.br' },
+          { name: 'Premium', url: 'https://calculamei.com.br/premium' },
+        ]}
+      />
       <div className="container mx-auto px-4 py-12">
       {/* Hero */}
       <div className="text-center mb-16">
@@ -24,7 +33,7 @@ export default function PremiumPage() {
           Tenha controle total.
         </h1>
         <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-8">
-          Por apenas R$ 19/mês, você tem alertas automáticos, relatórios
+          Por apenas R$ 14,90/mês, você tem alertas automáticos, relatórios
           ilimitados e muito mais. Cancele quando quiser.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -72,7 +81,7 @@ export default function PremiumPage() {
               </li>
               <li className="flex items-start gap-3">
                 <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                <span className="text-foreground text-sm">Até 50 cálculos salvos</span>
+                <span className="text-foreground text-sm">10 cálculos por mês</span>
               </li>
               <li className="flex items-start gap-3">
                 <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
@@ -125,10 +134,10 @@ export default function PremiumPage() {
             <div className="mb-4">
               <h3 className="text-xl font-bold mb-2 text-foreground">Premium</h3>
               <p className="text-3xl font-bold text-primary">
-                R$ 19<span className="text-base text-muted-foreground">/mês</span>
+                R$ 14,90<span className="text-base text-muted-foreground">/mês</span>
               </p>
               <p className="text-sm text-muted-foreground mt-1">
-                ou R$ 190/ano (economize R$ 38)
+                ou R$ 149/ano (economize R$ 29,80)
               </p>
             </div>
 
@@ -156,6 +165,10 @@ export default function PremiumPage() {
               <li className="flex items-start gap-3">
                 <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
                 <span className="text-foreground text-sm">PDF e Excel ilimitados</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                <span className="text-foreground text-sm"><strong>PDFs verificados</strong> com seus dados</span>
               </li>
               <li className="flex items-start gap-3">
                 <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
@@ -196,7 +209,7 @@ export default function PremiumPage() {
           Por que Premium?
         </h2>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
           <div className="text-center">
             <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
               <Clock className="w-7 h-7 text-primary" />
@@ -224,6 +237,16 @@ export default function PremiumPage() {
             <h3 className="font-bold text-base mb-2 text-foreground">Cresça Mais</h3>
             <p className="text-muted-foreground text-sm">
               Relatórios mensais mostram como seu MEI está evoluindo.
+            </p>
+          </div>
+
+          <div className="text-center">
+            <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+              <FileCheck className="w-7 h-7 text-primary" />
+            </div>
+            <h3 className="font-bold text-base mb-2 text-foreground">Documentos Verificados</h3>
+            <p className="text-muted-foreground text-sm">
+              PDFs com seus dados e selo de verificação. Use para comprovar renda em bancos.
             </p>
           </div>
 
@@ -263,7 +286,7 @@ export default function PremiumPage() {
               <div className="flex text-yellow-500">⭐⭐⭐⭐⭐</div>
             </div>
             <p className="text-foreground mb-3 text-sm">
-              &quot;R$ 19/mês é menos que um almoço. Vale muito a pena pela tranquilidade.&quot;
+              &quot;R$ 14,90/mês é menos que um almoço. Vale muito a pena pela tranquilidade.&quot;
             </p>
             <p className="text-xs text-muted-foreground">
               - João P., Desenvolvedor MEI
@@ -340,7 +363,7 @@ export default function PremiumPage() {
           <SignedOut>
             <Link href="/sign-up">
               <Button size="lg" variant="secondary" className="text-lg px-10">
-                Assinar Premium por R$ 19/mês →
+                Assinar Premium por R$ 14,90/mês →
               </Button>
             </Link>
           </SignedOut>

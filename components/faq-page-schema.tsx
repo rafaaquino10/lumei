@@ -42,7 +42,7 @@ export function PremiumFAQSchema() {
     },
     {
       question: 'Como funciona o pagamento do Calcula MEI Premium?',
-      answer: 'Aceitamos cartão de crédito com renovação automática mensal, e também PIX com 5% de desconto no plano anual. O valor é R$ 19/mês ou R$ 190/ano.',
+      answer: 'Aceitamos cartão de crédito com renovação automática mensal, e também PIX com 5% de desconto no plano anual. O valor é R$ 14,90/mês ou R$ 149/ano.',
     },
     {
       question: 'Tem reembolso se eu não gostar?',

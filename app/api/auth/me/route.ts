@@ -19,6 +19,7 @@ export async function GET() {
         name: user.name,
         avatarUrl: user.avatarUrl,
         tipoMEI: user.tipoMEI,
+        cnpj: user.cnpj,
         plano: user.plano,
       },
     })

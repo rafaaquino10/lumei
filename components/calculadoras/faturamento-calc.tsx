@@ -7,10 +7,14 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
-import { PaywallModal, usePaywall } from '@/components/paywall'
+import { usePaywall, UpgradeBanner } from '@/components/paywall'
+import { ContextualSuggestions } from './contextual-suggestions'
+import { ExportActions } from './export-actions'
+import { FaturamentoPDF } from '@/components/pdf'
+import { usePDFUserData } from '@/hooks/use-pdf-user-data'
 
 const meses = [
-  'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+  'Janeiro', 'Fevereiro', 'Marco', 'Abril', 'Maio', 'Junho',
   'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
 ]
 
@@ -24,16 +28,17 @@ export function FaturamentoCalc() {
     status: 'seguro' | 'atencao' | 'perigo'
   } | null>(null)
   const [isCalculating, setIsCalculating] = useState(false)
+  const [showUpgradeBanner, setShowUpgradeBanner] = useState(false)
 
   const {
     checkLimit,
     recordCalculation,
-    showPaywall,
-    setShowPaywall,
     paywallType,
     remaining,
     limit
   } = usePaywall()
+
+  const pdfUserData = usePDFUserData()
 
   const LIMITE_MEI = 81000
 
@@ -44,12 +49,6 @@ export function FaturamentoCalc() {
   }
 
   const calcular = async () => {
-    const { isBlocked } = checkLimit()
-    if (isBlocked) {
-      setShowPaywall(true)
-      return
-    }
-
     setIsCalculating(true)
     await new Promise(resolve => setTimeout(resolve, 400))
 
@@ -67,13 +66,24 @@ export function FaturamentoCalc() {
 
     setResultado({ total, media, limite: LIMITE_MEI, percentual, status })
     setIsCalculating(false)
+
+    // Registra o calculo e verifica limite
     recordCalculation()
+    const { remaining: rem } = checkLimit()
+    setShowUpgradeBanner(rem <= 2)
   }
 
   const limpar = () => {
     setValores(Array(12).fill(''))
     setResultado(null)
   }
+
+  const pdfInputs = {
+    valores: valores.map(v => parseFloat(v) || 0),
+    ano: new Date().getFullYear(),
+  }
+
+  const canExport = pdfUserData !== undefined
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -82,7 +92,7 @@ export function FaturamentoCalc() {
           Simulador de Faturamento MEI
         </h2>
         <p className="text-sm text-muted-foreground mb-4">
-          Preencha o faturamento de cada mês para simular seu total anual
+          Preencha o faturamento de cada mes para simular seu total anual
         </p>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-4">
@@ -131,71 +141,92 @@ export function FaturamentoCalc() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="grid md:grid-cols-2 gap-4"
             >
-              <Card className="p-4 bg-primary/10 border-primary">
-                <p className="text-xs text-muted-foreground mb-1">Total Anual</p>
-                <motion.p
-                  className="text-2xl font-bold text-foreground"
-                  initial={{ scale: 0.8 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
-                >
-                  R$ {resultado.total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                </motion.p>
-              </Card>
-
-              <Card className="p-4 bg-card">
-                <p className="text-xs text-muted-foreground mb-1">Média Mensal</p>
-                <p className="text-2xl font-bold text-foreground">
-                  R$ {resultado.media.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                </p>
-              </Card>
-
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="md:col-span-2"
-              >
-                <Card className={`p-4 ${
-                  resultado.status === 'perigo' ? 'bg-destructive/10 border-destructive' :
-                  resultado.status === 'atencao' ? 'bg-yellow-500/10 border-yellow-500' :
-                  'bg-primary/10 border-primary'
-                }`}>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-xs text-muted-foreground mb-1">Status do Limite MEI</p>
-                      <p className="text-xl font-bold text-foreground">
-                        {resultado.percentual.toFixed(1)}% do limite anual
-                      </p>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        {resultado.status === 'perigo' && '⚠️ Você ultrapassou o limite do MEI de R$ 81.000!'}
-                        {resultado.status === 'atencao' && '⚠️ Atenção! Você está próximo do limite.'}
-                        {resultado.status === 'seguro' && '✓ Você está dentro do limite anual de R$ 81.000'}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-xs text-muted-foreground">Falta</p>
-                      <p className="text-lg font-semibold text-foreground">
-                        R$ {(resultado.limite - resultado.total).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                      </p>
-                    </div>
-                  </div>
+              <div className="grid md:grid-cols-2 gap-4">
+                <Card className="p-4 bg-primary/10 border-primary">
+                  <p className="text-xs text-muted-foreground mb-1">Total Anual</p>
+                  <motion.p
+                    className="text-2xl font-bold text-foreground"
+                    initial={{ scale: 0.8 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
+                  >
+                    R$ {resultado.total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                  </motion.p>
                 </Card>
-              </motion.div>
+
+                <Card className="p-4 bg-card">
+                  <p className="text-xs text-muted-foreground mb-1">Media Mensal</p>
+                  <p className="text-2xl font-bold text-foreground">
+                    R$ {resultado.media.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                  </p>
+                </Card>
+
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                  className="md:col-span-2"
+                >
+                  <Card className={`p-4 ${
+                    resultado.status === 'perigo' ? 'bg-destructive/10 border-destructive' :
+                    resultado.status === 'atencao' ? 'bg-yellow-500/10 border-yellow-500' :
+                    'bg-primary/10 border-primary'
+                  }`}>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-xs text-muted-foreground mb-1">Status do Limite MEI</p>
+                        <p className="text-xl font-bold text-foreground">
+                          {resultado.percentual.toFixed(1)}% do limite anual
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          {resultado.status === 'perigo' && 'Voce ultrapassou o limite do MEI de R$ 81.000!'}
+                          {resultado.status === 'atencao' && 'Atencao! Voce esta proximo do limite.'}
+                          {resultado.status === 'seguro' && 'Voce esta dentro do limite anual de R$ 81.000'}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-xs text-muted-foreground">Falta</p>
+                        <p className="text-lg font-semibold text-foreground">
+                          R$ {(resultado.limite - resultado.total).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                        </p>
+                      </div>
+                    </div>
+                  </Card>
+                </motion.div>
+              </div>
+
+              {canExport && (
+                <div className="flex justify-end mt-4">
+                  <ExportActions
+                    pdfDocument={
+                      <FaturamentoPDF
+                        inputs={pdfInputs}
+                        resultado={resultado}
+                        userData={pdfUserData}
+                      />
+                    }
+                    calculatorName="faturamento-mei"
+                  />
+                </div>
+              )}
+
+              {showUpgradeBanner && (
+                <UpgradeBanner
+                  type={paywallType}
+                  remaining={remaining}
+                  limit={limit}
+                />
+              )}
+
+              <ContextualSuggestions
+                currentCalculator="faturamento"
+                show={resultado !== null}
+              />
             </motion.div>
           )}
         </AnimatePresence>
       </Card>
-
-      <PaywallModal
-        isOpen={showPaywall}
-        onClose={() => setShowPaywall(false)}
-        type={paywallType}
-        remaining={remaining}
-        limit={limit}
-      />
     </div>
   )
 }

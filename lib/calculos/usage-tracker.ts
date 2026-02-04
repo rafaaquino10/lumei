@@ -5,7 +5,7 @@
 
 const STORAGE_KEY = 'calculamei_usage'
 const ANONYMOUS_DAILY_LIMIT = 3
-const FREE_MONTHLY_LIMIT = 30
+const FREE_MONTHLY_LIMIT = 10
 
 interface UsageData {
   date: string // YYYY-MM-DD

@@ -8,11 +8,26 @@ import {
   TrendingUp,
   Clock,
   Tag,
-  Calendar,
   ArrowRight,
-  Calculator,
+  BarChart3,
+  ArrowLeftRight,
+  Calendar,
+  Plus,
 } from 'lucide-react'
+import { RealDashboard } from '@/components/dashboard/real-dashboard'
 import { UsageIndicatorWrapper } from '@/components/dashboard/usage-indicator-wrapper'
+import { TutorialWrapper } from '@/components/dashboard/tutorial-wrapper'
+import { MonthlyReminder } from '@/components/dashboard/monthly-reminder'
+
+// Valores do DAS por tipo de MEI (2026)
+const DAS_VALUES: Record<string, number> = {
+  COMERCIO: 76.90,
+  SERVICOS: 80.90,
+  MISTO: 81.90,
+  CAMINHONEIRO: 183.16,
+}
+
+const LIMITE_MEI = 81000
 
 export default async function DashboardPage() {
   const user = await getServerUserWithCalcs()
@@ -21,29 +36,73 @@ export default async function DashboardPage() {
     redirect('/sign-in')
   }
 
-  // Calculate stats
-  const totalCalculos = await prisma.calculo.count({
-    where: { userId: user.id },
+  const anoAtual = new Date().getFullYear()
+
+  // Buscar registros de faturamento do ano atual
+  const registros = await prisma.registroFaturamento.findMany({
+    where: {
+      userId: user.id,
+      ano: anoAtual,
+    },
+    orderBy: { mes: 'asc' },
   })
 
-  // Calculate days until next DAS (simplified)
+  // Calcular métricas reais
+  const totalAcumulado = registros.reduce((sum, r) => sum + r.valor, 0)
+  const mesesComRegistro = registros.length
+  const mediaMovel = mesesComRegistro > 0 ? totalAcumulado / mesesComRegistro : 0
+  const projecaoAnual = mediaMovel * 12
+  const percentualLimite = (totalAcumulado / LIMITE_MEI) * 100
+  const valorRestante = LIMITE_MEI - totalAcumulado
+  const mesesAteEstourar = mediaMovel > 0 ? Math.floor(valorRestante / mediaMovel) : 999
+
+  const metricas = {
+    totalAcumulado,
+    mesesComRegistro,
+    mediaMovel,
+    projecaoAnual,
+    percentualLimite,
+    valorRestante,
+    mesesAteEstourar,
+    limiteMEI: LIMITE_MEI,
+    ano: anoAtual,
+  }
+
+  // Próximo DAS
   const today = new Date()
-  const nextDAS = new Date(today.getFullYear(), today.getMonth() + 1, 20)
-  const daysUntilDAS = Math.ceil(
-    (nextDAS.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
-  )
+  const nextDASDate = new Date(today.getFullYear(), today.getMonth() + 1, 20)
+  const diasAteVencimento = Math.ceil((nextDASDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
+  const dasValue = user.tipoMEI ? DAS_VALUES[user.tipoMEI] || 80.90 : 80.90
+
+  const dasInfo = {
+    data: nextDASDate.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }),
+    valor: dasValue,
+    diasRestantes: diasAteVencimento,
+  }
+
+  // Verificar se onboarding está completo
+  const onboardingCompleto = !!(user.tipoMEI && user.ocupacao)
+
+  // Primeiro login: onboarding completo mas sem registros (novo usuário)
+  const isFirstLogin = onboardingCompleto && registros.length === 0
 
   return (
     <div className="container mx-auto px-4 py-6">
+      {/* Tutorial para primeiro login */}
+      <TutorialWrapper isFirstLogin={isFirstLogin} />
       {/* Welcome section */}
-      <div className="mb-4">
+      <div className="mb-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
             <h1 className="text-2xl font-bold mb-1 text-foreground">
               Olá, {user.name?.split(' ')[0] || 'empreendedor'}! 👋
             </h1>
             <p className="text-base text-muted-foreground">
-              Bem-vindo ao seu painel Calcula MEI
+              {onboardingCompleto
+                ? registros.length > 0
+                  ? 'Acompanhe seu controle financeiro'
+                  : 'Registre seu faturamento para ver suas métricas'
+                : 'Complete seu perfil para começar'}
             </p>
           </div>
           {user.plano === 'FREE' && (
@@ -54,105 +113,96 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {/* Stats grid - 2 colunas no mobile */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-6">
-        <Card className="p-3">
-          <div className="flex items-center justify-between mb-1">
-            <h3 className="font-semibold text-[10px] sm:text-xs text-muted-foreground">Cálculos</h3>
-            <Calculator className="w-4 h-4 text-primary" />
-          </div>
-          <p className="text-xl sm:text-2xl font-bold text-foreground">{totalCalculos}</p>
-        </Card>
+      {/* Lembrete mensal de registro */}
+      {onboardingCompleto && (
+        <MonthlyReminder
+          registeredMonths={registros.map(r => r.mes)}
+          ano={anoAtual}
+        />
+      )}
 
-        <Card className="p-3">
-          <div className="flex items-center justify-between mb-1">
-            <h3 className="font-semibold text-[10px] sm:text-xs text-muted-foreground">Tipo MEI</h3>
-            <TrendingUp className="w-4 h-4 text-primary" />
-          </div>
-          <p className="text-sm sm:text-lg font-bold text-foreground truncate">
-            {user.tipoMEI?.replace('_', ' ') || 'Não informado'}
-          </p>
-        </Card>
-
-        <Card className="p-3 col-span-2 md:col-span-1 bg-primary/10 border-primary">
-          <div className="flex items-center justify-between mb-1">
-            <h3 className="font-semibold text-[10px] sm:text-xs text-foreground">Próximo DAS</h3>
-            <Calendar className="w-4 h-4 text-primary" />
-          </div>
-          <div className="flex items-baseline justify-between">
-            <p className="text-xl sm:text-2xl font-bold text-primary">
-              {daysUntilDAS} dias
-            </p>
-            <p className="text-[10px] sm:text-xs text-muted-foreground">
-              {nextDAS.toLocaleDateString('pt-BR')}
-            </p>
-          </div>
-        </Card>
-      </div>
-
-      {/* Quick access calculators - sempre 3 colunas */}
+      {/* Dashboard Financeiro Real */}
       <div className="mb-6">
-        <h2 className="text-base sm:text-lg font-bold mb-2 text-foreground">Calculadoras</h2>
-        <div className="grid grid-cols-3 gap-2">
-          <Link href="/calculadoras?calc=margem-lucro">
-            <Card className="p-2 sm:p-3 hover:shadow-lg hover:border-primary transition-all cursor-pointer text-center h-full">
-              <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-primary mx-auto mb-1" />
-              <h3 className="font-bold text-[10px] sm:text-sm text-foreground leading-tight">Margem</h3>
-              <p className="text-[9px] sm:text-xs text-muted-foreground hidden sm:block">
-                Calcule seu lucro
-              </p>
-            </Card>
-          </Link>
+        <RealDashboard
+          registros={registros.map(r => ({
+            id: r.id,
+            mes: r.mes,
+            ano: r.ano,
+            valor: r.valor,
+          }))}
+          metricas={metricas}
+          dasInfo={dasInfo}
+          onboardingCompleto={onboardingCompleto}
+          ocupacao={user.ocupacao}
+        />
+      </div>
 
-          <Link href="/calculadoras?calc=preco-hora">
-            <Card className="p-2 sm:p-3 hover:shadow-lg hover:border-primary transition-all cursor-pointer text-center h-full">
-              <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-primary mx-auto mb-1" />
-              <h3 className="font-bold text-[10px] sm:text-sm text-foreground leading-tight">Hora</h3>
-              <p className="text-[9px] sm:text-xs text-muted-foreground hidden sm:block">
-                Valor por hora
-              </p>
+      {/* Ação Principal */}
+      {onboardingCompleto && (
+        <div className="mb-6">
+          <Link href="/registrar">
+            <Card className="p-4 bg-gradient-to-r from-primary/5 to-primary/10 border-primary/20 hover:border-primary/40 transition-all cursor-pointer">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+                    <Plus className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-foreground">Registrar Faturamento</p>
+                    <p className="text-xs text-muted-foreground">
+                      Mantenha seu controle financeiro atualizado
+                    </p>
+                  </div>
+                </div>
+                <ArrowRight className="w-5 h-5 text-primary" />
+              </div>
             </Card>
           </Link>
+        </div>
+      )}
 
-          <Link href="/calculadoras?calc=precificacao">
-            <Card className="p-2 sm:p-3 hover:shadow-lg hover:border-primary transition-all cursor-pointer text-center h-full">
-              <Tag className="w-5 h-5 sm:w-6 sm:h-6 text-primary mx-auto mb-1" />
-              <h3 className="font-bold text-[10px] sm:text-sm text-foreground leading-tight">Preço</h3>
-              <p className="text-[9px] sm:text-xs text-muted-foreground hidden sm:block">
-                Preço ideal
-              </p>
-            </Card>
-          </Link>
+      {/* Ferramentas de Apoio */}
+      <div className="mb-6">
+        <h2 className="text-lg font-bold mb-3 text-foreground">Ferramentas de Apoio</h2>
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+          {[
+            { icon: TrendingUp, label: 'Margem', href: '/calculadoras?calc=margem-lucro', desc: 'Calcular lucro' },
+            { icon: Clock, label: 'Hora', href: '/calculadoras?calc=preco-hora', desc: 'Valor/hora' },
+            { icon: Tag, label: 'Preço', href: '/calculadoras?calc=precificacao', desc: 'Preço ideal' },
+            { icon: BarChart3, label: 'Simular', href: '/calculadoras?calc=faturamento', desc: 'Projeção' },
+            { icon: ArrowLeftRight, label: 'Fluxo', href: '/calculadoras?calc=fluxo-caixa', desc: 'Entradas/saídas' },
+            { icon: Calendar, label: 'DAS', href: '/calculadoras?calc=das', desc: 'Calendário' },
+          ].map((tool) => (
+            <Link key={tool.label} href={tool.href}>
+              <Card className="p-3 hover:shadow-lg hover:border-primary transition-all cursor-pointer text-center h-full group">
+                <tool.icon className="w-5 h-5 text-primary mx-auto mb-1 group-hover:scale-110 transition-transform" />
+                <span className="text-xs font-medium text-foreground block">{tool.label}</span>
+                <span className="text-[9px] text-muted-foreground hidden sm:block">{tool.desc}</span>
+              </Card>
+            </Link>
+          ))}
         </div>
       </div>
 
-      {/* Recent calculations */}
-      <div>
-        <div className="flex justify-between items-center mb-3">
-          <h2 className="text-lg font-bold text-foreground">Cálculos Recentes</h2>
-          <Link href="/dashboard/historico">
-            <Button variant="ghost" size="sm">
-              Ver Todos
-              <ArrowRight className="w-3 h-3 ml-2" />
-            </Button>
-          </Link>
-        </div>
-
-        {user.calculos.length === 0 ? (
-          <Card className="p-4 text-center">
-            <p className="text-muted-foreground mb-3 text-sm">
-              Você ainda não fez nenhum cálculo
-            </p>
-            <Link href="/calculadoras">
-              <Button size="sm">Começar Agora</Button>
+      {/* Cálculos Recentes */}
+      {user.calculos.length > 0 && (
+        <div>
+          <div className="flex justify-between items-center mb-3">
+            <h2 className="text-lg font-bold text-foreground">Cálculos Recentes</h2>
+            <Link href="/dashboard/historico">
+              <Button variant="ghost" size="sm">
+                Ver Todos
+                <ArrowRight className="w-3 h-3 ml-2" />
+              </Button>
             </Link>
-          </Card>
-        ) : (
+          </div>
+
           <div className="space-y-2">
-            {user.calculos.map((calculo: {
+            {user.calculos.slice(0, 3).map((calculo: {
               id: string
               tipo: 'MARGEM_LUCRO' | 'PRECO_HORA' | 'PRECIFICACAO' | 'FATURAMENTO' | 'FLUXO_CAIXA' | 'CALENDARIO_DAS'
               createdAt: string | Date
+              titulo?: string | null
             } & Record<string, unknown>) => {
               const tipoLabelMap = {
                 MARGEM_LUCRO: 'Margem de Lucro',
@@ -168,43 +218,42 @@ export default async function DashboardPage() {
                 <Card key={calculo.id} className="p-3">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="font-bold text-sm text-foreground">{tipoLabel}</h3>
+                      <h3 className="font-bold text-sm text-foreground">
+                        {calculo.titulo || tipoLabel}
+                      </h3>
                       <p className="text-xs text-muted-foreground">
-                        {new Date(calculo.createdAt).toLocaleDateString(
-                          'pt-BR',
-                          {
-                            day: '2-digit',
-                            month: 'long',
-                            year: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                          }
-                        )}
+                        {new Date(calculo.createdAt).toLocaleDateString('pt-BR', {
+                          day: '2-digit',
+                          month: 'short',
+                        })}
+                        {' • '}
+                        {tipoLabel}
                       </p>
                     </div>
-                    <Button variant="ghost" size="sm">
-                      Ver Detalhes
-                      <ArrowRight className="w-3 h-3 ml-2" />
-                    </Button>
+                    <Link href={`/dashboard/historico?id=${calculo.id}`}>
+                      <Button variant="ghost" size="sm">
+                        Ver
+                        <ArrowRight className="w-3 h-3 ml-1" />
+                      </Button>
+                    </Link>
                   </div>
                 </Card>
               )
             })}
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
-      {/* CTA to Premium (if free user) */}
+      {/* CTA Premium */}
       {user.plano === 'FREE' && (
-        <Card className="mt-6 p-4 bg-primary/10 border-primary">
+        <Card className="mt-6 p-4 bg-gradient-to-r from-primary/10 to-primary/5 border-primary/20">
           <div className="flex flex-col md:flex-row items-center justify-between gap-3">
             <div>
               <h3 className="text-base font-bold mb-1 text-foreground">
-                Quer alertas automáticos de DAS?
+                Quer alertas de DAS no WhatsApp?
               </h3>
               <p className="text-sm text-muted-foreground">
-                Com Premium você recebe 3 alertas (email + WhatsApp) e muito
-                mais por R$ 19/mês
+                Premium: alertas WhatsApp, histórico 5 anos, sem anúncios por R$ 14,90/mês
               </p>
             </div>
             <Link href="/premium">
@@ -221,5 +270,5 @@ export default async function DashboardPage() {
 
 export const metadata = {
   title: 'Dashboard | Calcula MEI',
-  description: 'Seu painel de controle Calcula MEI',
+  description: 'Controle financeiro do seu MEI - Acompanhe faturamento, limite e DAS',
 }

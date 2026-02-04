@@ -12,6 +12,7 @@ export function BlogPostSchema({ post }: BlogPostSchemaProps) {
     description: post.description,
     image: post.image,
     datePublished: post.date,
+    url: `https://calculamei.com.br/blog/${post.slug}`,
     author: {
       "@type": "Organization",
       name: post.author,
@@ -25,12 +26,47 @@ export function BlogPostSchema({ post }: BlogPostSchemaProps) {
       },
     },
     wordCount: Math.ceil(post.content.split(/\s+/).length),
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://calculamei.com.br/blog/${post.slug}`,
+    },
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://calculamei.com.br",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Blog",
+        item: "https://calculamei.com.br/blog",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: post.title,
+        item: `https://calculamei.com.br/blog/${post.slug}`,
+      },
+    ],
   };
 
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+    </>
   );
 }

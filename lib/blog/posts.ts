@@ -1258,6 +1258,556 @@ export const posts: BlogPost[] = [
       <p>Use a Calculadora de Preço por Hora do Calcula MEI para automatizar esses cálculos e encontrar seu preço ideal!</p>
     `,
   },
+  {
+    slug: "limite-faturamento-mei-como-saber",
+    title: "Como saber se estou perto de estourar o limite do MEI",
+    description:
+      "Descubra como acompanhar seu faturamento, identificar sinais de alerta e o que fazer quando se aproximar do limite de R$ 81 mil do MEI.",
+    date: "2026-01-20",
+    author: "Calcula MEI",
+    category: "Finanças",
+    readTime: 6,
+    image: "/blog/limite-faturamento.jpg",
+    content: `
+      <p>Um dos maiores medos de quem é MEI é ultrapassar o limite de faturamento sem perceber. Com o teto de R$ 81.000 por ano (média de R$ 6.750 por mês), é fundamental acompanhar de perto suas receitas para evitar surpresas desagradáveis e multas.</p>
+
+      <p>Neste artigo, você vai aprender a monitorar seu faturamento, identificar os sinais de alerta e entender o que acontece caso ultrapasse o limite.</p>
+
+      <h2>Qual é o limite de faturamento do MEI em 2026?</h2>
+      <p>O limite atual é de <strong>R$ 81.000,00 por ano</strong>. Isso equivale a uma média mensal de R$ 6.750. Porém, atenção: o que vale é o total anual, não a média mensal.</p>
+
+      <p>Isso significa que você pode faturar R$ 10.000 em um mês e R$ 3.000 em outro, desde que no final do ano a soma não ultrapasse R$ 81 mil.</p>
+
+      <h2>Como acompanhar seu faturamento</h2>
+      <p>Existem algumas formas simples de manter o controle:</p>
+
+      <h3>1. Relatório Mensal de Receitas</h3>
+      <p>Todo MEI é obrigado a preencher mensalmente o Relatório de Receitas Brutas. Esse documento deve conter:</p>
+      <ul>
+        <li>Receitas do mês com nota fiscal</li>
+        <li>Receitas do mês sem nota fiscal</li>
+        <li>Total mensal</li>
+      </ul>
+      <p>Guarde esses relatórios por 5 anos.</p>
+
+      <h3>2. Planilha de controle</h3>
+      <p>Mantenha uma planilha simples com:</p>
+      <ul>
+        <li>Data da venda/serviço</li>
+        <li>Valor recebido</li>
+        <li>Acumulado do ano</li>
+        <li>Percentual do limite usado</li>
+      </ul>
+
+      <h3>3. Use o Simulador de Faturamento</h3>
+      <p>O <a href="/calculadoras">Simulador de Faturamento do Calcula MEI</a> calcula automaticamente quanto do limite você já usou e projeta se vai estourar no ritmo atual.</p>
+
+      <h2>Sinais de alerta: quando se preocupar</h2>
+      <p>Fique atento a estes indicadores:</p>
+
+      <h3>Zona Verde (0% a 60% do limite)</h3>
+      <ul>
+        <li>Faturamento anual até R$ 48.600</li>
+        <li>Situação confortável</li>
+        <li>Continue monitorando normalmente</li>
+      </ul>
+
+      <h3>Zona Amarela (60% a 80% do limite)</h3>
+      <ul>
+        <li>Faturamento entre R$ 48.600 e R$ 64.800</li>
+        <li>Atenção redobrada</li>
+        <li>Comece a planejar: continuar MEI ou migrar?</li>
+      </ul>
+
+      <h3>Zona Vermelha (80% a 100% do limite)</h3>
+      <ul>
+        <li>Faturamento acima de R$ 64.800</li>
+        <li>Risco real de ultrapassar</li>
+        <li>Consulte um contador sobre migração para ME</li>
+      </ul>
+
+      <h2>O que acontece se ultrapassar o limite?</h2>
+      <p>Depende de quanto você ultrapassou:</p>
+
+      <h3>Ultrapassou até 20% (até R$ 97.200)</h3>
+      <ul>
+        <li>Você será desenquadrado a partir de 1º de janeiro do ano seguinte</li>
+        <li>Pagará a diferença de impostos sobre o valor excedente</li>
+        <li>Migrará para Microempresa (ME)</li>
+      </ul>
+
+      <h3>Ultrapassou mais de 20% (acima de R$ 97.200)</h3>
+      <ul>
+        <li>O desenquadramento é <strong>retroativo ao início do ano</strong></li>
+        <li>Você pagará impostos como ME desde janeiro</li>
+        <li>Multas e juros sobre a diferença</li>
+        <li>Situação mais complexa - contador é essencial</li>
+      </ul>
+
+      <h2>Dicas para não estourar o limite</h2>
+
+      <h3>1. Monitore semanalmente</h3>
+      <p>Não espere o final do mês. Acompanhe suas vendas toda semana.</p>
+
+      <h3>2. Projete o ano todo</h3>
+      <p>Se em junho você já usou 60% do limite, faça as contas: consegue manter o ritmo sem estourar?</p>
+
+      <h3>3. Planeje períodos de alta</h3>
+      <p>Se seu negócio tem sazonalidade (Natal, Dia das Mães, etc.), reserve "espaço" no limite para esses meses.</p>
+
+      <h3>4. Considere a migração planejada</h3>
+      <p>Se você está consistentemente acima de 80% do limite, talvez seja hora de virar ME. Melhor planejar do que ser pego de surpresa.</p>
+
+      <h2>Conclusão</h2>
+      <p>Acompanhar o faturamento é uma das tarefas mais importantes do MEI. Use ferramentas de controle, fique atento aos sinais de alerta e planeje-se para crescer de forma sustentável.</p>
+
+      <p>O <a href="/calculadoras">Simulador de Faturamento do Calcula MEI</a> te ajuda a visualizar exatamente onde você está e para onde está indo. Use gratuitamente e mantenha seu negócio sempre regularizado!</p>
+    `,
+  },
+  {
+    slug: "mei-precisa-contador-quando-contratar",
+    title: "MEI precisa de contador? Quando contratar um",
+    description:
+      "Entenda quando o MEI precisa de contador, o que você pode fazer sozinho e em quais situações vale a pena contratar um profissional.",
+    date: "2026-01-25",
+    author: "Calcula MEI",
+    category: "Guias",
+    readTime: 7,
+    image: "/blog/mei-contador.jpg",
+    content: `
+      <p>Uma das grandes vantagens do MEI é não ser obrigado a ter contador. Mas isso não significa que você nunca vai precisar de um. Existem situações em que a ajuda profissional é essencial para evitar problemas e economizar dinheiro.</p>
+
+      <p>Neste guia, você vai entender o que pode fazer sozinho, quando precisa de contador e como escolher um bom profissional.</p>
+
+      <h2>O que o MEI pode fazer sozinho</h2>
+      <p>A maioria das obrigações do MEI são simples e você mesmo pode cumprir:</p>
+
+      <h3>Obrigações mensais</h3>
+      <ul>
+        <li><strong>Pagar o DAS:</strong> Gere a guia no Portal do Empreendedor e pague até o dia 20</li>
+        <li><strong>Emitir notas fiscais:</strong> Use o sistema da prefeitura ou aplicativos gratuitos</li>
+        <li><strong>Preencher o Relatório Mensal:</strong> Anote suas receitas brutas do mês</li>
+      </ul>
+
+      <h3>Obrigações anuais</h3>
+      <ul>
+        <li><strong>DASN-SIMEI:</strong> Declaração anual feita online até 31 de maio</li>
+        <li><strong>Declaração de IR Pessoa Física:</strong> Se você se enquadrar nas regras de obrigatoriedade</li>
+      </ul>
+
+      <h3>Outras tarefas simples</h3>
+      <ul>
+        <li>Alterar dados cadastrais no Portal do Empreendedor</li>
+        <li>Incluir ou excluir atividades</li>
+        <li>Emitir certidões negativas</li>
+        <li>Parcelar débitos atrasados</li>
+      </ul>
+
+      <h2>Quando o MEI PRECISA de contador</h2>
+      <p>Em algumas situações, ter um contador deixa de ser opcional:</p>
+
+      <h3>1. Contratar funcionário</h3>
+      <p>Se você contratar um funcionário (o MEI pode ter 1), precisará de contador para:</p>
+      <ul>
+        <li>Elaborar folha de pagamento</li>
+        <li>Calcular e recolher FGTS e INSS patronal</li>
+        <li>Entregar o eSocial</li>
+        <li>Preparar rescisão trabalhista</li>
+      </ul>
+
+      <h3>2. Ultrapassar o limite de faturamento</h3>
+      <p>Se você ultrapassar R$ 81 mil no ano, precisará de contador para:</p>
+      <ul>
+        <li>Fazer o desenquadramento do MEI</li>
+        <li>Abrir uma Microempresa (ME)</li>
+        <li>Calcular impostos retroativos (se passou mais de 20%)</li>
+        <li>Regularizar a situação fiscal</li>
+      </ul>
+
+      <h3>3. Problemas com a Receita Federal</h3>
+      <p>Se você receber notificações, autuações ou precisar se defender:</p>
+      <ul>
+        <li>Intimações fiscais</li>
+        <li>Malha fina</li>
+        <li>Divergências de informações</li>
+        <li>Processos administrativos</li>
+      </ul>
+
+      <h3>4. Encerrar o MEI</h3>
+      <p>Embora seja possível fazer sozinho, um contador garante que:</p>
+      <ul>
+        <li>Não fique nenhum débito em aberto</li>
+        <li>Todas as declarações estejam entregues</li>
+        <li>O encerramento seja definitivo</li>
+      </ul>
+
+      <h2>Quando VALE A PENA ter contador</h2>
+      <p>Mesmo sem obrigação, um contador pode ser um bom investimento:</p>
+
+      <h3>1. Falta de tempo</h3>
+      <p>Se você não tem tempo para cuidar da parte burocrática, um contador pode assumir tudo por um valor mensal acessível (R$ 50 a R$ 150 para MEI).</p>
+
+      <h3>2. Insegurança com números</h3>
+      <p>Se você não se sente confortável com cálculos financeiros e declarações, melhor ter apoio profissional.</p>
+
+      <h3>3. Planejamento tributário</h3>
+      <p>Um bom contador pode te ajudar a:</p>
+      <ul>
+        <li>Identificar o melhor momento para migrar de MEI para ME</li>
+        <li>Escolher o regime tributário mais vantajoso</li>
+        <li>Planejar crescimento com menor carga tributária</li>
+      </ul>
+
+      <h3>4. Crescimento acelerado</h3>
+      <p>Se seu negócio está crescendo rápido, ter um contador desde cedo evita surpresas desagradáveis.</p>
+
+      <h2>Quanto custa um contador para MEI?</h2>
+      <p>Os valores variam bastante, mas em média:</p>
+      <ul>
+        <li><strong>Honorários mensais:</strong> R$ 50 a R$ 150</li>
+        <li><strong>Declaração anual avulsa:</strong> R$ 80 a R$ 200</li>
+        <li><strong>Abertura de empresa:</strong> R$ 300 a R$ 800</li>
+        <li><strong>Desenquadramento:</strong> R$ 200 a R$ 500</li>
+      </ul>
+
+      <p>Contadores online costumam ser mais baratos que escritórios tradicionais.</p>
+
+      <h2>Como escolher um bom contador</h2>
+      <p>Dicas para não errar na escolha:</p>
+
+      <h3>1. Verifique o registro no CRC</h3>
+      <p>Todo contador deve ter registro ativo no Conselho Regional de Contabilidade. Consulte no site do CRC do seu estado.</p>
+
+      <h3>2. Busque referências</h3>
+      <p>Pergunte a outros MEIs, leia avaliações online, procure indicações.</p>
+
+      <h3>3. Avalie a comunicação</h3>
+      <p>O contador responde rápido? Explica as coisas de forma clara? Está disponível quando você precisa?</p>
+
+      <h3>4. Compare preços</h3>
+      <p>Peça orçamento de pelo menos 3 contadores antes de decidir.</p>
+
+      <h3>5. Prefira especialistas em MEI</h3>
+      <p>Contadores que trabalham muito com MEI conhecem melhor as particularidades dessa categoria.</p>
+
+      <h2>Conclusão</h2>
+      <p>O MEI não é obrigado a ter contador na maioria das situações. Mas em casos específicos - como contratar funcionário ou ultrapassar o limite - a ajuda profissional é essencial.</p>
+
+      <p>Mesmo quando não é obrigatório, um bom contador pode ser um parceiro valioso para seu negócio crescer de forma organizada e segura.</p>
+
+      <p>Use as <a href="/calculadoras">calculadoras do Calcula MEI</a> para manter seu controle financeiro em dia e saber exatamente quando é hora de buscar ajuda profissional!</p>
+    `,
+  },
+  {
+    slug: "erros-precificacao-mei",
+    title: "5 erros de precificação que todo MEI comete",
+    description:
+      "Conheça os erros mais comuns na hora de definir preços e aprenda a precificar corretamente seus produtos e serviços.",
+    date: "2026-01-28",
+    author: "Calcula MEI",
+    category: "Precificação",
+    readTime: 5,
+    image: "/blog/erros-precificacao.jpg",
+    content: `
+      <p>Precificar errado é um dos principais motivos pelos quais MEIs trabalham muito e lucram pouco. Muitos empreendedores cometem erros básicos que corroem sua margem de lucro sem perceber.</p>
+
+      <p>Veja os 5 erros mais comuns e como evitá-los:</p>
+
+      <h2>Erro 1: Copiar o preço do concorrente</h2>
+      <p>Muitos MEIs simplesmente olham quanto o concorrente cobra e colocam um preço parecido (ou mais baixo). Isso é perigoso porque:</p>
+      <ul>
+        <li>Você não sabe os custos do concorrente</li>
+        <li>Talvez ele também esteja errando no preço</li>
+        <li>Seus custos podem ser diferentes</li>
+        <li>Sua qualidade e proposta de valor são únicas</li>
+      </ul>
+
+      <h3>Como corrigir</h3>
+      <p>Calcule seus próprios custos e defina o preço baseado na SUA realidade. Use o concorrente apenas como referência de mercado, não como base para seu preço.</p>
+
+      <h2>Erro 2: Esquecer custos "invisíveis"</h2>
+      <p>Ao calcular o preço, muitos MEIs consideram apenas o custo óbvio do produto ou serviço. Mas existem custos que passam despercebidos:</p>
+      <ul>
+        <li><strong>Taxas de cartão:</strong> 2% a 5% das vendas</li>
+        <li><strong>Taxas de marketplace:</strong> 10% a 20%</li>
+        <li><strong>Frete:</strong> mesmo quando você oferece "frete grátis"</li>
+        <li><strong>Embalagem:</strong> caixas, sacolas, etiquetas</li>
+        <li><strong>Tempo de atendimento:</strong> WhatsApp, e-mail, pós-venda</li>
+        <li><strong>Devoluções e perdas:</strong> produtos danificados ou trocados</li>
+        <li><strong>DAS mensal:</strong> mesmo sendo baixo, é um custo</li>
+      </ul>
+
+      <h3>Como corrigir</h3>
+      <p>Liste TODOS os custos envolvidos em cada venda, por menores que pareçam. Some tudo antes de definir seu preço.</p>
+
+      <h2>Erro 3: Não considerar seu tempo</h2>
+      <p>MEI de serviços frequentemente subestimam o tempo gasto em cada trabalho:</p>
+      <ul>
+        <li>Reuniões e alinhamentos</li>
+        <li>Pesquisa e preparação</li>
+        <li>Revisões e ajustes</li>
+        <li>Deslocamento (quando presencial)</li>
+        <li>Emissão de nota fiscal</li>
+      </ul>
+
+      <p>Se você cobra R$ 100 por um serviço que leva 4 horas (incluindo tudo), seu valor/hora real é apenas R$ 25.</p>
+
+      <h3>Como corrigir</h3>
+      <p>Registre quanto tempo cada projeto realmente leva. Calcule seu valor/hora real e ajuste os preços para que faça sentido.</p>
+
+      <h2>Erro 4: Ter medo de aumentar preços</h2>
+      <p>Muitos MEIs mantêm preços defasados por anos porque têm medo de:</p>
+      <ul>
+        <li>Perder clientes</li>
+        <li>Parecer "caro demais"</li>
+        <li>Ficar sem trabalho</li>
+      </ul>
+
+      <p>Enquanto isso, custos de fornecedores, aluguel e ferramentas sobem todo ano.</p>
+
+      <h3>Como corrigir</h3>
+      <ul>
+        <li>Reajuste preços pelo menos 1x por ano</li>
+        <li>Comunique o aumento com antecedência</li>
+        <li>Destaque o valor que você entrega</li>
+        <li>Clientes que só compram por preço não são os melhores clientes</li>
+      </ul>
+
+      <h2>Erro 5: Confundir faturamento com lucro</h2>
+      <p>Achar que "vendeu R$ 5.000 no mês" significa que lucrou R$ 5.000 é um erro grave. Faturamento é diferente de lucro:</p>
+      <ul>
+        <li><strong>Faturamento:</strong> Tudo que entrou de dinheiro</li>
+        <li><strong>Lucro:</strong> O que sobrou depois de pagar TODOS os custos</li>
+      </ul>
+
+      <p>Um MEI pode faturar R$ 80.000 no ano e ter lucro de apenas R$ 20.000 (margem de 25%).</p>
+
+      <h3>Como corrigir</h3>
+      <p>Calcule sua margem de lucro real todo mês. Use a <a href="/calculadoras">Calculadora de Margem de Lucro</a> do Calcula MEI para ter clareza sobre sua rentabilidade.</p>
+
+      <h2>Resumo: como precificar corretamente</h2>
+      <ol>
+        <li>Liste todos os custos (diretos e indiretos)</li>
+        <li>Defina a margem de lucro desejada</li>
+        <li>Calcule o preço mínimo viável</li>
+        <li>Compare com o mercado (mas não copie)</li>
+        <li>Ajuste conforme o valor percebido pelo cliente</li>
+        <li>Revise periodicamente</li>
+      </ol>
+
+      <h2>Conclusão</h2>
+      <p>Precificar corretamente é uma das habilidades mais importantes para o sucesso do seu MEI. Evite esses erros comuns e você terá um negócio mais saudável e lucrativo.</p>
+
+      <p>Use a <a href="/calculadoras">Calculadora de Precificação</a> do Calcula MEI para definir preços que cubram seus custos e ainda gerem lucro!</p>
+    `,
+  },
+  {
+    slug: "fluxo-caixa-mei-basico",
+    title: "Fluxo de caixa para MEI: guia básico",
+    description:
+      "Aprenda o básico sobre fluxo de caixa e como controlar as finanças do seu MEI de forma simples e eficiente.",
+    date: "2026-01-31",
+    author: "Calcula MEI",
+    category: "Finanças",
+    readTime: 6,
+    image: "/blog/fluxo-caixa-mei.jpg",
+    content: `
+      <p>Fluxo de caixa é simplesmente o registro de todo dinheiro que entra e sai do seu negócio. Parece básico, mas a maioria dos MEIs não faz esse controle - e acaba tendo surpresas desagradáveis no final do mês.</p>
+
+      <p>Neste guia, você vai aprender o essencial sobre fluxo de caixa de forma simples e prática.</p>
+
+      <h2>O que é fluxo de caixa?</h2>
+      <p>Fluxo de caixa é o movimento do dinheiro:</p>
+      <ul>
+        <li><strong>Entradas:</strong> Todo dinheiro que entra (vendas, recebimentos)</li>
+        <li><strong>Saídas:</strong> Todo dinheiro que sai (compras, contas, impostos)</li>
+        <li><strong>Saldo:</strong> A diferença entre entradas e saídas</li>
+      </ul>
+
+      <p>Se entra mais do que sai = saldo positivo (lucro no período)<br/>
+      Se sai mais do que entra = saldo negativo (prejuízo no período)</p>
+
+      <h2>Por que controlar o fluxo de caixa?</h2>
+      <p>O controle de fluxo de caixa permite:</p>
+      <ul>
+        <li>Saber se você está lucrando ou tendo prejuízo</li>
+        <li>Prever se terá dinheiro para pagar as contas</li>
+        <li>Identificar períodos de alta e baixa</li>
+        <li>Tomar decisões sobre investimentos</li>
+        <li>Planejar compras e contratações</li>
+      </ul>
+
+      <h2>Como fazer um fluxo de caixa simples</h2>
+      <p>Você não precisa de software complicado. Uma planilha básica resolve:</p>
+
+      <h3>Passo 1: Crie as colunas</h3>
+      <ul>
+        <li>Data</li>
+        <li>Descrição</li>
+        <li>Categoria (venda, compra, conta fixa, etc.)</li>
+        <li>Entrada (valores que entraram)</li>
+        <li>Saída (valores que saíram)</li>
+        <li>Saldo acumulado</li>
+      </ul>
+
+      <h3>Passo 2: Registre TUDO</h3>
+      <p>Anote todas as movimentações, sem exceção:</p>
+      <ul>
+        <li>Cada venda realizada</li>
+        <li>Cada compra de material</li>
+        <li>Contas fixas (DAS, internet, aluguel)</li>
+        <li>Contas variáveis (frete, embalagens)</li>
+        <li>Retiradas pessoais (pró-labore)</li>
+      </ul>
+
+      <h3>Passo 3: Atualize diariamente</h3>
+      <p>O segredo é manter atualizado. Reserve 5 minutos por dia para registrar as movimentações.</p>
+
+      <h2>Categorias essenciais para MEI</h2>
+      <p>Organize suas entradas e saídas nessas categorias:</p>
+
+      <h3>Entradas</h3>
+      <ul>
+        <li>Vendas à vista</li>
+        <li>Vendas no cartão (débito/crédito)</li>
+        <li>Recebimentos de vendas a prazo</li>
+        <li>Outros recebimentos</li>
+      </ul>
+
+      <h3>Saídas</h3>
+      <ul>
+        <li>Compra de mercadorias/materiais</li>
+        <li>Despesas fixas (aluguel, internet, etc.)</li>
+        <li>Despesas variáveis (frete, embalagem)</li>
+        <li>Impostos (DAS)</li>
+        <li>Taxas (cartão, marketplace)</li>
+        <li>Pró-labore (sua retirada)</li>
+      </ul>
+
+      <h2>Dicas práticas</h2>
+
+      <h3>1. Separe conta pessoal da empresa</h3>
+      <p>Mesmo que seja só uma conta digital gratuita, tenha uma conta exclusiva para o MEI. Isso facilita muito o controle.</p>
+
+      <h3>2. Defina um dia para análise</h3>
+      <p>Todo domingo (ou outro dia fixo), olhe o fluxo da semana. No último dia do mês, analise o mês completo.</p>
+
+      <h3>3. Compare meses anteriores</h3>
+      <p>Veja se janeiro de 2026 foi melhor ou pior que janeiro de 2025. Identifique tendências.</p>
+
+      <h3>4. Planeje o futuro</h3>
+      <p>Use o fluxo para prever os próximos meses. Se você sabe que em março tem uma conta grande, comece a se preparar em janeiro.</p>
+
+      <h2>Sinais de alerta no fluxo de caixa</h2>
+      <p>Fique atento se:</p>
+      <ul>
+        <li>Saldo negativo por 2+ meses seguidos</li>
+        <li>Entradas diminuindo mês a mês</li>
+        <li>Saídas aumentando sem aumento nas vendas</li>
+        <li>Necessidade frequente de "empréstimo" pessoal para o negócio</li>
+      </ul>
+
+      <h2>Conclusão</h2>
+      <p>Controlar o fluxo de caixa é simples, mas exige disciplina. Comece com uma planilha básica e vá evoluindo conforme sua necessidade.</p>
+
+      <p>O importante é começar. Mesmo um controle imperfeito é melhor que nenhum controle.</p>
+
+      <p>Use a <a href="/calculadoras">Calculadora de Fluxo de Caixa</a> do Calcula MEI para ter uma visão rápida do saldo do seu mês!</p>
+    `,
+  },
+  {
+    slug: "novidades-calculamei-fevereiro-2026",
+    title: "Novidades do Calcula MEI - Fevereiro 2026",
+    description:
+      "Confira as novidades e melhorias do Calcula MEI neste mês: novas funcionalidades, correções e o que vem por aí.",
+    date: "2026-02-02",
+    author: "Calcula MEI",
+    category: "Novidades",
+    readTime: 3,
+    image: "/blog/novidades-fevereiro.jpg",
+    content: `
+      <p>Estamos sempre trabalhando para melhorar o Calcula MEI e tornar sua vida de empreendedor mais fácil. Confira as novidades deste mês!</p>
+
+      <h2>Novas funcionalidades</h2>
+
+      <h3>Alertas de DAS por Email</h3>
+      <p>Agora você pode cadastrar seu email para receber lembretes antes do vencimento do DAS:</p>
+      <ul>
+        <li>Alerta 5 dias antes do vencimento</li>
+        <li>Alerta 1 dia antes do vencimento</li>
+        <li>Lembrete no dia do vencimento</li>
+      </ul>
+      <p>Usuários Premium podem receber até 3 alertas, enquanto o plano gratuito tem direito a 1 alerta.</p>
+
+      <h3>Resultado com Preview</h3>
+      <p>Melhoramos a experiência nas calculadoras! Agora, quando você atinge seu limite mensal de cálculos, o resultado aparece com um preview borrado - assim você sabe que o cálculo foi feito e pode desbloquear o resultado completo.</p>
+
+      <h3>Página Premium Renovada</h3>
+      <p>A página de assinatura Premium foi completamente redesenhada:</p>
+      <ul>
+        <li>Comparação clara entre planos</li>
+        <li>Novos depoimentos de usuários</li>
+        <li>FAQ com perguntas frequentes</li>
+        <li>Processo de checkout simplificado</li>
+      </ul>
+
+      <h2>Melhorias</h2>
+
+      <h3>Performance</h3>
+      <ul>
+        <li>Carregamento mais rápido das calculadoras</li>
+        <li>Imagens otimizadas em todo o site</li>
+        <li>Menos consumo de dados em dispositivos móveis</li>
+      </ul>
+
+      <h3>SEO e Compartilhamento</h3>
+      <ul>
+        <li>Novas imagens para compartilhamento em redes sociais</li>
+        <li>Melhor indexação no Google</li>
+        <li>FAQ estruturado para aparecer nos resultados de busca</li>
+      </ul>
+
+      <h3>Ajustes de Preço</h3>
+      <p>O plano Premium agora custa <strong>R$ 14,90/mês</strong> (antes R$ 19,00). Acreditamos que esse preço é mais acessível para a realidade do MEI brasileiro.</p>
+
+      <h2>Correções</h2>
+      <ul>
+        <li>Corrigido problema de login com Google em alguns navegadores</li>
+        <li>Ajustada exibição em telas muito pequenas</li>
+        <li>Corrigido cálculo do DAS para caminhoneiros</li>
+      </ul>
+
+      <h2>Blog</h2>
+      <p>Publicamos 5 novos artigos este mês:</p>
+      <ul>
+        <li>Como saber se estou perto de estourar o limite do MEI</li>
+        <li>MEI precisa de contador? Quando contratar um</li>
+        <li>5 erros de precificação que todo MEI comete</li>
+        <li>Fluxo de caixa para MEI: guia básico</li>
+        <li>Este post que você está lendo!</li>
+      </ul>
+
+      <h2>Próximos passos</h2>
+      <p>Estamos trabalhando em novas funcionalidades:</p>
+      <ul>
+        <li>Relatórios mensais automáticos (Premium)</li>
+        <li>Integração com WhatsApp para alertas</li>
+        <li>Novas calculadoras baseadas em pedidos dos usuários</li>
+        <li>App mobile (em planejamento)</li>
+      </ul>
+
+      <h2>Feedback</h2>
+      <p>Queremos ouvir você! Se tem sugestões, críticas ou ideias, entre em contato:</p>
+      <ul>
+        <li>Email: contato@calculamei.com.br</li>
+        <li>Instagram: @calculamei</li>
+      </ul>
+
+      <p>Obrigado por usar o Calcula MEI. Juntos, estamos ajudando milhares de MEIs a crescer com mais controle financeiro!</p>
+
+      <p><a href="/calculadoras">Experimente as calculadoras agora</a> e veja as novidades em ação.</p>
+    `,
+  },
 ];
 
 export function getPosts(): BlogPost[] {

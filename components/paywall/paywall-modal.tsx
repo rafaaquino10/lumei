@@ -102,7 +102,7 @@ export function PaywallModal({
                     <>
                       <li className="flex items-center gap-2 text-foreground">
                         <span className="text-primary">✓</span>
-                        30 cálculos por mês
+                        10 cálculos por mês
                       </li>
                       <li className="flex items-center gap-2 text-foreground">
                         <span className="text-primary">✓</span>
@@ -126,6 +126,10 @@ export function PaywallModal({
                       <li className="flex items-center gap-2 text-foreground">
                         <span className="text-primary">✓</span>
                         Exportação PDF e Excel
+                      </li>
+                      <li className="flex items-center gap-2 text-foreground">
+                        <span className="text-primary">✓</span>
+                        PDFs verificados com seus dados
                       </li>
                       <li className="flex items-center gap-2 text-foreground">
                         <span className="text-primary">✓</span>
@@ -156,7 +160,7 @@ export function PaywallModal({
                   <>
                     <Link href="/premium" className="block">
                       <Button className="w-full" size="lg">
-                        Assinar Premium - R$ 19/mês
+                        Assinar Premium - R$ 14,90/mês
                         <ArrowRight className="w-4 h-4 ml-2" />
                       </Button>
                     </Link>

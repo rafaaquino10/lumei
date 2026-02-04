@@ -12,6 +12,8 @@ import { FaturamentoCalc } from '@/components/calculadoras/faturamento-calc'
 import { FluxoCaixaCalc } from '@/components/calculadoras/fluxo-caixa-calc'
 import { DasCalc } from '@/components/calculadoras/das-calc'
 import { CalculadorasPageSchema } from '@/components/calculator-schema'
+import { AdWrapper } from '@/components/ads/ad-wrapper'
+import { CalculatorSkeleton, CalculatorNavSkeleton } from '@/components/calculadoras/calculator-skeleton'
 
 type CalculadoraId = 'margem-lucro' | 'preco-hora' | 'precificacao' | 'faturamento' | 'fluxo-caixa' | 'das'
 
@@ -142,6 +144,26 @@ function CalculadorasContent() {
       <div className="mt-8">
         {renderCalculadora()}
       </div>
+
+      {/* Banner de anúncio para usuários não-premium */}
+      <div className="mt-8">
+        <AdWrapper format="horizontal" className="max-w-3xl mx-auto" />
+      </div>
+    </div>
+  )
+}
+
+function CalculadorasLoading() {
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="mb-8 text-center">
+        <div className="h-9 w-48 bg-accent animate-pulse rounded mx-auto mb-2" />
+        <div className="h-5 w-72 bg-accent animate-pulse rounded mx-auto" />
+      </div>
+      <CalculatorNavSkeleton />
+      <div className="mt-8">
+        <CalculatorSkeleton />
+      </div>
     </div>
   )
 }
@@ -150,7 +172,7 @@ export default function CalculadorasPage() {
   return (
     <>
       <CalculadorasPageSchema />
-      <Suspense fallback={<div className="container mx-auto px-4 py-8 text-center">Carregando...</div>}>
+      <Suspense fallback={<CalculadorasLoading />}>
         <CalculadorasContent />
       </Suspense>
     </>
