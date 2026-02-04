@@ -17,7 +17,7 @@ export async function GET() {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
   const redirectUri = `${appUrl}/api/auth/google/callback`
 
-  const scope = encodeURIComponent('openid email profile')
+  const scope = 'openid email profile'
   const state = crypto.randomUUID()
 
   // Armazena state em cookie httpOnly para validação no callback
