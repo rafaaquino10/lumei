@@ -17,6 +17,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { InfoTooltip, METRIC_TOOLTIPS } from '@/components/ui/info-tooltip'
+import { MetaMensalWidget } from './meta-mensal-widget'
 
 interface RegistroFaturamento {
   id: string
@@ -86,7 +87,9 @@ export function RealDashboard({
 
   const mesAtual = new Date().getMonth() + 1
   const isAnoAtual = anoSelecionado === anoAtual
-  const temRegistroMesAtual = isAnoAtual && registros.some(r => r.mes === mesAtual)
+  const registroMesAtual = registros.find(r => r.mes === mesAtual)
+  const temRegistroMesAtual = isAnoAtual && !!registroMesAtual
+  const faturamentoMesAtual = registroMesAtual?.valor || 0
   const temDados = registros.length > 0
 
   // Preparar dados do gráfico
@@ -364,6 +367,15 @@ export function RealDashboard({
             </div>
           </div>
         </div>
+
+        {/* Widget Meta Mensal - só mostra no ano atual */}
+        {isAnoAtual && metricas && metricas.mediaMovel > 0 && (
+          <MetaMensalWidget
+            mediaMensal={metricas.mediaMovel}
+            faturamentoMesAtual={faturamentoMesAtual}
+            mesAtual={MESES_CURTOS[mesAtual - 1]}
+          />
+        )}
 
         {/* Status Badge */}
         <div className="flex justify-center">

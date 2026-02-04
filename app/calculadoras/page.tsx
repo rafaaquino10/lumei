@@ -2,7 +2,7 @@
 
 import { Suspense, useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { TrendingUp, Clock, Tag, BarChart3, ArrowLeftRight, Calendar, ArrowUpCircle } from 'lucide-react'
+import { TrendingUp, Clock, Tag, BarChart3, ArrowLeftRight, Calendar, ArrowUpCircle, Target } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import { MargemLucroCalc } from '@/components/calculadoras/margem-lucro-calc'
@@ -12,11 +12,12 @@ import { FaturamentoCalc } from '@/components/calculadoras/faturamento-calc'
 import { FluxoCaixaCalc } from '@/components/calculadoras/fluxo-caixa-calc'
 import { DasCalc } from '@/components/calculadoras/das-calc'
 import { TransicaoMeiMeCalc } from '@/components/calculadoras/transicao-mei-me-calc'
+import { PontoEquilibrioCalc } from '@/components/calculadoras/ponto-equilibrio-calc'
 import { CalculadorasPageSchema } from '@/components/calculator-schema'
 import { AdWrapper } from '@/components/ads/ad-wrapper'
 import { CalculatorSkeleton, CalculatorNavSkeleton } from '@/components/calculadoras/calculator-skeleton'
 
-type CalculadoraId = 'margem-lucro' | 'preco-hora' | 'precificacao' | 'faturamento' | 'fluxo-caixa' | 'das' | 'transicao-mei-me'
+type CalculadoraId = 'margem-lucro' | 'preco-hora' | 'precificacao' | 'faturamento' | 'fluxo-caixa' | 'das' | 'transicao-mei-me' | 'ponto-equilibrio'
 
 const calculadoras = [
   {
@@ -61,6 +62,12 @@ const calculadoras = [
     titulo: 'MEI → ME',
     descricao: 'Quando migrar?',
   },
+  {
+    id: 'ponto-equilibrio' as CalculadoraId,
+    icon: Target,
+    titulo: 'Ponto de Equilíbrio',
+    descricao: 'Vendas mínimas',
+  },
 ]
 
 function CalculadorasContent() {
@@ -90,6 +97,8 @@ function CalculadorasContent() {
         return <DasCalc />
       case 'transicao-mei-me':
         return <TransicaoMeiMeCalc />
+      case 'ponto-equilibrio':
+        return <PontoEquilibrioCalc />
       default:
         return null
     }
@@ -108,7 +117,7 @@ function CalculadorasContent() {
 
       {/* Grid responsivo de calculadoras */}
       <div className="mb-6">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2">
           {calculadoras.map((calc) => (
             <button
               key={calc.id}

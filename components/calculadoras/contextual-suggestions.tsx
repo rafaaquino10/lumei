@@ -12,6 +12,7 @@ import {
   Calendar,
   ArrowRight,
   ArrowUpCircle,
+  Target,
   LucideIcon,
 } from 'lucide-react'
 import { trackContextualSuggestionClicked } from '@/lib/analytics'
@@ -24,6 +25,7 @@ type CalculatorType =
   | 'fluxo-caixa'
   | 'das'
   | 'transicao-mei-me'
+  | 'ponto-equilibrio'
 
 interface Suggestion {
   id: CalculatorType
@@ -91,24 +93,33 @@ const ALL_SUGGESTIONS: Record<CalculatorType, Suggestion> = {
     href: '/calculadoras?calc=transicao-mei-me',
     contextText: 'Vale migrar para ME?',
   },
+  'ponto-equilibrio': {
+    id: 'ponto-equilibrio',
+    title: 'Ponto de Equilíbrio',
+    description: 'Descubra suas vendas mínimas',
+    icon: Target,
+    href: '/calculadoras?calc=ponto-equilibrio',
+    contextText: 'Quantas vendas preciso?',
+  },
 }
 
 // Mapeamento de sugestões contextuais por calculadora
 const CONTEXTUAL_MAP: Record<CalculatorType, CalculatorType[]> = {
-  'margem-lucro': ['precificacao', 'preco-hora'],
+  'margem-lucro': ['precificacao', 'ponto-equilibrio'],
   'preco-hora': ['margem-lucro', 'faturamento'],
-  'precificacao': ['margem-lucro', 'fluxo-caixa'],
+  'precificacao': ['margem-lucro', 'ponto-equilibrio'],
   'faturamento': ['das', 'transicao-mei-me'],
-  'fluxo-caixa': ['faturamento', 'margem-lucro'],
+  'fluxo-caixa': ['faturamento', 'ponto-equilibrio'],
   'das': ['faturamento', 'transicao-mei-me'],
   'transicao-mei-me': ['faturamento', 'das'],
+  'ponto-equilibrio': ['margem-lucro', 'precificacao'],
 }
 
 // Textos contextuais personalizados
 const CONTEXT_TEXTS: Partial<Record<CalculatorType, Partial<Record<CalculatorType, string>>>> = {
   'margem-lucro': {
     'precificacao': 'Quer melhorar essa margem? Reveja seus preços',
-    'preco-hora': 'Você cobra pelo valor certo? Calcule seu valor/hora',
+    'ponto-equilibrio': 'Descubra quantas vendas precisa fazer',
   },
   'preco-hora': {
     'margem-lucro': 'Agora veja quanto você lucra em cada projeto',
@@ -116,7 +127,7 @@ const CONTEXT_TEXTS: Partial<Record<CalculatorType, Partial<Record<CalculatorTyp
   },
   'precificacao': {
     'margem-lucro': 'Confira a margem real desse preço',
-    'fluxo-caixa': 'Organize suas entradas e saídas',
+    'ponto-equilibrio': 'Quantas vendas para cobrir os custos?',
   },
   'faturamento': {
     'das': 'Não esqueça do DAS - veja datas e valores',
@@ -124,7 +135,7 @@ const CONTEXT_TEXTS: Partial<Record<CalculatorType, Partial<Record<CalculatorTyp
   },
   'fluxo-caixa': {
     'faturamento': 'Projete seu faturamento anual',
-    'margem-lucro': 'Calcule a margem de lucro do seu negócio',
+    'ponto-equilibrio': 'Descubra seu ponto de equilíbrio',
   },
   'das': {
     'faturamento': 'Acompanhe se está perto do limite MEI',
@@ -133,6 +144,10 @@ const CONTEXT_TEXTS: Partial<Record<CalculatorType, Partial<Record<CalculatorTyp
   'transicao-mei-me': {
     'faturamento': 'Registre seu faturamento mensal',
     'das': 'Veja o calendário de pagamento do DAS',
+  },
+  'ponto-equilibrio': {
+    'margem-lucro': 'Veja qual é sua margem atual',
+    'precificacao': 'Ajuste seus preços para lucrar mais',
   },
 }
 
