@@ -162,7 +162,7 @@ interface RegimeInfo {
   custoMensal: number
   percentual: number
   vantagens: string[]
-  desvantagens: string[]
+  desvantagens?: string[]
   recomendado: boolean
 }
 
@@ -214,13 +214,8 @@ export function ComparadorTributarioPDF({ inputs, resultado, userData }: Compara
 
       <View style={styles.advantagesSection}>
         <Text style={styles.advantagesTitle}>Vantagens:</Text>
-        {regime.vantagens.slice(0, 2).map((v, i) => (
+        {regime.vantagens.slice(0, 3).map((v, i) => (
           <Text key={i} style={styles.listItem}>• {v}</Text>
-        ))}
-
-        <Text style={styles.disadvantagesTitle}>Desvantagens:</Text>
-        {regime.desvantagens.slice(0, 2).map((d, i) => (
-          <Text key={i} style={styles.listItem}>• {d}</Text>
         ))}
       </View>
     </View>

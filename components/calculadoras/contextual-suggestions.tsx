@@ -28,6 +28,7 @@ type CalculatorType =
   | 'transicao-mei-me'
   | 'ponto-equilibrio'
   | 'comparador-tributario'
+  | 'roi'
 
 interface Suggestion {
   id: CalculatorType
@@ -111,6 +112,14 @@ const ALL_SUGGESTIONS: Record<CalculatorType, Suggestion> = {
     href: '/calculadoras?calc=comparador-tributario',
     contextText: 'Compare MEI, Simples e LP',
   },
+  'roi': {
+    id: 'roi',
+    title: 'Calculadora de ROI',
+    description: 'Calcule retorno sobre investimento',
+    icon: TrendingUp,
+    href: '/calculadoras?calc=roi',
+    contextText: 'Veja o retorno do investimento',
+  },
 }
 
 // Mapeamento de sugestões contextuais por calculadora
@@ -124,6 +133,7 @@ const CONTEXTUAL_MAP: Record<CalculatorType, CalculatorType[]> = {
   'transicao-mei-me': ['comparador-tributario', 'faturamento'],
   'ponto-equilibrio': ['margem-lucro', 'precificacao'],
   'comparador-tributario': ['transicao-mei-me', 'faturamento'],
+  'roi': ['ponto-equilibrio', 'margem-lucro'],
 }
 
 // Textos contextuais personalizados
