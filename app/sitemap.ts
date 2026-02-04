@@ -15,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'transicao-mei-me',
     'ponto-equilibrio',
     'comparador-tributario',
+    'roi',
   ]
 
   // Páginas estáticas
@@ -73,6 +74,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/contadores`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
     },
   ]
 

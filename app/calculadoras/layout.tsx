@@ -22,6 +22,9 @@ export const metadata: Metadata = {
     'MEI vs Lucro Presumido',
     'calculadora gratuita MEI',
     'ferramentas MEI',
+    'calculadora ROI',
+    'retorno sobre investimento MEI',
+    'payback investimento',
   ],
 }
 

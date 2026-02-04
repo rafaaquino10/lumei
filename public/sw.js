@@ -142,3 +142,76 @@ self.addEventListener('message', (event) => {
     self.skipWaiting();
   }
 });
+
+// Push Notifications
+self.addEventListener('push', (event) => {
+  console.log('[SW] Push received');
+
+  let data = {
+    title: 'Calcula MEI',
+    body: 'Você tem uma nova notificação',
+    icon: '/icons/icon-192x192.png',
+    badge: '/icons/badge-72x72.png',
+    tag: 'calculamei-notification',
+    data: { url: '/dashboard' }
+  };
+
+  if (event.data) {
+    try {
+      data = { ...data, ...event.data.json() };
+    } catch (e) {
+      data.body = event.data.text();
+    }
+  }
+
+  const options = {
+    body: data.body,
+    icon: data.icon || '/icons/icon-192x192.png',
+    badge: data.badge || '/icons/badge-72x72.png',
+    tag: data.tag || 'calculamei-notification',
+    data: data.data || { url: '/dashboard' },
+    vibrate: [100, 50, 100],
+    actions: data.actions || [
+      { action: 'open', title: 'Abrir' },
+      { action: 'close', title: 'Fechar' }
+    ],
+    requireInteraction: data.requireInteraction || false
+  };
+
+  event.waitUntil(
+    self.registration.showNotification(data.title, options)
+  );
+});
+
+// Clique na notificacao
+self.addEventListener('notificationclick', (event) => {
+  console.log('[SW] Notification clicked:', event.action);
+  event.notification.close();
+
+  if (event.action === 'close') {
+    return;
+  }
+
+  const url = event.notification.data?.url || '/dashboard';
+
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+      // Se ja tem uma janela aberta, foca nela
+      for (const client of clientList) {
+        if (client.url.includes(self.location.origin) && 'focus' in client) {
+          client.navigate(url);
+          return client.focus();
+        }
+      }
+      // Senao, abre uma nova janela
+      if (clients.openWindow) {
+        return clients.openWindow(url);
+      }
+    })
+  );
+});
+
+// Fechamento da notificacao
+self.addEventListener('notificationclose', (event) => {
+  console.log('[SW] Notification closed');
+});

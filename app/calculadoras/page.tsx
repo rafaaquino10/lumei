@@ -14,11 +14,12 @@ import { DasCalc } from '@/components/calculadoras/das-calc'
 import { TransicaoMeiMeCalc } from '@/components/calculadoras/transicao-mei-me-calc'
 import { PontoEquilibrioCalc } from '@/components/calculadoras/ponto-equilibrio-calc'
 import { ComparadorTributarioCalc } from '@/components/calculadoras/comparador-tributario-calc'
+import { ROICalc } from '@/components/calculadoras/roi-calc'
 import { CalculadorasPageSchema } from '@/components/calculator-schema'
 import { AdWrapper } from '@/components/ads/ad-wrapper'
 import { CalculatorSkeleton, CalculatorNavSkeleton } from '@/components/calculadoras/calculator-skeleton'
 
-type CalculadoraId = 'margem-lucro' | 'preco-hora' | 'precificacao' | 'faturamento' | 'fluxo-caixa' | 'das' | 'transicao-mei-me' | 'ponto-equilibrio' | 'comparador-tributario'
+type CalculadoraId = 'margem-lucro' | 'preco-hora' | 'precificacao' | 'faturamento' | 'fluxo-caixa' | 'das' | 'transicao-mei-me' | 'ponto-equilibrio' | 'comparador-tributario' | 'roi'
 
 const calculadoras = [
   {
@@ -75,6 +76,12 @@ const calculadoras = [
     titulo: 'Comparador',
     descricao: 'MEI vs Simples vs LP',
   },
+  {
+    id: 'roi' as CalculadoraId,
+    icon: TrendingUp,
+    titulo: 'ROI',
+    descricao: 'Retorno investimento',
+  },
 ]
 
 function CalculadorasContent() {
@@ -108,6 +115,8 @@ function CalculadorasContent() {
         return <PontoEquilibrioCalc />
       case 'comparador-tributario':
         return <ComparadorTributarioCalc />
+      case 'roi':
+        return <ROICalc />
       default:
         return null
     }

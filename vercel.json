@@ -8,6 +8,14 @@
     {
       "path": "/api/alertas/send",
       "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/cron/check-trials",
+      "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/cron/reengagement",
+      "schedule": "0 10 * * *"
     }
   ]
 }
