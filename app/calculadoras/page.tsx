@@ -133,9 +133,9 @@ function CalculadorasContent() {
         </p>
       </div>
 
-      {/* Grid responsivo de calculadoras */}
+      {/* Grid responsivo de calculadoras - 2 linhas de 5 no desktop, 2 colunas no mobile */}
       <div className="mb-6">
-        <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 sm:gap-3">
           {calculadoras.map((calc) => (
             <button
               key={calc.id}
@@ -144,8 +144,8 @@ function CalculadorasContent() {
             >
               <Card
                 className={cn(
-                  'p-3 transition-all duration-200 h-full',
-                  'flex flex-col items-center text-center gap-2',
+                  'p-3 sm:p-4 transition-all duration-200 h-full',
+                  'flex flex-col items-center text-center gap-1.5 sm:gap-2',
                   ativa === calc.id
                     ? 'border-primary shadow-lg bg-primary/5'
                     : 'hover:shadow-md hover:border-primary/50'
@@ -153,7 +153,7 @@ function CalculadorasContent() {
               >
                 <calc.icon
                   className={cn(
-                    'w-6 h-6',
+                    'w-5 h-5 sm:w-6 sm:h-6',
                     ativa === calc.id ? 'text-primary' : 'text-muted-foreground'
                   )}
                 />
@@ -166,7 +166,7 @@ function CalculadorasContent() {
                   >
                     {calc.titulo}
                   </h3>
-                  <p className="text-[10px] text-muted-foreground mt-0.5 hidden sm:block">
+                  <p className="text-[10px] text-muted-foreground mt-0.5 hidden sm:block leading-tight">
                     {calc.descricao}
                   </p>
                 </div>

@@ -4,7 +4,7 @@
 
 ---
 
-## STATUS GERAL (Atualizado 03/02/2026)
+## STATUS GERAL (Atualizado 04/02/2026)
 
 ### FASE 1 - PRÉ-LANÇAMENTO ✅ COMPLETA
 
@@ -29,17 +29,17 @@
 | Schema.org (páginas) | ✅ |
 | Open Graph images | ✅ |
 
-### FASE 2 - PÓS-LANÇAMENTO (Pendente)
+### FASE 2 - PÓS-LANÇAMENTO ✅ COMPLETA
 
-| Item | Status | Prioridade |
+| Item | Status | Observação |
 |------|--------|------------|
-| AdSense | ⚠️ Estrutura pronta | ALTA |
-| PWA completo | ⚠️ Parcial (install prompt) | MÉDIA |
-| Relatório mensal PDF | ❌ | MÉDIA |
-| Notificações push | ❌ | BAIXA |
-| WhatsApp Business API | ❌ | BAIXA |
+| AdSense | ⏳ Aguardando aprovação | Publisher ID configurado (`ca-pub-7161195740771069`), aguardando Google |
+| PWA completo | ✅ | manifest.ts + sw.js + offline page + push notifications |
+| Relatório mensal PDF | ✅ | `relatorio-mensal-pdf.tsx` + botão no dashboard |
+| Notificações push | ✅ | Implementado no service worker (sw.js) |
+| WhatsApp Business API | 🔜 Futuro | Adiado - limitações Twilio/Meta |
 
-### CALCULADORAS
+### CALCULADORAS ✅ COMPLETO
 
 | Implementada | Status |
 |--------------|--------|
@@ -49,13 +49,10 @@
 | Simulador Faturamento | ✅ |
 | Fluxo de Caixa | ✅ |
 | Calendário DAS | ✅ |
-
-| Futura | Status | Prioridade |
-|--------|--------|------------|
-| Ponto de Equilíbrio | ❌ | MÉDIA |
-| ROI | ❌ | BAIXA |
-| Transição MEI → ME | ❌ | ALTA |
-| Comparador Tributário | ❌ | MÉDIA |
+| Ponto de Equilíbrio | ✅ |
+| ROI | ✅ |
+| Transição MEI → ME | ✅ |
+| Comparador Tributário | ✅ |
 
 ### DASHBOARD
 
@@ -169,12 +166,12 @@ PDFs profissionais implementados com:
 - [ ] Tamanhos específicos (1080x1080, 1080x1920) - futuro
 - [ ] Marca d'água discreta - futuro
 
-#### 2.4 PDFs Faltantes
+#### 2.4 PDFs ✅ COMPLETOS
 - [x] PDF para Faturamento ✅
 - [x] PDF para Fluxo de Caixa ✅
 - [x] PDF para Calendário DAS ✅
-- [ ] PDF do Dashboard completo (relatório mensal) - Fase 2
-- [ ] PDF do histórico de faturamento - Fase 2
+- [x] PDF do Dashboard (relatório mensal) ✅ - `relatorio-mensal-pdf.tsx`
+- [ ] PDF do histórico de faturamento - Fase 3
 
 ---
 
@@ -209,13 +206,13 @@ PDFs profissionais implementados com:
 
 ## 4. FUNCIONALIDADES FUTURAS
 
-### 4.1 Calculadoras Futuras
-| Calculadora | Prioridade | Complexidade |
-|-------------|------------|--------------|
-| Simulador transição MEI → ME | ALTA | Média |
-| Ponto de Equilíbrio | MÉDIA | Baixa |
-| Comparador de Regimes | MÉDIA | Alta |
-| Calculadora de ROI | BAIXA | Baixa |
+### 4.1 Calculadoras ✅ TODAS IMPLEMENTADAS
+| Calculadora | Status | Observação |
+|-------------|--------|------------|
+| Simulador transição MEI → ME | ✅ | Compara custos MEI vs Simples |
+| Ponto de Equilíbrio | ✅ | Calcula break-even point |
+| Comparador de Regimes | ✅ | MEI vs Simples vs Lucro Presumido |
+| Calculadora de ROI | ✅ | Retorno sobre investimento |
 
 ### 4.2 Dashboard (Melhorias Futuras)
 - [x] Previsão de quando atinge limite ✅ (mesesAteEstourar)
@@ -238,12 +235,13 @@ PDFs profissionais implementados com:
 
 ## 5. PERFORMANCE E TECNICO
 
-### 5.1 PWA ⚠️ PARCIAL
+### 5.1 PWA ✅ COMPLETO
 - [x] Install prompt implementado (PWAInstallPrompt)
-- [ ] Modo offline funcional - falta manifest.json e service worker
-- [ ] Sincronização em background
-- [ ] Notificações push
-- [ ] App shortcut para registro rápido
+- [x] Modo offline funcional (sw.js + /offline page)
+- [x] Web App Manifest (app/manifest.ts)
+- [x] Service Worker com cache strategies (public/sw.js)
+- [x] Notificações push (implementado no sw.js)
+- [x] App shortcuts (calculadoras, dashboard)
 
 ### 5.2 SEO ✅ COMPLETO
 - [x] Sitemap dinâmico (app/sitemap.ts)
@@ -276,11 +274,13 @@ PDFs profissionais implementados com:
 - [x] Checkout session (`/api/billing/checkout`)
 - [x] Atualização automática do plano no banco
 
-### 6.2 AdSense ⚠️ ESTRUTURA PRONTA
-- [x] Componente AdBanner implementado
+### 6.2 AdSense ⏳ AGUARDANDO APROVAÇÃO GOOGLE
+- [x] Componente AdBanner implementado (`components/ads/ad-banner.tsx`)
 - [x] Slots configuráveis via env
 - [x] Lógica para não mostrar para Premium
-- [ ] **Pendente**: Criar conta AdSense e configurar IDs reais
+- [x] Publisher ID configurado: `ca-pub-7161195740771069`
+- [ ] **Aguardando**: Aprovação do Google AdSense
+- [ ] **Após aprovação**: Criar ad units e configurar Slot IDs
 
 ### 6.3 Outras Receitas (Futuro)
 - [ ] Marketplace de contadores
@@ -551,8 +551,8 @@ O projeto já rastreia automaticamente:
 - [x] Política de privacidade publicada (/privacidade)
 
 ### Recomendados
-- [ ] AdSense aprovado - **estrutura pronta, falta criar conta**
-- [ ] PWA completo - **install prompt ok, falta manifest/SW**
+- [ ] AdSense aprovado - **aguardando aprovação Google (Publisher ID já configurado)**
+- [x] PWA completo - **manifest.ts + sw.js + offline page + push**
 - [ ] Testes em diferentes navegadores - **testar manualmente**
 - [ ] Core Web Vitals otimizados - **rodar Lighthouse**
 - [ ] Social proof - **aguardar depoimentos reais**
@@ -575,22 +575,23 @@ O projeto já rastreia automaticamente:
 5. ✅ Email de DAS testado
 6. ✅ SEO completo
 
-### ⏳ Fase 2 (Pós-Lançamento) - PRÓXIMOS PASSOS
-1. **AdSense** - Criar conta e configurar IDs
-2. **PWA completo** - Adicionar manifest.json e service worker
-3. **Relatório mensal automático** - PDF gerado automaticamente
-4. **Calculadora MEI → ME** - Alta demanda, útil para crescimento
+### ✅ Fase 2 (Pós-Lançamento) - COMPLETA
+1. ⏳ **AdSense** - Publisher ID configurado, aguardando aprovação Google
+2. ✅ **PWA completo** - manifest.ts + sw.js + offline page + push
+3. ✅ **Relatório mensal PDF** - Implementado no dashboard
+4. ✅ **Calculadora MEI → ME** - IMPLEMENTADA
+5. 🔜 **WhatsApp Business** - Adiado (limitações Twilio/Meta)
 
-### 📅 Fase 3 (Crescimento)
-1. WhatsApp Business API
-2. Novas calculadoras (ROI, Ponto de Equilíbrio)
+### 📅 Fase 3 (Crescimento) - FUTURO
+1. 🔜 WhatsApp Business API - Adiado (limitações Twilio/Meta)
+2. ✅ ~~Novas calculadoras (ROI, Ponto de Equilíbrio)~~ - IMPLEMENTADAS
 3. Comparativo ano anterior no dashboard
 4. Meta mensal configurável
 5. Marketplace de contadores
 
 ---
 
-*Documento atualizado em: 03/02/2026*
+*Documento atualizado em: 04/02/2026*
 *Calcula MEI - Controle seu MEI em 1 minuto/mês*
 
 ---

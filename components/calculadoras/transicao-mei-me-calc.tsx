@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Loader2, TrendingUp, AlertTriangle, CheckCircle2, ArrowRight } from 'lucide-react'
+import { Loader2, TrendingUp, AlertTriangle, CheckCircle2 } from 'lucide-react'
 import { usePaywall, UpgradeBanner } from '@/components/paywall'
 import { ContextualSuggestions } from './contextual-suggestions'
 import { ExportActions } from './export-actions'
@@ -16,15 +16,12 @@ import { usePDFUserData } from '@/hooks/use-pdf-user-data'
 
 type TipoAtividade = 'comercio' | 'servicos' | 'industria'
 
-// Valores DAS MEI 2026
 const DAS_MEI = {
   comercio: 71.60,
   servicos: 75.60,
   industria: 76.60,
 }
 
-// Faixas do Simples Nacional 2026 (simplificado)
-// Anexo I - Comércio
 const SIMPLES_COMERCIO = [
   { limite: 180000, aliquota: 0.04, deducao: 0 },
   { limite: 360000, aliquota: 0.073, deducao: 5940 },
@@ -34,7 +31,6 @@ const SIMPLES_COMERCIO = [
   { limite: 4800000, aliquota: 0.19, deducao: 378000 },
 ]
 
-// Anexo III - Serviços
 const SIMPLES_SERVICOS = [
   { limite: 180000, aliquota: 0.06, deducao: 0 },
   { limite: 360000, aliquota: 0.112, deducao: 9360 },
@@ -44,7 +40,6 @@ const SIMPLES_SERVICOS = [
   { limite: 4800000, aliquota: 0.33, deducao: 648000 },
 ]
 
-// Anexo II - Indústria
 const SIMPLES_INDUSTRIA = [
   { limite: 180000, aliquota: 0.045, deducao: 0 },
   { limite: 360000, aliquota: 0.078, deducao: 5940 },
@@ -61,13 +56,10 @@ function calcularSimples(faturamentoAnual: number, tipo: TipoAtividade): number 
 
   for (const faixa of tabela) {
     if (faturamentoAnual <= faixa.limite) {
-      // Fórmula: (RBT12 × Aliq - PD) / RBT12
       const aliquotaEfetiva = ((faturamentoAnual * faixa.aliquota) - faixa.deducao) / faturamentoAnual
       return faturamentoAnual * Math.max(aliquotaEfetiva, 0)
     }
   }
-
-  // Acima do limite do Simples
   return faturamentoAnual * 0.33
 }
 
@@ -108,21 +100,12 @@ export function TransicaoMeiMeCalc() {
 
     const faturamentoAnual = mensal * 12
     const limiteMEI = 81000
-
-    // Custo MEI (DAS anual)
     const custoMEI = DAS_MEI[tipoAtividade] * 12
-
-    // Custo ME (Simples Nacional)
     const custoME = calcularSimples(faturamentoAnual, tipoAtividade)
-
-    // Percentuais
     const percentualMEI = (custoMEI / faturamentoAnual) * 100
     const percentualME = (custoME / faturamentoAnual) * 100
-
-    // Economia (positivo = MEI é melhor, negativo = ME é melhor)
     const economia = custoME - custoMEI
 
-    // Calcular ponto de virada (quando ME passa a valer mais a pena)
     let faturamentoIdeal = limiteMEI
     for (let fat = 81000; fat <= 200000; fat += 1000) {
       const custME = calcularSimples(fat, tipoAtividade)
@@ -133,14 +116,13 @@ export function TransicaoMeiMeCalc() {
       }
     }
 
-    // Recomendação
     let recomendacao: 'mei' | 'me' | 'limite'
     if (faturamentoAnual > limiteMEI) {
-      recomendacao = 'limite' // Obrigado a migrar
+      recomendacao = 'limite'
     } else if (economia > 0) {
-      recomendacao = 'mei' // MEI é mais vantajoso
+      recomendacao = 'mei'
     } else {
-      recomendacao = 'me' // ME é mais vantajoso (raro abaixo do limite)
+      recomendacao = 'me'
     }
 
     setResultado({
@@ -155,8 +137,6 @@ export function TransicaoMeiMeCalc() {
     })
 
     setIsCalculating(false)
-
-    // Registra o cálculo e verifica limite
     recordCalculation()
     const { remaining: rem } = checkLimit()
     setShowUpgradeBanner(rem <= 2)
@@ -167,197 +147,170 @@ export function TransicaoMeiMeCalc() {
     tipoAtividade,
   }
 
-  const canExport = pdfUserData !== undefined
-
   const formatCurrency = (value: number) =>
     value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 
   return (
-    <Card className="p-4 max-w-3xl mx-auto">
-      <h2 className="text-xl font-bold text-foreground mb-2">
-        Simulador de Transição MEI → ME
-      </h2>
-      <p className="text-sm text-muted-foreground mb-4">
-        Descubra quando vale a pena migrar de MEI para Microempresa (Simples Nacional)
-      </p>
-
-      <div className="grid md:grid-cols-2 gap-4 mb-4">
-        <div>
-          <Label htmlFor="faturamento">Faturamento Mensal Médio (R$)</Label>
-          <Input
-            id="faturamento"
-            type="number"
-            placeholder="0.00"
-            value={faturamentoMensal}
-            onChange={(e) => setFaturamentoMensal(e.target.value)}
-            className="h-10"
-            disabled={isCalculating}
-          />
+    <div className="max-w-lg mx-auto">
+      <Card className="p-4">
+        {/* Header compacto */}
+        <div className="flex items-center gap-2 mb-4">
+          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+            <TrendingUp className="w-4 h-4 text-primary" />
+          </div>
+          <div>
+            <h2 className="text-base font-semibold text-foreground">Transição MEI → ME</h2>
+            <p className="text-xs text-muted-foreground">Quando vale migrar para Simples Nacional</p>
+          </div>
         </div>
 
-        <div>
-          <Label htmlFor="tipo">Tipo de Atividade</Label>
-          <Select
-            value={tipoAtividade}
-            onValueChange={(value) => setTipoAtividade(value as TipoAtividade)}
-            disabled={isCalculating}
-          >
-            <SelectTrigger className="h-10">
-              <SelectValue placeholder="Selecione o tipo" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="comercio">Comércio (Anexo I)</SelectItem>
-              <SelectItem value="servicos">Serviços (Anexo III)</SelectItem>
-              <SelectItem value="industria">Indústria (Anexo II)</SelectItem>
-            </SelectContent>
-          </Select>
+        {/* Formulário compacto */}
+        <div className="grid grid-cols-2 gap-3 mb-3">
+          <div>
+            <Label htmlFor="faturamento" className="text-xs">Faturamento Mensal (R$)</Label>
+            <Input
+              id="faturamento"
+              type="number"
+              placeholder="0.00"
+              value={faturamentoMensal}
+              onChange={(e) => setFaturamentoMensal(e.target.value)}
+              className="h-9 mt-1"
+              disabled={isCalculating}
+            />
+          </div>
+          <div>
+            <Label htmlFor="tipo" className="text-xs">Tipo de Atividade</Label>
+            <Select
+              value={tipoAtividade}
+              onValueChange={(value) => setTipoAtividade(value as TipoAtividade)}
+              disabled={isCalculating}
+            >
+              <SelectTrigger className="h-9 mt-1">
+                <SelectValue placeholder="Selecione" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="comercio">Comércio</SelectItem>
+                <SelectItem value="servicos">Serviços</SelectItem>
+                <SelectItem value="industria">Indústria</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
-      </div>
 
-      <Button
-        onClick={calcular}
-        className="w-full h-10 mb-4"
-        disabled={isCalculating || !faturamentoMensal}
-      >
-        {isCalculating ? (
-          <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Calculando...
-          </>
-        ) : (
-          <>
-            <TrendingUp className="mr-2 h-4 w-4" />
-            Simular Transição
-          </>
-        )}
-      </Button>
+        <Button
+          onClick={calcular}
+          className="w-full h-9"
+          disabled={isCalculating || !faturamentoMensal}
+        >
+          {isCalculating ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Calculando...
+            </>
+          ) : (
+            'Simular Transição'
+          )}
+        </Button>
 
-      <AnimatePresence mode="wait">
-        {resultado && !isCalculating && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            {/* Alerta de limite */}
-            {resultado.recomendacao === 'limite' && (
-              <Card className="p-4 bg-destructive/10 border-destructive mb-4">
-                <div className="flex items-start gap-3">
-                  <AlertTriangle className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-semibold text-destructive">Atenção: Limite MEI ultrapassado!</p>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      Com faturamento de {formatCurrency(resultado.faturamentoAnual)}/ano, você ultrapassa
-                      o limite de R$ 81.000 do MEI e precisa migrar para ME.
-                    </p>
+        {/* Resultado */}
+        <AnimatePresence mode="wait">
+          {resultado && !isCalculating && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="mt-4"
+            >
+              {/* Alerta de limite */}
+              {resultado.recomendacao === 'limite' && (
+                <div className="bg-red-50 dark:bg-red-950/20 rounded-lg p-3 mb-3">
+                  <div className="flex items-start gap-2">
+                    <AlertTriangle className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <p className="text-xs font-medium text-red-700 dark:text-red-400">
+                        Limite MEI ultrapassado!
+                      </p>
+                      <p className="text-[10px] text-muted-foreground">
+                        Com {formatCurrency(resultado.faturamentoAnual)}/ano, você precisa migrar para ME.
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </Card>
-            )}
+              )}
 
-            {/* Recomendação */}
-            <Card className={`p-4 mb-4 ${
-              resultado.recomendacao === 'mei' ? 'bg-primary/10 border-primary' :
-              resultado.recomendacao === 'me' ? 'bg-blue-500/10 border-blue-500' :
-              'bg-amber-500/10 border-amber-500'
-            }`}>
-              <div className="flex items-center gap-2 mb-2">
-                <CheckCircle2 className={`w-5 h-5 ${
-                  resultado.recomendacao === 'mei' ? 'text-primary' :
-                  resultado.recomendacao === 'me' ? 'text-blue-500' :
-                  'text-amber-500'
-                }`} />
-                <p className="font-semibold text-foreground">
-                  {resultado.recomendacao === 'mei' && 'Recomendação: Permanecer no MEI'}
-                  {resultado.recomendacao === 'me' && 'Recomendação: Migrar para ME'}
-                  {resultado.recomendacao === 'limite' && 'Migração obrigatória para ME'}
+              {/* Recomendação */}
+              <div className={`rounded-lg p-3 mb-3 ${
+                resultado.recomendacao === 'mei' ? 'bg-green-50 dark:bg-green-950/20' :
+                resultado.recomendacao === 'me' ? 'bg-blue-50 dark:bg-blue-950/20' :
+                'bg-amber-50 dark:bg-amber-950/20'
+              }`}>
+                <div className="flex items-center gap-2 mb-1">
+                  <CheckCircle2 className={`w-4 h-4 ${
+                    resultado.recomendacao === 'mei' ? 'text-green-500' :
+                    resultado.recomendacao === 'me' ? 'text-blue-500' :
+                    'text-amber-500'
+                  }`} />
+                  <p className="text-xs font-medium text-foreground">
+                    {resultado.recomendacao === 'mei' && 'Permanecer no MEI'}
+                    {resultado.recomendacao === 'me' && 'Migrar para ME'}
+                    {resultado.recomendacao === 'limite' && 'Migração obrigatória'}
+                  </p>
+                </div>
+                <p className="text-[10px] text-muted-foreground">
+                  {resultado.recomendacao === 'mei' && (
+                    <>Economia de <strong className="text-green-600">{formatCurrency(resultado.economia)}/ano</strong> no MEI</>
+                  )}
+                  {resultado.recomendacao === 'me' && (
+                    <>Economia de <strong className="text-blue-600">{formatCurrency(Math.abs(resultado.economia))}/ano</strong> no ME</>
+                  )}
+                  {resultado.recomendacao === 'limite' && 'Excede o limite anual do MEI'}
                 </p>
               </div>
-              <p className="text-sm text-muted-foreground">
-                {resultado.recomendacao === 'mei' && (
-                  <>Você economiza <strong className="text-primary">{formatCurrency(resultado.economia)}/ano</strong> permanecendo no MEI.</>
-                )}
-                {resultado.recomendacao === 'me' && (
-                  <>Você economizaria <strong className="text-blue-500">{formatCurrency(Math.abs(resultado.economia))}/ano</strong> migrando para ME.</>
-                )}
-                {resultado.recomendacao === 'limite' && (
-                  <>A migração é necessária por exceder o limite anual do MEI.</>
-                )}
+
+              {/* Comparativo */}
+              <div className="grid grid-cols-2 gap-2 mb-3">
+                <div className="bg-secondary/50 rounded-lg p-3">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-xs font-medium text-foreground">MEI</span>
+                    <span className="text-[10px] px-1.5 py-0.5 bg-primary/10 text-primary rounded">
+                      {resultado.percentualMEI.toFixed(1)}%
+                    </span>
+                  </div>
+                  <p className="text-[10px] text-muted-foreground">Mensal</p>
+                  <p className="text-sm font-bold text-foreground">{formatCurrency(DAS_MEI[tipoAtividade])}</p>
+                  <p className="text-[10px] text-muted-foreground mt-1">Anual</p>
+                  <p className="text-xs font-medium text-foreground">{formatCurrency(resultado.custoMEI)}</p>
+                </div>
+
+                <div className="bg-secondary/50 rounded-lg p-3">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-xs font-medium text-foreground">ME (Simples)</span>
+                    <span className="text-[10px] px-1.5 py-0.5 bg-blue-500/10 text-blue-500 rounded">
+                      {resultado.percentualME.toFixed(1)}%
+                    </span>
+                  </div>
+                  <p className="text-[10px] text-muted-foreground">Mensal*</p>
+                  <p className="text-sm font-bold text-foreground">{formatCurrency(resultado.custoME / 12)}</p>
+                  <p className="text-[10px] text-muted-foreground mt-1">Anual*</p>
+                  <p className="text-xs font-medium text-foreground">{formatCurrency(resultado.custoME)}</p>
+                </div>
+              </div>
+
+              {/* Ponto de virada */}
+              <div className="bg-secondary/50 rounded-lg p-2 mb-3">
+                <p className="text-[10px] text-muted-foreground">
+                  <strong>Ponto de virada:</strong> MEI deixa de valer a pena acima de{' '}
+                  <strong className="text-foreground">{formatCurrency(resultado.faturamentoIdeal)}/ano</strong>
+                </p>
+              </div>
+
+              <p className="text-[10px] text-muted-foreground mb-3">
+                * Valores estimados. Consulte um contador para análise detalhada.
               </p>
-            </Card>
 
-            {/* Comparativo */}
-            <div className="grid md:grid-cols-2 gap-4 mb-4">
-              {/* MEI */}
-              <Card className="p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-semibold text-foreground">MEI</h3>
-                  <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded">
-                    {resultado.percentualMEI.toFixed(2)}% do faturamento
-                  </span>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">DAS Mensal</span>
-                    <span className="font-medium">{formatCurrency(DAS_MEI[tipoAtividade])}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">DAS Anual</span>
-                    <span className="font-medium">{formatCurrency(resultado.custoMEI)}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Limite Anual</span>
-                    <span className="font-medium">R$ 81.000</span>
-                  </div>
-                </div>
-              </Card>
-
-              {/* ME */}
-              <Card className="p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-semibold text-foreground">ME (Simples)</h3>
-                  <span className="text-xs px-2 py-1 bg-blue-500/10 text-blue-500 rounded">
-                    {resultado.percentualME.toFixed(2)}% do faturamento
-                  </span>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Imposto Mensal*</span>
-                    <span className="font-medium">{formatCurrency(resultado.custoME / 12)}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Imposto Anual*</span>
-                    <span className="font-medium">{formatCurrency(resultado.custoME)}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Limite Anual</span>
-                    <span className="font-medium">R$ 4.800.000</span>
-                  </div>
-                </div>
-              </Card>
-            </div>
-
-            {/* Projeção */}
-            <Card className="p-4 bg-secondary mb-4">
-              <h3 className="font-semibold text-foreground mb-2 flex items-center gap-2">
-                <ArrowRight className="w-4 h-4" />
-                Ponto de Virada
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                Para seu tipo de atividade ({tipoAtividade}), o MEI deixa de ser vantajoso
-                quando o faturamento anual ultrapassa aproximadamente{' '}
-                <strong className="text-foreground">{formatCurrency(resultado.faturamentoIdeal)}</strong>.
-                Acima desse valor, considere migrar para ME.
-              </p>
-            </Card>
-
-            <p className="text-xs text-muted-foreground mb-4">
-              * Valores estimados com base no Simples Nacional 2026. Consulte um contador para análise detalhada.
-            </p>
-
-            {canExport && resultado && (
-              <div className="flex justify-end mt-4">
+              {/* Ações */}
+              <div className="flex justify-end pt-3 border-t">
                 <ExportActions
                   pdfDocument={
                     <TransicaoMeiMePDF
@@ -369,23 +322,30 @@ export function TransicaoMeiMeCalc() {
                   calculatorName="transicao-mei-me"
                 />
               </div>
-            )}
 
-            {showUpgradeBanner && (
-              <UpgradeBanner
-                type={paywallType}
-                remaining={remaining}
-                limit={limit}
-              />
-            )}
+              {showUpgradeBanner && (
+                <div className="mt-3">
+                  <UpgradeBanner
+                    type={paywallType}
+                    remaining={remaining}
+                    limit={limit}
+                  />
+                </div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </Card>
 
-            <ContextualSuggestions
-              currentCalculator="transicao-mei-me"
-              show={resultado !== null}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </Card>
+      {/* Sugestões */}
+      {resultado !== null && (
+        <div className="mt-3">
+          <ContextualSuggestions
+            currentCalculator="transicao-mei-me"
+            show={true}
+          />
+        </div>
+      )}
+    </div>
   )
 }

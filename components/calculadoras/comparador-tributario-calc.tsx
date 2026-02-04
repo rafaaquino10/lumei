@@ -16,14 +16,12 @@ import { usePDFUserData } from '@/hooks/use-pdf-user-data'
 
 type TipoAtividade = 'comercio' | 'servicos' | 'industria'
 
-// Valores DAS MEI 2026
 const DAS_MEI = {
   comercio: 71.60,
   servicos: 75.60,
   industria: 76.60,
 }
 
-// Alíquotas simplificadas do Simples Nacional
 const SIMPLES_ALIQUOTAS = {
   comercio: [
     { limite: 180000, aliquota: 0.04 },
@@ -45,29 +43,10 @@ const SIMPLES_ALIQUOTAS = {
   ],
 }
 
-// Lucro Presumido - alíquotas base
 const LUCRO_PRESUMIDO = {
-  comercio: {
-    presuncao: 0.08, // 8% presunção de lucro para comércio
-    irpj: 0.15,
-    csll: 0.09,
-    pis: 0.0065,
-    cofins: 0.03,
-  },
-  servicos: {
-    presuncao: 0.32, // 32% presunção de lucro para serviços
-    irpj: 0.15,
-    csll: 0.09,
-    pis: 0.0065,
-    cofins: 0.03,
-  },
-  industria: {
-    presuncao: 0.08,
-    irpj: 0.15,
-    csll: 0.09,
-    pis: 0.0065,
-    cofins: 0.03,
-  },
+  comercio: { presuncao: 0.08, irpj: 0.15, csll: 0.09, pis: 0.0065, cofins: 0.03 },
+  servicos: { presuncao: 0.32, irpj: 0.15, csll: 0.09, pis: 0.0065, cofins: 0.03 },
+  industria: { presuncao: 0.08, irpj: 0.15, csll: 0.09, pis: 0.0065, cofins: 0.03 },
 }
 
 interface RegimeInfo {
@@ -76,7 +55,6 @@ interface RegimeInfo {
   custoMensal: number
   percentual: number
   vantagens: string[]
-  desvantagens: string[]
   recomendado: boolean
 }
 
@@ -91,27 +69,20 @@ interface Resultado {
 function calcularSimples(faturamento: number, tipo: TipoAtividade): number {
   const faixas = SIMPLES_ALIQUOTAS[tipo]
   for (const faixa of faixas) {
-    if (faturamento <= faixa.limite) {
-      return faturamento * faixa.aliquota
-    }
+    if (faturamento <= faixa.limite) return faturamento * faixa.aliquota
   }
-  return faturamento * 0.16 // Acima do limite
+  return faturamento * 0.16
 }
 
 function calcularLucroPresumido(faturamento: number, tipo: TipoAtividade): number {
   const config = LUCRO_PRESUMIDO[tipo]
   const baseCalculo = faturamento * config.presuncao
-
   const irpj = baseCalculo * config.irpj
   const csll = baseCalculo * config.csll
   const pis = faturamento * config.pis
   const cofins = faturamento * config.cofins
-
-  // ISS para serviços (média de 3%)
   const iss = tipo === 'servicos' ? faturamento * 0.03 : 0
-  // ICMS para comércio/indústria (média de 7%)
   const icms = tipo !== 'servicos' ? faturamento * 0.07 : 0
-
   return irpj + csll + pis + cofins + iss + icms
 }
 
@@ -122,14 +93,7 @@ export function ComparadorTributarioCalc() {
   const [isCalculating, setIsCalculating] = useState(false)
   const [showUpgradeBanner, setShowUpgradeBanner] = useState(false)
 
-  const {
-    checkLimit,
-    recordCalculation,
-    paywallType,
-    remaining,
-    limit
-  } = usePaywall()
-
+  const { checkLimit, recordCalculation, paywallType, remaining, limit } = usePaywall()
   const pdfUserData = usePDFUserData()
 
   const calcular = async () => {
@@ -141,7 +105,6 @@ export function ComparadorTributarioCalc() {
 
     const limiteMEI = 81000
 
-    // MEI (só se elegível)
     let meiInfo: RegimeInfo | null = null
     if (faturamento <= limiteMEI) {
       const custoMEI = DAS_MEI[tipoAtividade] * 12
@@ -150,86 +113,43 @@ export function ComparadorTributarioCalc() {
         custoAnual: custoMEI,
         custoMensal: custoMEI / 12,
         percentual: (custoMEI / faturamento) * 100,
-        vantagens: [
-          'Menor custo tributário',
-          'Dispensa de contador',
-          'Emissão simplificada de NF',
-          'INSS incluído no DAS',
-        ],
-        desvantagens: [
-          'Limite de R$ 81.000/ano',
-          'Máximo 1 funcionário',
-          'Atividades limitadas',
-        ],
+        vantagens: ['Menor custo', 'Sem contador', 'INSS incluído'],
         recomendado: false,
       }
     }
 
-    // Simples Nacional
     const custoSimples = calcularSimples(faturamento, tipoAtividade)
     const simplesInfo: RegimeInfo = {
-      nome: 'Simples Nacional',
+      nome: 'Simples',
       custoAnual: custoSimples,
       custoMensal: custoSimples / 12,
       percentual: (custoSimples / faturamento) * 100,
-      vantagens: [
-        'Alíquota unificada',
-        'Guia única de pagamento',
-        'Limite até R$ 4,8 milhões',
-        'Menos burocracia que LP',
-      ],
-      desvantagens: [
-        'Exige contador',
-        'Algumas atividades vedadas',
-        'Pode não compensar para alta margem',
-      ],
+      vantagens: ['Guia única', 'Até R$ 4,8mi', 'Menos burocracia'],
       recomendado: false,
     }
 
-    // Lucro Presumido
     const custoLP = calcularLucroPresumido(faturamento, tipoAtividade)
     const lpInfo: RegimeInfo = {
-      nome: 'Lucro Presumido',
+      nome: 'L. Presumido',
       custoAnual: custoLP,
       custoMensal: custoLP / 12,
       percentual: (custoLP / faturamento) * 100,
-      vantagens: [
-        'Sem limite de faturamento',
-        'Vantajoso para alta margem de lucro',
-        'Créditos de PIS/COFINS',
-        'Flexibilidade de atividades',
-      ],
-      desvantagens: [
-        'Mais obrigações acessórias',
-        'Contador obrigatório',
-        'Cálculo mais complexo',
-        'Pode ter ICMS/ISS separados',
-      ],
+      vantagens: ['Sem limite', 'Alta margem', 'Créditos PIS/COFINS'],
       recomendado: false,
     }
 
-    // Determinar melhor opção
     const opcoes: { tipo: 'mei' | 'simples' | 'lucroPresumido'; custo: number }[] = []
-
     if (meiInfo) opcoes.push({ tipo: 'mei', custo: meiInfo.custoAnual })
     opcoes.push({ tipo: 'simples', custo: simplesInfo.custoAnual })
     opcoes.push({ tipo: 'lucroPresumido', custo: lpInfo.custoAnual })
 
     const melhorOpcao = opcoes.reduce((a, b) => a.custo < b.custo ? a : b).tipo
 
-    // Marcar recomendado
     if (melhorOpcao === 'mei' && meiInfo) meiInfo.recomendado = true
     if (melhorOpcao === 'simples') simplesInfo.recomendado = true
     if (melhorOpcao === 'lucroPresumido') lpInfo.recomendado = true
 
-    setResultado({
-      faturamentoAnual: faturamento,
-      mei: meiInfo,
-      simples: simplesInfo,
-      lucroPresumido: lpInfo,
-      melhorOpcao,
-    })
-
+    setResultado({ faturamentoAnual: faturamento, mei: meiInfo, simples: simplesInfo, lucroPresumido: lpInfo, melhorOpcao })
     setIsCalculating(false)
 
     recordCalculation()
@@ -237,147 +157,115 @@ export function ComparadorTributarioCalc() {
     setShowUpgradeBanner(rem <= 2)
   }
 
-  const pdfInputs = {
-    faturamentoAnual: parseFloat(faturamentoAnual) || 0,
-    tipoAtividade,
-  }
-
-  const canExport = pdfUserData !== undefined
+  const pdfInputs = { faturamentoAnual: parseFloat(faturamentoAnual) || 0, tipoAtividade }
 
   const formatCurrency = (value: number) =>
     value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 
   const RegimeCard = ({ regime, icon: Icon }: { regime: RegimeInfo; icon: React.ElementType }) => (
-    <Card className={`p-4 ${regime.recomendado ? 'border-primary border-2 bg-primary/5' : ''}`}>
-      <div className="flex items-start justify-between mb-3">
+    <div className={`rounded-lg p-3 ${regime.recomendado ? 'bg-primary/10 ring-2 ring-primary' : 'bg-secondary/50'}`}>
+      <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
-          <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+          <div className={`w-6 h-6 rounded flex items-center justify-center ${
             regime.recomendado ? 'bg-primary text-white' : 'bg-secondary'
           }`}>
-            <Icon className="w-4 h-4" />
+            <Icon className="w-3 h-3" />
           </div>
-          <div>
-            <h3 className="font-semibold text-foreground">{regime.nome}</h3>
-            {regime.recomendado && (
-              <span className="text-xs text-primary font-medium flex items-center gap-1">
-                <CheckCircle2 className="w-3 h-3" /> Mais vantajoso
-              </span>
-            )}
-          </div>
+          <span className="text-xs font-semibold text-foreground">{regime.nome}</span>
         </div>
-        <span className="text-xs px-2 py-1 bg-secondary rounded">
-          {regime.percentual.toFixed(1)}%
-        </span>
+        {regime.recomendado && (
+          <CheckCircle2 className="w-4 h-4 text-primary" />
+        )}
       </div>
-
-      <div className="space-y-2 mb-3">
-        <div className="flex justify-between text-sm">
-          <span className="text-muted-foreground">Custo Mensal</span>
-          <span className="font-semibold">{formatCurrency(regime.custoMensal)}</span>
-        </div>
-        <div className="flex justify-between text-sm">
-          <span className="text-muted-foreground">Custo Anual</span>
-          <span className="font-bold text-foreground">{formatCurrency(regime.custoAnual)}</span>
-        </div>
+      <p className="text-lg font-bold text-foreground">{formatCurrency(regime.custoMensal)}<span className="text-[10px] text-muted-foreground">/mês</span></p>
+      <p className="text-[10px] text-muted-foreground">{regime.percentual.toFixed(1)}% do faturamento</p>
+      <div className="mt-2 space-y-0.5">
+        {regime.vantagens.map((v, i) => (
+          <p key={i} className="text-[10px] text-muted-foreground">• {v}</p>
+        ))}
       </div>
-
-      <div className="space-y-2 text-xs">
-        <div>
-          <p className="font-medium text-green-600 dark:text-green-400 mb-1">Vantagens:</p>
-          <ul className="space-y-0.5 text-muted-foreground">
-            {regime.vantagens.slice(0, 2).map((v, i) => (
-              <li key={i}>• {v}</li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <p className="font-medium text-amber-600 dark:text-amber-400 mb-1">Desvantagens:</p>
-          <ul className="space-y-0.5 text-muted-foreground">
-            {regime.desvantagens.slice(0, 2).map((d, i) => (
-              <li key={i}>• {d}</li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </Card>
+    </div>
   )
 
   return (
-    <Card className="p-4 max-w-4xl mx-auto">
-      <h2 className="text-xl font-bold text-foreground mb-2">
-        Comparador de Regimes Tributários
-      </h2>
-      <p className="text-sm text-muted-foreground mb-4">
-        Compare MEI, Simples Nacional e Lucro Presumido para seu faturamento
-      </p>
-
-      <div className="grid md:grid-cols-2 gap-4 mb-4">
-        <div>
-          <Label htmlFor="faturamento">Faturamento Anual (R$)</Label>
-          <Input
-            id="faturamento"
-            type="number"
-            placeholder="Ex: 150000"
-            value={faturamentoAnual}
-            onChange={(e) => setFaturamentoAnual(e.target.value)}
-            className="h-10"
-            disabled={isCalculating}
-          />
+    <div className="max-w-lg mx-auto">
+      <Card className="p-4">
+        {/* Header compacto */}
+        <div className="flex items-center gap-2 mb-4">
+          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+            <Scale className="w-4 h-4 text-primary" />
+          </div>
+          <div>
+            <h2 className="text-base font-semibold text-foreground">Comparador Tributário</h2>
+            <p className="text-xs text-muted-foreground">MEI vs Simples vs Lucro Presumido</p>
+          </div>
         </div>
 
-        <div>
-          <Label htmlFor="tipo">Tipo de Atividade Principal</Label>
-          <Select
-            value={tipoAtividade}
-            onValueChange={(value) => setTipoAtividade(value as TipoAtividade)}
-            disabled={isCalculating}
-          >
-            <SelectTrigger className="h-10">
-              <SelectValue placeholder="Selecione" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="comercio">Comércio</SelectItem>
-              <SelectItem value="servicos">Serviços</SelectItem>
-              <SelectItem value="industria">Indústria</SelectItem>
-            </SelectContent>
-          </Select>
+        {/* Formulário compacto */}
+        <div className="grid grid-cols-2 gap-3 mb-3">
+          <div>
+            <Label htmlFor="faturamento" className="text-xs">Faturamento Anual (R$)</Label>
+            <Input
+              id="faturamento"
+              type="number"
+              placeholder="150000"
+              value={faturamentoAnual}
+              onChange={(e) => setFaturamentoAnual(e.target.value)}
+              className="h-9 mt-1"
+              disabled={isCalculating}
+            />
+          </div>
+          <div>
+            <Label htmlFor="tipo" className="text-xs">Tipo de Atividade</Label>
+            <Select
+              value={tipoAtividade}
+              onValueChange={(value) => setTipoAtividade(value as TipoAtividade)}
+              disabled={isCalculating}
+            >
+              <SelectTrigger className="h-9 mt-1">
+                <SelectValue placeholder="Selecione" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="comercio">Comércio</SelectItem>
+                <SelectItem value="servicos">Serviços</SelectItem>
+                <SelectItem value="industria">Indústria</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
-      </div>
 
-      <Button
-        onClick={calcular}
-        className="w-full h-10 mb-4"
-        disabled={isCalculating || !faturamentoAnual}
-      >
-        {isCalculating ? (
-          <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Calculando...
-          </>
-        ) : (
-          <>
-            <Scale className="mr-2 h-4 w-4" />
-            Comparar Regimes
-          </>
-        )}
-      </Button>
+        <Button
+          onClick={calcular}
+          className="w-full h-9"
+          disabled={isCalculating || !faturamentoAnual}
+        >
+          {isCalculating ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Calculando...
+            </>
+          ) : (
+            'Comparar Regimes'
+          )}
+        </Button>
 
-      <AnimatePresence mode="wait">
-        {resultado && !isCalculating && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            {/* Resumo */}
-            <Card className="p-4 bg-primary/10 border-primary mb-4">
-              <div className="text-center">
-                <p className="text-sm text-muted-foreground mb-1">
-                  Para faturamento de {formatCurrency(resultado.faturamentoAnual)}/ano
+        {/* Resultado */}
+        <AnimatePresence mode="wait">
+          {resultado && !isCalculating && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="mt-4"
+            >
+              {/* Resumo */}
+              <div className="bg-primary/10 rounded-lg p-3 mb-3 text-center">
+                <p className="text-[10px] text-muted-foreground">
+                  Para {formatCurrency(resultado.faturamentoAnual)}/ano
                 </p>
-                <p className="text-lg font-bold text-foreground">
-                  O regime mais vantajoso é:{' '}
+                <p className="text-sm font-bold text-foreground">
+                  Melhor opção:{' '}
                   <span className="text-primary">
                     {resultado.melhorOpcao === 'mei' ? 'MEI' :
                      resultado.melhorOpcao === 'simples' ? 'Simples Nacional' :
@@ -385,28 +273,23 @@ export function ComparadorTributarioCalc() {
                   </span>
                 </p>
               </div>
-            </Card>
 
-            {/* Cards dos regimes */}
-            <div className="grid md:grid-cols-3 gap-4 mb-4">
-              {resultado.mei && (
-                <RegimeCard regime={resultado.mei} icon={Crown} />
-              )}
-              <RegimeCard regime={resultado.simples} icon={Building2} />
-              <RegimeCard regime={resultado.lucroPresumido} icon={Briefcase} />
-            </div>
+              {/* Cards dos regimes */}
+              <div className="space-y-2 mb-3">
+                {resultado.mei && <RegimeCard regime={resultado.mei} icon={Crown} />}
+                <RegimeCard regime={resultado.simples} icon={Building2} />
+                <RegimeCard regime={resultado.lucroPresumido} icon={Briefcase} />
+              </div>
 
-            {/* Aviso */}
-            <Card className="p-3 bg-secondary mb-4">
-              <p className="text-xs text-muted-foreground">
-                <strong>Importante:</strong> Este comparativo é uma estimativa simplificada.
-                Os valores reais podem variar conforme a atividade específica, deduções aplicáveis,
-                e outros fatores. Consulte um contador para uma análise detalhada.
-              </p>
-            </Card>
+              {/* Aviso */}
+              <div className="bg-secondary/50 rounded-lg p-2 mb-3">
+                <p className="text-[10px] text-muted-foreground">
+                  <strong>Importante:</strong> Estimativa simplificada. Consulte um contador para análise detalhada.
+                </p>
+              </div>
 
-            {canExport && resultado && (
-              <div className="flex justify-end mt-4">
+              {/* Ações */}
+              <div className="flex justify-end pt-3 border-t">
                 <ExportActions
                   pdfDocument={
                     <ComparadorTributarioPDF
@@ -418,23 +301,30 @@ export function ComparadorTributarioCalc() {
                   calculatorName="comparador-tributario"
                 />
               </div>
-            )}
 
-            {showUpgradeBanner && (
-              <UpgradeBanner
-                type={paywallType}
-                remaining={remaining}
-                limit={limit}
-              />
-            )}
+              {showUpgradeBanner && (
+                <div className="mt-3">
+                  <UpgradeBanner
+                    type={paywallType}
+                    remaining={remaining}
+                    limit={limit}
+                  />
+                </div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </Card>
 
-            <ContextualSuggestions
-              currentCalculator="comparador-tributario"
-              show={resultado !== null}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </Card>
+      {/* Sugestões */}
+      {resultado !== null && (
+        <div className="mt-3">
+          <ContextualSuggestions
+            currentCalculator="comparador-tributario"
+            show={true}
+          />
+        </div>
+      )}
+    </div>
   )
 }

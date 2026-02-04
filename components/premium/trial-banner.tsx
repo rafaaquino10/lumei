@@ -87,7 +87,7 @@ export function TrialBanner({ trialUsed, trialEndsAt, isPremium }: TrialBannerPr
                 Trial Premium ativado!
               </p>
               <p className="text-sm text-green-700 dark:text-green-300">
-                Voce tem 7 dias para experimentar todos os recursos Premium.
+                Você tem 7 dias para experimentar todos os recursos Premium.
               </p>
             </div>
           </div>
@@ -134,10 +134,10 @@ export function TrialBanner({ trialUsed, trialEndsAt, isPremium }: TrialBannerPr
             </div>
             <div>
               <p className="font-semibold text-foreground">
-                Experimente o Premium gratis por 7 dias!
+                Experimente o Premium grátis por 7 dias!
               </p>
               <p className="text-sm text-muted-foreground">
-                Relatorios PDF, sem anuncios, alertas WhatsApp e mais.
+                Relatórios PDF, sem anúncios, alertas WhatsApp e mais.
               </p>
             </div>
           </div>
@@ -154,7 +154,7 @@ export function TrialBanner({ trialUsed, trialEndsAt, isPremium }: TrialBannerPr
             ) : (
               <>
                 <Sparkles className="w-4 h-4 mr-2" />
-                Ativar Trial Gratis
+                Ativar Trial Grátis
               </>
             )}
           </Button>

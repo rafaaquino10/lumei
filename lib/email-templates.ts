@@ -36,7 +36,7 @@ const baseTemplate = (content: string) => `
           <tr>
             <td style="background-color: #f9fafb; padding: 24px; text-align: center; border-top: 1px solid #e5e7eb;">
               <p style="margin: 0 0 8px; color: #6b7280; font-size: 14px;">
-                Controle seu MEI em 1 minuto/mes
+                Controle seu MEI em 1 minuto/mês
               </p>
               <p style="margin: 0; color: #9ca3af; font-size: 12px;">
                 <a href="https://calculamei.com.br" style="color: #00D084; text-decoration: none;">calculamei.com.br</a>
@@ -58,9 +58,9 @@ export function reengagementEmail(userName: string): EmailData {
   return {
     subject: `${name}, sentimos sua falta!`,
     html: baseTemplate(`
-      <h2 style="color: #18181b; margin: 0 0 16px; font-size: 20px;">Ola, ${name}!</h2>
+      <h2 style="color: #18181b; margin: 0 0 16px; font-size: 20px;">Olá, ${name}!</h2>
       <p style="color: #52525b; margin: 0 0 16px; line-height: 1.6;">
-        Notamos que voce nao registrou seu faturamento recentemente. Manter o controle em dia e essencial para nao ter surpresas no final do ano!
+        Notamos que você não registrou seu faturamento recentemente. Manter o controle em dia é essencial para nao ter surpresas no final do ano!
       </p>
       <p style="color: #52525b; margin: 0 0 24px; line-height: 1.6;">
         Leva menos de 1 minuto para atualizar seus dados. Que tal fazer isso agora?
@@ -75,10 +75,10 @@ export function reengagementEmail(userName: string): EmailData {
         </tr>
       </table>
       <p style="color: #9ca3af; margin: 24px 0 0; font-size: 13px; text-align: center;">
-        Se voce nao deseja mais receber esses emails, pode desativar nas <a href="https://calculamei.com.br/dashboard/configuracoes" style="color: #00D084;">configuracoes</a>.
+        Se você não deseja mais receber esses emails, pode desativar nas <a href="https://calculamei.com.br/dashboard/configurações" style="color: #00D084;">configurações</a>.
       </p>
     `),
-    text: `Ola, ${name}!\n\nNotamos que voce nao registrou seu faturamento recentemente. Leva menos de 1 minuto!\n\nAcesse: https://calculamei.com.br/registrar`,
+    text: `Olá, ${name}!\n\nNotamos que você não registrou seu faturamento recentemente. Leva menos de 1 minuto!\n\nAcesse: https://calculamei.com.br/registrar`,
   }
 }
 
@@ -103,12 +103,12 @@ export function monthlySummaryEmail(data: MonthlySummaryData): EmailData {
   const formatCurrency = (v: number) => `R$ ${v.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
 
   const statusColor = data.percentualLimite >= 80 ? '#ef4444' : data.percentualLimite >= 50 ? '#f59e0b' : '#22c55e'
-  const statusText = data.percentualLimite >= 80 ? 'Atencao!' : data.percentualLimite >= 50 ? 'No caminho certo' : 'Tudo sob controle'
+  const statusText = data.percentualLimite >= 80 ? 'Atenção!' : data.percentualLimite >= 50 ? 'No caminho certo' : 'Tudo sob controle'
 
   return {
     subject: `Resumo de ${data.mes}/${data.ano} - Calcula MEI`,
     html: baseTemplate(`
-      <h2 style="color: #18181b; margin: 0 0 8px; font-size: 20px;">Ola, ${name}!</h2>
+      <h2 style="color: #18181b; margin: 0 0 8px; font-size: 20px;">Olá, ${name}!</h2>
       <p style="color: #52525b; margin: 0 0 24px; line-height: 1.6;">
         Aqui esta o resumo do seu MEI em ${data.mes}/${data.ano}:
       </p>
@@ -151,11 +151,11 @@ export function monthlySummaryEmail(data: MonthlySummaryData): EmailData {
         </tr>
       </table>
 
-      <!-- Proximo DAS -->
+      <!-- Próximo DAS -->
       <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 24px; background-color: #eff6ff; border-radius: 8px; padding: 16px;">
         <tr>
           <td style="padding: 16px;">
-            <p style="color: #1e40af; margin: 0 0 4px; font-size: 14px; font-weight: bold;">Proximo DAS</p>
+            <p style="color: #1e40af; margin: 0 0 4px; font-size: 14px; font-weight: bold;">Próximo DAS</p>
             <p style="color: #3b82f6; margin: 0; font-size: 16px;">
               ${data.proximoDAS.data} - ${formatCurrency(data.proximoDAS.valor)}
             </p>
@@ -173,7 +173,7 @@ export function monthlySummaryEmail(data: MonthlySummaryData): EmailData {
         </tr>
       </table>
     `),
-    text: `Resumo de ${data.mes}/${data.ano}\n\nFaturamento do mes: ${formatCurrency(data.faturamentoMes)}\nTotal acumulado: ${formatCurrency(data.totalAcumulado)}\nLimite MEI: ${data.percentualLimite.toFixed(1)}%\n\nProximo DAS: ${data.proximoDAS.data} - ${formatCurrency(data.proximoDAS.valor)}\n\nAcesse: https://calculamei.com.br/dashboard`,
+    text: `Resumo de ${data.mes}/${data.ano}\n\nFaturamento do mes: ${formatCurrency(data.faturamentoMes)}\nTotal acumulado: ${formatCurrency(data.totalAcumulado)}\nLimite MEI: ${data.percentualLimite.toFixed(1)}%\n\nPróximo DAS: ${data.proximoDAS.data} - ${formatCurrency(data.proximoDAS.valor)}\n\nAcesse: https://calculamei.com.br/dashboard`,
   }
 }
 
@@ -192,7 +192,7 @@ export function weeklyInsightEmail(data: WeeklyInsightData): EmailData {
   return {
     subject: `Dica da semana para seu MEI`,
     html: baseTemplate(`
-      <h2 style="color: #18181b; margin: 0 0 16px; font-size: 20px;">Ola, ${name}!</h2>
+      <h2 style="color: #18181b; margin: 0 0 16px; font-size: 20px;">Olá, ${name}!</h2>
       <p style="color: #52525b; margin: 0 0 24px; line-height: 1.6;">
         ${data.insight}
       </p>
@@ -228,18 +228,18 @@ export function trialEndingEmail(userName: string, daysRemaining: number): Email
   return {
     subject: `Seu trial Premium termina em ${daysRemaining} dia${daysRemaining > 1 ? 's' : ''}!`,
     html: baseTemplate(`
-      <h2 style="color: #18181b; margin: 0 0 16px; font-size: 20px;">Ola, ${name}!</h2>
+      <h2 style="color: #18181b; margin: 0 0 16px; font-size: 20px;">Olá, ${name}!</h2>
       <p style="color: #52525b; margin: 0 0 16px; line-height: 1.6;">
-        Seu periodo de teste Premium termina em <strong>${daysRemaining} dia${daysRemaining > 1 ? 's' : ''}</strong>.
+        Seu período de teste Premium termina em <strong>${daysRemaining} dia${daysRemaining > 1 ? 's' : ''}</strong>.
       </p>
       <p style="color: #52525b; margin: 0 0 24px; line-height: 1.6;">
-        Nao perca acesso aos recursos exclusivos:
+        Não perca acesso aos recursos exclusivos:
       </p>
       <ul style="color: #52525b; margin: 0 0 24px; padding-left: 20px; line-height: 1.8;">
-        <li>Relatorios PDF profissionais</li>
-        <li>Exportacao ilimitada</li>
-        <li>Historico de 5 anos</li>
-        <li>Sem anuncios</li>
+        <li>Relatórios PDF profissionais</li>
+        <li>Exportação ilimitada</li>
+        <li>Histórico de 5 anos</li>
+        <li>Sem anúncios</li>
         <li>Alertas por WhatsApp</li>
       </ul>
 
@@ -247,12 +247,12 @@ export function trialEndingEmail(userName: string, daysRemaining: number): Email
         <tr>
           <td align="center">
             <a href="https://calculamei.com.br/premium" style="display: inline-block; background-color: #8b5cf6; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold;">
-              Assinar Premium - R$ 14,90/mes
+              Assinar Premium - R$ 14,90/mês
             </a>
           </td>
         </tr>
       </table>
     `),
-    text: `Seu trial Premium termina em ${daysRemaining} dia${daysRemaining > 1 ? 's' : ''}!\n\nAssine agora para nao perder os beneficios: https://calculamei.com.br/premium`,
+    text: `Seu trial Premium termina em ${daysRemaining} dia${daysRemaining > 1 ? 's' : ''}!\n\nAssine agora para não perder os benefícios: https://calculamei.com.br/premium`,
   }
 }

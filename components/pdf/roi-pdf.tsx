@@ -165,25 +165,25 @@ export function ROIPDF({ data }: ROIPDFProps) {
   const status = getROIStatus(resultado.roi)
 
   const getAnalysis = () => {
-    if (resultado.roi >= 100) return 'Excelente retorno! Esse investimento tem potencial para mais que dobrar seu dinheiro no periodo analisado.'
+    if (resultado.roi >= 100) return 'Excelente retorno! Esse investimento tem potencial para mais que dobrar seu dinheiro no período analisado.'
     if (resultado.roi >= 50) return 'Bom retorno! Esse investimento tem potencial para um ganho significativo.'
-    if (resultado.roi >= 20) return 'Retorno moderado. Considere se existem alternativas com melhor custo-beneficio.'
-    if (resultado.roi >= 0) return 'Retorno baixo. O investimento e viavel, mas avalie se vale a pena pelo esforco.'
-    return 'Retorno negativo. Esse investimento resultaria em prejuizo. Revise os numeros ou busque alternativas.'
+    if (resultado.roi >= 20) return 'Retorno moderado. Considere se existem alternativas com melhor custo-benefício.'
+    if (resultado.roi >= 0) return 'Retorno baixo. O investimento é viável, mas avalie se vale a pena pelo esforço.'
+    return 'Retorno negativo. Esse investimento resultaria em prejuízo. Revise os números ou busque alternativas.'
   }
 
   return (
     <Document>
       <Page size="A4" style={baseStyles.page}>
-        <PDFHeader documentType="Calculo de ROI" />
+        <PDFHeader documentType="Cálculo de ROI" />
 
         <PDFUserIdentification userData={userData} />
 
-        {/* Titulo */}
+        {/* Título */}
         <View style={baseStyles.titleSection}>
           <Text style={baseStyles.title}>Retorno sobre Investimento (ROI)</Text>
           <Text style={baseStyles.subtitle}>
-            Analise completa do retorno esperado para seu investimento
+            Análise completa do retorno esperado para seu investimento
           </Text>
         </View>
 
@@ -200,10 +200,10 @@ export function ROIPDF({ data }: ROIPDFProps) {
           </View>
         </View>
 
-        {/* Metricas */}
+        {/* Métricas */}
         <View style={styles.metricsGrid}>
           <View style={styles.metricCard}>
-            <Text style={styles.metricLabel}>Lucro Liquido</Text>
+            <Text style={styles.metricLabel}>Lucro Líquido</Text>
             <Text style={[styles.metricValue, { color: resultado.lucroLiquido >= 0 ? colors.success : colors.danger }]}>
               {formatCurrency(resultado.lucroLiquido)}
             </Text>
@@ -225,7 +225,7 @@ export function ROIPDF({ data }: ROIPDFProps) {
         {/* Detalhamento */}
         <View style={styles.detailSection}>
           <Text style={{ fontSize: 11, fontWeight: 'bold', color: colors.text, marginBottom: 10 }}>
-            Dados do Calculo
+            Dados do Cálculo
           </Text>
           <View style={styles.detailRow}>
             <Text style={styles.detailLabel}>Investimento inicial:</Text>
@@ -246,34 +246,34 @@ export function ROIPDF({ data }: ROIPDFProps) {
             </Text>
           </View>
           <View style={styles.detailRow}>
-            <Text style={styles.detailLabel}>Periodo analisado:</Text>
+            <Text style={styles.detailLabel}>Período analisado:</Text>
             <Text style={styles.detailValue}>{periodoMeses} meses</Text>
           </View>
           <View style={[styles.detailRow, { borderBottomWidth: 0 }]}>
-            <Text style={styles.detailLabel}>Retorno total no periodo:</Text>
+            <Text style={styles.detailLabel}>Retorno total no período:</Text>
             <Text style={styles.detailValue}>{formatCurrency(resultado.retornoTotal)}</Text>
           </View>
         </View>
 
-        {/* Analise */}
+        {/* Análise */}
         <View style={[styles.analysisCard, { backgroundColor: status.bgColor }]}>
-          <Text style={[styles.analysisTitle, { color: status.textColor }]}>Analise</Text>
+          <Text style={[styles.analysisTitle, { color: status.textColor }]}>Análise</Text>
           <Text style={[styles.analysisText, { color: status.textColor }]}>
             {getAnalysis()}
           </Text>
           {resultado.paybackMeses <= periodoMeses && (
             <Text style={[styles.analysisText, { color: status.textColor, marginTop: 6 }]}>
-              Voce recupera o investimento em {resultado.paybackMeses} {resultado.paybackMeses === 1 ? 'mes' : 'meses'},
-              o que representa {((resultado.paybackMeses / periodoMeses) * 100).toFixed(0)}% do periodo analisado.
+              Você recupera o investimento em {resultado.paybackMeses} {resultado.paybackMeses === 1 ? 'mês' : 'meses'},
+              o que representa {((resultado.paybackMeses / periodoMeses) * 100).toFixed(0)}% do período analisado.
             </Text>
           )}
         </View>
 
-        {/* Formula */}
+        {/* Fórmula */}
         <View style={styles.formulaSection}>
           <Text style={styles.formulaTitle}>Como calculamos</Text>
-          <Text style={styles.formulaText}>ROI = ((Lucro Liquido / Investimento) x 100)</Text>
-          <Text style={styles.formulaText}>Lucro Liquido = Retorno Total - Investimento Inicial</Text>
+          <Text style={styles.formulaText}>ROI = ((Lucro Líquido / Investimento) x 100)</Text>
+          <Text style={styles.formulaText}>Lucro Líquido = Retorno Total - Investimento Inicial</Text>
           <Text style={styles.formulaText}>Payback = Investimento / Lucro Mensal</Text>
         </View>
 

@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
-import { Loader2 } from 'lucide-react'
+import { Loader2, TrendingUp } from 'lucide-react'
 import { usePaywall, UpgradeBanner } from '@/components/paywall'
 import { ContextualSuggestions } from './contextual-suggestions'
 import { ExportActions } from './export-actions'
@@ -48,11 +48,8 @@ export function MargemLucroCalc() {
       setResultado({ margemBruta, lucroBruto, markup })
       setIsCalculating(false)
 
-      // Registra o calculo e verifica limite
       recordCalculation()
       const { remaining: rem } = checkLimit()
-
-      // Mostra banner de upgrade se restam poucos calculos
       setShowUpgradeBanner(rem <= 2)
     }
   }
@@ -62,102 +59,110 @@ export function MargemLucroCalc() {
     custoTotal: parseFloat(custoTotal) || 0,
   }
 
-  // Verifica se pode exportar (usuario logado)
-  const canExport = pdfUserData !== undefined
-
   return (
-    <Card className="p-4 max-w-3xl mx-auto">
-      <h2 className="text-xl font-bold text-foreground mb-3">
-        Calculadora de Margem de Lucro
-      </h2>
-
-      <div className="grid md:grid-cols-2 gap-4 mb-4">
-        <div>
-          <Label htmlFor="custo">Custo Total (R$)</Label>
-          <Input
-            id="custo"
-            type="number"
-            placeholder="0.00"
-            value={custoTotal}
-            onChange={(e) => setCustoTotal(e.target.value)}
-            className="h-10"
-          />
+    <div className="max-w-lg mx-auto">
+      <Card className="p-4">
+        {/* Header compacto */}
+        <div className="flex items-center gap-2 mb-4">
+          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+            <TrendingUp className="w-4 h-4 text-primary" />
+          </div>
+          <div>
+            <h2 className="text-base font-semibold text-foreground">Margem de Lucro</h2>
+            <p className="text-xs text-muted-foreground">Descubra quanto você lucra por venda</p>
+          </div>
         </div>
 
-        <div>
-          <Label htmlFor="preco">Preco de Venda (R$)</Label>
-          <Input
-            id="preco"
-            type="number"
-            placeholder="0.00"
-            value={precoVenda}
-            onChange={(e) => setPrecoVenda(e.target.value)}
-            className="h-10"
-          />
+        {/* Formulário */}
+        <div className="grid grid-cols-2 gap-3 mb-3">
+          <div>
+            <Label htmlFor="custo" className="text-xs">Custo Total (R$)</Label>
+            <Input
+              id="custo"
+              type="number"
+              placeholder="0,00"
+              value={custoTotal}
+              onChange={(e) => setCustoTotal(e.target.value)}
+              className="h-9 mt-1"
+            />
+          </div>
+          <div>
+            <Label htmlFor="preco" className="text-xs">Preço de Venda (R$)</Label>
+            <Input
+              id="preco"
+              type="number"
+              placeholder="0,00"
+              value={precoVenda}
+              onChange={(e) => setPrecoVenda(e.target.value)}
+              className="h-9 mt-1"
+            />
+          </div>
         </div>
-      </div>
 
-      <Button
-        onClick={calcular}
-        className="w-full h-10 mb-4"
-        disabled={isCalculating || !custoTotal || !precoVenda}
-      >
-        {isCalculating ? (
-          <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Calculando...
-          </>
-        ) : (
-          'Calcular Margem'
-        )}
-      </Button>
+        <Button
+          onClick={calcular}
+          className="w-full h-9"
+          disabled={isCalculating || !custoTotal || !precoVenda}
+        >
+          {isCalculating ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Calculando...
+            </>
+          ) : (
+            'Calcular'
+          )}
+        </Button>
 
-      <AnimatePresence mode="wait">
-        {resultado !== null && !isCalculating && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="space-y-3">
-              <Card className="p-4 bg-primary/10 border-primary">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-2">Margem de Lucro</p>
-                    <motion.p
-                      className="text-2xl font-bold text-foreground"
-                      initial={{ scale: 0.8 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
-                    >
-                      {resultado.margemBruta.toFixed(2)}%
-                    </motion.p>
-                    <p className="text-xs text-muted-foreground mt-2">
-                      {resultado.margemBruta > 0 ? 'Lucro positivo' : 'Prejuizo'}
-                    </p>
-                  </div>
+        {/* Resultado */}
+        <AnimatePresence mode="wait">
+          {resultado !== null && !isCalculating && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="mt-4"
+            >
+              {/* Resultado Principal */}
+              <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg p-4 mb-3">
+                <div className="text-center">
+                  <p className="text-xs text-muted-foreground mb-1">Sua Margem de Lucro</p>
+                  <motion.p
+                    className={`text-3xl font-bold ${resultado.margemBruta >= 0 ? 'text-green-600' : 'text-red-600'}`}
+                    initial={{ scale: 0.8 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 200 }}
+                  >
+                    {resultado.margemBruta.toFixed(1)}%
+                  </motion.p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {resultado.margemBruta >= 30 ? 'Margem saudável' : resultado.margemBruta >= 15 ? 'Margem moderada' : resultado.margemBruta >= 0 ? 'Margem baixa' : 'Prejuízo'}
+                  </p>
                 </div>
-              </Card>
+              </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <Card className="p-3 bg-card">
-                  <p className="text-xs text-muted-foreground">Lucro por Venda</p>
-                  <p className={`text-lg font-bold ${resultado.lucroBruto >= 0 ? 'text-primary' : 'text-destructive'}`}>
+              {/* Métricas secundárias */}
+              <div className="grid grid-cols-2 gap-2 mb-3">
+                <div className="bg-secondary/50 rounded-lg p-3 text-center">
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Lucro/Venda</p>
+                  <p className={`text-base font-bold ${resultado.lucroBruto >= 0 ? 'text-foreground' : 'text-red-600'}`}>
                     R$ {resultado.lucroBruto.toFixed(2)}
                   </p>
-                </Card>
-                <Card className="p-3 bg-card">
-                  <p className="text-xs text-muted-foreground">Markup</p>
-                  <p className="text-lg font-bold text-foreground">
+                </div>
+                <div className="bg-secondary/50 rounded-lg p-3 text-center">
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Markup</p>
+                  <p className="text-base font-bold text-foreground">
                     {resultado.markup.toFixed(2)}x
                   </p>
-                </Card>
+                </div>
               </div>
-            </div>
 
-            {canExport && (
-              <div className="flex justify-end mt-4">
+              {/* Ações */}
+              <div className="flex items-center justify-between pt-2 border-t">
+                <p className="text-xs text-muted-foreground">
+                  Custo R${parseFloat(custoTotal).toFixed(2)} → Venda R${parseFloat(precoVenda).toFixed(2)}
+                </p>
                 <ExportActions
                   pdfDocument={
                     <MargemLucroPDF
@@ -169,23 +174,30 @@ export function MargemLucroCalc() {
                   calculatorName="margem-lucro"
                 />
               </div>
-            )}
 
-            {showUpgradeBanner && (
-              <UpgradeBanner
-                type={paywallType}
-                remaining={remaining}
-                limit={limit}
-              />
-            )}
+              {showUpgradeBanner && (
+                <div className="mt-3">
+                  <UpgradeBanner
+                    type={paywallType}
+                    remaining={remaining}
+                    limit={limit}
+                  />
+                </div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </Card>
 
-            <ContextualSuggestions
-              currentCalculator="margem-lucro"
-              show={resultado !== null}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </Card>
+      {/* Sugestões */}
+      {resultado !== null && (
+        <div className="mt-3">
+          <ContextualSuggestions
+            currentCalculator="margem-lucro"
+            show={true}
+          />
+        </div>
+      )}
+    </div>
   )
 }

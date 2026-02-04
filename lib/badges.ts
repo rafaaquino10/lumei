@@ -28,7 +28,7 @@ export const BADGES: BadgeDefinition[] = [
   {
     slug: 'profile-complete',
     name: 'Perfil Completo',
-    description: 'Preencheu todas as informacoes do perfil',
+    description: 'Preencheu todas as informações do perfil',
     icon: 'UserCheck',
     category: 'ONBOARDING',
     points: 10,
@@ -56,7 +56,7 @@ export const BADGES: BadgeDefinition[] = [
   },
   {
     slug: 'streak-30',
-    name: 'Um Mes',
+    name: 'Um Mês',
     description: '30 dias consecutivos usando o app',
     icon: 'Flame',
     category: 'CONSISTENCY',
@@ -133,7 +133,7 @@ export const BADGES: BadgeDefinition[] = [
   {
     slug: 'calculator-master',
     name: 'Mestre das Calculadoras',
-    description: 'Usou todas as calculadoras disponiveis',
+    description: 'Usou todas as calculadoras disponíveis',
     icon: 'Trophy',
     category: 'FINANCIAL',
     points: 100,
@@ -142,7 +142,7 @@ export const BADGES: BadgeDefinition[] = [
   {
     slug: 'pdf-exporter',
     name: 'Profissional',
-    description: 'Exportou 10 relatorios em PDF',
+    description: 'Exportou 10 relatórios em PDF',
     icon: 'FileDown',
     category: 'FINANCIAL',
     points: 40,
@@ -153,7 +153,7 @@ export const BADGES: BadgeDefinition[] = [
   {
     slug: 'early-adopter',
     name: 'Early Adopter',
-    description: 'Criou conta nos primeiros 30 dias do lancamento',
+    description: 'Criou conta nos primeiros 30 dias do lançamento',
     icon: 'Rocket',
     category: 'SOCIAL',
     points: 100,

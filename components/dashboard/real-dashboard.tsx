@@ -354,18 +354,18 @@ export function RealDashboard({
         </motion.div>
 
         {/* DAS e Status */}
-        <div className="flex items-center gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {/* DAS Card */}
-          <div className="flex-1 bg-primary/10 border border-primary/30 rounded-lg px-4 py-3">
+          <div className="bg-primary/10 border border-primary/30 rounded-lg px-4 py-3">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
                 <Calendar className="w-5 h-5 text-white" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <InfoTooltip {...METRIC_TOOLTIPS.proximoDAS}>
                   <p className="text-sm font-semibold text-foreground">Próximo DAS</p>
                 </InfoTooltip>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground truncate">
                   {dasInfo.data} • {formatCurrency(dasInfo.valor)}
                 </p>
               </div>
@@ -373,9 +373,9 @@ export function RealDashboard({
           </div>
 
           {/* Meses até estourar */}
-          <div className="flex-1 bg-secondary/80 border border-border rounded-lg px-4 py-3">
+          <div className="bg-secondary/80 border border-border rounded-lg px-4 py-3">
             <div className="flex items-center gap-3">
-              <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+              <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
                 statusLimite === 'ok'
                   ? 'bg-green-500'
                   : statusLimite === 'warning'
@@ -388,7 +388,7 @@ export function RealDashboard({
                   <AlertCircle className="w-5 h-5 text-white" />
                 )}
               </div>
-              <div>
+              <div className="min-w-0">
                 <InfoTooltip {...METRIC_TOOLTIPS.mesesAteEstourar}>
                   <p className="text-sm font-semibold text-foreground">Meses até limite</p>
                 </InfoTooltip>

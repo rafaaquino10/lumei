@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
-import { Loader2, Target, TrendingUp, AlertTriangle, CheckCircle2 } from 'lucide-react'
+import { Loader2, Target, AlertTriangle, CheckCircle2 } from 'lucide-react'
 import { usePaywall, UpgradeBanner } from '@/components/paywall'
 import { ContextualSuggestions } from './contextual-suggestions'
 import { ExportActions } from './export-actions'
@@ -47,29 +47,18 @@ export function PontoEquilibrioCalc() {
     const pv = parseFloat(precoVenda) || 0
     const va = parseFloat(vendasAtuais) || 0
 
-    if (pv <= cv) {
-      return // Preço deve ser maior que custo variável
-    }
+    if (pv <= cv) return
 
     setIsCalculating(true)
     await new Promise(resolve => setTimeout(resolve, 400))
 
-    // Margem de Contribuição = Preço de Venda - Custo Variável
     const margemContribuicao = pv - cv
     const margemContribuicaoPercent = (margemContribuicao / pv) * 100
-
-    // Ponto de Equilíbrio (unidades) = Custo Fixo / Margem de Contribuição
     const pontoEquilibrioUnidades = cf / margemContribuicao
-
-    // Ponto de Equilíbrio (valor) = PE unidades * Preço de Venda
     const pontoEquilibrioValor = pontoEquilibrioUnidades * pv
-
-    // Lucro atual (se informou vendas atuais)
     const receitaAtual = va * pv
     const custoTotalAtual = cf + (cv * va)
     const lucroAtual = receitaAtual - custoTotalAtual
-
-    // Quantas unidades faltam para atingir o PE
     const unidadesParaLucro = Math.max(0, pontoEquilibrioUnidades - va)
 
     setResultado({
@@ -82,8 +71,6 @@ export function PontoEquilibrioCalc() {
     })
 
     setIsCalculating(false)
-
-    // Registra o cálculo
     recordCalculation()
     const { remaining: rem } = checkLimit()
     setShowUpgradeBanner(rem <= 2)
@@ -96,8 +83,6 @@ export function PontoEquilibrioCalc() {
     vendasAtuais: parseFloat(vendasAtuais) || 0,
   }
 
-  const canExport = pdfUserData !== undefined
-
   const formatCurrency = (value: number) =>
     value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 
@@ -107,193 +92,179 @@ export function PontoEquilibrioCalc() {
   const isAboveBreakeven = resultado && parseFloat(vendasAtuais) > resultado.pontoEquilibrioUnidades
 
   return (
-    <Card className="p-4 max-w-3xl mx-auto">
-      <h2 className="text-xl font-bold text-foreground mb-2">
-        Calculadora de Ponto de Equilíbrio
-      </h2>
-      <p className="text-sm text-muted-foreground mb-4">
-        Descubra quantas vendas você precisa fazer para cobrir todos os custos
-      </p>
+    <div className="max-w-lg mx-auto">
+      <Card className="p-4">
+        {/* Header compacto */}
+        <div className="flex items-center gap-2 mb-4">
+          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+            <Target className="w-4 h-4 text-primary" />
+          </div>
+          <div>
+            <h2 className="text-base font-semibold text-foreground">Ponto de Equilíbrio</h2>
+            <p className="text-xs text-muted-foreground">Quantas vendas para cobrir custos</p>
+          </div>
+        </div>
 
-      <div className="grid md:grid-cols-2 gap-4 mb-4">
-        <div>
-          <Label htmlFor="custoFixo">Custos Fixos Mensais (R$)</Label>
-          <Input
-            id="custoFixo"
-            type="number"
-            placeholder="Ex: 2000 (aluguel, internet, etc)"
-            value={custoFixo}
-            onChange={(e) => setCustoFixo(e.target.value)}
-            className="h-10"
-            disabled={isCalculating}
-          />
-          <p className="text-xs text-muted-foreground mt-1">
-            Gastos que não mudam com as vendas
+        {/* Formulário compacto */}
+        <div className="space-y-3 mb-3">
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <Label htmlFor="custoFixo" className="text-xs">Custos Fixos/Mês (R$)</Label>
+              <Input
+                id="custoFixo"
+                type="number"
+                placeholder="2000"
+                value={custoFixo}
+                onChange={(e) => setCustoFixo(e.target.value)}
+                className="h-9 mt-1"
+                disabled={isCalculating}
+              />
+            </div>
+            <div>
+              <Label htmlFor="custoVariavel" className="text-xs">Custo por Unidade (R$)</Label>
+              <Input
+                id="custoVariavel"
+                type="number"
+                placeholder="30"
+                value={custoVariavel}
+                onChange={(e) => setCustoVariavel(e.target.value)}
+                className="h-9 mt-1"
+                disabled={isCalculating}
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <Label htmlFor="precoVenda" className="text-xs">Preço de Venda (R$)</Label>
+              <Input
+                id="precoVenda"
+                type="number"
+                placeholder="100"
+                value={precoVenda}
+                onChange={(e) => setPrecoVenda(e.target.value)}
+                className="h-9 mt-1"
+                disabled={isCalculating}
+              />
+            </div>
+            <div>
+              <Label htmlFor="vendasAtuais" className="text-xs">Vendas Atuais (opcional)</Label>
+              <Input
+                id="vendasAtuais"
+                type="number"
+                placeholder="50"
+                value={vendasAtuais}
+                onChange={(e) => setVendasAtuais(e.target.value)}
+                className="h-9 mt-1"
+                disabled={isCalculating}
+              />
+            </div>
+          </div>
+        </div>
+
+        {parseFloat(precoVenda) <= parseFloat(custoVariavel) && precoVenda && custoVariavel && (
+          <p className="text-xs text-red-600 mb-3">
+            O preço de venda deve ser maior que o custo variável
           </p>
-        </div>
-
-        <div>
-          <Label htmlFor="custoVariavel">Custo Variável por Unidade (R$)</Label>
-          <Input
-            id="custoVariavel"
-            type="number"
-            placeholder="Ex: 30 (material, comissão)"
-            value={custoVariavel}
-            onChange={(e) => setCustoVariavel(e.target.value)}
-            className="h-10"
-            disabled={isCalculating}
-          />
-          <p className="text-xs text-muted-foreground mt-1">
-            Custo para produzir/vender cada unidade
-          </p>
-        </div>
-
-        <div>
-          <Label htmlFor="precoVenda">Preço de Venda (R$)</Label>
-          <Input
-            id="precoVenda"
-            type="number"
-            placeholder="Ex: 100"
-            value={precoVenda}
-            onChange={(e) => setPrecoVenda(e.target.value)}
-            className="h-10"
-            disabled={isCalculating}
-          />
-        </div>
-
-        <div>
-          <Label htmlFor="vendasAtuais">Vendas Atuais/Mês (opcional)</Label>
-          <Input
-            id="vendasAtuais"
-            type="number"
-            placeholder="Ex: 50 unidades"
-            value={vendasAtuais}
-            onChange={(e) => setVendasAtuais(e.target.value)}
-            className="h-10"
-            disabled={isCalculating}
-          />
-          <p className="text-xs text-muted-foreground mt-1">
-            Para comparar com o ponto de equilíbrio
-          </p>
-        </div>
-      </div>
-
-      <Button
-        onClick={calcular}
-        className="w-full h-10 mb-4"
-        disabled={isCalculating || !custoFixo || !precoVenda || parseFloat(precoVenda) <= parseFloat(custoVariavel)}
-      >
-        {isCalculating ? (
-          <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Calculando...
-          </>
-        ) : (
-          <>
-            <Target className="mr-2 h-4 w-4" />
-            Calcular Ponto de Equilíbrio
-          </>
         )}
-      </Button>
 
-      {parseFloat(precoVenda) <= parseFloat(custoVariavel) && precoVenda && custoVariavel && (
-        <p className="text-sm text-destructive mb-4">
-          O preço de venda deve ser maior que o custo variável
-        </p>
-      )}
+        <Button
+          onClick={calcular}
+          className="w-full h-9"
+          disabled={isCalculating || !custoFixo || !precoVenda || parseFloat(precoVenda) <= parseFloat(custoVariavel)}
+        >
+          {isCalculating ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Calculando...
+            </>
+          ) : (
+            'Calcular Ponto de Equilíbrio'
+          )}
+        </Button>
 
-      <AnimatePresence mode="wait">
-        {resultado && !isCalculating && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            {/* Resultado Principal */}
-            <Card className="p-4 bg-primary/10 border-primary mb-4">
-              <div className="text-center">
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <Target className="w-5 h-5 text-primary" />
-                  <p className="text-sm text-muted-foreground">Ponto de Equilíbrio</p>
+        {/* Resultado */}
+        <AnimatePresence mode="wait">
+          {resultado && !isCalculating && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="mt-4"
+            >
+              {/* Resultado Principal */}
+              <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg p-4 mb-3">
+                <div className="text-center mb-3">
+                  <p className="text-xs text-muted-foreground mb-1">Ponto de Equilíbrio</p>
+                  <motion.p
+                    className="text-3xl font-bold text-primary"
+                    initial={{ scale: 0.8 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 200 }}
+                  >
+                    {formatNumber(resultado.pontoEquilibrioUnidades)} un.
+                  </motion.p>
+                  <p className="text-sm font-semibold text-foreground mt-1">
+                    {formatCurrency(resultado.pontoEquilibrioValor)}/mês
+                  </p>
                 </div>
-                <motion.p
-                  className="text-3xl font-bold text-foreground"
-                  initial={{ scale: 0.8 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
-                >
-                  {formatNumber(resultado.pontoEquilibrioUnidades)} unidades
-                </motion.p>
-                <p className="text-lg text-primary font-semibold mt-1">
-                  {formatCurrency(resultado.pontoEquilibrioValor)}/mês
-                </p>
-                <p className="text-xs text-muted-foreground mt-2">
-                  Vendendo acima disso, você começa a ter lucro
-                </p>
-              </div>
-            </Card>
 
-            {/* Status atual (se informou vendas) */}
-            {vendasAtuais && (
-              <Card className={`p-4 mb-4 ${isAboveBreakeven ? 'bg-green-500/10 border-green-500' : 'bg-amber-500/10 border-amber-500'}`}>
-                <div className="flex items-start gap-3">
-                  {isAboveBreakeven ? (
-                    <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                  ) : (
-                    <AlertTriangle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
-                  )}
+                {/* Métricas em grid compacto */}
+                <div className="grid grid-cols-2 gap-2 text-center">
                   <div>
-                    <p className={`font-semibold ${isAboveBreakeven ? 'text-green-700 dark:text-green-400' : 'text-amber-700 dark:text-amber-400'}`}>
-                      {isAboveBreakeven ? 'Parabéns! Você está acima do ponto de equilíbrio' : 'Atenção: Você ainda não atingiu o ponto de equilíbrio'}
+                    <p className="text-[10px] text-muted-foreground">Margem/Unidade</p>
+                    <p className="text-sm font-bold text-foreground">
+                      {formatCurrency(resultado.margemContribuicao)}
                     </p>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {isAboveBreakeven ? (
-                        <>Seu lucro atual é de <strong className="text-green-600">{formatCurrency(resultado.lucroAtual)}</strong>/mês</>
-                      ) : (
-                        <>Faltam <strong className="text-amber-600">{formatNumber(resultado.unidadesParaLucro)} unidades</strong> para começar a lucrar</>
-                      )}
+                  </div>
+                  <div>
+                    <p className="text-[10px] text-muted-foreground">% do Preço</p>
+                    <p className="text-sm font-bold text-foreground">
+                      {resultado.margemContribuicaoPercent.toFixed(1)}%
                     </p>
                   </div>
                 </div>
-              </Card>
-            )}
+              </div>
 
-            {/* Métricas */}
-            <div className="grid grid-cols-2 gap-3 mb-4">
-              <Card className="p-3">
-                <p className="text-xs text-muted-foreground">Margem de Contribuição</p>
-                <p className="text-lg font-bold text-foreground">
-                  {formatCurrency(resultado.margemContribuicao)}
-                </p>
-                <p className="text-xs text-primary">
-                  {resultado.margemContribuicaoPercent.toFixed(1)}% do preço
-                </p>
-              </Card>
-              <Card className="p-3">
-                <p className="text-xs text-muted-foreground">Receita Mínima</p>
-                <p className="text-lg font-bold text-foreground">
-                  {formatCurrency(resultado.pontoEquilibrioValor)}
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  por mês
-                </p>
-              </Card>
-            </div>
+              {/* Status atual */}
+              {vendasAtuais && (
+                <div className={`rounded-lg p-3 mb-3 ${
+                  isAboveBreakeven ? 'bg-green-50 dark:bg-green-950/20' : 'bg-amber-50 dark:bg-amber-950/20'
+                }`}>
+                  <div className="flex items-start gap-2">
+                    {isAboveBreakeven ? (
+                      <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                    ) : (
+                      <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" />
+                    )}
+                    <div>
+                      <p className={`text-xs font-medium ${
+                        isAboveBreakeven ? 'text-green-700 dark:text-green-400' : 'text-amber-700 dark:text-amber-400'
+                      }`}>
+                        {isAboveBreakeven ? 'Acima do ponto de equilíbrio!' : 'Abaixo do ponto de equilíbrio'}
+                      </p>
+                      <p className="text-[10px] text-muted-foreground">
+                        {isAboveBreakeven ? (
+                          <>Lucro atual: <strong className="text-green-600">{formatCurrency(resultado.lucroAtual)}</strong>/mês</>
+                        ) : (
+                          <>Faltam <strong className="text-amber-600">{formatNumber(resultado.unidadesParaLucro)} un.</strong> para lucrar</>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
 
-            {/* Fórmula */}
-            <Card className="p-3 bg-secondary mb-4">
-              <p className="text-xs font-semibold text-foreground mb-2">Como calculamos:</p>
-              <p className="text-xs text-muted-foreground font-mono">
-                PE = Custos Fixos ÷ (Preço - Custo Variável)
-              </p>
-              <p className="text-xs text-muted-foreground font-mono mt-1">
-                PE = {formatCurrency(parseFloat(custoFixo))} ÷ {formatCurrency(resultado.margemContribuicao)} = {formatNumber(resultado.pontoEquilibrioUnidades)} un.
-              </p>
-            </Card>
+              {/* Fórmula */}
+              <div className="bg-secondary/50 rounded-lg p-2 mb-3">
+                <p className="text-[10px] text-muted-foreground font-mono">
+                  PE = {formatCurrency(parseFloat(custoFixo))} ÷ {formatCurrency(resultado.margemContribuicao)} = {formatNumber(resultado.pontoEquilibrioUnidades)} un.
+                </p>
+              </div>
 
-            {canExport && resultado && (
-              <div className="flex justify-end mt-4">
+              {/* Ações */}
+              <div className="flex justify-end pt-3 border-t">
                 <ExportActions
                   pdfDocument={
                     <PontoEquilibrioPDF
@@ -305,23 +276,30 @@ export function PontoEquilibrioCalc() {
                   calculatorName="ponto-equilibrio"
                 />
               </div>
-            )}
 
-            {showUpgradeBanner && (
-              <UpgradeBanner
-                type={paywallType}
-                remaining={remaining}
-                limit={limit}
-              />
-            )}
+              {showUpgradeBanner && (
+                <div className="mt-3">
+                  <UpgradeBanner
+                    type={paywallType}
+                    remaining={remaining}
+                    limit={limit}
+                  />
+                </div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </Card>
 
-            <ContextualSuggestions
-              currentCalculator="ponto-equilibrio"
-              show={resultado !== null}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </Card>
+      {/* Sugestões */}
+      {resultado !== null && (
+        <div className="mt-3">
+          <ContextualSuggestions
+            currentCalculator="ponto-equilibrio"
+            show={true}
+          />
+        </div>
+      )}
+    </div>
   )
 }

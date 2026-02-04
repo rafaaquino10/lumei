@@ -297,7 +297,7 @@ export function RelatorioMensalPDF({ data }: { data: RelatorioMensalData }) {
   return (
     <Document>
       <Page size="A4" style={baseStyles.page}>
-        <PDFHeader documentType={`Relatorio Mensal - ${MESES[mes - 1]} ${ano}`} date={dataRelatorio} />
+        <PDFHeader documentType={`Relatório Mensal - ${MESES[mes - 1]} ${ano}`} date={dataRelatorio} />
 
         <PDFUserIdentification userData={userData} />
 

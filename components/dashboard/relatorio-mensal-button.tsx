@@ -29,7 +29,7 @@ interface RelatorioMensalButtonProps {
 }
 
 const MESES = [
-  'Janeiro', 'Fevereiro', 'Marco', 'Abril', 'Maio', 'Junho',
+  'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
   'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
 ]
 
@@ -84,7 +84,7 @@ export function RelatorioMensalButton({
       <Link href="/premium">
         <Button variant="outline" size="sm" className="gap-2 text-muted-foreground">
           <Crown className="w-4 h-4 text-amber-500" />
-          Relatorio PDF
+          Relatório PDF
           <span className="text-[10px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded ml-1">
             Premium
           </span>
@@ -109,7 +109,7 @@ export function RelatorioMensalButton({
       ) : (
         <>
           <FileText className="w-4 h-4" />
-          Relatorio PDF
+          Relatório PDF
         </>
       )}
     </Button>
