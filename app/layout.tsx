@@ -10,7 +10,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { OrganizationSchema, SoftwareApplicationSchema } from "./structured-data";
 import { Providers } from "./providers";
 import { CookieConsentBanner } from "@/components/cookie-consent-banner";
-import { PWAInstallPrompt } from "@/components/pwa/install-prompt";
+import { PWAInstallPrompt, ServiceWorkerRegister } from "@/components/pwa";
 import { SkipToContent } from "@/components/skip-to-content";
 import "./globals.css";
 
@@ -124,6 +124,7 @@ export default function RootLayout({
               <Toaster />
               <CookieConsentBanner />
               <PWAInstallPrompt />
+              <ServiceWorkerRegister />
               <AuthModal />
             </AuthModalProvider>
           </AuthProvider>

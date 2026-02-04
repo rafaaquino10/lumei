@@ -40,7 +40,21 @@ model User {
   stripePriceId      String?
   stripeCurrentPeriodEnd DateTime?
 
+  // Trial Premium
+  trialStartedAt     DateTime?
+  trialEndsAt        DateTime?
+  trialUsed          Boolean   @default(false)
+
+  // Engajamento
+  lastLoginAt        DateTime?
+  lastActiveAt       DateTime?
+  currentStreak      Int       @default(0)
+  longestStreak      Int       @default(0)
+  lastStreakDate     DateTime?
+  reengagementSentAt DateTime?
+
   alertasEmail       Boolean   @default(true)
+  alertasPush        Boolean   @default(true)
   alertasWhatsApp    Boolean   @default(false)
   whatsapp           String?
 
@@ -49,11 +63,15 @@ model User {
   sessions      Session[]
   subscription  Subscription?
   registrosFaturamento RegistroFaturamento[]
+  pushSubscriptions PushSubscription[]
+  badges        UserBadge[]
+  milestones    UserMilestone[]
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
   @@index([email])
+  @@index([lastActiveAt])
 }
 
 model Session {
@@ -148,6 +166,10 @@ enum TipoCalculo {
   FATURAMENTO
   FLUXO_CAIXA
   CALENDARIO_DAS
+  TRANSICAO_MEI_ME
+  PONTO_EQUILIBRIO
+  COMPARADOR_TRIBUTARIO
+  ROI
 }
 
 enum TipoAlerta {
@@ -185,4 +207,150 @@ model RegistroFaturamento {
 
   @@unique([userId, mes, ano]) // Um registro por mês/ano por usuário
   @@index([userId, ano])
+}
+
+// Push Notification Subscriptions
+model PushSubscription {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  endpoint  String   @unique
+  p256dh    String   // Public key
+  auth      String   // Auth secret
+
+  userAgent String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+// Sistema de Badges/Conquistas
+model Badge {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  description String
+  icon        String   // Nome do icone Lucide
+  category    BadgeCategory
+  points      Int      @default(10)
+
+  // Criterios para desbloquear (JSON com regras)
+  criteria    Json
+
+  createdAt   DateTime @default(now())
+
+  users       UserBadge[]
+}
+
+model UserBadge {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badgeId   String
+  badge     Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+
+  unlockedAt DateTime @default(now())
+  notified   Boolean  @default(false)
+
+  @@unique([userId, badgeId])
+  @@index([userId])
+}
+
+// Marcos do usuario (celebracoes)
+model UserMilestone {
+  id        String        @id @default(cuid())
+  userId    String
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type      MilestoneType
+  value     Float?        // Valor associado (ex: faturamento atingido)
+  metadata  Json?         // Dados extras
+
+  celebratedAt DateTime?  // Quando o usuario viu a celebracao
+  createdAt    DateTime   @default(now())
+
+  @@index([userId, type])
+}
+
+// Contadores parceiros (Marketplace)
+model Contador {
+  id          String   @id @default(cuid())
+  nome        String
+  email       String   @unique
+  telefone    String?
+  whatsapp    String?
+
+  // Localizacao
+  cidade      String
+  estado      String
+  cep         String?
+
+  // Perfil
+  especialidades String[] // ["MEI", "Simples Nacional", "Lucro Presumido"]
+  bio         String?
+  avatarUrl   String?
+  website     String?
+
+  // Status
+  ativo       Boolean  @default(false)
+  verificado  Boolean  @default(false)
+
+  // Metricas
+  visualizacoes Int    @default(0)
+  contatos      Int    @default(0)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([estado, cidade])
+  @@index([ativo, verificado])
+}
+
+// API Keys para API publica
+model ApiKey {
+  id          String   @id @default(cuid())
+  userId      String
+
+  name        String
+  key         String   @unique
+  hashedKey   String   @unique
+
+  permissions String[] // ["read:calculos", "write:faturamento"]
+
+  lastUsedAt  DateTime?
+  expiresAt   DateTime?
+  revokedAt   DateTime?
+
+  requestCount Int     @default(0)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([hashedKey])
+  @@index([userId])
+}
+
+enum BadgeCategory {
+  ONBOARDING    // Badges de inicio
+  CONSISTENCY   // Badges de consistencia
+  MILESTONE     // Badges de marcos
+  FINANCIAL     // Badges financeiros
+  SOCIAL        // Badges sociais
+  SPECIAL       // Badges especiais
+}
+
+enum MilestoneType {
+  FIRST_REGISTRATION      // Primeiro registro
+  FIRST_MONTH_COMPLETE    // Primeiro mes completo
+  THREE_MONTHS_STREAK     // 3 meses seguidos
+  SIX_MONTHS_STREAK       // 6 meses seguidos
+  ONE_YEAR_STREAK         // 1 ano seguido
+  HALF_LIMIT_REACHED      // 50% do limite
+  SEVENTY_PERCENT_LIMIT   // 70% do limite
+  LIMIT_WARNING           // 80% do limite
+  FIRST_CALCULATION       // Primeiro calculo
+  TEN_CALCULATIONS        // 10 calculos
+  PREMIUM_UPGRADE         // Virou Premium
 }

@@ -1,0 +1,29 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="512" height="512" rx="96" fill="#00D084"/>
+
+  <!-- Calculator body -->
+  <rect x="96" y="96" width="320" height="320" rx="32" fill="white"/>
+
+  <!-- Display -->
+  <rect x="128" y="128" width="256" height="64" rx="12" fill="#00D084" fill-opacity="0.15"/>
+
+  <!-- Buttons row 1 -->
+  <rect x="128" y="216" width="56" height="48" rx="8" fill="#00D084"/>
+  <rect x="200" y="216" width="56" height="48" rx="8" fill="#00D084"/>
+  <rect x="272" y="216" width="56" height="48" rx="8" fill="#00D084"/>
+  <rect x="344" y="216" width="40" height="48" rx="8" fill="#00D084" fill-opacity="0.5"/>
+
+  <!-- Buttons row 2 -->
+  <rect x="128" y="280" width="56" height="48" rx="8" fill="#00D084" fill-opacity="0.7"/>
+  <rect x="200" y="280" width="56" height="48" rx="8" fill="#00D084" fill-opacity="0.7"/>
+  <rect x="272" y="280" width="56" height="48" rx="8" fill="#00D084" fill-opacity="0.7"/>
+  <rect x="344" y="280" width="40" height="48" rx="8" fill="#00D084" fill-opacity="0.5"/>
+
+  <!-- Equal button -->
+  <rect x="128" y="344" width="184" height="48" rx="8" fill="#00D084"/>
+  <rect x="328" y="344" width="56" height="48" rx="8" fill="#00D084" fill-opacity="0.5"/>
+
+  <!-- MEI text indicator -->
+  <text x="256" y="168" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="#00D084" text-anchor="middle">MEI</text>
+</svg>

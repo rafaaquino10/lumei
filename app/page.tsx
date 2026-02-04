@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { ArrowRight, Check, TrendingUp, Clock, Tag, BarChart3, ArrowLeftRight, Calendar } from 'lucide-react'
+import { ArrowRight, Check, TrendingUp, Clock, Tag, BarChart3, ArrowLeftRight, Calendar, ArrowUpCircle, Target, Scale } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
@@ -19,42 +19,70 @@ const calculadoras = [
     icon: TrendingUp,
     titulo: 'Margem de Lucro',
     descricao: 'Descubra quanto você lucra de verdade',
-    href: '/calculadoras',
+    href: '/calculadoras?calc=margem-lucro',
     ativo: true,
   },
   {
     icon: Clock,
     titulo: 'Preço por Hora',
     descricao: 'Calcule o valor mínimo que deve cobrar',
-    href: '/calculadoras',
+    href: '/calculadoras?calc=preco-hora',
     ativo: true,
   },
   {
     icon: Tag,
     titulo: 'Precificação',
-    descricao: 'Defina o preço ideal dos seus produtos/serviços',
-    href: '/calculadoras',
+    descricao: 'Defina o preço ideal dos seus produtos',
+    href: '/calculadoras?calc=precificacao',
     ativo: true,
   },
   {
     icon: BarChart3,
-    titulo: 'Simulador Faturamento',
-    descricao: 'Saiba se vai estourar o teto do MEI',
-    href: '/calculadoras',
+    titulo: 'Faturamento',
+    descricao: 'Simule e acompanhe seu faturamento',
+    href: '/calculadoras?calc=faturamento',
     ativo: true,
   },
   {
     icon: ArrowLeftRight,
     titulo: 'Fluxo de Caixa',
     descricao: 'Controle entradas e saídas mensais',
-    href: '/calculadoras',
+    href: '/calculadoras?calc=fluxo-caixa',
     ativo: true,
   },
   {
     icon: Calendar,
     titulo: 'Calendário DAS',
     descricao: 'Nunca mais atrase o pagamento',
-    href: '/calculadoras',
+    href: '/calculadoras?calc=das',
+    ativo: true,
+  },
+  {
+    icon: ArrowUpCircle,
+    titulo: 'MEI → ME',
+    descricao: 'Saiba quando migrar',
+    href: '/calculadoras?calc=transicao-mei-me',
+    ativo: true,
+  },
+  {
+    icon: Target,
+    titulo: 'Ponto de Equilíbrio',
+    descricao: 'Calcule vendas mínimas',
+    href: '/calculadoras?calc=ponto-equilibrio',
+    ativo: true,
+  },
+  {
+    icon: Scale,
+    titulo: 'Comparador',
+    descricao: 'MEI vs Simples vs LP',
+    href: '/calculadoras?calc=comparador-tributario',
+    ativo: true,
+  },
+  {
+    icon: TrendingUp,
+    titulo: 'ROI',
+    descricao: 'Retorno sobre investimento',
+    href: '/calculadoras?calc=roi',
     ativo: true,
   },
 ]
@@ -206,8 +234,8 @@ export default function Home() {
             </p>
           </motion.div>
 
-          {/* Calculators Grid - Compact */}
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          {/* Calculators Grid - 2 colunas mobile, 5 colunas desktop (2 linhas de 5) */}
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
             {calculadoras.map((calc, i) => (
               <motion.div
                 key={calc.titulo}

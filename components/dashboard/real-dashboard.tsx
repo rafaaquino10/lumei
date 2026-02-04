@@ -17,6 +17,9 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { InfoTooltip, METRIC_TOOLTIPS } from '@/components/ui/info-tooltip'
+import { MetaMensalWidget } from './meta-mensal-widget'
+import { ComparativoAnualWidget } from './comparativo-anual-widget'
+import { RelatorioMensalButton } from './relatorio-mensal-button'
 
 interface RegistroFaturamento {
   id: string
@@ -43,6 +46,21 @@ interface DasInfo {
   diasRestantes: number
 }
 
+interface DadosComparativo {
+  anoAtual: number
+  totalAnoAtual: number
+  totalAnoAnterior: number
+  mesesAnoAtual: number
+  mesesAnoAnterior: number
+}
+
+interface UserData {
+  nome?: string
+  nomeEmpresa?: string
+  cnpj?: string
+  tipoMEI?: string
+}
+
 interface RealDashboardProps {
   registros: RegistroFaturamento[]
   metricas: Metricas | null
@@ -50,6 +68,9 @@ interface RealDashboardProps {
   onboardingCompleto: boolean
   ocupacao: string | null
   anoAtual: number
+  dadosComparativo?: DadosComparativo
+  isPremium?: boolean
+  userData?: UserData
 }
 
 const MESES_CURTOS = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
@@ -61,6 +82,9 @@ export function RealDashboard({
   onboardingCompleto,
   ocupacao,
   anoAtual,
+  dadosComparativo,
+  isPremium = false,
+  userData,
 }: RealDashboardProps) {
   const router = useRouter()
   const anoSelecionado = metricas?.ano || anoAtual
@@ -86,7 +110,9 @@ export function RealDashboard({
 
   const mesAtual = new Date().getMonth() + 1
   const isAnoAtual = anoSelecionado === anoAtual
-  const temRegistroMesAtual = isAnoAtual && registros.some(r => r.mes === mesAtual)
+  const registroMesAtual = registros.find(r => r.mes === mesAtual)
+  const temRegistroMesAtual = isAnoAtual && !!registroMesAtual
+  const faturamentoMesAtual = registroMesAtual?.valor || 0
   const temDados = registros.length > 0
 
   // Preparar dados do gráfico
@@ -212,9 +238,20 @@ export function RealDashboard({
             <ChevronRight className="h-5 w-5" />
           </Button>
         </div>
-        <span className="text-sm text-muted-foreground font-medium">
-          {ocupacao || 'MEI'}
-        </span>
+        <div className="flex items-center gap-2">
+          <RelatorioMensalButton
+            registros={registros.map(r => ({ mes: r.mes, ano: r.ano, valor: r.valor }))}
+            ano={anoSelecionado}
+            mes={mesAtual}
+            limiteMEI={metricas?.limiteMEI || 81000}
+            valorDAS={dasInfo.valor}
+            isPremium={isPremium}
+            userData={userData}
+          />
+          <span className="text-sm text-muted-foreground font-medium hidden sm:inline">
+            {ocupacao || 'MEI'}
+          </span>
+        </div>
       </div>
 
       {/* Main Dashboard */}
@@ -317,18 +354,18 @@ export function RealDashboard({
         </motion.div>
 
         {/* DAS e Status */}
-        <div className="flex items-center gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {/* DAS Card */}
-          <div className="flex-1 bg-primary/10 border border-primary/30 rounded-lg px-4 py-3">
+          <div className="bg-primary/10 border border-primary/30 rounded-lg px-4 py-3">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
                 <Calendar className="w-5 h-5 text-white" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <InfoTooltip {...METRIC_TOOLTIPS.proximoDAS}>
                   <p className="text-sm font-semibold text-foreground">Próximo DAS</p>
                 </InfoTooltip>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground truncate">
                   {dasInfo.data} • {formatCurrency(dasInfo.valor)}
                 </p>
               </div>
@@ -336,9 +373,9 @@ export function RealDashboard({
           </div>
 
           {/* Meses até estourar */}
-          <div className="flex-1 bg-secondary/80 border border-border rounded-lg px-4 py-3">
+          <div className="bg-secondary/80 border border-border rounded-lg px-4 py-3">
             <div className="flex items-center gap-3">
-              <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+              <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
                 statusLimite === 'ok'
                   ? 'bg-green-500'
                   : statusLimite === 'warning'
@@ -351,7 +388,7 @@ export function RealDashboard({
                   <AlertCircle className="w-5 h-5 text-white" />
                 )}
               </div>
-              <div>
+              <div className="min-w-0">
                 <InfoTooltip {...METRIC_TOOLTIPS.mesesAteEstourar}>
                   <p className="text-sm font-semibold text-foreground">Meses até limite</p>
                 </InfoTooltip>
@@ -364,6 +401,26 @@ export function RealDashboard({
             </div>
           </div>
         </div>
+
+        {/* Widget Meta Mensal - só mostra no ano atual */}
+        {isAnoAtual && metricas && metricas.mediaMovel > 0 && (
+          <MetaMensalWidget
+            mediaMensal={metricas.mediaMovel}
+            faturamentoMesAtual={faturamentoMesAtual}
+            mesAtual={MESES_CURTOS[mesAtual - 1]}
+          />
+        )}
+
+        {/* Widget Comparativo Anual - mostra se tem dados do ano anterior */}
+        {dadosComparativo && (
+          <ComparativoAnualWidget
+            anoAtual={dadosComparativo.anoAtual}
+            totalAnoAtual={dadosComparativo.totalAnoAtual}
+            totalAnoAnterior={dadosComparativo.totalAnoAnterior}
+            mesesAnoAtual={dadosComparativo.mesesAnoAtual}
+            mesesAnoAnterior={dadosComparativo.mesesAnoAnterior}
+          />
+        )}
 
         {/* Status Badge */}
         <div className="flex justify-center">

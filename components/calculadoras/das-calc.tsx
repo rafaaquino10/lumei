@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { Card } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Receipt } from 'lucide-react'
 import { ContextualSuggestions } from './contextual-suggestions'
 import { ExportActions } from './export-actions'
 import { DASPDF } from '@/components/pdf'
@@ -27,12 +28,10 @@ export function DasCalc() {
   }
 
   const proximosVencimentos = [
-    { mes: 'Fev/26', vencimento: '20/02' },
-    { mes: 'Mar/26', vencimento: '20/03' },
-    { mes: 'Abr/26', vencimento: '20/04' },
-    { mes: 'Mai/26', vencimento: '20/05' },
-    { mes: 'Jun/26', vencimento: '20/06' },
-    { mes: 'Jul/26', vencimento: '20/07' },
+    { mes: 'Fev', dia: '20' },
+    { mes: 'Mar', dia: '20' },
+    { mes: 'Abr', dia: '20' },
+    { mes: 'Mai', dia: '20' },
   ]
 
   const pdfInputs = {
@@ -40,27 +39,28 @@ export function DasCalc() {
     ano: 2026,
   }
 
-  // A calculadora de DAS nao conta como calculo de limite
-  // pois e apenas uma consulta de tabela
-  const canExport = pdfUserData !== undefined
-
   return (
-    <Card className="p-4 max-w-3xl mx-auto">
-      <h2 className="text-xl font-bold text-foreground mb-3">
-        Calendário DAS MEI 2026
-      </h2>
-      <p className="text-sm text-muted-foreground mb-4">
-        Consulte o valor do DAS e próximos vencimentos
-      </p>
-
-      <div className="grid md:grid-cols-2 gap-6 mb-4">
-        {/* Coluna esquerda - Tipo e Valor */}
-        <div className="space-y-4">
+    <div className="max-w-lg mx-auto">
+      <Card className="p-4">
+        {/* Header compacto */}
+        <div className="flex items-center gap-2 mb-4">
+          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+            <Receipt className="w-4 h-4 text-primary" />
+          </div>
           <div>
-            <Label htmlFor="tipo">Tipo do MEI</Label>
+            <h2 className="text-base font-semibold text-foreground">Calendário DAS MEI 2026</h2>
+            <p className="text-xs text-muted-foreground">Valor do DAS e próximos vencimentos</p>
+          </div>
+        </div>
+
+        {/* Layout horizontal: Seletor + Resultado */}
+        <div className="grid grid-cols-2 gap-3 mb-3">
+          {/* Seletor */}
+          <div>
+            <Label htmlFor="tipo" className="text-xs">Tipo do MEI</Label>
             <Select value={tipoMei} onValueChange={(value) => setTipoMei(value as TipoMEI)}>
-              <SelectTrigger className="h-10">
-                <SelectValue placeholder="Selecione o tipo" />
+              <SelectTrigger className="h-9 mt-1">
+                <SelectValue placeholder="Selecione" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="comercio">Comércio</SelectItem>
@@ -71,83 +71,77 @@ export function DasCalc() {
             </Select>
           </div>
 
-          <motion.div
-            key={tipoMei}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.2 }}
-          >
-            <Card className="p-4 bg-primary/10 border-primary">
-              <p className="text-xs text-muted-foreground mb-1">Valor do DAS Mensal</p>
-              <motion.p
-                className="text-2xl font-bold text-foreground"
-                initial={{ scale: 0.8 }}
-                animate={{ scale: 1 }}
-                transition={{ type: "spring", stiffness: 200 }}
-              >
-                R$ {calcularDAS().toFixed(2)}
-              </motion.p>
-              <p className="text-xs text-muted-foreground mt-2">
-                Vencimento: dia 20 de cada mês
+          {/* Total Anual */}
+          <div>
+            <Label className="text-xs">Total Anual</Label>
+            <div className="h-9 mt-1 bg-secondary/50 rounded-md flex items-center justify-center">
+              <p className="text-sm font-bold text-foreground">
+                R$ {(calcularDAS() * 12).toFixed(2)}
               </p>
-            </Card>
-          </motion.div>
-
-          <Card className="p-3 bg-card">
-            <p className="text-xs text-muted-foreground">Total Anual</p>
-            <p className="text-lg font-bold text-foreground">
-              R$ {(calcularDAS() * 12).toFixed(2)}
-            </p>
-          </Card>
+            </div>
+          </div>
         </div>
 
-        {/* Coluna direita - Próximos Vencimentos */}
-        <div>
-          <h3 className="text-sm font-semibold text-foreground mb-3">
-            Próximos Vencimentos
-          </h3>
-          <div className="grid grid-cols-2 gap-2">
-            {proximosVencimentos.map((item, index) => (
-              <motion.div
-                key={item.mes}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-              >
-                <Card className="p-2">
-                  <div className="text-center">
-                    <p className="text-xs font-medium text-foreground">{item.mes}</p>
-                    <p className="text-xs text-muted-foreground">{item.vencimento}</p>
-                  </div>
-                </Card>
-              </motion.div>
+        {/* Resultado Principal */}
+        <motion.div
+          key={tipoMei}
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.2 }}
+        >
+          <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg p-4 mb-3">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs text-muted-foreground mb-1">Valor do DAS Mensal</p>
+                <motion.p
+                  className="text-3xl font-bold text-primary"
+                  initial={{ scale: 0.8 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 200 }}
+                >
+                  R$ {calcularDAS().toFixed(2)}
+                </motion.p>
+              </div>
+              <div className="text-right">
+                <p className="text-[10px] text-muted-foreground">Vencimento</p>
+                <p className="text-lg font-bold text-foreground">Dia 20</p>
+                <p className="text-[10px] text-muted-foreground">de cada mês</p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Próximos Vencimentos - inline */}
+        <div className="flex items-center justify-between bg-secondary/50 rounded-lg p-2 mb-3">
+          <span className="text-[10px] text-muted-foreground">Próximos:</span>
+          <div className="flex gap-2">
+            {proximosVencimentos.map((item) => (
+              <span key={item.mes} className="text-xs font-medium text-foreground">
+                {item.dia}/{item.mes}
+              </span>
             ))}
           </div>
         </div>
-      </div>
 
-      <Card className="p-3 bg-secondary mb-4">
-        <p className="text-xs text-muted-foreground">
-          O DAS vence todo dia 20 de cada mes. Valores referencia 2026.
-        </p>
-      </Card>
-
-      {canExport && (
-        <div className="flex justify-end">
+        {/* Ações */}
+        <div className="flex items-center justify-between pt-3 border-t">
+          <p className="text-[10px] text-muted-foreground">
+            Valores referência 2026
+          </p>
           <ExportActions
             pdfDocument={<DASPDF inputs={pdfInputs} userData={pdfUserData} />}
             calculatorName="das-mei"
           />
         </div>
-      )}
+      </Card>
 
-      {/* Sugestoes contextuais */}
-      <div className="mt-4">
+      {/* Sugestões */}
+      <div className="mt-3">
         <ContextualSuggestions
           currentCalculator="das"
           show={true}
         />
       </div>
-    </Card>
+    </div>
   )
 }

@@ -41,7 +41,7 @@ export function UpgradeBanner({ type, remaining, limit }: UpgradeBannerProps) {
               : 'Faça upgrade para cálculos ilimitados, PDFs verificados e mais!'
             }
           </p>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             {isAnonymous ? (
               <>
                 <Link href="/sign-up">
@@ -51,7 +51,7 @@ export function UpgradeBanner({ type, remaining, limit }: UpgradeBannerProps) {
                   </Button>
                 </Link>
                 <Link href="/sign-in">
-                  <Button size="sm" variant="ghost">
+                  <Button size="sm" variant="ghost" className="whitespace-nowrap">
                     Já tenho conta
                   </Button>
                 </Link>
@@ -59,7 +59,7 @@ export function UpgradeBanner({ type, remaining, limit }: UpgradeBannerProps) {
             ) : (
               <Link href="/premium">
                 <Button size="sm" className="gap-1">
-                  Ver Premium - R$ 14,90/mes
+                  Ver Premium - R$ 14,90/mês
                   <ArrowRight className="w-3 h-3" />
                 </Button>
               </Link>

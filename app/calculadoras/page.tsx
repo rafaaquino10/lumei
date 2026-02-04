@@ -2,7 +2,7 @@
 
 import { Suspense, useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { TrendingUp, Clock, Tag, BarChart3, ArrowLeftRight, Calendar } from 'lucide-react'
+import { TrendingUp, Clock, Tag, BarChart3, ArrowLeftRight, Calendar, ArrowUpCircle, Target, Scale } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import { MargemLucroCalc } from '@/components/calculadoras/margem-lucro-calc'
@@ -11,11 +11,15 @@ import { PrecificacaoCalc } from '@/components/calculadoras/precificacao-calc'
 import { FaturamentoCalc } from '@/components/calculadoras/faturamento-calc'
 import { FluxoCaixaCalc } from '@/components/calculadoras/fluxo-caixa-calc'
 import { DasCalc } from '@/components/calculadoras/das-calc'
+import { TransicaoMeiMeCalc } from '@/components/calculadoras/transicao-mei-me-calc'
+import { PontoEquilibrioCalc } from '@/components/calculadoras/ponto-equilibrio-calc'
+import { ComparadorTributarioCalc } from '@/components/calculadoras/comparador-tributario-calc'
+import { ROICalc } from '@/components/calculadoras/roi-calc'
 import { CalculadorasPageSchema } from '@/components/calculator-schema'
 import { AdWrapper } from '@/components/ads/ad-wrapper'
 import { CalculatorSkeleton, CalculatorNavSkeleton } from '@/components/calculadoras/calculator-skeleton'
 
-type CalculadoraId = 'margem-lucro' | 'preco-hora' | 'precificacao' | 'faturamento' | 'fluxo-caixa' | 'das'
+type CalculadoraId = 'margem-lucro' | 'preco-hora' | 'precificacao' | 'faturamento' | 'fluxo-caixa' | 'das' | 'transicao-mei-me' | 'ponto-equilibrio' | 'comparador-tributario' | 'roi'
 
 const calculadoras = [
   {
@@ -54,6 +58,30 @@ const calculadoras = [
     titulo: 'DAS',
     descricao: 'Calendário e valores',
   },
+  {
+    id: 'transicao-mei-me' as CalculadoraId,
+    icon: ArrowUpCircle,
+    titulo: 'MEI → ME',
+    descricao: 'Quando migrar?',
+  },
+  {
+    id: 'ponto-equilibrio' as CalculadoraId,
+    icon: Target,
+    titulo: 'Ponto de Equilíbrio',
+    descricao: 'Vendas mínimas',
+  },
+  {
+    id: 'comparador-tributario' as CalculadoraId,
+    icon: Scale,
+    titulo: 'Comparador',
+    descricao: 'MEI vs Simples vs LP',
+  },
+  {
+    id: 'roi' as CalculadoraId,
+    icon: TrendingUp,
+    titulo: 'ROI',
+    descricao: 'Retorno investimento',
+  },
 ]
 
 function CalculadorasContent() {
@@ -81,6 +109,14 @@ function CalculadorasContent() {
         return <FluxoCaixaCalc />
       case 'das':
         return <DasCalc />
+      case 'transicao-mei-me':
+        return <TransicaoMeiMeCalc />
+      case 'ponto-equilibrio':
+        return <PontoEquilibrioCalc />
+      case 'comparador-tributario':
+        return <ComparadorTributarioCalc />
+      case 'roi':
+        return <ROICalc />
       default:
         return null
     }
@@ -97,9 +133,9 @@ function CalculadorasContent() {
         </p>
       </div>
 
-      {/* Grid responsivo de calculadoras */}
+      {/* Grid responsivo de calculadoras - 2 linhas de 5 no desktop, 2 colunas no mobile */}
       <div className="mb-6">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 sm:gap-3">
           {calculadoras.map((calc) => (
             <button
               key={calc.id}
@@ -108,8 +144,8 @@ function CalculadorasContent() {
             >
               <Card
                 className={cn(
-                  'p-3 transition-all duration-200 h-full',
-                  'flex flex-col items-center text-center gap-2',
+                  'p-3 sm:p-4 transition-all duration-200 h-full',
+                  'flex flex-col items-center text-center gap-1.5 sm:gap-2',
                   ativa === calc.id
                     ? 'border-primary shadow-lg bg-primary/5'
                     : 'hover:shadow-md hover:border-primary/50'
@@ -117,7 +153,7 @@ function CalculadorasContent() {
               >
                 <calc.icon
                   className={cn(
-                    'w-6 h-6',
+                    'w-5 h-5 sm:w-6 sm:h-6',
                     ativa === calc.id ? 'text-primary' : 'text-muted-foreground'
                   )}
                 />
@@ -130,7 +166,7 @@ function CalculadorasContent() {
                   >
                     {calc.titulo}
                   </h3>
-                  <p className="text-[10px] text-muted-foreground mt-0.5 hidden sm:block">
+                  <p className="text-[10px] text-muted-foreground mt-0.5 hidden sm:block leading-tight">
                     {calc.descricao}
                   </p>
                 </div>

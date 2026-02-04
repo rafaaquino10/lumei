@@ -56,6 +56,15 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
     orderBy: { mes: 'asc' },
   })
 
+  // Buscar registros do ano anterior para comparativo
+  const registrosAnoAnterior = await prisma.registroFaturamento.findMany({
+    where: {
+      userId: user.id,
+      ano: anoValido - 1,
+    },
+    orderBy: { mes: 'asc' },
+  })
+
   // Calcular métricas reais
   const totalAcumulado = registros.reduce((sum, r) => sum + r.valor, 0)
   const mesesComRegistro = registros.length
@@ -75,6 +84,18 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
     mesesAteEstourar,
     limiteMEI: LIMITE_MEI,
     ano: anoValido,
+  }
+
+  // Métricas do ano anterior para comparativo
+  const totalAnoAnterior = registrosAnoAnterior.reduce((sum, r) => sum + r.valor, 0)
+  const mesesAnoAnterior = registrosAnoAnterior.length
+
+  const dadosComparativo = {
+    anoAtual: anoValido,
+    totalAnoAtual: totalAcumulado,
+    totalAnoAnterior,
+    mesesAnoAtual: mesesComRegistro,
+    mesesAnoAnterior,
   }
 
   // Próximo DAS
@@ -144,6 +165,13 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
           onboardingCompleto={onboardingCompleto}
           ocupacao={user.ocupacao}
           anoAtual={anoAtual}
+          dadosComparativo={dadosComparativo}
+          isPremium={user.plano === 'PREMIUM'}
+          userData={{
+            nome: user.name || undefined,
+            cnpj: user.cnpj || undefined,
+            tipoMEI: user.tipoMEI || undefined,
+          }}
         />
       </div>
 
@@ -208,21 +236,20 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
           </div>
 
           <div className="space-y-2">
-            {user.calculos.slice(0, 3).map((calculo: {
-              id: string
-              tipo: 'MARGEM_LUCRO' | 'PRECO_HORA' | 'PRECIFICACAO' | 'FATURAMENTO' | 'FLUXO_CAIXA' | 'CALENDARIO_DAS'
-              createdAt: string | Date
-              titulo?: string | null
-            } & Record<string, unknown>) => {
-              const tipoLabelMap = {
+            {user.calculos.slice(0, 3).map((calculo) => {
+              const tipoLabelMap: Record<string, string> = {
                 MARGEM_LUCRO: 'Margem de Lucro',
                 PRECO_HORA: 'Preço por Hora',
                 PRECIFICACAO: 'Precificação',
                 FATURAMENTO: 'Faturamento',
                 FLUXO_CAIXA: 'Fluxo de Caixa',
                 CALENDARIO_DAS: 'Calendário DAS',
-              } as const
-              const tipoLabel = tipoLabelMap[calculo.tipo]
+                TRANSICAO_MEI_ME: 'Transição MEI → ME',
+                PONTO_EQUILIBRIO: 'Ponto de Equilíbrio',
+                COMPARADOR_TRIBUTARIO: 'Comparador Tributário',
+                ROI: 'Retorno sobre Investimento',
+              }
+              const tipoLabel = tipoLabelMap[calculo.tipo] || calculo.tipo
 
               return (
                 <Card key={calculo.id} className="p-3">
