@@ -244,7 +244,7 @@ export function RealDashboard({
               const hasData = valor > 0
 
               return (
-                <div key={i} className="flex-1 flex flex-col items-center">
+                <div key={i} className="flex-1 h-full flex flex-col justify-end items-center">
                   <motion.div
                     className={`w-full rounded-t-sm ${
                       isCurrentMonth
@@ -254,7 +254,7 @@ export function RealDashboard({
                           : 'bg-muted-foreground/10'
                     }`}
                     initial={{ height: 0 }}
-                    animate={{ height: `${Math.max(height, hasData ? 10 : 3)}%` }}
+                    animate={{ height: hasData ? `${Math.max(height, 10)}%` : '3px' }}
                     transition={{ delay: 0.3 + i * 0.03, duration: 0.4 }}
                   />
                 </div>
