@@ -14,7 +14,7 @@ import { FaturamentoPDF } from '@/components/pdf'
 import { usePDFUserData } from '@/hooks/use-pdf-user-data'
 
 const meses = [
-  'Janeiro', 'Fevereiro', 'Marco', 'Abril', 'Maio', 'Junho',
+  'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
   'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
 ]
 
@@ -180,9 +180,9 @@ export function FaturamentoCalc() {
                           {resultado.percentual.toFixed(1)}% do limite anual
                         </p>
                         <p className="text-xs text-muted-foreground mt-1">
-                          {resultado.status === 'perigo' && 'Voce ultrapassou o limite do MEI de R$ 81.000!'}
-                          {resultado.status === 'atencao' && 'Atencao! Voce esta proximo do limite.'}
-                          {resultado.status === 'seguro' && 'Voce esta dentro do limite anual de R$ 81.000'}
+                          {resultado.status === 'perigo' && 'Você ultrapassou o limite do MEI de R$ 81.000!'}
+                          {resultado.status === 'atencao' && 'Atenção! Você está próximo do limite.'}
+                          {resultado.status === 'seguro' && 'Você está dentro do limite anual de R$ 81.000'}
                         </p>
                       </div>
                       <div className="text-right">

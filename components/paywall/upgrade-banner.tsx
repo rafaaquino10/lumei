@@ -30,15 +30,15 @@ export function UpgradeBanner({ type, remaining, limit }: UpgradeBannerProps) {
           <p className="text-sm font-medium text-foreground mb-1">
             {remaining === 0
               ? isAnonymous
-                ? 'Limite diario atingido'
+                ? 'Limite diário atingido'
                 : 'Limite mensal atingido'
-              : `Voce usou ${used} de ${limit} calculos ${isAnonymous ? 'hoje' : 'este mes'}`
+              : `Você usou ${used} de ${limit} cálculos ${isAnonymous ? 'hoje' : 'este mês'}`
             }
           </p>
           <p className="text-xs text-muted-foreground mb-3">
             {isAnonymous
-              ? 'Crie uma conta gratuita para mais calculos e acesso ao historico!'
-              : 'Faca upgrade para calculos ilimitados, PDFs verificados e mais!'
+              ? 'Crie uma conta gratuita para mais cálculos e acesso ao histórico!'
+              : 'Faça upgrade para cálculos ilimitados, PDFs verificados e mais!'
             }
           </p>
           <div className="flex gap-2">
@@ -46,13 +46,13 @@ export function UpgradeBanner({ type, remaining, limit }: UpgradeBannerProps) {
               <>
                 <Link href="/sign-up">
                   <Button size="sm" className="gap-1">
-                    Criar conta gratis
+                    Criar conta grátis
                     <ArrowRight className="w-3 h-3" />
                   </Button>
                 </Link>
                 <Link href="/sign-in">
                   <Button size="sm" variant="ghost">
-                    Ja tenho conta
+                    Já tenho conta
                   </Button>
                 </Link>
               </>

@@ -13,7 +13,7 @@ interface BlurredResultProps {
 
 /**
  * Componente que mostra o resultado borrado com overlay de upgrade
- * Usado quando o usuario atinge o limite de calculos
+ * Usado quando o usuario atinge o limite de cálculos
  */
 export function BlurredResult({ type, children }: BlurredResultProps) {
   const isAnonymous = type === 'anonymous'
@@ -46,7 +46,7 @@ export function BlurredResult({ type, children }: BlurredResultProps) {
           {/* Titulo */}
           <h3 className="text-lg font-bold text-center mb-2 text-foreground">
             {isAnonymous
-              ? 'Seu resultado esta pronto!'
+              ? 'Seu resultado está pronto!'
               : 'Resultado calculado!'}
           </h3>
 
@@ -54,11 +54,11 @@ export function BlurredResult({ type, children }: BlurredResultProps) {
           <p className="text-center text-muted-foreground text-sm mb-4">
             {isAnonymous ? (
               <>
-                Crie uma conta gratuita para ver o resultado completo e salvar seus calculos.
+                Crie uma conta gratuita para ver o resultado completo e salvar seus cálculos.
               </>
             ) : (
               <>
-                Faca upgrade para Premium e tenha calculos ilimitados por apenas R$ 14,90/mes.
+                Faça upgrade para Premium e tenha cálculos ilimitados por apenas R$ 14,90/mes.
               </>
             )}
           </p>
@@ -69,13 +69,13 @@ export function BlurredResult({ type, children }: BlurredResultProps) {
               <>
                 <Link href="/sign-up" className="block">
                   <Button className="w-full" size="lg">
-                    Ver resultado gratis
+                    Ver resultado grátis
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </Link>
                 <Link href="/sign-in" className="block">
                   <Button variant="ghost" className="w-full text-sm">
-                    Ja tenho conta
+                    Já tenho conta
                   </Button>
                 </Link>
               </>
@@ -88,7 +88,7 @@ export function BlurredResult({ type, children }: BlurredResultProps) {
                   </Button>
                 </Link>
                 <p className="text-xs text-center text-muted-foreground">
-                  Seu limite mensal foi atingido. Renova no proximo mes.
+                  Seu limite mensal foi atingido. Renova no próximo mês.
                 </p>
               </>
             )}

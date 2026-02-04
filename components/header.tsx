@@ -23,14 +23,14 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useState } from 'react'
 
-// Links para usuarios nao logados
+// Links para usuários não logados
 const publicNavLinks = [
   { href: '/', label: 'Home' },
   { href: '/calculadoras', label: 'Ferramentas' },
   { href: '/blog', label: 'Blog' },
 ]
 
-// Links para usuarios logados (ordem: Painel, Registrar, Ferramentas, Blog)
+// Links para usuários logados (ordem: Painel, Registrar, Ferramentas, Blog)
 const authNavLinks = [
   { href: '/dashboard', label: 'Painel', icon: true },
   { href: '/registrar', label: 'Registrar', primary: true },
@@ -55,8 +55,8 @@ export default function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden items-center gap-6 md:flex" aria-label="Navegacao principal">
-          {/* Links para usuarios nao logados */}
+        <nav className="hidden items-center gap-6 md:flex" aria-label="Navegação principal">
+          {/* Links para usuários não logados */}
           <SignedOut>
             {publicNavLinks.map((link) => (
               <Link
@@ -69,7 +69,7 @@ export default function Header() {
             ))}
           </SignedOut>
 
-          {/* Links para usuarios logados */}
+          {/* Links para usuários logados */}
           <SignedIn>
             {authNavLinks.map((link) => (
               <Link
@@ -101,7 +101,7 @@ export default function Header() {
               className="bg-mei-500 text-white hover:bg-mei-600"
               onClick={openSignup}
             >
-              Criar conta gratis
+              Criar conta grátis
             </Button>
           </SignedOut>
 
@@ -116,14 +116,14 @@ export default function Header() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
                 <div className="px-2 py-1.5">
-                  <p className="text-sm font-medium">{user?.name || 'Usuario'}</p>
+                  <p className="text-sm font-medium">{user?.name || 'Usuário'}</p>
                   <p className="text-xs text-muted-foreground">{user?.email}</p>
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
                   <Link href="/dashboard/configuracoes" className="cursor-pointer">
                     <User className="mr-2 h-4 w-4" />
-                    Configuracoes
+                    Configurações
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -150,8 +150,8 @@ export default function Header() {
             </SheetHeader>
             <div className="mt-6 flex flex-col gap-6 px-6">
               {/* Mobile Navigation Links */}
-              <nav className="flex flex-col gap-1" aria-label="Navegacao mobile">
-                {/* Links para usuarios nao logados */}
+              <nav className="flex flex-col gap-1" aria-label="Navegação mobile">
+                {/* Links para usuários não logados */}
                 <SignedOut>
                   {publicNavLinks.map((link) => (
                     <Link
@@ -165,7 +165,7 @@ export default function Header() {
                   ))}
                 </SignedOut>
 
-                {/* Links para usuarios logados */}
+                {/* Links para usuários logados */}
                 <SignedIn>
                   {authNavLinks.map((link) => (
                     <Link
@@ -207,7 +207,7 @@ export default function Header() {
                       openSignup()
                     }}
                   >
-                    Criar conta gratis
+                    Criar conta grátis
                   </Button>
                 </SignedOut>
 
@@ -218,7 +218,7 @@ export default function Header() {
                         <User className="h-5 w-5 text-mei-600" />
                       </div>
                       <div>
-                        <p className="text-sm font-medium">{user?.name || 'Usuario'}</p>
+                        <p className="text-sm font-medium">{user?.name || 'Usuário'}</p>
                         <p className="text-xs text-muted-foreground">{user?.email}</p>
                       </div>
                     </div>

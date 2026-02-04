@@ -169,7 +169,7 @@ export function RealDashboard({
               <div className="flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 text-amber-600" />
                 <span className="text-sm text-amber-800 dark:text-amber-200">
-                  Voce ainda nao registrou o faturamento de {MESES_CURTOS[mesAtual - 1]}
+                  Você ainda não registrou o faturamento de {MESES_CURTOS[mesAtual - 1]}
                 </span>
               </div>
               <Link href="/registrar">
@@ -270,7 +270,7 @@ export function RealDashboard({
         >
           <div className="flex items-center justify-between mb-4">
             <InfoTooltip {...METRIC_TOOLTIPS.evolucaoMensal}>
-              <span className="text-base font-semibold text-foreground">Evolucao Mensal</span>
+              <span className="text-base font-semibold text-foreground">Evolução Mensal</span>
             </InfoTooltip>
             <Link href="/registrar" className="text-sm text-primary hover:underline font-medium">
               Ver detalhes
@@ -326,7 +326,7 @@ export function RealDashboard({
               </div>
               <div>
                 <InfoTooltip {...METRIC_TOOLTIPS.proximoDAS}>
-                  <p className="text-sm font-semibold text-foreground">Proximo DAS</p>
+                  <p className="text-sm font-semibold text-foreground">Próximo DAS</p>
                 </InfoTooltip>
                 <p className="text-sm text-muted-foreground">
                   {dasInfo.data} • {formatCurrency(dasInfo.valor)}
@@ -353,7 +353,7 @@ export function RealDashboard({
               </div>
               <div>
                 <InfoTooltip {...METRIC_TOOLTIPS.mesesAteEstourar}>
-                  <p className="text-sm font-semibold text-foreground">Meses ate limite</p>
+                  <p className="text-sm font-semibold text-foreground">Meses até limite</p>
                 </InfoTooltip>
                 <p className="text-sm text-muted-foreground">
                   {metricas?.mesesAteEstourar && metricas.mesesAteEstourar < 999
@@ -387,7 +387,7 @@ export function RealDashboard({
             {statusLimite === 'ok'
               ? 'Dentro do limite MEI'
               : statusLimite === 'warning'
-                ? 'Atencao: Proximo do limite'
+                ? 'Atenção: Próximo do limite'
                 : 'Alerta: Risco de desenquadramento'}
           </motion.div>
         </div>

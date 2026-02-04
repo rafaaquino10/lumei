@@ -68,12 +68,12 @@ export function FluxoCaixaCalc() {
         Calculadora de Fluxo de Caixa
       </h2>
       <p className="text-sm text-muted-foreground mb-4">
-        Calcule o saldo entre entradas e saidas do mes
+        Calcule o saldo entre entradas e saídas do mês
       </p>
 
       <div className="grid md:grid-cols-2 gap-4 mb-4">
         <div>
-          <Label htmlFor="entradas">Entradas do Mes (R$)</Label>
+          <Label htmlFor="entradas">Entradas do Mês (R$)</Label>
           <Input
             id="entradas"
             type="number"
@@ -86,7 +86,7 @@ export function FluxoCaixaCalc() {
         </div>
 
         <div>
-          <Label htmlFor="saidas">Saidas do Mes (R$)</Label>
+          <Label htmlFor="saidas">Saídas do Mês (R$)</Label>
           <Input
             id="saidas"
             type="number"
@@ -142,8 +142,8 @@ export function FluxoCaixaCalc() {
                   {resultado.status === 'negativo' ? '-' : ''}R$ {Math.abs(resultado.saldo).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                 </motion.p>
                 <p className="text-xs text-muted-foreground mt-2">
-                  {resultado.status === 'positivo' && 'Fluxo de caixa positivo - Negocios saudaveis'}
-                  {resultado.status === 'negativo' && 'Fluxo de caixa negativo - Atencao necessaria'}
+                  {resultado.status === 'positivo' && 'Fluxo de caixa positivo - Negócios saudáveis'}
+                  {resultado.status === 'negativo' && 'Fluxo de caixa negativo - Atenção necessária'}
                   {resultado.status === 'zerado' && 'Fluxo de caixa zerado'}
                 </p>
               </Card>

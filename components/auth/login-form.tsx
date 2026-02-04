@@ -121,7 +121,7 @@ export function LoginForm() {
           onClick={switchToSignup}
           className="text-mei-600 hover:text-mei-700 font-medium"
         >
-          Criar conta gratis
+          Criar conta grátis
         </button>
       </div>
     </div>

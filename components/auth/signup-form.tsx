@@ -26,7 +26,7 @@ export function SignupForm() {
     e.preventDefault()
 
     if (!acceptTerms) {
-      toast.error('Voce precisa aceitar os termos de uso')
+      toast.error('Você precisa aceitar os termos de uso')
       return
     }
 
@@ -103,7 +103,7 @@ export function SignupForm() {
             <Input
               id="signup-password"
               type="password"
-              placeholder="Minimo 8 caracteres"
+              placeholder="Mínimo 8 caracteres"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="pl-10"
@@ -113,7 +113,7 @@ export function SignupForm() {
             />
           </div>
           <p className="text-xs text-muted-foreground">
-            Minimo 8 caracteres, com letra maiuscula, minuscula e numero
+            Mínimo 8 caracteres, com letra maiúscula, minúscula e número
           </p>
         </div>
 
@@ -134,7 +134,7 @@ export function SignupForm() {
             </Link>{' '}
             e a{' '}
             <Link href="/privacidade" onClick={close} className="text-mei-600 hover:underline">
-              Politica de Privacidade
+              Política de Privacidade
             </Link>
           </label>
         </div>
@@ -150,13 +150,13 @@ export function SignupForm() {
               Criando conta...
             </>
           ) : (
-            'Criar Conta Gratis'
+            'Criar Conta Grátis'
           )}
         </Button>
       </form>
 
       <div className="text-center text-sm text-muted-foreground">
-        Ja tem conta?{' '}
+        Já tem conta?{' '}
         <button
           type="button"
           onClick={switchToLogin}
