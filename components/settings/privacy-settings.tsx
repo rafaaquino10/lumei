@@ -23,7 +23,7 @@ interface PrivacySettingsProps {
     id: string
     email: string
     provider: string
-    createdAt: string | Date
+    createdAt: string
   }
 }
 

@@ -146,7 +146,7 @@ export default async function ConfiguracoesPage() {
               id: user.id,
               email: user.email,
               provider: user.provider,
-              createdAt: user.createdAt,
+              createdAt: user.createdAt.toISOString(),
             }}
           />
         </TabsContent>
