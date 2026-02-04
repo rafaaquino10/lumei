@@ -193,32 +193,32 @@ export function RealDashboard({
           <Button
             variant="ghost"
             size="icon"
-            className="h-6 w-6"
+            className="h-8 w-8"
             onClick={() => navegarAno('anterior')}
             disabled={!podeIrAnterior}
           >
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronLeft className="h-5 w-5" />
           </Button>
-          <span className="text-sm font-semibold text-foreground min-w-[50px] text-center">
+          <span className="text-base font-bold text-foreground min-w-[60px] text-center">
             {anoSelecionado}
           </span>
           <Button
             variant="ghost"
             size="icon"
-            className="h-6 w-6"
+            className="h-8 w-8"
             onClick={() => navegarAno('proximo')}
             disabled={!podeIrProximo}
           >
-            <ChevronRight className="h-4 w-4" />
+            <ChevronRight className="h-5 w-5" />
           </Button>
         </div>
-        <span className="text-xs text-muted-foreground font-medium">
+        <span className="text-sm text-muted-foreground font-medium">
           {ocupacao || 'MEI'}
         </span>
       </div>
 
       {/* Main Dashboard */}
-      <Card className="p-5 space-y-4 rounded-t-none -mt-4 border-t-0">
+      <Card className="p-6 space-y-5 rounded-t-none -mt-4 border-t-0">
         {/* Métricas */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <MetricCard
@@ -268,11 +268,11 @@ export function RealDashboard({
           transition={{ delay: 0.2 }}
           className="bg-secondary/50 rounded-xl p-4 border border-border/50"
         >
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-4">
             <InfoTooltip {...METRIC_TOOLTIPS.evolucaoMensal}>
-              <span className="text-sm font-medium text-foreground">Evolução Mensal</span>
+              <span className="text-base font-semibold text-foreground">Evolucao Mensal</span>
             </InfoTooltip>
-            <Link href="/registrar" className="text-xs text-primary hover:underline">
+            <Link href="/registrar" className="text-sm text-primary hover:underline font-medium">
               Ver detalhes
             </Link>
           </div>
@@ -319,16 +319,16 @@ export function RealDashboard({
         {/* DAS e Status */}
         <div className="flex items-center gap-3">
           {/* DAS Card */}
-          <div className="flex-1 bg-primary/10 border border-primary/30 rounded-lg px-3 py-2">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <Calendar className="w-4 h-4 text-white" />
+          <div className="flex-1 bg-primary/10 border border-primary/30 rounded-lg px-4 py-3">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+                <Calendar className="w-5 h-5 text-white" />
               </div>
               <div>
                 <InfoTooltip {...METRIC_TOOLTIPS.proximoDAS}>
-                  <p className="text-xs font-semibold text-foreground">Próximo DAS</p>
+                  <p className="text-sm font-semibold text-foreground">Proximo DAS</p>
                 </InfoTooltip>
-                <p className="text-[10px] text-muted-foreground">
+                <p className="text-sm text-muted-foreground">
                   {dasInfo.data} • {formatCurrency(dasInfo.valor)}
                 </p>
               </div>
@@ -336,9 +336,9 @@ export function RealDashboard({
           </div>
 
           {/* Meses até estourar */}
-          <div className="flex-1 bg-secondary/80 border border-border rounded-lg px-3 py-2">
-            <div className="flex items-center gap-2">
-              <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+          <div className="flex-1 bg-secondary/80 border border-border rounded-lg px-4 py-3">
+            <div className="flex items-center gap-3">
+              <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
                 statusLimite === 'ok'
                   ? 'bg-green-500'
                   : statusLimite === 'warning'
@@ -346,16 +346,16 @@ export function RealDashboard({
                     : 'bg-red-500'
               }`}>
                 {statusLimite === 'ok' ? (
-                  <CheckCircle2 className="w-4 h-4 text-white" />
+                  <CheckCircle2 className="w-5 h-5 text-white" />
                 ) : (
-                  <AlertCircle className="w-4 h-4 text-white" />
+                  <AlertCircle className="w-5 h-5 text-white" />
                 )}
               </div>
               <div>
                 <InfoTooltip {...METRIC_TOOLTIPS.mesesAteEstourar}>
-                  <p className="text-xs font-semibold text-foreground">Meses até limite</p>
+                  <p className="text-sm font-semibold text-foreground">Meses ate limite</p>
                 </InfoTooltip>
-                <p className="text-[10px] text-muted-foreground">
+                <p className="text-sm text-muted-foreground">
                   {metricas?.mesesAteEstourar && metricas.mesesAteEstourar < 999
                     ? `~${metricas.mesesAteEstourar} meses`
                     : 'Tranquilo'}
@@ -371,7 +371,7 @@ export function RealDashboard({
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ type: 'spring', delay: 0.4 }}
-            className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium ${
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium ${
               statusLimite === 'ok'
                 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
                 : statusLimite === 'warning'
@@ -380,14 +380,14 @@ export function RealDashboard({
             }`}
           >
             {statusLimite === 'ok' ? (
-              <CheckCircle2 className="w-3 h-3" />
+              <CheckCircle2 className="w-4 h-4" />
             ) : (
-              <AlertCircle className="w-3 h-3" />
+              <AlertCircle className="w-4 h-4" />
             )}
             {statusLimite === 'ok'
               ? 'Dentro do limite MEI'
               : statusLimite === 'warning'
-                ? 'Atenção: Próximo do limite'
+                ? 'Atencao: Proximo do limite'
                 : 'Alerta: Risco de desenquadramento'}
           </motion.div>
         </div>
@@ -416,12 +416,12 @@ function MetricCard({
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-secondary/50 rounded-lg p-3 border border-border/50"
+      className="bg-secondary/50 rounded-lg p-4 border border-border/50"
     >
-      <div className="text-[10px] text-muted-foreground mb-1">{label}</div>
-      <p className={`text-sm font-bold truncate ${getStatusColor()}`}>{value}</p>
+      <div className="text-xs text-muted-foreground mb-1">{label}</div>
+      <p className={`text-lg font-bold truncate ${getStatusColor()}`}>{value}</p>
       {subtext && (
-        <p className="text-[9px] text-muted-foreground mt-0.5 truncate">{subtext}</p>
+        <p className="text-xs text-muted-foreground mt-1 truncate">{subtext}</p>
       )}
     </motion.div>
   )
