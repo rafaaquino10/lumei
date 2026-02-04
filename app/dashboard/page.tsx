@@ -166,6 +166,12 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
           ocupacao={user.ocupacao}
           anoAtual={anoAtual}
           dadosComparativo={dadosComparativo}
+          isPremium={user.plano === 'PREMIUM'}
+          userData={{
+            nome: user.name || undefined,
+            cnpj: user.cnpj || undefined,
+            tipoMEI: user.tipoMEI || undefined,
+          }}
         />
       </div>
 

@@ -19,6 +19,7 @@ import Link from 'next/link'
 import { InfoTooltip, METRIC_TOOLTIPS } from '@/components/ui/info-tooltip'
 import { MetaMensalWidget } from './meta-mensal-widget'
 import { ComparativoAnualWidget } from './comparativo-anual-widget'
+import { RelatorioMensalButton } from './relatorio-mensal-button'
 
 interface RegistroFaturamento {
   id: string
@@ -53,6 +54,13 @@ interface DadosComparativo {
   mesesAnoAnterior: number
 }
 
+interface UserData {
+  nome?: string
+  nomeEmpresa?: string
+  cnpj?: string
+  tipoMEI?: string
+}
+
 interface RealDashboardProps {
   registros: RegistroFaturamento[]
   metricas: Metricas | null
@@ -61,6 +69,8 @@ interface RealDashboardProps {
   ocupacao: string | null
   anoAtual: number
   dadosComparativo?: DadosComparativo
+  isPremium?: boolean
+  userData?: UserData
 }
 
 const MESES_CURTOS = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
@@ -73,6 +83,8 @@ export function RealDashboard({
   ocupacao,
   anoAtual,
   dadosComparativo,
+  isPremium = false,
+  userData,
 }: RealDashboardProps) {
   const router = useRouter()
   const anoSelecionado = metricas?.ano || anoAtual
@@ -226,9 +238,20 @@ export function RealDashboard({
             <ChevronRight className="h-5 w-5" />
           </Button>
         </div>
-        <span className="text-sm text-muted-foreground font-medium">
-          {ocupacao || 'MEI'}
-        </span>
+        <div className="flex items-center gap-2">
+          <RelatorioMensalButton
+            registros={registros.map(r => ({ mes: r.mes, ano: r.ano, valor: r.valor }))}
+            ano={anoSelecionado}
+            mes={mesAtual}
+            limiteMEI={metricas?.limiteMEI || 81000}
+            valorDAS={dasInfo.valor}
+            isPremium={isPremium}
+            userData={userData}
+          />
+          <span className="text-sm text-muted-foreground font-medium hidden sm:inline">
+            {ocupacao || 'MEI'}
+          </span>
+        </div>
       </div>
 
       {/* Main Dashboard */}
