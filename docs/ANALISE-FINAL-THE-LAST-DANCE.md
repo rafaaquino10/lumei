@@ -54,7 +54,7 @@
 | Transição MEI → ME | ✅ |
 | Comparador Tributário | ✅ |
 
-### DASHBOARD
+### DASHBOARD ✅ COMPLETO
 
 | Item | Status |
 |------|--------|
@@ -65,8 +65,8 @@
 | Gráfico evolução | ✅ |
 | Próximo DAS | ✅ |
 | Meses até limite | ✅ |
-| Widget meta mensal | ❌ |
-| Comparativo ano anterior | ❌ |
+| Widget meta mensal | ✅ `MetaMensalWidget` |
+| Comparativo ano anterior | ✅ `ComparativoAnualWidget` |
 
 ---
 
@@ -214,10 +214,10 @@ PDFs profissionais implementados com:
 | Comparador de Regimes | ✅ | MEI vs Simples vs Lucro Presumido |
 | Calculadora de ROI | ✅ | Retorno sobre investimento |
 
-### 4.2 Dashboard (Melhorias Futuras)
+### 4.2 Dashboard ✅ COMPLETO
 - [x] Previsão de quando atinge limite ✅ (mesesAteEstourar)
-- [ ] Widget de meta mensal - futuro
-- [ ] Comparativo ano anterior - futuro
+- [x] Widget de meta mensal ✅ `MetaMensalWidget`
+- [x] Comparativo ano anterior ✅ `ComparativoAnualWidget`
 - [ ] Gráfico de sazonalidade - futuro
 
 ### 4.3 Relatórios (Premium - Fase 2)
@@ -253,6 +253,7 @@ PDFs profissionais implementados com:
 - [x] ARIA labels nos componentes principais
 - [x] Navegação por teclado (padrão Next.js)
 - [x] Contraste (Tailwind dark mode)
+- [x] Skip to content link (acessibilidade)
 - [ ] Screen reader tested - pendente
 
 ### 5.4 Performance ⚠️ VERIFICAR
@@ -260,8 +261,19 @@ PDFs profissionais implementados com:
 - [ ] Core Web Vitals otimizados - testar
 - [x] Lazy loading de componentes (Next.js dynamic imports disponível)
 - [x] Prefetch de rotas críticas (Next.js Link automático)
+- [x] Font display swap (evita FOIT)
 
 **Recomendação**: Rodar Lighthouse no Chrome DevTools para verificar score atual
+
+### 5.5 Sistema de Autenticação Modal ✅ COMPLETO
+- [x] Modal de login (`auth-modal.tsx`)
+- [x] Modal de cadastro com blur fullscreen
+- [x] Contexto global (`auth-modal-context.tsx`)
+- [x] Formulários extraídos (`login-form.tsx`, `signup-form.tsx`)
+- [x] Botão "Acessar" abre login modal
+- [x] Botão "Criar conta grátis" abre signup modal
+- [x] Google OAuth no modal
+- [x] Modal fecha após sucesso
 
 ---
 
@@ -558,10 +570,17 @@ O projeto já rastreia automaticamente:
 - [ ] Social proof - **aguardar depoimentos reais**
 
 ### Nice to Have
-- [x] Blog com conteúdo inicial (/blog)
+- [x] Blog com conteúdo inicial (/blog) - **11 posts completos**
 - [ ] Integração com WhatsApp Business API - Fase 3
 - [ ] Chatbot de suporte - futuro
 - [x] FAQ completo (/faq)
+
+### UI/UX ✅ IMPLEMENTADO
+- [x] Sistema de login modal (sem redirecionamento)
+- [x] Calculadoras padronizadas (design compacto, max-w-lg)
+- [x] Tipografia consistente (nav mobile text-base, blog H1 responsivo)
+- [x] Cookie consent banner
+- [x] Skip to content (acessibilidade)
 
 ---
 
