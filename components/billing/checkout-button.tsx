@@ -32,7 +32,8 @@ export function CheckoutButton({ stripePriceId, className }: CheckoutButtonProps
 
       const data = await response.json()
       if (data.url) {
-        window.location.href = data.url
+        // Abre Stripe em nova aba para não perder o contexto do site
+        window.open(data.url, '_blank', 'noopener,noreferrer')
       } else if (data.error) {
         console.error('Checkout error:', data.error)
       }
