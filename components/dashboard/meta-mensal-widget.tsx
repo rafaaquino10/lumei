@@ -11,6 +11,7 @@ interface MetaMensalWidgetProps {
   mediaMensal: number
   faturamentoMesAtual: number
   mesAtual: string
+  compact?: boolean
 }
 
 const STORAGE_KEY = 'calculamei-meta-mensal'
@@ -19,6 +20,7 @@ export function MetaMensalWidget({
   mediaMensal,
   faturamentoMesAtual,
   mesAtual,
+  compact = false,
 }: MetaMensalWidgetProps) {
   const [metaPersonalizada, setMetaPersonalizada] = useState<number | null>(null)
   const [editando, setEditando] = useState(false)
@@ -74,23 +76,23 @@ export function MetaMensalWidget({
   if (mediaMensal <= 0) return null
 
   return (
-    <Card className="p-4">
-      <div className="flex items-center justify-between mb-3">
+    <Card className={compact ? "p-3" : "p-4"}>
+      <div className={`flex items-center justify-between ${compact ? 'mb-2' : 'mb-3'}`}>
         <div className="flex items-center gap-2">
-          <Target className="w-4 h-4 text-primary" />
-          <h3 className="text-sm font-semibold text-foreground">Meta de {mesAtual}</h3>
+          <Target className={`${compact ? 'w-3.5 h-3.5' : 'w-4 h-4'} text-primary`} />
+          <h3 className={`${compact ? 'text-xs' : 'text-sm'} font-semibold text-foreground`}>Meta de {mesAtual}</h3>
         </div>
         {!editando && (
           <Button
             variant="ghost"
             size="icon"
-            className="h-7 w-7"
+            className="h-6 w-6"
             onClick={() => {
               setInputValue(metaAtual.toString())
               setEditando(true)
             }}
           >
-            <Edit2 className="w-3.5 h-3.5 text-muted-foreground" />
+            <Edit2 className="w-3 h-3 text-muted-foreground" />
           </Button>
         )}
       </div>
@@ -131,18 +133,18 @@ export function MetaMensalWidget({
       ) : (
         <>
           {/* Meta e Progresso */}
-          <div className="mb-3">
+          <div className={compact ? 'mb-2' : 'mb-3'}>
             <div className="flex items-end justify-between mb-1">
-              <span className="text-2xl font-bold text-foreground">
+              <span className={`${compact ? 'text-lg' : 'text-2xl'} font-bold text-foreground`}>
                 {formatCurrency(faturamentoMesAtual)}
               </span>
-              <span className="text-sm text-muted-foreground">
+              <span className={`${compact ? 'text-xs' : 'text-sm'} text-muted-foreground`}>
                 de {formatCurrency(metaAtual)}
               </span>
             </div>
 
             {/* Barra de Progresso */}
-            <div className="h-2.5 bg-secondary rounded-full overflow-hidden">
+            <div className={`${compact ? 'h-2' : 'h-2.5'} bg-secondary rounded-full overflow-hidden`}>
               <motion.div
                 className={`h-full rounded-full ${
                   atingiuMeta ? 'bg-green-500' : 'bg-primary'
@@ -155,30 +157,23 @@ export function MetaMensalWidget({
           </div>
 
           {/* Status */}
-          <div className={`flex items-center gap-2 text-xs ${
+          <div className={`flex items-center gap-1.5 ${compact ? 'text-[10px]' : 'text-xs'} ${
             atingiuMeta ? 'text-green-600 dark:text-green-400' : 'text-muted-foreground'
           }`}>
             {atingiuMeta ? (
               <>
-                <TrendingUp className="w-3.5 h-3.5" />
-                <span>Meta atingida! +{formatCurrency(faturamentoMesAtual - metaAtual)} acima</span>
+                <TrendingUp className={compact ? 'w-3 h-3' : 'w-3.5 h-3.5'} />
+                <span>Meta atingida! +{formatCurrency(faturamentoMesAtual - metaAtual)}</span>
               </>
             ) : (
               <>
-                <Target className="w-3.5 h-3.5" />
+                <Target className={compact ? 'w-3 h-3' : 'w-3.5 h-3.5'} />
                 <span>
                   Faltam {formatCurrency(metaAtual - faturamentoMesAtual)} ({percentualFaltando.toFixed(0)}%)
                 </span>
               </>
             )}
           </div>
-
-          {/* Dica sobre a meta */}
-          {!metaPersonalizada && (
-            <p className="text-[10px] text-muted-foreground mt-2">
-              Meta sugerida: sua média + 10% de crescimento
-            </p>
-          )}
         </>
       )}
     </Card>

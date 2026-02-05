@@ -250,7 +250,7 @@ export function DASPDF({ inputs, titulo, userData }: DASPDFProps) {
             {titulo || `Guia DAS MEI ${ano}`}
           </Text>
           <Text style={baseStyles.subtitle}>
-            Calendario de pagamentos e valores do DAS para o ano de {ano}.
+            Calendário de pagamentos e valores do DAS para o ano de {ano}.
           </Text>
         </View>
 
@@ -261,29 +261,29 @@ export function DASPDF({ inputs, titulo, userData }: DASPDFProps) {
             <Text style={styles.resultValue}>
               {formatCurrency(valores.total)}
             </Text>
-            <Text style={styles.resultUnit}>por mes</Text>
+            <Text style={styles.resultUnit}>por mês</Text>
             <Text style={styles.resultStatus}>
-              Vencimento: dia 20 de cada mes
+              Vencimento: dia 20 de cada mês
             </Text>
           </View>
         </View>
 
         {/* Composicao do DAS */}
         <View style={styles.composicaoSection}>
-          <Text style={styles.composicaoTitle}>Composicao do valor</Text>
+          <Text style={styles.composicaoTitle}>Composição do valor</Text>
           <View style={styles.composicaoItem}>
-            <Text style={styles.composicaoItemLabel}>INSS (contribuicao previdenciaria)</Text>
+            <Text style={styles.composicaoItemLabel}>INSS (contribuição previdenciária)</Text>
             <Text style={styles.composicaoItemValue}>{formatCurrency(valores.inss)}</Text>
           </View>
           {valores.icms > 0 && (
             <View style={styles.composicaoItem}>
-              <Text style={styles.composicaoItemLabel}>ICMS (comercio)</Text>
+              <Text style={styles.composicaoItemLabel}>ICMS (comércio)</Text>
               <Text style={styles.composicaoItemValue}>{formatCurrency(valores.icms)}</Text>
             </View>
           )}
           {valores.iss > 0 && (
             <View style={styles.composicaoItem}>
-              <Text style={styles.composicaoItemLabel}>ISS (servicos)</Text>
+              <Text style={styles.composicaoItemLabel}>ISS (serviços)</Text>
               <Text style={styles.composicaoItemValue}>{formatCurrency(valores.iss)}</Text>
             </View>
           )}
@@ -295,7 +295,7 @@ export function DASPDF({ inputs, titulo, userData }: DASPDFProps) {
 
         {/* Calendario de Vencimentos */}
         <View style={styles.calendarioSection}>
-          <Text style={styles.calendarioTitle}>Calendario de vencimentos {ano}</Text>
+          <Text style={styles.calendarioTitle}>Calendário de vencimentos {ano}</Text>
           <View style={styles.calendarioGrid}>
             {vencimentos2026.map((item) => (
               <View key={item.mes} style={styles.calendarioItem}>
@@ -320,8 +320,8 @@ export function DASPDF({ inputs, titulo, userData }: DASPDFProps) {
         <View style={styles.infoBox}>
           <Text style={styles.infoTitle}>Importante sobre o pagamento</Text>
           <Text style={styles.infoText}>
-            O DAS vence todo dia 20. Pagamento em atraso gera multa de 0,33% ao dia (max 20%) + juros (Selic).
-            Pague em dia para manter seus direitos previdenciarios (aposentadoria, auxilio-doenca, etc).
+            O DAS vence todo dia 20. Pagamento em atraso gera multa de 0,33% ao dia (máx 20%) + juros (Selic).
+            Pague em dia para manter seus direitos previdenciários (aposentadoria, auxílio-doença, etc).
           </Text>
         </View>
 
@@ -331,13 +331,13 @@ export function DASPDF({ inputs, titulo, userData }: DASPDFProps) {
           <View style={baseStyles.tipItem}>
             <Text style={baseStyles.tipBullet}>•</Text>
             <Text style={baseStyles.tipText}>
-              Configure debito automatico no Portal do Empreendedor para nunca atrasar.
+              Configure débito automático no Portal do Empreendedor para nunca atrasar.
             </Text>
           </View>
           <View style={baseStyles.tipItem}>
             <Text style={baseStyles.tipBullet}>•</Text>
             <Text style={baseStyles.tipText}>
-              Separe o valor do DAS logo no inicio do mes como despesa fixa.
+              Separe o valor do DAS logo no início do mês como despesa fixa.
             </Text>
           </View>
           <View style={baseStyles.tipItem}>

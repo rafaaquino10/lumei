@@ -439,7 +439,7 @@ export function PDFUserIdentification({ userData }: PDFUserIdentificationProps) 
         {(userData.nomeEmpresa || userData.nome) && (
           <View style={baseStyles.userCol}>
             <Text style={baseStyles.userLabel}>
-              {userData.nomeEmpresa ? 'Razao Social' : 'Nome'}
+              {userData.nomeEmpresa ? 'Razão Social' : 'Nome'}
             </Text>
             <Text style={baseStyles.userValue}>
               {userData.nomeEmpresa || userData.nome}
@@ -465,7 +465,7 @@ export function PDFUserIdentification({ userData }: PDFUserIdentificationProps) 
       {isPremium && (
         <View style={{ marginTop: 8 }}>
           <Text style={{ fontSize: 7, color: colors.textMuted }}>
-            Este documento foi gerado por um usuario Premium do Calcula MEI e pode ser utilizado como comprovante.
+            Este documento foi gerado por um usuário Premium do Calcula MEI e pode ser utilizado como comprovante.
           </Text>
         </View>
       )}
@@ -483,7 +483,7 @@ export function PDFFooter() {
           <Text style={baseStyles.footerLink}>calculamei.com.br</Text>
         </View>
         <Text style={baseStyles.footerText}>
-          Controle seu MEI em 1 minuto/mes
+          Controle seu MEI em 1 minuto/mês
         </Text>
       </View>
     </View>

@@ -231,8 +231,8 @@ export function FluxoCaixaPDF({ inputs, resultado, titulo, userData }: FluxoCaix
 
   const getStatusText = () => {
     switch (resultado.status) {
-      case 'positivo': return 'Fluxo de caixa positivo - Negocios saudaveis'
-      case 'negativo': return 'Fluxo de caixa negativo - Atencao necessaria'
+      case 'positivo': return 'Fluxo de caixa positivo - Negócios saudáveis'
+      case 'negativo': return 'Fluxo de caixa negativo - Atenção necessária'
       default: return 'Fluxo de caixa zerado'
     }
   }
@@ -263,11 +263,11 @@ export function FluxoCaixaPDF({ inputs, resultado, titulo, userData }: FluxoCaix
 
   const getAnalysisContent = () => {
     if (resultado.status === 'positivo') {
-      return `Parabens! Seu fluxo de caixa esta positivo em ${formatCurrency(resultado.saldo)}. Isso significa que suas entradas superam suas saidas, permitindo reinvestir no negocio ou criar reserva de emergencia.`
+      return `Parabéns! Seu fluxo de caixa está positivo em ${formatCurrency(resultado.saldo)}. Isso significa que suas entradas superam suas saídas, permitindo reinvestir no negócio ou criar reserva de emergência.`
     } else if (resultado.status === 'negativo') {
-      return `Alerta: Seu fluxo de caixa esta negativo em ${formatCurrency(Math.abs(resultado.saldo))}. Revise suas despesas e busque aumentar as entradas. Considere renegociar prazos com fornecedores.`
+      return `Alerta: Seu fluxo de caixa está negativo em ${formatCurrency(Math.abs(resultado.saldo))}. Revise suas despesas e busque aumentar as entradas. Considere renegociar prazos com fornecedores.`
     }
-    return 'Seu fluxo de caixa esta equilibrado. Entradas e saidas estao equivalentes. Busque aumentar sua margem para criar reservas.'
+    return 'Seu fluxo de caixa está equilibrado. Entradas e saídas estão equivalentes. Busque aumentar sua margem para criar reservas.'
   }
 
   return (
@@ -285,14 +285,14 @@ export function FluxoCaixaPDF({ inputs, resultado, titulo, userData }: FluxoCaix
             {titulo || `Fluxo de Caixa - ${periodo}`}
           </Text>
           <Text style={baseStyles.subtitle}>
-            Acompanhe o saldo entre suas entradas e saidas para manter a saude financeira.
+            Acompanhe o saldo entre suas entradas e saídas para manter a saúde financeira.
           </Text>
         </View>
 
         {/* Main Result */}
         <View style={baseStyles.cardHighlight}>
           <View style={styles.resultMain}>
-            <Text style={styles.resultLabel}>SALDO DO PERIODO</Text>
+            <Text style={styles.resultLabel}>SALDO DO PERÍODO</Text>
             <Text style={[styles.resultValue, getValueStyle()]}>
               {resultado.status === 'negativo' ? '-' : ''}{formatCurrency(Math.abs(resultado.saldo))}
             </Text>
@@ -304,7 +304,7 @@ export function FluxoCaixaPDF({ inputs, resultado, titulo, userData }: FluxoCaix
 
         {/* Flow Cards */}
         <View style={styles.flowSection}>
-          <Text style={styles.flowTitle}>Movimentacao do periodo</Text>
+          <Text style={styles.flowTitle}>Movimentação do período</Text>
           <View style={styles.flowCard}>
             <View style={[styles.flowItem, styles.flowEntradas]}>
               <Text style={styles.flowItemIcon}>+</Text>
@@ -315,7 +315,7 @@ export function FluxoCaixaPDF({ inputs, resultado, titulo, userData }: FluxoCaix
             </View>
             <View style={[styles.flowItem, styles.flowSaidas]}>
               <Text style={styles.flowItemIcon}>-</Text>
-              <Text style={styles.flowItemLabel}>Saidas</Text>
+              <Text style={styles.flowItemLabel}>Saídas</Text>
               <Text style={[styles.flowItemValue, styles.flowSaidasValue]}>
                 {formatCurrency(inputs.saidas)}
               </Text>
@@ -325,7 +325,7 @@ export function FluxoCaixaPDF({ inputs, resultado, titulo, userData }: FluxoCaix
 
         {/* Calculation Breakdown */}
         <View style={styles.calculoSection}>
-          <Text style={styles.calculoTitle}>Detalhamento do calculo</Text>
+          <Text style={styles.calculoTitle}>Detalhamento do cálculo</Text>
           <View style={styles.calculoItem}>
             <Text style={styles.calculoItemLabel}>Total de entradas</Text>
             <Text style={[styles.calculoItemValue, { color: '#166534' }]}>
@@ -333,7 +333,7 @@ export function FluxoCaixaPDF({ inputs, resultado, titulo, userData }: FluxoCaix
             </Text>
           </View>
           <View style={styles.calculoItem}>
-            <Text style={styles.calculoItemLabel}>Total de saidas</Text>
+            <Text style={styles.calculoItemLabel}>Total de saídas</Text>
             <Text style={[styles.calculoItemValue, { color: '#991B1B' }]}>
               - {formatCurrency(inputs.saidas)}
             </Text>
@@ -349,7 +349,7 @@ export function FluxoCaixaPDF({ inputs, resultado, titulo, userData }: FluxoCaix
         {/* Analysis Box */}
         <View style={[styles.analysisBox, getAnalysisStyle()]}>
           <Text style={[styles.analysisTitle, getAnalysisTitleStyle()]}>
-            Analise do fluxo de caixa
+            Análise do fluxo de caixa
           </Text>
           <Text style={[styles.analysisText, getAnalysisTextStyle()]}>
             {getAnalysisContent()}
@@ -362,7 +362,7 @@ export function FluxoCaixaPDF({ inputs, resultado, titulo, userData }: FluxoCaix
           <View style={baseStyles.tipItem}>
             <Text style={baseStyles.tipBullet}>•</Text>
             <Text style={baseStyles.tipText}>
-              Registre todas as entradas e saidas diariamente para maior controle.
+              Registre todas as entradas e saídas diariamente para maior controle.
             </Text>
           </View>
           <View style={baseStyles.tipItem}>

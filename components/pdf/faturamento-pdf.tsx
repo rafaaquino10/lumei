@@ -232,7 +232,7 @@ export function FaturamentoPDF({ inputs, resultado, titulo, userData }: Faturame
         {/* Metrics Grid */}
         <View style={styles.metricsGrid}>
           <View style={styles.metricCard}>
-            <Text style={styles.metricLabel}>Media Mensal</Text>
+            <Text style={styles.metricLabel}>Média Mensal</Text>
             <Text style={styles.metricValue}>
               {formatCurrency(resultado.media)}
             </Text>
@@ -245,7 +245,7 @@ export function FaturamentoPDF({ inputs, resultado, titulo, userData }: Faturame
           </View>
           <View style={styles.metricCard}>
             <Text style={styles.metricLabel}>
-              {isOverLimit ? 'Excedente' : 'Disponivel'}
+              {isOverLimit ? 'Excedente' : 'Disponível'}
             </Text>
             <Text style={[styles.metricValue, isOverLimit ? { color: '#EF4444' } : {}]}>
               {formatCurrency(Math.abs(faltaParaLimite))}
@@ -255,7 +255,7 @@ export function FaturamentoPDF({ inputs, resultado, titulo, userData }: Faturame
 
         {/* Progress Section */}
         <View style={styles.progressSection}>
-          <Text style={styles.progressTitle}>Utilizacao do limite anual</Text>
+          <Text style={styles.progressTitle}>Utilização do limite anual</Text>
           <View style={styles.progressBar}>
             <View
               style={[
@@ -278,7 +278,7 @@ export function FaturamentoPDF({ inputs, resultado, titulo, userData }: Faturame
 
         {/* Monthly Breakdown */}
         <View style={styles.monthsSection}>
-          <Text style={styles.monthsTitle}>Faturamento por mes</Text>
+          <Text style={styles.monthsTitle}>Faturamento por mês</Text>
           <View style={styles.monthsGrid}>
             {meses.map((mes, index) => (
               <View key={mes} style={styles.monthCard}>
@@ -298,9 +298,9 @@ export function FaturamentoPDF({ inputs, resultado, titulo, userData }: Faturame
         <View style={styles.infoBox}>
           <Text style={styles.infoTitle}>Regras do limite MEI</Text>
           <Text style={styles.infoText}>
-            O limite anual do MEI e de R$ 81.000,00 (media de R$ 6.750/mes).
-            Ultrapassar em ate 20% (R$ 97.200) implica em pagar diferenca de impostos.
-            Acima de 20%, ocorre desenquadramento automatico.
+            O limite anual do MEI é de R$ 81.000,00 (média de R$ 6.750/mês).
+            Ultrapassar em até 20% (R$ 97.200) implica em pagar diferença de impostos.
+            Acima de 20%, ocorre desenquadramento automático.
           </Text>
         </View>
 
@@ -316,7 +316,7 @@ export function FaturamentoPDF({ inputs, resultado, titulo, userData }: Faturame
           <View style={baseStyles.tipItem}>
             <Text style={baseStyles.tipBullet}>•</Text>
             <Text style={baseStyles.tipText}>
-              Se proximo do limite, avalie migrar para ME antes do fim do ano.
+              Se próximo do limite, avalie migrar para ME antes do fim do ano.
             </Text>
           </View>
           <View style={baseStyles.tipItem}>

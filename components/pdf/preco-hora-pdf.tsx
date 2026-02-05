@@ -180,14 +180,14 @@ export function PrecoHoraPDF({ inputs, resultado, titulo, userData }: PrecoHoraP
             {titulo || 'Seu Preço por Hora Ideal'}
           </Text>
           <Text style={baseStyles.subtitle}>
-            Descubra quanto cobrar por hora considerando seus custos, ferias e margem de lucro.
+            Descubra quanto cobrar por hora considerando seus custos, férias e margem de lucro.
           </Text>
         </View>
 
         {/* Main Result */}
         <View style={baseStyles.cardHighlight}>
           <View style={styles.resultMain}>
-            <Text style={styles.resultLabel}>PRECO POR HORA RECOMENDADO</Text>
+            <Text style={styles.resultLabel}>PREÇO POR HORA RECOMENDADO</Text>
             <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
               <Text style={styles.resultValue}>
                 {formatCurrency(resultado.precoHoraFinal)}
@@ -195,7 +195,7 @@ export function PrecoHoraPDF({ inputs, resultado, titulo, userData }: PrecoHoraP
               <Text style={styles.resultUnit}>/hora</Text>
             </View>
             <Text style={styles.resultStatus}>
-              Inclui ferias + margem de {inputs.margemLucro}%
+              Inclui férias + margem de {inputs.margemLucro}%
             </Text>
           </View>
         </View>
@@ -209,13 +209,13 @@ export function PrecoHoraPDF({ inputs, resultado, titulo, userData }: PrecoHoraP
             </Text>
           </View>
           <View style={styles.metricCard}>
-            <Text style={styles.metricLabel}>Preco Base (s/ margem)</Text>
+            <Text style={styles.metricLabel}>Preço Base (s/ margem)</Text>
             <Text style={styles.metricValue}>
               {formatCurrency(resultado.precoHoraBruto)}
             </Text>
           </View>
           <View style={styles.metricCard}>
-            <Text style={styles.metricLabel}>Fator Ferias</Text>
+            <Text style={styles.metricLabel}>Fator Férias</Text>
             <Text style={styles.metricValue}>
               {resultado.fatorFerias.toFixed(2)}x
             </Text>
@@ -224,9 +224,9 @@ export function PrecoHoraPDF({ inputs, resultado, titulo, userData }: PrecoHoraP
 
         {/* Inputs Section */}
         <View style={styles.inputsSection}>
-          <Text style={styles.inputsTitle}>Dados utilizados no calculo</Text>
+          <Text style={styles.inputsTitle}>Dados utilizados no cálculo</Text>
           <View style={styles.inputRow}>
-            <Text style={styles.inputLabel}>Salario Liquido Desejado</Text>
+            <Text style={styles.inputLabel}>Salário Líquido Desejado</Text>
             <Text style={styles.inputValue}>{formatCurrency(inputs.salarioDesejado)}/mes</Text>
           </View>
           <View style={styles.inputRow}>
@@ -234,11 +234,11 @@ export function PrecoHoraPDF({ inputs, resultado, titulo, userData }: PrecoHoraP
             <Text style={styles.inputValue}>{formatCurrency(inputs.custosFixos)}</Text>
           </View>
           <View style={styles.inputRow}>
-            <Text style={styles.inputLabel}>Horas Trabalhadas/Mes</Text>
+            <Text style={styles.inputLabel}>Horas Trabalhadas/Mês</Text>
             <Text style={styles.inputValue}>{inputs.horasTrabalhadasMes}h</Text>
           </View>
           <View style={styles.inputRow}>
-            <Text style={styles.inputLabel}>Dias de Ferias/Ano</Text>
+            <Text style={styles.inputLabel}>Dias de Férias/Ano</Text>
             <Text style={styles.inputValue}>{inputs.diasFeriasPorAno} dias</Text>
           </View>
           <View style={styles.inputRow}>
@@ -263,13 +263,13 @@ export function PrecoHoraPDF({ inputs, resultado, titulo, userData }: PrecoHoraP
             </Text>
           </View>
           <View style={styles.breakdownItem}>
-            <Text style={styles.breakdownItemLabel}>Horas efetivas/ano (descontando ferias)</Text>
+            <Text style={styles.breakdownItemLabel}>Horas efetivas/ano (descontando férias)</Text>
             <Text style={styles.breakdownItemValue}>
               {Math.round(horasEfetivasAno)}h
             </Text>
           </View>
           <View style={styles.breakdownItem}>
-            <Text style={styles.breakdownItemLabel}>Preco/hora base</Text>
+            <Text style={styles.breakdownItemLabel}>Preço/hora base</Text>
             <Text style={styles.breakdownItemValue}>
               {formatCurrency(resultado.precoHoraBruto)}
             </Text>
@@ -284,15 +284,15 @@ export function PrecoHoraPDF({ inputs, resultado, titulo, userData }: PrecoHoraP
 
         {/* Formula Box */}
         <View style={styles.formulaBox}>
-          <Text style={styles.formulaTitle}>Formula utilizada</Text>
+          <Text style={styles.formulaTitle}>Fórmula utilizada</Text>
           <Text style={styles.formulaText}>
-            Preco/hora = (Salario + Custos) x 12 / Horas Efetivas/Ano x (1 + Margem%)
+            Preço/hora = (Salário + Custos) x 12 / Horas Efetivas/Ano x (1 + Margem%)
           </Text>
         </View>
 
         {/* Tips */}
         <View style={baseStyles.tipsSection}>
-          <Text style={baseStyles.tipsTitle}>Dicas para aplicar seu preco</Text>
+          <Text style={baseStyles.tipsTitle}>Dicas para aplicar seu preço</Text>
           <View style={baseStyles.tipItem}>
             <Text style={baseStyles.tipBullet}>•</Text>
             <Text style={baseStyles.tipText}>
@@ -302,13 +302,13 @@ export function PrecoHoraPDF({ inputs, resultado, titulo, userData }: PrecoHoraP
           <View style={baseStyles.tipItem}>
             <Text style={baseStyles.tipBullet}>•</Text>
             <Text style={baseStyles.tipText}>
-              Projetos urgentes podem ter adicional de 20-50% sobre o preco base.
+              Projetos urgentes podem ter adicional de 20-50% sobre o preço base.
             </Text>
           </View>
           <View style={baseStyles.tipItem}>
             <Text style={baseStyles.tipBullet}>•</Text>
             <Text style={baseStyles.tipText}>
-              Revise seu preco a cada 6 meses considerando inflacao e novos custos.
+              Revise seu preço a cada 6 meses considerando inflação e novos custos.
             </Text>
           </View>
         </View>
