@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
 })
 
 const MESES = [
-  'Janeiro', 'Fevereiro', 'Marco', 'Abril', 'Maio', 'Junho',
+  'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
   'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
 ]
 
@@ -307,7 +307,7 @@ export function RelatorioMensalPDF({ data }: { data: RelatorioMensalData }) {
             <Text style={styles.summaryLabel}>Faturamento {MESES[mes - 1]}</Text>
             <Text style={styles.summaryValueGreen}>{formatCurrency(faturamentoMes)}</Text>
             <Text style={styles.summarySubtext}>
-              {variacaoVsMedia >= 0 ? '+' : ''}{variacaoVsMedia.toFixed(1)}% vs media
+              {variacaoVsMedia >= 0 ? '+' : ''}{variacaoVsMedia.toFixed(1)}% vs média
             </Text>
           </View>
 
@@ -318,9 +318,9 @@ export function RelatorioMensalPDF({ data }: { data: RelatorioMensalData }) {
           </View>
 
           <View style={styles.summaryCard}>
-            <Text style={styles.summaryLabel}>Media Mensal</Text>
+            <Text style={styles.summaryLabel}>Média Mensal</Text>
             <Text style={styles.summaryValue}>{formatCurrency(mediaMovel)}</Text>
-            <Text style={styles.summarySubtext}>Projecao anual: {formatCurrency(mediaMovel * 12)}</Text>
+            <Text style={styles.summarySubtext}>Projeção anual: {formatCurrency(mediaMovel * 12)}</Text>
           </View>
         </View>
 
@@ -343,7 +343,7 @@ export function RelatorioMensalPDF({ data }: { data: RelatorioMensalData }) {
                 {status === 'ok'
                   ? 'Dentro do limite MEI'
                   : status === 'warning'
-                    ? 'Atencao: Proximo do limite'
+                    ? 'Atenção: Próximo do limite'
                     : 'Alerta: Limite ultrapassado'}
               </Text>
               <Text style={styles.statusDescription}>
@@ -354,9 +354,9 @@ export function RelatorioMensalPDF({ data }: { data: RelatorioMensalData }) {
           </View>
         </View>
 
-        {/* Evolucao Mensal */}
+        {/* Evolução Mensal */}
         <View style={styles.chartSection}>
-          <Text style={styles.chartTitle}>Evolucao do Faturamento em {ano}</Text>
+          <Text style={styles.chartTitle}>Evolução do Faturamento em {ano}</Text>
           <View style={styles.chartContainer}>
             {evolucaoMensal.slice(0, mes).map((valor, i) => {
               const width = maxValor > 0 ? (valor / maxValor) * 100 : 0
@@ -383,10 +383,10 @@ export function RelatorioMensalPDF({ data }: { data: RelatorioMensalData }) {
           </View>
         </View>
 
-        {/* Informacoes Importantes */}
+        {/* Informações Importantes */}
         <View style={styles.infoSection}>
           <View style={styles.infoCard}>
-            <Text style={styles.infoTitle}>Informacoes do Mes</Text>
+            <Text style={styles.infoTitle}>Informações do Mês</Text>
             <View style={styles.infoGrid}>
               <View style={styles.infoCol}>
                 <Text style={styles.infoLabel}>DAS a pagar</Text>
@@ -394,7 +394,7 @@ export function RelatorioMensalPDF({ data }: { data: RelatorioMensalData }) {
               </View>
               <View style={styles.infoCol}>
                 <Text style={styles.infoLabel}>Vencimento</Text>
-                <Text style={styles.infoValue}>Dia 20 do proximo mes</Text>
+                <Text style={styles.infoValue}>Dia 20 do próximo mês</Text>
               </View>
               <View style={styles.infoCol}>
                 <Text style={styles.infoLabel}>Margem mensal restante</Text>
@@ -406,16 +406,16 @@ export function RelatorioMensalPDF({ data }: { data: RelatorioMensalData }) {
 
         {/* Dicas */}
         <View style={styles.tipsCard}>
-          <Text style={styles.tipsTitle}>Dicas para o proximo mes</Text>
+          <Text style={styles.tipsTitle}>Dicas para o próximo mês</Text>
           {status === 'ok' && (
             <>
               <View style={styles.tipItem}>
                 <Text style={styles.tipBullet}>•</Text>
-                <Text style={styles.tipText}>Continue mantendo seu faturamento dentro da media</Text>
+                <Text style={styles.tipText}>Continue mantendo seu faturamento dentro da média</Text>
               </View>
               <View style={styles.tipItem}>
                 <Text style={styles.tipBullet}>•</Text>
-                <Text style={styles.tipText}>Nao esqueca de registrar seu faturamento mensalmente</Text>
+                <Text style={styles.tipText}>Não esqueça de registrar seu faturamento mensalmente</Text>
               </View>
             </>
           )}
@@ -423,11 +423,11 @@ export function RelatorioMensalPDF({ data }: { data: RelatorioMensalData }) {
             <>
               <View style={styles.tipItem}>
                 <Text style={styles.tipBullet}>•</Text>
-                <Text style={styles.tipText}>Considere adiar vendas maiores para o proximo ano</Text>
+                <Text style={styles.tipText}>Considere adiar vendas maiores para o próximo ano</Text>
               </View>
               <View style={styles.tipItem}>
                 <Text style={styles.tipBullet}>•</Text>
-                <Text style={styles.tipText}>Avalie a transicao para ME se o crescimento continuar</Text>
+                <Text style={styles.tipText}>Avalie a transição para ME se o crescimento continuar</Text>
               </View>
             </>
           )}
@@ -435,17 +435,17 @@ export function RelatorioMensalPDF({ data }: { data: RelatorioMensalData }) {
             <>
               <View style={styles.tipItem}>
                 <Text style={styles.tipBullet}>•</Text>
-                <Text style={styles.tipText}>Procure um contador para avaliar a transicao para ME</Text>
+                <Text style={styles.tipText}>Procure um contador para avaliar a transição para ME</Text>
               </View>
               <View style={styles.tipItem}>
                 <Text style={styles.tipBullet}>•</Text>
-                <Text style={styles.tipText}>Use o Comparador Tributario para simular custos</Text>
+                <Text style={styles.tipText}>Use o Comparador Tributário para simular custos</Text>
               </View>
             </>
           )}
           <View style={styles.tipItem}>
             <Text style={styles.tipBullet}>•</Text>
-            <Text style={styles.tipText}>Pague o DAS ate dia 20 para evitar multas e juros</Text>
+            <Text style={styles.tipText}>Pague o DAS até dia 20 para evitar multas e juros</Text>
           </View>
         </View>
 

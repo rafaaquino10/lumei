@@ -134,7 +134,7 @@ export function MargemLucroPDF({ inputs, resultado, titulo, userData }: MargemLu
             {titulo || 'Análise de Margem de Lucro'}
           </Text>
           <Text style={baseStyles.subtitle}>
-            Veja quanto voce esta lucrando em cada venda e se o preco esta adequado.
+            Veja quanto você está lucrando em cada venda e se o preço está adequado.
           </Text>
         </View>
 
@@ -146,7 +146,7 @@ export function MargemLucroPDF({ inputs, resultado, titulo, userData }: MargemLu
               {formatPercent(resultado.margemBruta)}
             </Text>
             <Text style={[styles.resultStatus, !isPositive ? { backgroundColor: '#FEE2E2', color: '#991B1B' } : {}]}>
-              {isPositive ? 'Lucro positivo' : 'Prejuizo identificado'}
+              {isPositive ? 'Lucro positivo' : 'Prejuízo identificado'}
             </Text>
           </View>
         </View>
@@ -165,7 +165,7 @@ export function MargemLucroPDF({ inputs, resultado, titulo, userData }: MargemLu
           </View>
           {resultado.margemLiquida !== undefined && (
             <View style={styles.metricCard}>
-              <Text style={styles.metricLabel}>Margem Liquida</Text>
+              <Text style={styles.metricLabel}>Margem Líquida</Text>
               <Text style={styles.metricValue}>{formatPercent(resultado.margemLiquida)}</Text>
             </View>
           )}
@@ -173,9 +173,9 @@ export function MargemLucroPDF({ inputs, resultado, titulo, userData }: MargemLu
 
         {/* Inputs Section */}
         <View style={styles.inputsSection}>
-          <Text style={styles.inputsTitle}>Dados utilizados no calculo</Text>
+          <Text style={styles.inputsTitle}>Dados utilizados no cálculo</Text>
           <View style={styles.inputRow}>
-            <Text style={styles.inputLabel}>Preco de Venda</Text>
+            <Text style={styles.inputLabel}>Preço de Venda</Text>
             <Text style={styles.inputValue}>{formatCurrency(inputs.precoVenda)}</Text>
           </View>
           <View style={styles.inputRow}>
@@ -188,7 +188,7 @@ export function MargemLucroPDF({ inputs, resultado, titulo, userData }: MargemLu
         <View style={styles.formulaBox}>
           <Text style={styles.formulaTitle}>Formula utilizada</Text>
           <Text style={styles.formulaText}>
-            Margem = (Preco - Custo) / Preco x 100
+            Margem = (Preço - Custo) / Preço x 100
           </Text>
           <Text style={styles.formulaText}>
             Margem = ({formatCurrency(inputs.precoVenda)} - {formatCurrency(inputs.custoTotal)}) / {formatCurrency(inputs.precoVenda)} x 100
@@ -201,7 +201,7 @@ export function MargemLucroPDF({ inputs, resultado, titulo, userData }: MargemLu
           <View style={baseStyles.tipItem}>
             <Text style={baseStyles.tipBullet}>•</Text>
             <Text style={baseStyles.tipText}>
-              Margem ideal para MEI de servicos: 40-60%. Comercio: 25-40%.
+              Margem ideal para MEI de serviços: 40-60%. Comércio: 25-40%.
             </Text>
           </View>
           <View style={baseStyles.tipItem}>
@@ -213,7 +213,7 @@ export function MargemLucroPDF({ inputs, resultado, titulo, userData }: MargemLu
           <View style={baseStyles.tipItem}>
             <Text style={baseStyles.tipBullet}>•</Text>
             <Text style={baseStyles.tipText}>
-              Considere aumentar o preco se sua margem estiver abaixo de 20%.
+              Considere aumentar o preço se sua margem estiver abaixo de 20%.
             </Text>
           </View>
         </View>

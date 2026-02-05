@@ -223,16 +223,16 @@ export function PrecificacaoPDF({ modo, inputs, resultado, titulo, userData }: P
         <View style={baseStyles.titleSection}>
           <View style={styles.modeTag}>
             <Text style={styles.modeTagText}>
-              {isProduto ? 'PRODUTO' : 'SERVICO'}
+              {isProduto ? 'PRODUTO' : 'SERVIÇO'}
             </Text>
           </View>
           <Text style={baseStyles.title}>
-            {titulo || `Precificacao de ${isProduto ? 'Produto' : 'Servico'}`}
+            {titulo || `Precificação de ${isProduto ? 'Produto' : 'Serviço'}`}
           </Text>
           <Text style={baseStyles.subtitle}>
             {isProduto
-              ? 'Calcule o preco ideal do seu produto para garantir lucro em cada venda.'
-              : 'Calcule o preco ideal do seu servico considerando tempo e materiais.'
+              ? 'Calcule o preço ideal do seu produto para garantir lucro em cada venda.'
+              : 'Calcule o preço ideal do seu serviço considerando tempo e materiais.'
             }
           </Text>
         </View>
@@ -241,15 +241,15 @@ export function PrecificacaoPDF({ modo, inputs, resultado, titulo, userData }: P
         <View style={baseStyles.cardHighlight}>
           <View style={styles.resultMain}>
             <Text style={styles.resultLabel}>
-              {isProduto ? 'PRECO DE VENDA SUGERIDO' : 'PRECO DO SERVICO'}
+              {isProduto ? 'PREÇO DE VENDA SUGERIDO' : 'PREÇO DO SERVIÇO'}
             </Text>
             <Text style={styles.resultValue}>
               {formatCurrency(isProduto ? produtoResultado.precoVenda : servicoResultado.precoVenda)}
             </Text>
             <Text style={[styles.resultStatus, !isPositive ? { backgroundColor: '#FEE2E2', color: '#991B1B' } : {}]}>
               {isPositive
-                ? `Lucro de ${formatCurrency(lucro)} por ${isProduto ? 'unidade' : 'servico'}`
-                : `Prejuizo de ${formatCurrency(Math.abs(lucro))} - revise seus custos`
+                ? `Lucro de ${formatCurrency(lucro)} por ${isProduto ? 'unidade' : 'serviço'}`
+                : `Prejuízo de ${formatCurrency(Math.abs(lucro))} - revise seus custos`
               }
             </Text>
           </View>
@@ -270,7 +270,7 @@ export function PrecificacaoPDF({ modo, inputs, resultado, titulo, userData }: P
             </View>
           ) : (
             <View style={styles.metricCard}>
-              <Text style={styles.metricLabel}>Preco/Hora Efetivo</Text>
+              <Text style={styles.metricLabel}>Preço/Hora Efetivo</Text>
               <Text style={styles.metricValueSmall}>
                 {formatCurrency(servicoResultado.precoHoraEfetivo)}
               </Text>
@@ -286,7 +286,7 @@ export function PrecificacaoPDF({ modo, inputs, resultado, titulo, userData }: P
 
         {/* Inputs Section */}
         <View style={styles.inputsSection}>
-          <Text style={styles.inputsTitle}>Dados utilizados no calculo</Text>
+          <Text style={styles.inputsTitle}>Dados utilizados no cálculo</Text>
 
           {isProduto ? (
             <>
@@ -299,7 +299,7 @@ export function PrecificacaoPDF({ modo, inputs, resultado, titulo, userData }: P
                 <Text style={styles.inputValue}>{formatCurrency(produtoInputs.custosFixosRateados)}</Text>
               </View>
               <View style={styles.inputRow}>
-                <Text style={styles.inputLabel}>Despesas Variaveis</Text>
+                <Text style={styles.inputLabel}>Despesas Variáveis</Text>
                 <Text style={styles.inputValue}>{formatCurrency(produtoInputs.despesasVariaveis)}</Text>
               </View>
               <View style={styles.inputRow}>
@@ -310,7 +310,7 @@ export function PrecificacaoPDF({ modo, inputs, resultado, titulo, userData }: P
           ) : (
             <>
               <View style={styles.inputRow}>
-                <Text style={styles.inputLabel}>Horas do Servico</Text>
+                <Text style={styles.inputLabel}>Horas do Serviço</Text>
                 <Text style={styles.inputValue}>{servicoInputs.horasServico}h</Text>
               </View>
               <View style={styles.inputRow}>
@@ -335,7 +335,7 @@ export function PrecificacaoPDF({ modo, inputs, resultado, titulo, userData }: P
 
         {/* Breakdown Section */}
         <View style={styles.breakdownSection}>
-          <Text style={styles.breakdownTitle}>Composicao do preco</Text>
+          <Text style={styles.breakdownTitle}>Composição do preço</Text>
 
           {isProduto ? (
             <>
@@ -348,7 +348,7 @@ export function PrecificacaoPDF({ modo, inputs, resultado, titulo, userData }: P
                 <Text style={styles.breakdownItemValue}>{formatCurrency(produtoInputs.custosFixosRateados)}</Text>
               </View>
               <View style={styles.breakdownItem}>
-                <Text style={styles.breakdownItemLabel}>+ Despesas variaveis</Text>
+                <Text style={styles.breakdownItemLabel}>+ Despesas variáveis</Text>
                 <Text style={styles.breakdownItemValue}>{formatCurrency(produtoInputs.despesasVariaveis)}</Text>
               </View>
               <View style={styles.breakdownItem}>
@@ -363,7 +363,7 @@ export function PrecificacaoPDF({ modo, inputs, resultado, titulo, userData }: P
           ) : (
             <>
               <View style={styles.breakdownItem}>
-                <Text style={styles.breakdownItemLabel}>Mao de obra ({servicoInputs.horasServico}h x {formatCurrency(servicoInputs.valorHora)})</Text>
+                <Text style={styles.breakdownItemLabel}>Mão de obra ({servicoInputs.horasServico}h x {formatCurrency(servicoInputs.valorHora)})</Text>
                 <Text style={styles.breakdownItemValue}>{formatCurrency(servicoResultado.custoMaoDeObra)}</Text>
               </View>
               <View style={styles.breakdownItem}>
@@ -388,19 +388,19 @@ export function PrecificacaoPDF({ modo, inputs, resultado, titulo, userData }: P
 
         {/* Formula Box */}
         <View style={styles.formulaBox}>
-          <Text style={styles.formulaTitle}>Formula utilizada</Text>
+          <Text style={styles.formulaTitle}>Fórmula utilizada</Text>
           <Text style={styles.formulaText}>
-            Preco = Custo Total / (1 - Margem%)
+            Preço = Custo Total / (1 - Margem%)
           </Text>
           <Text style={styles.formulaText}>
-            Markup = Preco de Venda / Custo Total
+            Markup = Preço de Venda / Custo Total
           </Text>
         </View>
 
         {/* Tips */}
         <View style={baseStyles.tipsSection}>
           <Text style={baseStyles.tipsTitle}>
-            Dicas para {isProduto ? 'precificar produtos' : 'cobrar por servicos'}
+            Dicas para {isProduto ? 'precificar produtos' : 'cobrar por serviços'}
           </Text>
           {isProduto ? (
             <>
@@ -413,13 +413,13 @@ export function PrecificacaoPDF({ modo, inputs, resultado, titulo, userData }: P
               <View style={baseStyles.tipItem}>
                 <Text style={baseStyles.tipBullet}>•</Text>
                 <Text style={baseStyles.tipText}>
-                  Inclua todos os custos ocultos: embalagem, frete, taxas de cartao.
+                  Inclua todos os custos ocultos: embalagem, frete, taxas de cartão.
                 </Text>
               </View>
               <View style={baseStyles.tipItem}>
                 <Text style={baseStyles.tipBullet}>•</Text>
                 <Text style={baseStyles.tipText}>
-                  Pesquise o preco da concorrencia antes de definir o preco final.
+                  Pesquise o preço da concorrência antes de definir o preço final.
                 </Text>
               </View>
             </>
@@ -434,7 +434,7 @@ export function PrecificacaoPDF({ modo, inputs, resultado, titulo, userData }: P
               <View style={baseStyles.tipItem}>
                 <Text style={baseStyles.tipBullet}>•</Text>
                 <Text style={baseStyles.tipText}>
-                  Servicos especializados podem ter margem de 50% ou mais.
+                  Serviços especializados podem ter margem de 50% ou mais.
                 </Text>
               </View>
               <View style={baseStyles.tipItem}>

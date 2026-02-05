@@ -255,7 +255,7 @@ export function RealDashboard({
       </div>
 
       {/* Main Dashboard */}
-      <Card className="p-6 space-y-5 rounded-t-none -mt-4 border-t-0">
+      <Card className="p-4 space-y-3 rounded-t-none -mt-4 border-t-0">
         {/* Métricas */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <MetricCard
@@ -303,18 +303,18 @@ export function RealDashboard({
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
-          className="bg-secondary/50 rounded-xl p-4 border border-border/50"
+          className="bg-secondary/50 rounded-lg p-3 border border-border/50"
         >
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-2">
             <InfoTooltip {...METRIC_TOOLTIPS.evolucaoMensal}>
-              <span className="text-base font-semibold text-foreground">Evolução Mensal</span>
+              <span className="text-sm font-semibold text-foreground">Evolução Mensal</span>
             </InfoTooltip>
-            <Link href="/registrar" className="text-sm text-primary hover:underline font-medium">
-              Ver detalhes
+            <Link href="/registrar" className="text-xs text-primary hover:underline font-medium">
+              Detalhes
             </Link>
           </div>
 
-          <div className="flex items-end justify-between gap-1 h-24">
+          <div className="flex items-end justify-between gap-1 h-16">
             {evolucaoMensal.map((valor, i) => {
               const height = (valor / maxValor) * 100
               const isCurrentMonth = isAnoAtual && i === mesAtual - 1
@@ -402,25 +402,29 @@ export function RealDashboard({
           </div>
         </div>
 
-        {/* Widget Meta Mensal - só mostra no ano atual */}
-        {isAnoAtual && metricas && metricas.mediaMovel > 0 && (
-          <MetaMensalWidget
-            mediaMensal={metricas.mediaMovel}
-            faturamentoMesAtual={faturamentoMesAtual}
-            mesAtual={MESES_CURTOS[mesAtual - 1]}
-          />
-        )}
-
-        {/* Widget Comparativo Anual - mostra se tem dados do ano anterior */}
-        {dadosComparativo && (
-          <ComparativoAnualWidget
-            anoAtual={dadosComparativo.anoAtual}
-            totalAnoAtual={dadosComparativo.totalAnoAtual}
-            totalAnoAnterior={dadosComparativo.totalAnoAnterior}
-            mesesAnoAtual={dadosComparativo.mesesAnoAtual}
-            mesesAnoAnterior={dadosComparativo.mesesAnoAnterior}
-          />
-        )}
+        {/* Widgets Meta e Comparativo - lado a lado no desktop */}
+        {(isAnoAtual && metricas && metricas.mediaMovel > 0) || dadosComparativo ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {isAnoAtual && metricas && metricas.mediaMovel > 0 && (
+              <MetaMensalWidget
+                mediaMensal={metricas.mediaMovel}
+                faturamentoMesAtual={faturamentoMesAtual}
+                mesAtual={MESES_CURTOS[mesAtual - 1]}
+                compact
+              />
+            )}
+            {dadosComparativo && (
+              <ComparativoAnualWidget
+                anoAtual={dadosComparativo.anoAtual}
+                totalAnoAtual={dadosComparativo.totalAnoAtual}
+                totalAnoAnterior={dadosComparativo.totalAnoAnterior}
+                mesesAnoAtual={dadosComparativo.mesesAnoAtual}
+                mesesAnoAnterior={dadosComparativo.mesesAnoAnterior}
+                compact
+              />
+            )}
+          </div>
+        ) : null}
 
         {/* Status Badge */}
         <div className="flex justify-center">
