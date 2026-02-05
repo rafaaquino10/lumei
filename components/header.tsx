@@ -48,14 +48,14 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-background shadow-sm border-b border-border">
-      <div className="mx-auto flex h-[72px] max-w-[1280px] items-center justify-between px-4 md:px-6 lg:px-8">
-        {/* Logo */}
-        <Link href={homeHref} className="flex items-center">
+      <div className="flex h-[72px] w-full items-center justify-between px-6 md:px-10 lg:px-16">
+        {/* Logo - mais à esquerda */}
+        <Link href={homeHref} className="flex items-center flex-shrink-0">
           <Logo className="h-10 w-auto" />
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Navegação principal">
+        {/* Desktop Navigation - centralizado */}
+        <nav className="hidden items-center justify-center gap-10 flex-1 md:flex" aria-label="Navegação principal">
           {/* Links para usuários não logados */}
           <SignedOut>
             {publicNavLinks.map((link) => (
@@ -90,8 +90,8 @@ export default function Header() {
           </SignedIn>
         </nav>
 
-        {/* Desktop Auth Buttons + Theme Toggle */}
-        <div className="hidden items-center gap-4 ml-auto md:flex">
+        {/* Desktop Auth Buttons + Theme Toggle - mais à direita */}
+        <div className="hidden items-center gap-4 flex-shrink-0 md:flex">
           <ThemeToggle />
           <SignedOut>
             <Button variant="ghost" onClick={openLogin}>
