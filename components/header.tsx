@@ -51,11 +51,11 @@ export default function Header() {
       <div className="mx-auto flex h-[72px] max-w-[1280px] items-center justify-between px-4 md:px-6 lg:px-8">
         {/* Logo */}
         <Link href={homeHref} className="flex items-center">
-          <Logo className="h-8 w-auto" />
+          <Logo className="h-10 w-auto" />
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden items-center gap-6 md:flex" aria-label="Navegação principal">
+        <nav className="hidden items-center gap-8 md:flex" aria-label="Navegação principal">
           {/* Links para usuários não logados */}
           <SignedOut>
             {publicNavLinks.map((link) => (
@@ -91,7 +91,7 @@ export default function Header() {
         </nav>
 
         {/* Desktop Auth Buttons + Theme Toggle */}
-        <div className="hidden items-center gap-2 md:flex">
+        <div className="hidden items-center gap-4 ml-auto md:flex">
           <ThemeToggle />
           <SignedOut>
             <Button variant="ghost" onClick={openLogin}>
